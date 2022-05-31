@@ -1,1 +1,1 @@
-# project-frontend
+# project-core
