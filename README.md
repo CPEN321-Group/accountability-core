@@ -1,1 +1,1 @@
-# project-core
+# accountability-core
