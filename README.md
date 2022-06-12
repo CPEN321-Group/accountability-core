@@ -6,6 +6,7 @@
     .
     ├── android                 # Frontend android application
     ├── aws                     # AWS-related files, such as python script for a lambda function
+    ├── docs                    # Documentation files
     ├── server                  # Backend express server
     ├── tf                      # terraform files
     ├── build.sh                # Jenkins build script
