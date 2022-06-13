@@ -1,4 +1,4 @@
-package com.thongn98.accountability;
+package com.cpen321group.accountability;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.thongn98.accountability", appContext.getPackageName());
+        assertEquals("com.cpen321group.accountability", appContext.getPackageName());
     }
 }
