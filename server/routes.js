@@ -14,5 +14,3 @@ module.exports = function(app) {
   require('./main_modules/messaging/messagingRoutes')(app);
   require('./main_modules/reports/reportRoutes')(app);
 }
-
-
