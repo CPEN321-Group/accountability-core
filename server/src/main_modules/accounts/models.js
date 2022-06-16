@@ -3,26 +3,31 @@ const accountDB = mongoose.createConnection('mongodb://localhost/accountDB')
 
 const {r_string,r_bool,r_num} = require.main.require('./utils/types/mongoRequired')
 
-const userSchema = new mongoose.Schema({
+const profileSchema = new mongoose.Schema({
   firstname: r_string,
   lastname: r_string,
   email: r_string,
+})
+const reviewSchema = new mongoose.Schema({
+  authorId: r_string,
+  rating: r_num,
+  content: r_string
+})
+
+const userSchema = new mongoose.Schema({
   id: r_string,
   subscribed: r_bool,
+  enabledNotifications: r_bool,
   secretKey: r_string,
+  profile: profileSchema
 })
 
 const accountantSchema = new mongoose.Schema({
-  firstname: r_string,
-  lastname: r_string,
-  email: r_string,
   id: r_string,
   secretKey: r_string,
-  reviews: [{
-    authorId: r_string,
-    rating: r_num,
-    content: r_string
-  }]
+  enabledNotifications: r_bool,
+  reviews: [reviewSchema],
+  profile: profileSchema
 })
 
 const User = accountDB.model('User', userSchema);
