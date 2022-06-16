@@ -1,19 +1,25 @@
 const {User,Accountant} = require('./models');
 
 const user1 = new User({
-  firstname: 'Dean',
-  lastname: 'Yang',
-  email: 'test123@gmail.com',
   id: '1',
   subscribed: false,
-  secretKey: 'secret',
+  enabledNotifications: false,
+  secretKey: 'abc123',
+  profile: {
+    firstname: 'Dean',
+    lastname: 'Yang',
+    email: 'test123@gmail.com'
+  }
 })
 const accountant1 = new Accountant({
-  firstname: 'Dean',
-  lastname: 'Yang',
-  email: 'test123@gmail.com',
-  id: '2',
-  // secretKey: '2',
+  id: '1',
+  enabledNotifications: false,
+  secretKey: 'abc123',
+  profile: {
+    firstname: 'Dean',
+    lastname: 'Yang',
+    email: 'test123@gmail.com'
+  },
   reviews: []
 })
 
