@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const accountDB = mongoose.createConnection('mongodb://localhost/accountDB')
 
-const {r_string,r_bool,r_num} = require.main.require('./utils/types/mongoRequired')
+const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongoRequired')
 
 const profileSchema = new mongoose.Schema({
   firstname: r_string,
@@ -10,6 +10,7 @@ const profileSchema = new mongoose.Schema({
 })
 const reviewSchema = new mongoose.Schema({
   authorId: r_string,
+  date: r_date,
   rating: r_num,
   content: r_string
 })
