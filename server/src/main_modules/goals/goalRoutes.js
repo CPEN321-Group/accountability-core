@@ -1,8 +1,8 @@
 const Frequency = require('../../utils/types/frequency');
-const {Goal,EstimatedIncome} = require('./models');
+const {UserGoal} = require('./models');
 
 const goal = {
-  goalId: '1',
+  id: '1',
   title: 'Buy a House',
   mainCategory: 'long_term',
   dateSet: new Date('December 17, 1995 03:24:00'),
@@ -19,7 +19,12 @@ module.exports = function(app) {
       res.send(req.params);
     })
     .post((req,res) => {
-      const userGoal = new Goal({...goal, userId: req.params.userId})
+      const userGoal = new UserGoal({
+        userId: req.params.userId,
+        categories: [],
+        estimatedIncomes: [],
+        goals:[goal]
+      })
       userGoal.save(e=> e ? res.send(e) : res.send('saved goal successfully'))
     })
     .delete((req,res) => {

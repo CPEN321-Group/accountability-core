@@ -4,8 +4,7 @@ const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongo
 const Frequency = require.main.require('./utils/types/frequency');
 
 const goalSchema = new mongoose.Schema({
-  userId: r_string,
-  goalId: r_string,
+  id: r_string,
   title: r_string,
   mainCategory: r_string,
   dateSet: r_date,
@@ -20,7 +19,15 @@ const estimatedIncomeSchema = new mongoose.Schema({
   amount: r_num
 })
 
-const Goal = goalDB.model('Goal', goalSchema);
-const EstimatedIncome = goalDB.model('EstimatedIncome', estimatedIncomeSchema);
+const goalCategorySchema = new mongoose.Schema({ category: String })
 
-module.exports = {Goal,EstimatedIncome};
+const userGoalsSchema = new mongoose.Schema({
+  userId: String,
+  categories: [goalCategorySchema],
+  estimatedIncomes: [estimatedIncomeSchema],
+  goals: [goalSchema]
+})
+
+const UserGoal = goalDB.model('UserGoal',userGoalsSchema);
+
+module.exports = {UserGoal};

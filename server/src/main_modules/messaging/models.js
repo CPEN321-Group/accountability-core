@@ -1,26 +1,25 @@
 const mongoose = require('mongoose');
-const goalDB = mongoose.createConnection('mongodb://localhost/goalDB')
+const chatDB = mongoose.createConnection('mongodb://localhost/chatDB')
 const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongoRequired')
-const Frequency = require.main.require('./utils/types/frequency');
 
-const goalSchema = new mongoose.Schema({
+const messageSchema = new mongoose.Schema({
+  snd: r_string,
+  rcv: r_string,
+  timeStamp: r_date
+})
+
+const chatSchema = new mongoose.Schema({
+  id: r_string,
+  accepted: r_bool,
+  messages: [messageSchema]
+})
+
+const userChatSchema = new mongoose.Schema({
   userId: r_string,
-  goalId: r_string,
-  title: r_string,
-  mainCategory: r_string,
-  dateSet: r_date,
-  deadline: r_date,
-  requiredAmount: r_num,
-  assignedAmount: r_num,
-  availableAmount: r_num,
-  frequency: {...r_string, enum: Frequency}
+  chatIdList: [r_string]
 })
 
-const estimatedIncomeSchema = new mongoose.Schema({
-  amount: r_num
-})
+const UserChat = new mongoose.model('UserChat',userChatSchema);
+const Chat = new mongoose.model('Chat', chatSchema);
 
-const Goal = goalDB.model('Goal', goalSchema);
-const EstimatedIncome = goalDB.model('EstimatedIncome', estimatedIncomeSchema);
-
-module.exports = {Goal,EstimatedIncome};
+module.exports = {UserChat,Chat};
