@@ -4,15 +4,16 @@ module.exports = function(app) {
       res.send(req.params);
     })
 
-  app.route('/messaging') //requires query params 'sender' and 'receiver'
+  app.route('/messaging/:accountId/:chatId') //requires query params 'sender' and 'receiver'
     .post((req,res) => {
-      let sender = req.query.sender;
-      let receiver = req.query.receiver;
-      res.send(sender + ' & ' + receiver);
+      const {chatId,accountId} = req.params;
+      const {token,content} = req.query;
+
+      res.send(content);
     })
     .delete((req,res) => {
-      let sender = req.query.sender;
-      let receiver = req.query.receiver;
-      res.send(sender + ' & ' + receiver);
+      const {chatId,accountId} = req.params;
+      const {token} = req.query;
+      res.send(chatId);
     })
 }
