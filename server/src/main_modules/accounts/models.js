@@ -7,26 +7,29 @@ const profileSchema = new mongoose.Schema({
   firstname: r_string,
   lastname: r_string,
   email: r_string,
+  age: r_num,
+  profession: r_string
 })
 const reviewSchema = new mongoose.Schema({
   authorId: r_string,
   date: r_date,
   rating: r_num,
+  title: r_string,
   content: r_string
 })
 
 const userSchema = new mongoose.Schema({
   id: r_string,
-  subscribed: r_bool,
-  enabledNotifications: r_bool,
   secretKey: r_string,
+  subscribed: r_bool,
+  subscriptionDate: r_date,
+  hasAccountant: r_bool,
   profile: profileSchema
 })
 
 const accountantSchema = new mongoose.Schema({
   id: r_string,
   secretKey: r_string,
-  enabledNotifications: r_bool,
   reviews: [reviewSchema],
   profile: profileSchema
 })
