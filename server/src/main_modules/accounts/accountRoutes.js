@@ -1,51 +1,45 @@
 const {User,Accountant} = require('./models');
-
-const user1 = new User({
-  id: '1',
-  subscribed: false,
-  enabledNotifications: false,
-  secretKey: 'abc123',
-  profile: {
-    firstname: 'Dean',
-    lastname: 'Yang',
-    email: 'test123@gmail.com'
-  }
-})
-const accountant1 = new Accountant({
-  id: '1',
-  enabledNotifications: false,
-  secretKey: 'abc123',
-  profile: {
-    firstname: 'Dean',
-    lastname: 'Yang',
-    email: 'test123@gmail.com'
-  },
-  reviews: []
-})
+const _ = require.main.require('./utils/tests/modelSamples')
 
 module.exports = function(app) {
   app.route('/users')
     .post((req,res) => {
-      user1.save(e => {
-        if(e) {res.send('save unsuccessful, check your fields');}
-        else res.send('new user is saved');
-      })
+      const {firstname,lastname,email,secretKey,age,profession} = req.query;
+      // _.user0.save(e => {
+      //   if(e) {res.send(e);}
+      //   else res.send('user0 saved');
+      // });
+      // _.user1.save(e => {
+      //   if(e) {res.send(e);}
+      //   else res.send('user1 saved');
+      // });
+      _.user2.save(e => {
+        if(e) {res.send(e);}
+        else res.send('user2 saved');
+      });
     });
 
   app.route('/users/:userId')
     .get((req,res) => {
+      const {userId} = req.params;
+      const {token} = req.query;
       res.send(req.params);
     })
     .put((req,res) => {
+      const {userId} = req.params;
+      const {token,firstname,lastname,email,age,profession,hasAccountant} = req.query;
       res.send(req.params);
     })
     .delete((req,res) => {
+      const {userId} = req.params;
+      const {token} = req.query;
       res.send(req.params);
     })
 
   app.route('/accountants')
     .post((req,res) => {
-      accountant1.save(e => {
+      const {firstname,lastname,email,secretKey,age,profession} = req.query;
+      _.accountant0.save(e => {
         if(e) {res.send(e);}
         else res.send('new accountant is saved');
       })
@@ -53,20 +47,29 @@ module.exports = function(app) {
 
   app.route('/accountants/:accountantId')
     .get((req,res) => {
+      const {accountantId} = req.params;
+      const {token} = req.query;
       res.send(req.params);
     })
     .put((req,res) => {
+      const {accountantId} = req.params;
+      const {token,firstname,lastname,email,age,profession} = req.query;
       res.send(req.params);
     })
     .delete((req,res) => {
+      const {accountantId} = req.params;
+      const {token} = req.query;
       res.send(req.params);
     })
 
   app.route('/reviews/:accountantId')
     .get((req,res) => {
+      const {accountantId} = req.params;
       res.send(req.params);
     })
     .post((req,res) => {
+      const {accountantId} = req.params;
+      const {token,authorId,rating,title,content} = req.query;
       res.send(req.params);
     })
 }
