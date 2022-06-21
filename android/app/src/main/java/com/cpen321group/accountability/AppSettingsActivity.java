@@ -18,7 +18,13 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.concurrent.Executor;
-// TODO: store settings into the SharedPreferences
+
+/**
+ * Settings screen for user to allow biometric signin, global notification, and dark mode
+ * All settings are saved to global variables in Main Activity.
+ *
+ * TODO: 2022-06-21  store settings into the SharedPreferences
+ */
 public class AppSettingsActivity extends AppCompatActivity {
 
     private Executor executor;
@@ -65,8 +71,6 @@ public class AppSettingsActivity extends AppCompatActivity {
                 .setSubtitle("Log in using your biometric credential")
                 .setNegativeButtonText("Use account password")
                 .build();
-
-
 
         // Dark mode switch
         Switch dark_mode = (Switch)findViewById(R.id.dark_mode);
