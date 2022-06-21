@@ -34,7 +34,8 @@ public class HomeScreenActivity extends AppCompatActivity {
                 R.id.navigation_chat, R.id.navigation_dashboard, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_screen);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        // Uncomment it if action bar is required.
+//        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         if (MainActivity.is_darkMode) {
