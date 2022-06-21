@@ -20,7 +20,7 @@ const accountChatSchema = new mongoose.Schema({
   chatIdList: [r_string]
 })
 
-const AccountChat = new mongoose.model('UserChat',accountChatSchema);
-const Chat = new mongoose.model('Chat', chatSchema);
+const AccountChat = chatDB.model('UserChat',accountChatSchema);
+const Chat = chatDB.model('Chat', chatSchema);
 
 module.exports = {UserChat: AccountChat,Chat};

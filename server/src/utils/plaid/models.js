@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-const accountDB = mongoose.createConnection('mongodb://localhost/accountDB')
+const plaidDB = mongoose.createConnection('mongodb://localhost/plaidDB')
 
 const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongoRequired')
 
 const plaidDataSchema = new mongoose.Schema({
-  accessToken: r_string,
-  publicToken: r_string,
-  item_id: r_string,
+  accessToken: String,
+  itemId: String,
   paymentId: String,
   transferId: String
 })
@@ -15,6 +14,6 @@ const plaidUserSchema = new mongoose.Schema({
   data: {type: plaidDataSchema, required: true}
 })
 
-const PlaidUser = new mongoose.model('PlaidUser', plaidUserSchema);
+const PlaidUser = plaidDB.model('PlaidUser', plaidUserSchema);
 
 module.exports = {PlaidUser};
