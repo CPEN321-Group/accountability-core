@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent settingsIntent = new Intent(MainActivity.this, AppSettingsActivity.class);
+                Intent settingsIntent = new Intent(MainActivity.this, HomeScreenActivity.class);
                 startActivity(settingsIntent);
             }
         });
