@@ -42,19 +42,18 @@ module.exports = function(app) {
   // e.g. com.plaid.linksample
   const PLAID_ANDROID_PACKAGE_NAME = process.env.PLAID_ANDROID_PACKAGE_NAME || '';
   
-  // We store the access_token in memory - in production, store it in a secure
-  // persistent data store
-  let ACCESS_TOKEN = null;
-  let PUBLIC_TOKEN = null;
-  let ITEM_ID = null;
-  // The payment_id is only relevant for the UK Payment Initiation product.
-  // We store the payment_id in memory - in production, store it in a secure
-  // persistent data store
-  let PAYMENT_ID = null;
-  // The transfer_id is only relevant for Transfer ACH product.
-  // We store the transfer_id in memory - in production, store it in a secure
-  // persistent data store
-  let TRANSFER_ID = null;
+  // // We store the access_token in memory - in production, store it in a secure
+  // // persistent data store
+  // let ACCESS_TOKEN = null;
+  // let ITEM_ID = null;
+  // // The payment_id is only relevant for the UK Payment Initiation product.
+  // // We store the payment_id in memory - in production, store it in a secure
+  // // persistent data store
+  // let PAYMENT_ID = null;
+  // // The transfer_id is only relevant for Transfer ACH product.
+  // // We store the transfer_id in memory - in production, store it in a secure
+  // // persistent data store
+  // let TRANSFER_ID = null;
   
   // Initialize the Plaid client
   // Find your API keys in the Dashboard (https://dashboard.plaid.com/account/keys)
@@ -81,10 +80,12 @@ module.exports = function(app) {
   app.use(cors());
   
   app.post('/plaid/info', function (request, response, next) {
-    response.json({
-      item_id: ITEM_ID,
-      access_token: ACCESS_TOKEN,
-      products: PLAID_PRODUCTS,
+    getTokens(request.query.userId, (accessToken, itemId) => {
+      response.json({
+        item_id: itemId,
+        access_token: accessToken,
+        products: PLAID_PRODUCTS,
+      });
     });
   });
   
@@ -150,7 +151,14 @@ module.exports = function(app) {
             });
           prettyPrintResponse(createPaymentResponse);
           const paymentId = createPaymentResponse.data.payment_id;
-          PAYMENT_ID = paymentId;
+          const fieldsToSet = {
+            "data.paymentId": paymentId, 
+          }
+          PlaidUser.findOneAndUpdate({userId: request.query.userId || 'test'}, {$set: fieldsToSet}, (err,foundUser)=> {
+            if (err) {
+              createNewUser(null,null,null, paymentId);
+            }
+          })
           const configs = {
             user: {
               // This should correspond to a unique id for the current user.
@@ -179,21 +187,37 @@ module.exports = function(app) {
   // an API access_token
   // https://plaid.com/docs/#exchange-token-flow
   app.post('/plaid/set_access_token', function (request, response, next) {
-    PUBLIC_TOKEN = request.body.public_token;
+    let publicToken = request.body.public_token;
     Promise.resolve()
       .then(async function () {
         const tokenResponse = await client.itemPublicTokenExchange({
-          public_token: PUBLIC_TOKEN,
+          public_token: publicToken,
         });
         prettyPrintResponse(tokenResponse);
-        ACCESS_TOKEN = tokenResponse.data.access_token;
-        ITEM_ID = tokenResponse.data.item_id;
+        
+        let accessToken, itemId,transferId;
         if (PLAID_PRODUCTS.includes('transfer')) {
-          TRANSFER_ID = await authorizeAndCreateTransfer(ACCESS_TOKEN);
+          transferId = await authorizeAndCreateTransfer(tokenResponse.data.access_token);
         }
+        const fieldsToSet = {
+          "data.accessToken": tokenResponse.data.access_token, 
+          "data.itemId": tokenResponse.data.item_id,
+          "data.transferId": transferId
+        }
+        PlaidUser.findOneAndUpdate({userId: request.query.userId || 'test'}, {$set: fieldsToSet}, (err,foundUser)=> {
+          if (!err) {
+            accessToken = foundUser.data.accessToken;
+            itemId = foundUser.data.itemId;
+          }
+          else {
+            createNewUser(tokenResponse.data.access_token, tokenResponse.data.item_id, transferId);
+          }
+          console.log('access token set.')
+        })
+
         response.json({
-          access_token: ACCESS_TOKEN,
-          item_id: ITEM_ID,
+          access_token: tokenResponse.data.access_token,
+          item_id: tokenResponse.data.item_id,
           error: null,
         });
       })
@@ -203,21 +227,24 @@ module.exports = function(app) {
   // Retrieve ACH or ETF Auth data for an Item's accounts
   // https://plaid.com/docs/#auth
   app.get('/plaid/auth', function (request, response, next) {
-    Promise.resolve()
-      .then(async function () {
-        const authResponse = await client.authGet({
-          access_token: ACCESS_TOKEN,
-        });
-        prettyPrintResponse(authResponse);
-        response.json(authResponse.data);
-      })
-      .catch(next);
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
+        .then(async function () {
+          const authResponse = await client.authGet({
+            access_token: accessToken,
+          });
+          prettyPrintResponse(authResponse);
+          response.json(authResponse.data);
+        })
+        .catch(next);
+    });
   });
   
   // Retrieve Transactions for an Item
   // https://plaid.com/docs/#transactions
   app.get('/plaid/transactions', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         // Set cursor to empty to receive all historical updates
         let cursor = null;
@@ -231,7 +258,7 @@ module.exports = function(app) {
         // Iterate through each page of new transaction updates for item
         while (hasMore) {
           const request = {
-            access_token: ACCESS_TOKEN,
+            access_token: accessToken,
             cursor: cursor,
           };
           const response = await client.transactionsSync(request)
@@ -252,17 +279,19 @@ module.exports = function(app) {
         response.json({latest_transactions: recently_added});
       })
       .catch(next);
+    });
   });
   
   // Retrieve Investment Transactions for an Item
   // https://plaid.com/docs/#investments
   app.get('/plaid/investments_transactions', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
         const endDate = moment().format('YYYY-MM-DD');
         const configs = {
-          access_token: ACCESS_TOKEN,
+          access_token: accessToken,
           start_date: startDate,
           end_date: endDate,
         };
@@ -275,73 +304,84 @@ module.exports = function(app) {
         });
       })
       .catch(next);
+    });
   });
   
   // Retrieve Identity for an Item
   // https://plaid.com/docs/#identity
   app.get('/plaid/identity', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         const identityResponse = await client.identityGet({
-          access_token: ACCESS_TOKEN,
+          access_token: accessToken,
         });
         prettyPrintResponse(identityResponse);
         response.json({ identity: identityResponse.data.accounts });
       })
       .catch(next);
+    });
+    
   });
   
   // Retrieve real-time Balances for each of an Item's accounts
   // https://plaid.com/docs/#balance
   app.get('/plaid/balance', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         const balanceResponse = await client.accountsBalanceGet({
-          access_token: ACCESS_TOKEN,
+          access_token: accessToken,
         });
         prettyPrintResponse(balanceResponse);
         response.json(balanceResponse.data);
       })
       .catch(next);
+    });
   });
   
   // Retrieve Holdings for an Item
   // https://plaid.com/docs/#investments
   app.get('/plaid/holdings', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         const holdingsResponse = await client.investmentsHoldingsGet({
-          access_token: ACCESS_TOKEN,
+          access_token: accessToken,
         });
         prettyPrintResponse(holdingsResponse);
         response.json({ error: null, holdings: holdingsResponse.data });
       })
       .catch(next);
+    });
   });
   
   // Retrieve Liabilities for an Item
   // https://plaid.com/docs/#liabilities
   app.get('/plaid/liabilities', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         const liabilitiesResponse = await client.liabilitiesGet({
-          access_token: ACCESS_TOKEN,
+          access_token: accessToken,
         });
         prettyPrintResponse(liabilitiesResponse);
         response.json({ error: null, liabilities: liabilitiesResponse.data });
       })
       .catch(next);
+    });
   });
   
   // Retrieve information about an Item
   // https://plaid.com/docs/#retrieve-item
   app.get('/plaid/item', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         // Pull the Item - this includes information about available products,
         // billed products, webhook information, and more.
         const itemResponse = await client.itemGet({
-          access_token: ACCESS_TOKEN,
+          access_token: accessToken,
         });
         // Also pull information about the institution
         const configs = {
@@ -356,20 +396,23 @@ module.exports = function(app) {
         });
       })
       .catch(next);
+    });
   });
   
   // Retrieve an Item's accounts
   // https://plaid.com/docs/#accounts
   app.get('/plaid/accounts', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         const accountsResponse = await client.accountsGet({
-          access_token: ACCESS_TOKEN,
+          access_token: accessToken,
         });
         prettyPrintResponse(accountsResponse);
         response.json(accountsResponse.data);
       })
       .catch(next);
+    });
   });
   
   // Create and then retrieve an Asset Report for one or more Items. Note that an
@@ -377,7 +420,8 @@ module.exports = function(app) {
   // including one Item here.
   // https://plaid.com/docs/#assets
   app.get('/plaid/assets', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
       .then(async function () {
         // You can specify up to two years of transaction history for an Asset
         // Report.
@@ -400,7 +444,7 @@ module.exports = function(app) {
           },
         };
         const configs = {
-          access_tokens: [ACCESS_TOKEN],
+          access_tokens: [accessToken],
           days_requested: daysRequested,
           options,
         };
@@ -427,13 +471,15 @@ module.exports = function(app) {
         });
       })
       .catch(next);
+    });
   });
   
   app.get('/plaid/transfer', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken,itemId,transferId) => {
+      Promise.resolve()
       .then(async function () {
         const transferGetResponse = await client.transferGet({
-          transfer_id: TRANSFER_ID,
+          transfer_id: transferId,
         });
         prettyPrintResponse(transferGetResponse);
         response.json({
@@ -442,33 +488,38 @@ module.exports = function(app) {
         });
       })
       .catch(next);
+    })
   });
   
   // This functionality is only relevant for the UK Payment Initiation product.
   // Retrieve Payment for a specified Payment ID
   app.get('/plaid/payment', function (request, response, next) {
-    Promise.resolve()
+    getTokens(request.query.userId, (accessToken,itemId,transferId,paymentId) => {
+      Promise.resolve()
       .then(async function () {
         const paymentGetResponse = await client.paymentInitiationPaymentGet({
-          payment_id: PAYMENT_ID,
+          payment_id: paymentId,
         });
         prettyPrintResponse(paymentGetResponse);
         response.json({ error: null, payment: paymentGetResponse.data });
       })
       .catch(next);
+    })
   });
   
   //TO-DO: This endpoint will be deprecated in the near future
   app.get('/plaid/income/verification/paystubs', function (request, response, next) {
-    Promise.resolve()
-    .then(async function () {
-      const paystubsGetResponse = await client.incomeVerificationPaystubsGet({
-        access_token: ACCESS_TOKEN
-      });
-      prettyPrintResponse(paystubsGetResponse);
-      response.json({ error: null, paystubs: paystubsGetResponse.data})
-    })
-    .catch(next);
+    getTokens(request.query.userId, (accessToken) => {
+      Promise.resolve()
+      .then(async function () {
+        const paystubsGetResponse = await client.incomeVerificationPaystubsGet({
+          access_token: accessToken
+        });
+        prettyPrintResponse(paystubsGetResponse);
+        response.json({ error: null, paystubs: paystubsGetResponse.data})
+      })
+      .catch(next);
+    });
   })
   
   app.use('/plaid', function (error, request, response, next) {
@@ -583,6 +634,37 @@ module.exports = function(app) {
     prettyPrintResponse(transferResponse);
     return transferResponse.data.transfer.id;
   };
+
+  const getTokens = (userId, callback, userToken = null) => {
+    console.log("fetching access token...")
+    PlaidUser.findOne({userId: userId || 'test'}, (err,foundUser) => {
+      if (err || !foundUser) createNewUser(null,null);
+      else {
+        const {accessToken,itemId,transferId,paymentId} = foundUser.data;
+        callback(accessToken,itemId,transferId,paymentId);
+      }
+    })
+  }
+  const createNewUser = (accessToken, itemId, transferId = null, paymentId = null) => {
+    console.log("initializing new user...");
+    const newUser = new PlaidUser({
+      userId: 'test',
+      data: {
+        accessToken,
+        itemId,
+        transferId,
+        paymentId
+      }
+    })
+    newUser.save((err, foundUser) => {
+      if (!err) {
+        console.log("newUser saved")
+        const {accessToken, itemId, transferId, paymentId} = foundUser.data; 
+        return {accessToken,itemId,transferId,paymentId};
+      }
+      else console.log(err);
+    })
+  }
   
 }
 
