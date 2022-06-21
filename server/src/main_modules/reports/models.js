@@ -20,6 +20,6 @@ const userReportSchema = new mongoose.Schema({
   reports: [reportSchema]
 })
 
-const UserReport = new mongoose.model('UserReport', userReportSchema);
+const UserReport = reportDB.model('UserReport', userReportSchema);
 
 module.exports = {UserReport};
