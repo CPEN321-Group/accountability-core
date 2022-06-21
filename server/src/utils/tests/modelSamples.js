@@ -57,9 +57,14 @@ goal1: {
   assignedAmount: 500,
   availableAmount: 500,
   frequency: 'once'
-}
+},
 //-----------------MESSAGING---------------//
 //-----------------REPORTS---------------//
 //-----------------TRANSACTIONS---------------//
+transactions: [
+  {
+    
+  }
+]
 
 }
