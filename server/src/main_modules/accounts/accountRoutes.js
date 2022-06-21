@@ -1,29 +1,28 @@
-const {User,Accountant} = require('./models');
+const { Account } = require("./models");
+
 const _ = require.main.require('./utils/tests/modelSamples')
 
 module.exports = function(app) {
   app.route('/users')
     .post((req,res) => {
       const {firstname,lastname,email,secretKey,age,profession} = req.query;
-      // _.user0.save(e => {
-      //   if(e) {res.send(e);}
-      //   else res.send('user0 saved');
-      // });
-      // _.user1.save(e => {
-      //   if(e) {res.send(e);}
-      //   else res.send('user1 saved');
-      // });
-      _.user2.save(e => {
-        if(e) {res.send(e);}
-        else res.send('user2 saved');
-      });
+      _.users.forEach(user => {
+        user.save(e => {
+          if(e) {console.log(e);}
+          else console.log('user2 saved');
+        })
+      })
+      res.send('user saved');
     });
 
   app.route('/users/:userId')
     .get((req,res) => {
       const {userId} = req.params;
       const {token} = req.query;
-      res.send(req.params);
+      Account.findById(userId,(err,foundAccount)=> {
+        if (err) console.log(err);
+        res.send(foundAccount);
+      });
     })
     .put((req,res) => {
       const {userId} = req.params;
@@ -39,10 +38,6 @@ module.exports = function(app) {
   app.route('/accountants')
     .post((req,res) => {
       const {firstname,lastname,email,secretKey,age,profession} = req.query;
-      _.accountant0.save(e => {
-        if(e) {res.send(e);}
-        else res.send('new accountant is saved');
-      })
     });
 
   app.route('/accountants/:accountantId')
