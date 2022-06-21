@@ -3,7 +3,6 @@ const transactionDB = mongoose.createConnection('mongodb://localhost/transaction
 const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongoRequired')
 
 const transactionSchema = new mongoose.Schema({
-  id: r_string,
   title: r_string,
   category: r_string,
   date: r_date,
