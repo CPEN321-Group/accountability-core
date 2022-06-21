@@ -9,7 +9,6 @@ const messageSchema = new mongoose.Schema({
 })
 
 const chatSchema = new mongoose.Schema({
-  id: r_string,
   account1Id: r_string,
   account2Id: r_string,
   messages: [messageSchema]

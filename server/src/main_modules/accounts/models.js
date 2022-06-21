@@ -18,23 +18,20 @@ const reviewSchema = new mongoose.Schema({
   content: r_string
 })
 
-const userSchema = new mongoose.Schema({
-  id: r_string,
+const accountSchema = new mongoose.Schema({
   secretKey: r_string,
-  subscribed: r_bool,
-  subscriptionDate: r_date,
-  hasAccountant: r_bool,
-  profile: profileSchema
+  profile: profileSchema,
+  type: {
+    type: String,
+    enum: ['user', 'accountant'],
+    default: 'user'
+  },
+  subscribed: Boolean,
+  subscriptionDate: String,
+  hasAccountant: Boolean,
+  reviews: [reviewSchema]
 })
 
-const accountantSchema = new mongoose.Schema({
-  id: r_string,
-  secretKey: r_string,
-  reviews: [reviewSchema],
-  profile: profileSchema
-})
+const Account = accountDB.model('Account', accountSchema);
 
-const User = accountDB.model('User', userSchema);
-const Accountant = accountDB.model('Accountant', accountantSchema);
-
-module.exports = {User,Accountant};
+module.exports = {Account};
