@@ -31,7 +31,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                R.id.navigation_chat, R.id.navigation_dashboard, R.id.navigation_profile)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_screen);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -42,14 +42,5 @@ public class HomeScreenActivity extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-//        Button settings = findViewById(R.id.home_settings);
-//        settings.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent settingsIntent = new Intent(HomeScreenActivity.this, AppSettingsActivity.class);
-//                startActivity(settingsIntent);
-//            }
-//        });
     }
-
 }

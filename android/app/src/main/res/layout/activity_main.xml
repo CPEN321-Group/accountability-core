@@ -10,6 +10,8 @@
         android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:icon="@drawable/ic_dashboard_black_24dp"
+        style="@style/Widget.Material3.Button.Icon"
         android:text="Home Screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

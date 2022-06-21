@@ -1,15 +1,20 @@
 package com.cpen321group.accountability.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.cpen321group.accountability.AppSettingsActivity;
+import com.cpen321group.accountability.HomeScreenActivity;
+import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
@@ -24,8 +29,16 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textDashboard;
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//        final TextView textView = binding.textDashboard;
+//        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        Button settings = binding.homeSettings;
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent settingsIntent = new Intent(getActivity(), AppSettingsActivity.class);
+                startActivity(settingsIntent);
+            }
+        });
         return root;
     }
 
