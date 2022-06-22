@@ -2,6 +2,7 @@ package com.cpen321group.accountability;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Set Navigation Bar transparent
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         //load theme preference
         super.onCreate(savedInstanceState);

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.biometric.BiometricPrompt;
+import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,9 +36,13 @@ public class AppSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Set Navigation Bar transparent
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_settings);
+
+
 
         executor = ContextCompat.getMainExecutor(this);
         biometricPrompt = new BiometricPrompt(AppSettingsActivity.this,
