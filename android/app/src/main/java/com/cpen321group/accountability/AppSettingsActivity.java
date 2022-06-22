@@ -17,6 +17,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.material.color.DynamicColors;
+
 import java.util.concurrent.Executor;
 
 /**
@@ -33,7 +35,7 @@ public class AppSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_settings);
 

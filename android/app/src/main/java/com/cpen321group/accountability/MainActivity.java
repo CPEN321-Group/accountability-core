@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.color.DynamicColors;
+
 public class MainActivity extends AppCompatActivity {
     public static boolean is_darkMode;
     public static boolean is_notificationGlobalOn;
@@ -15,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         //load theme preference
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (is_darkMode) {

@@ -15,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.cpen321group.accountability.databinding.ActivityHomeScreenBinding;
+import com.google.android.material.color.DynamicColors;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
@@ -22,8 +23,8 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
-
         binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
