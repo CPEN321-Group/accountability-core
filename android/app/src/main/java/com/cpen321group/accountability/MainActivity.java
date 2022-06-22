@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Set Navigation Bar transparent
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        //WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         //load theme preference
         super.onCreate(savedInstanceState);
