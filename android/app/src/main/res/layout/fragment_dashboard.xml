@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment"
-    android:paddingBottom="80dp">
+    android:paddingBottom="85dp"
+    android:paddingTop="18dp">
 
 
     <TextView
