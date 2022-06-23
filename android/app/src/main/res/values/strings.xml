@@ -13,6 +13,7 @@
     <string name="title_chat">Chat</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_profile">Profile</string>
+
     <string name="title_activity_settings">SettingsActivity</string>
 
     <!-- Preference Titles -->
@@ -31,4 +32,13 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="welcome_log">"LOG IN"</string>
+    <string name="welcome_register">"REGISTER"</string>
+    <string name="sign_in">"Sign In"</string>
+    <string name="register">"Register"</string>
+    <string name="facebook_app_id">593646015401301</string>
+    <string name="fb_login_protocol_scheme">fb593646015401301</string>
+    <string name="facebook_client_token">cabde47d8c27ab8cb755fd98d8659d0f</string>
+
 </resources>
