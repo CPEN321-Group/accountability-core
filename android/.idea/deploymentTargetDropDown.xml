@@ -6,32 +6,12 @@
         <type value="QUICK_BOOT_TARGET" />
         <deviceKey>
           <Key>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <type value="SERIAL_NUMBER" />
-            <value value="adb-13GACS000014HT-PtwCUa._adb-tls-connect._tcp." />
-          </Key>
-        </deviceKey>
-      </Target>
-    </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-06-22T09:26:58.981856Z" />
-=======
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_3_API_29.avd" />
+            <value value="$USER_HOME$/.android/avd/Pixel_3_API_33.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-06-22T09:10:31.969766Z" />
->>>>>>> parent of ef7d39b (frontend/UI: set bottom padding properlly to show floating action button in proper place in Both Android API 29 and API 33)
-=======
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="$USER_HOME$/.android/avd/Pixel_3_API_29.avd" />
-          </Key>
-        </deviceKey>
-      </Target>
-    </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-06-22T09:10:31.969766Z" />
->>>>>>> parent of ef7d39b (frontend/UI: set bottom padding properlly to show floating action button in proper place in Both Android API 29 and API 33)
+    <timeTargetWasSelectedWithDropDown value="2022-06-23T13:25:28.505913Z" />
   </component>
 </project>

@@ -17,6 +17,7 @@ import com.cpen321group.accountability.GoalSetActivity;
 import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.ReportGenActivity;
+import com.cpen321group.accountability.SettingsActivity;
 import com.cpen321group.accountability.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
@@ -37,7 +38,7 @@ public class DashboardFragment extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent settingsIntent = new Intent(getActivity(), AppSettingsActivity.class);
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(settingsIntent);
             }
         });
