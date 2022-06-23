@@ -1,27 +1,26 @@
-package com.cpen321group.accountability.ui.home;
+package com.cpen321group.accountability.ui.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cpen321group.accountability.databinding.FragmentHomeBinding;
+import com.cpen321group.accountability.databinding.FragmentChatBinding;
 
-public class HomeFragment extends Fragment {
+public class ChatFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentChatBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        ChatViewModel chatViewModel =
+                new ViewModelProvider(this).get(ChatViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentChatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
 //        final TextView textView = binding.textHome;
