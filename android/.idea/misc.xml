@@ -22,9 +22,11 @@
         <entry key="app/src/main/res/drawable/ic_signout_24.xml" value="0.1785" />
         <entry key="app/src/main/res/drawable/ic_subscription_24.xml" value="0.1785" />
         <entry key="app/src/main/res/layout/activity_app_settings.xml" value="0.23049977620442713" />
+        <entry key="app/src/main/res/layout/activity_goal_set.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.19765019071274909" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19493408203124993" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/activity_report_gen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.19244610821759253" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14175724637681159" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.33683166503906253" />

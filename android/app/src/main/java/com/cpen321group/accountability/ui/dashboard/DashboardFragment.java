@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cpen321group.accountability.AppSettingsActivity;
+import com.cpen321group.accountability.GoalSetActivity;
 import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.ReportGenActivity;
 import com.cpen321group.accountability.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
@@ -39,6 +41,23 @@ public class DashboardFragment extends Fragment {
                 startActivity(settingsIntent);
             }
         });
+        Button reports = binding.reportGenButton;
+        reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent reportsIntent = new Intent(getActivity(), ReportGenActivity.class);
+                startActivity(reportsIntent);
+            }
+        });
+        Button goals = binding.goalButton;
+        goals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
+                startActivity(goalIntent);
+            }
+        });
+
         return root;
     }
 
