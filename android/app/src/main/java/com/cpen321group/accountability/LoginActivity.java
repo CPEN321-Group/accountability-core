@@ -1,6 +1,8 @@
 package com.cpen321group.accountability;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -25,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.color.DynamicColors;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -39,9 +42,16 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Set Navigation Bar transparent
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        if (MainActivity.is_darkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
         Intent settingsIntent = new Intent(LoginActivity.this, HomeScreenActivity.class);
 
         callbackManager = CallbackManager.Factory.create();
