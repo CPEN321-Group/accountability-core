@@ -1,35 +1,30 @@
 const mongoose = require('mongoose');
+const { profileSchema } = require('./profile/profile');
 const accountDB = mongoose.createConnection('mongodb://localhost/accountDB')
 
-const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongoRequired')
+const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongo-required')
 
-const profileSchema = new mongoose.Schema({
-  firstname: r_string,
-  lastname: r_string,
-  email: r_string,
-  age: r_num,
-  profession: r_string
-})
 const reviewSchema = new mongoose.Schema({
   authorId: r_string,
+  accountantId: r_string,
   date: r_date,
   rating: r_num,
   title: r_string,
-  content: r_string
+  content: String
+})
+
+const subscriptionSchema = new mongoose.Schema({
+  subscriptionDate: {...r_date, default: '2022'},
+  expiryDate: {...r_date, default: '2022'}
 })
 
 const accountSchema = new mongoose.Schema({
-  secretKey: r_string,
-  profile: profileSchema,
-  type: {
-    type: String,
-    enum: ['user', 'accountant'],
-    default: 'user'
-  },
-  subscribed: Boolean,
-  subscriptionDate: String,
-  hasAccountant: Boolean,
-  reviews: [reviewSchema]
+  profile: {type: profileSchema, required: true},
+  isAccountant: r_bool,
+  isAuthenticated: {...r_bool, default: false},
+  authenticateExpiryDate: {...r_date, default: '2022'},
+  reviews: {type: [reviewSchema], default: []},
+  subscription: subscriptionSchema
 })
 
 const Account = accountDB.model('Account', accountSchema);
