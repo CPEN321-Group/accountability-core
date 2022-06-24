@@ -20,8 +20,7 @@ const profileSchema = new mongoose.Schema({
 function parseProfileData(fields) {
   const {firstname,lastname,email,age,profession,hasAccountant} = fields;
   const df = getDefinedFields({firstname,lastname,email,age,profession,hasAccountant});
-  // console.log(`definedFields:`);
-  // console.log(definedFields);
+
   const fieldsToUpdate = {
     ...(df.firstname && {"profile.firstname": df.firstname}),
     ...(df.lastname && {"profile.lastname": df.lastname}),

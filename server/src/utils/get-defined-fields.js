@@ -26,4 +26,11 @@ function isValid(field) {
   return valid;
 }
 
-module.exports = {getDefinedFields,isValid};
+function fieldsAreNotNull(...fields) {
+  for (let field of fields) {
+    if (!field) {return false;}
+  }
+  return true;
+}
+
+module.exports = {getDefinedFields,isValid,fieldsAreNotNull};
