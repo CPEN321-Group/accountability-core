@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Intent settingsIntent = new Intent(LoginActivity.this, HomeScreenActivity.class);
+
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
+                        startActivity(settingsIntent);
                         Log.d(TAG,"SUCCESS!");
                     }
 
@@ -111,8 +114,8 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-            //Intent intent = new Intent(MainActivity.this, ServerActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
+            startActivity(intent);
             updateUI(account);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
