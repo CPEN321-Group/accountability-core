@@ -14,10 +14,23 @@ module.exports = function(app) {
   require('./main_modules/messaging/messaging-routes')(app);
   require('./main_modules/reports/report-routes')(app);
 
-  //set default error handler
+  /**
+   * Default error handler - invoked by next(err).
+   * Status Codes: 
+   * 400: bad request
+   * 200: success
+   * 204: no content is to be sent back
+   * 404: not found
+   * 408: request timeout
+   * 501: not implemented (endpoint)
+   * 500: internal server error
+   */
   app.use((err, req, res, next) => {
     if (res.headersSent) {
       return next(err)
+    }
+    if (err) {
+      return res.status(400).end(err.message);
     }
     res.status(400).end('missing parameters');
   })
