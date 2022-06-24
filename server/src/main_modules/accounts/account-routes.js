@@ -1,20 +1,10 @@
 const { getDefinedFields } = require("../../utils/get-defined-fields");
 const { generateToken, tokenIsValid, authenticate } = require("./account-auth");
-const { createAccount, findAccountById, updateProfile } = require("./account-store");
+const { createAccount, findAccountById, updateProfile, createReview, deleteAccount, createSubscription, updateSubscription } = require("./account-store");
 const { Account } = require("./models");
 
 const _ = require.main.require('./utils/tests/model-samples')
 
-/**
- * Status Codes: 
- * 400: bad request
- * 200: success
- * 204: no content is to be sent back
- * 404: not found
- * 408: request timeout
- * 501: not implemented (endpoint)
- * 500: internal server error
- */
 module.exports = function(app) {
   app.route('/accounts')
     .post((req,res,next) => {
@@ -40,7 +30,9 @@ module.exports = function(app) {
       const {accountId} = req.params;
       const {token} = req.query;
       authenticate(token,accountId, (err,foundAccount) => {
-        return res.send(foundAccount);
+        if (err) return next(err)
+        if (!foundAccount) return next(new Error('account not found'));
+        return res.json(foundAccount);
       });
     })
     .put((req,res,next) => {
@@ -49,26 +41,64 @@ module.exports = function(app) {
       
       authenticate(token,accountId, (err,foundAccount) => {
         if (err) return next(err);
+        if (!foundAccount)  return next(new Error('account not found'))
         updateProfile(foundAccount.id,req.query, (err,foundAccount) => {
           if (err) return next(err);
-          return res.send(foundAccount)
+          return res.json(foundAccount)
         })
       })
     })
-    .delete((req,res) => {
+    .delete((req,res,next) => {
       const {accountId} = req.params;
       const {token} = req.query;
-      res.send(req.params);
+      authenticate(token,accountId, (err,foundAccount) => {
+        if (err) return next(err);
+        if(!foundAccount) return next(new Error('account not found'));
+        deleteAccount(foundAccount.id, (err) => {
+          if (err) return next(err);
+          return res.end('account deleted');
+        })
+      })
     })
 
-  app.route('/reviews/:accountId')
-    .get((req,res) => {
-      const {accountId} = req.params;
-      res.send(req.params);
+  app.route('/reviews/:accountantId')
+    .post((req,res,next) => {
+      const {accountantId} = req.params;
+      const {token,authorId,date,rating,title,content} = req.query;
+      const df = getDefinedFields({accountantId: accountantId,authorId,date,rating,title,content})
+      if (!df.authorId || !df.date || !df.rating || !df.title) { return next(err)}
+      authenticate(token,authorId, (err,foundAccount) => {
+        if (err) return next(err);
+        if (!foundAccount)  return next(new Error('accountant not found'))
+        createReview(foundAccount.id,{accountId: accountantId,...df}, (err,foundAccount) => {
+          if (err) return next(err);
+          return res.json(foundAccount)
+        })
+      })
     })
-    .post((req,res) => {
+  app.route('/subscription/:accountId')
+    .post((req,res,next) => {
       const {accountId} = req.params;
-      const {token,authorId,rating,title,content} = req.query;
-      res.send(req.params);
+      const {token, subscriptionDate,expiryDate} = req.query;
+      authenticate(token,accountId, (err,foundAccount) => {
+        if (err) return next(err);
+        if (!foundAccount) return next(new Error('account not found'))
+        createSubscription(foundAccount.id,req.query, (err,foundAccount) => {
+          if (err) return next(err);
+          return res.json(foundAccount)
+        })
+      })
+    })
+    .put((req,res,next) => {
+      const {accountId} = req.params;
+      const {token, expiryDate} = req.query;
+      authenticate(token,accountId, (err,foundAccount) => {
+        if (err) return next(err);
+        if (!foundAccount) return next(new Error('account not found'))
+        updateSubscription(foundAccount.id,req.query, (err,foundAccount) => {
+          if (err) return next(err);
+          return res.json(foundAccount)
+        })
+      })
     })
 }

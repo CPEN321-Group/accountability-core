@@ -1,5 +1,7 @@
 const { Account } = require("./models");
 const { parseProfileData } = require("./profile/profile");
+const { parseReviewData } = require("./review/review");
+const { parseSubscriptionData } = require("./subscription/subscription");
 
 /**
  * Note: callback is used instead of returning the account because Mongodb queries use promises.
@@ -9,13 +11,13 @@ module.exports = {
   /**
    * Saves a new account into database.
    * 
-   * @param {Object} accountData - should contain at min the required & non-defaulted parameters in the Account model
+   * @param {Object} data - should contain at min the required & non-defaulted parameters in the Account model
    * @param {function} callback - callback to run on the created account
    * - @param {Error} err - potential error thrown by mongoose
    * - @param {Account} createdAccount - the account that was successfully created
    */
-  createAccount: (accountData,callback) => {
-    const account = new Account({...accountData});
+  createAccount: (data,callback) => {
+    const account = new Account({...data});
     account.save((err,createdAccount) => callback(err,createdAccount));
   },
   /**
@@ -25,7 +27,7 @@ module.exports = {
    * - @param {Error} err - error thrown by mongoose
    * - @param {Account} foundAccount - account found by query
    */
-  findAccountById:(id,callback) =>{
+  findAccountById:(id,callback) => {
     Account.findById(id, (err,foundAccount) => callback(err,foundAccount));
   },
   /**
@@ -34,7 +36,7 @@ module.exports = {
    * @param {object} data - must contain fields: firsname,lastname,email,age,profession,hasAccountant
    * @param {*} callback 
    */
-  updateProfile:(id,data,callback) =>{
+  updateProfile:(id,data,callback) => {
     const {firstname,lastname,email,age,profession,hasAccountant} = data;
     
     const fieldsToUpdate = parseProfileData({firstname,lastname,email,age,profession,hasAccountant})
@@ -46,5 +48,47 @@ module.exports = {
       }
     );
   },
+  deleteAccount: (id,callback) => {
+    Account.deleteOne({id: id}, (err) => {
+      if (err) console.log(err);
+      callback(err);
+    });
+  },
+
+  createReview: (accountId,data,callback) => {
+    const {authorId,date,rating,title,content} = data;
+    
+    const newReview = {authorId,date,rating,title,content};
+
+    Account.findByIdAndUpdate(accountId,{$push: {reviews: newReview}},
+      {returnDocument: 'after'},
+      (err,foundAccount) => {
+        if(err) console.log(err);
+        callback(err,foundAccount)
+      }
+    );
+  },
+  createSubscription: (accountId,data,callback) => {
+    const {subscriptionDate,expiryDate} = data;
+    const fieldsToUpdate = parseSubscriptionData({subscriptionDate,expiryDate})
+    Account.findByIdAndUpdate(accountId,{$set: fieldsToUpdate},
+      {returnDocument: 'after'},
+      (err,foundAccount) => {
+        if(err) console.log(err);
+        callback(err,foundAccount)
+      }
+    );
+  },
+  updateSubscription: (accountId,data,callback) => {
+    const {expiryDate} = data;
+    const fieldsToUpdate = parseSubscriptionData({expiryDate})
+    Account.findByIdAndUpdate(accountId,{$set: fieldsToUpdate},
+      {returnDocument: 'after'},
+      (err,foundAccount) => {
+        if(err) console.log(err);
+        callback(err,foundAccount)
+      }
+    );
+  }
   
 }
