@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const chatDB = mongoose.createConnection('mongodb://localhost/chatDB')
-const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongoRequired')
+const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongo-required')
 
 const messageSchema = new mongoose.Schema({
   accountId:r_string,

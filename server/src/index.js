@@ -9,7 +9,7 @@ app.use(cors());
 
 
 require('./routes')(app);
-require('./utils/plaid/plaidRoutes')(app);
+require('./utils/plaid/plaid-routes')(app);
 
 
 
