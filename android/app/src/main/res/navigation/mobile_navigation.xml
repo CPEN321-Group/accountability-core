@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_chat"
-        android:name="com.cpen321group.accountability.ui.chat.ChatFragment"
+        android:name="com.cpen321group.accountability.mainScreen.chat.ChatFragment"
         android:label="@string/title_chat"
         tools:layout="@layout/fragment_chat" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.cpen321group.accountability.ui.dashboard.DashboardFragment"
+        android:name="com.cpen321group.accountability.mainScreen.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.cpen321group.accountability.ui.profile.ProfileFragment"
+        android:name="com.cpen321group.accountability.mainScreen.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

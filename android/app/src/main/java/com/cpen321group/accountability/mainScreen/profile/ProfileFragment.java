@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.ui.profile;
+package com.cpen321group.accountability.mainScreen.profile;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -9,18 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cpen321group.accountability.HomeScreenActivity;
-import com.cpen321group.accountability.MainActivity;
-import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.WelcomeActivity;
-import com.cpen321group.accountability.databinding.ActivityWelcomeBinding;
 import com.cpen321group.accountability.databinding.FragmentProfileBinding;
+import com.cpen321group.accountability.welcome.WelcomeActivity;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -28,8 +23,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
-import java.util.concurrent.Executor;
 
 public class ProfileFragment extends Fragment {
 

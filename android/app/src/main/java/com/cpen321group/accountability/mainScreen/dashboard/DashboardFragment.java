@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.ui.dashboard;
+package com.cpen321group.accountability.mainScreen.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,18 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cpen321group.accountability.AppSettingsActivity;
-import com.cpen321group.accountability.GoalSetActivity;
-import com.cpen321group.accountability.HomeScreenActivity;
-import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.ReportGenActivity;
-import com.cpen321group.accountability.SettingsActivity;
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalSetActivity;
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.ReportGenActivity;
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.SettingsActivity;
 import com.cpen321group.accountability.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {

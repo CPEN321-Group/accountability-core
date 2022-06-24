@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.ui.profile;
+package com.cpen321group.accountability.mainScreen.profile;
 
 import android.app.Activity;
 

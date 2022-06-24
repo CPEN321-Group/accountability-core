@@ -1,4 +1,4 @@
-package com.cpen321group.accountability;
+package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
 import static com.cpen321group.accountability.MainActivity.is_darkMode;
 
@@ -13,6 +13,9 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
+
+import com.cpen321group.accountability.MainActivity;
+import com.cpen321group.accountability.R;
 
 import java.util.concurrent.Executor;
 

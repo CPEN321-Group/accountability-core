@@ -1,4 +1,4 @@
-package com.cpen321group.accountability;
+package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -6,6 +6,8 @@ import androidx.core.view.WindowCompat;
 
 import android.os.Bundle;
 
+import com.cpen321group.accountability.MainActivity;
+import com.cpen321group.accountability.R;
 import com.google.android.material.color.DynamicColors;
 
 public class GoalSetActivity extends AppCompatActivity {

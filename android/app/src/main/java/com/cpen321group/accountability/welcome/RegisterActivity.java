@@ -1,23 +1,22 @@
-package com.cpen321group.accountability;
+package com.cpen321group.accountability.welcome;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.WindowCompat;
+
+import com.cpen321group.accountability.MainActivity;
+import com.cpen321group.accountability.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -26,15 +25,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.color.DynamicColors;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private LoginButton login_fb;
     private String TAG="LoginActivity";
@@ -46,14 +44,12 @@ public class LoginActivity extends AppCompatActivity {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         if (MainActivity.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        Intent settingsIntent = new Intent(LoginActivity.this, HomeScreenActivity.class);
-
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -61,8 +57,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
-                        startActivity(settingsIntent);
+                        updateUIFB();
+                        LoginManager.getInstance().logOut();
                         Log.d(TAG,"SUCCESS!");
+                        Intent intent = new Intent(RegisterActivity.this, WelcomeActivity.class);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -104,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signInFB(){
-        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile"));
+        LoginManager.getInstance().logInWithReadPermissions(RegisterActivity.this, Arrays.asList("public_profile"));
     }
 
     @Override
@@ -122,11 +121,12 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
-            startActivity(intent);
             updateUI(account);
+            // Signed in successfully, show authenticated UI.
+            signOut();
+            Intent intent = new Intent(RegisterActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -154,5 +154,27 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG,"Family Name: "+account.getFamilyName());
             Log.d(TAG,"URL: "+account.getPhotoUrl());
         }
+    }
+
+    private void updateUIFB() {
+        Profile profile = Profile.getCurrentProfile();
+        if(profile == null){
+            Log.d(TAG,"No one signed in!");
+        }else{
+            Log.d(TAG,"Pref Name: "+profile.getFirstName());
+            Log.d(TAG,"Email: "+"");
+            Log.d(TAG,"Given Name: "+profile.getFirstName());
+            Log.d(TAG,"Family Name: "+profile.getLastName());
+            Log.d(TAG,"URL: "+profile.getLinkUri());
+        }
+    }
+    private void signOut() {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
     }
 }

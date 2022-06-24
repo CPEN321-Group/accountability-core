@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.ui.chat;
+package com.cpen321group.accountability.mainScreen.chat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

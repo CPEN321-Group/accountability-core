@@ -1,4 +1,4 @@
-package com.cpen321group.accountability;
+package com.cpen321group.accountability.welcome;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.cpen321group.accountability.MainActivity;
+import com.cpen321group.accountability.R;
 import com.google.android.material.color.DynamicColors;
 
 public class WelcomeActivity extends AppCompatActivity {

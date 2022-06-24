@@ -1,4 +1,4 @@
-package com.cpen321group.accountability;
+package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
 import static com.cpen321group.accountability.MainActivity.is_darkMode;
 
@@ -11,13 +11,14 @@ import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.cpen321group.accountability.MainActivity;
+import com.cpen321group.accountability.R;
 import com.google.android.material.color.DynamicColors;
 
 import java.util.concurrent.Executor;
