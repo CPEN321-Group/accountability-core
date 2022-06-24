@@ -1,5 +1,6 @@
-const { getDefinedFields } = require("../../utils/get-defined-fields");
-const { generateToken, tokenIsValid, authenticate } = require("./account-auth");
+const { getDefinedFields } = require.main.require("./utils/get-defined-fields");
+const { fieldsAreNotNull } = require("../../utils/get-defined-fields");
+const { generateToken, authenticate } = require("./account-auth");
 const { createAccount, findAccountById, updateProfile, createReview, deleteAccount, createSubscription, updateSubscription } = require("./account-store");
 const { Account } = require("./models");
 
@@ -10,8 +11,8 @@ module.exports = function(app) {
     .post((req,res,next) => {
       const df = getDefinedFields(req.query);
       const {firstname,lastname,email,age,profession,isAccountant} = df;
-      if (!firstname || !lastname || !email || !age || !profession || !isAccountant) {
-        return next(err);
+      if (!fieldsAreNotNull(firstname,lastname,email,age,profession,isAccountant)) {
+        return next(new Error('missing params'));
       }
       createAccount({
         profile: { firstname,lastname,email,age,profession},
@@ -64,9 +65,9 @@ module.exports = function(app) {
   app.route('/reviews/:accountantId')
     .post((req,res,next) => {
       const {accountantId} = req.params;
-      const {token,authorId,date,rating,title,content} = req.query;
-      const df = getDefinedFields({accountantId: accountantId,authorId,date,rating,title,content})
-      if (!df.authorId || !df.date || !df.rating || !df.title) { return next(err)}
+      const df = getDefinedFields({accountantId,...req.query});
+      const {token,authorId,date,rating,title,content} = df;
+      if (!fieldsAreNotNull(authorId,date,rating,title,token)) { return next(new Error('missing params'))}
       authenticate(token,authorId, (err,foundAccount) => {
         if (err) return next(err);
         if (!foundAccount)  return next(new Error('accountant not found'))

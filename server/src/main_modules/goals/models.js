@@ -9,11 +9,11 @@ const goalSchema = new mongoose.Schema({
   deadline: r_date,
 })
 
-const userGoalsSchema = new mongoose.Schema({
+const userGoalSchema = new mongoose.Schema({
   userId: r_string,
   goals: [goalSchema]
 })
 
-const UserGoal = goalDB.model('UserGoal',userGoalsSchema);
+const UserGoal = goalDB.model('UserGoal',userGoalSchema);
 
 module.exports = {UserGoal, goalSchema};
