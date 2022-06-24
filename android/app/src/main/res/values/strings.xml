@@ -36,6 +36,7 @@
     <string name="welcome_log">"LOG IN"</string>
     <string name="welcome_register">"REGISTER"</string>
     <string name="sign_in">"Sign In"</string>
+    <string name="sign_out">"Sign Out"</string>
     <string name="register">"Register"</string>
     <string name="facebook_app_id">593646015401301</string>
     <string name="fb_login_protocol_scheme">fb593646015401301</string>
