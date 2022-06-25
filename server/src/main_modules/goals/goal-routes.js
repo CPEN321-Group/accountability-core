@@ -62,7 +62,7 @@ module.exports = function(app) {
     .put((req,res,next) => {
       const {userId,goalId} = req.params;
       const {token} = req.query
-
+      
       authenticate(token,userId,(err,foundAccount) => {
         if (err) return next(err)
         if (!foundAccount) return next(new Error('account not found'));

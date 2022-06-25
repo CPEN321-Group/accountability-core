@@ -1,86 +1,94 @@
+const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserTransaction} = require('./models');
-
+const { getDefinedFields } = require.main.require('./utils/get-defined-fields');
 
 function parseTransactionData(fields) {
   const {title,category,date,amount,isIncome,receipt} = fields;
   const df = getDefinedFields({title,category,date,amount,isIncome,receipt});
 
   const fieldsToUpdate = {
-    ...(df.title && {"goals.$.title": df.title}),
-    ...(df.category && {"profile.category": df.category}),
-    ...(df.date && {"profile.date": df.date}),
-    ...(df.amount && {"profile.amount": df.amount}),
-    ...(df.isIncome && {"profile.isIncome": df.isIncome}),
-    ...(df.amount && {"profile.amount": df.amount}),
+    ...(df.title && {"transactions.$.title": df.title}),
+    ...(df.category && {"transactions.$.category": df.category}),
+    ...(df.date && {"transactions.$.date": df.date}),
+    ...(df.amount && {"transactions.$.amount": df.amount}),
+    ...(df.isIncome && {"transactions.$.isIncome": df.isIncome}),
+    ...(df.receipt && {"transactions.$.receipt": df.receipt}),
   }
   return fieldsToUpdate;
 }
 
-function createUserTransaction(userId,goals,callback) {
-  const newUserGoal = new UserTransaction({userId,goals});
-  newUserGoal.save((err,createdUserGoal) => {
-    callback(err,createdUserGoal)
+function createUserTransaction(userId,transactions,callback) {
+  const newUserTransaction = new UserTransaction({userId,transactions: transactions});
+  newUserTransaction.save((err,createdUserTransaction) => {
+    callback(err,createdUserTransaction)
   })
 }
 module.exports = {
-  findGoals: (accountId,callback) => {
-    UserTransaction.findOne({userId: accountId},(err,foundUserGoal) => callback(err,foundUserGoal))
+  findTransactions: (accountId,callback) => {
+    UserTransaction.findOne({userId: accountId},(err,foundUserTransaction) => callback(err,foundUserTransaction))
   },
-  findGoal: (accountId,goalId,callback) => {
-    UserTransaction.findOne({userId:accountId},(err,foundUserGoal) => {
-      const goal = getItemFromList(foundUserGoal.goals,goalId);
-      if (goal) return callback(err,goal);
-      return callback(new Error('goal not found'),null);
+  findTransaction: (accountId,transactionId,callback) => {
+    UserTransaction.findOne({userId:accountId},(err,foundUserTransaction) => {
+      const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
+      if (transaction) return callback(err,transaction);
+      return callback(new Error('transaction not found'),null);
     })
   },
-  createGoal: (accountId,data,callback) => {
-    const {title,target,current,deadline} = data;
-    const newGoal = {title,target,current,deadline};
-    UserTransaction.findOneAndUpdate({userId: accountId},{ $push: { goals: newGoal } },
+  createTransaction: (accountId,data,callback) => {
+    const {title,category,date,amount,isIncome,receipt} = data;
+    let newTransaction;
+    if (!fieldsAreNotNull(title,category,date,amount,isIncome) && receipt) {
+      parsePhysicalReceipt(receipt);
+    } else
+      newTransaction = {title,category,date,amount,isIncome,receipt};
+    
+    UserTransaction.findOneAndUpdate({userId: accountId},{ $push: { transactions: newTransaction } },
       {returnDocument: 'after'},
-      (err,foundUserGoal) => {
-        let goal;
-        if (!foundUserGoal) {
-          createUserTransaction(accountId,[newGoal],(err,fug) => {
-            console.log('creating user goal...');
-            goal = fug.goals[0];
-            if (goal) return callback(err,goal);
+      (err,foundUserTransaction) => {
+        let transaction;
+        if (!foundUserTransaction) {
+          createUserTransaction(accountId,[newTransaction],(err,createdUserTransaction) => {
+            console.log('creating user transaction...');
+            transaction = createdUserTransaction.transactions[0];
+            if (transaction) return callback(err,transaction);
           });
         } else { 
-          goal = foundUserGoal.goals[foundUserGoal.goals.length - 1] }
-        console.log('goal created');
+          transaction = foundUserTransaction.transactions[foundUserTransaction.transactions.length - 1] }
         
-        if (goal) return callback(err,goal);
-        // return callback(new Error('goal creation unsuccessful'),null);
+        if (transaction) return callback(err,transaction);
       }
     )
   },
-  updateGoal: (accountId,goalId,data,callback) => {
+  updateTransaction: (accountId,transactionId,data,callback) => {
     const {title,target,current,deadline} = data;
     const fieldsToUpdate = parseTransactionData({title,target,current,deadline});
 
-    UserTransaction.updateOne({userId: accountId, 'goals.id': goalId},{$set: fieldsToUpdate},
+    UserTransaction.findOneAndUpdate({$and:[{userId: accountId}, {
+        transactions: { $elemMatch: { _id: transactionId }}
+      }]},
+      {$set: fieldsToUpdate},
       {returnDocument: 'after'},
-      (err,foundGoal) => {
-        const goal = getItemFromList(foundUserGoal.goals,goalId);
-        if (goal) return callback(err,goal);
-        return callback(new Error('goal creation unsuccessful'),null);
+      (err,foundUserTransaction) => {
+        if (!foundUserTransaction) return callback(new Error('transaction not found'),null);
+        const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
+        if (transaction) return callback(err,transaction);
+        return callback(new Error('transaction update unsuccessful'),null);
       }
     )
   },
-  deleteGoals: (accountId,callback) => {
+  deleteTransactions: (accountId,callback) => {
     UserTransaction.deleteOne({userId: accountId}, (err) => {
       if (err) console.log(err);
       callback(err);
     })
   },
-  deleteGoal: (accountId,goalId,callback) => {
-    UserTransaction.updateOne({userId: accountId},{$pull: {goals: {_id: goalId}}},
+  deleteTransaction: (accountId,transactionId,callback) => {
+    UserTransaction.findOneAndUpdate({userId: accountId},{$pull: {transactions: {_id: transactionId}}},
       {returnDocument: 'after'},
-      (err,foundUserGoal) => {
-        const goal = getItemFromList(foundUserGoal.goals,goalId);
-        if (goal) callback(new Error('goal deletion unsuccessful'));
+      (err,foundUserTransaction) => {
+        const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
+        if (transaction) callback(new Error('transaction deletion unsuccessful'));
         return callback(err);
       }
     )

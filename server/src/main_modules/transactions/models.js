@@ -5,9 +5,9 @@ const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongo
 const transactionSchema = new mongoose.Schema({
   title: r_string,
   category: r_string,
-  date: r_date,
+  date: {...r_date, default: new Date()},
   amount: r_num,
-  isIncome: r_bool,
+  isIncome: {...r_bool,default: false},
   receipt: String
 })
 
