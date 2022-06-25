@@ -64,7 +64,7 @@ module.exports = {
       {$set: fieldsToUpdate},
       {returnDocument: 'after'},
       (err,foundUserGoal) => {
-        console.log(foundUserGoal);
+        if (!foundUserGoal) return callback(new Error('goal not found'),null);
         const goal = getItemFromList(foundUserGoal.goals,goalId);
         if (goal) return callback(err,goal);
         return callback(new Error('goal update unsuccessful'),null);
@@ -78,7 +78,7 @@ module.exports = {
     })
   },
   deleteGoal: (accountId,goalId,callback) => {
-    UserGoal.updateOne({userId: accountId},{$pull: {goals: {_id: goalId}}},
+    UserGoal.findOneAndUpdate({userId: accountId},{$pull: {goals: {_id: goalId}}},
       {returnDocument: 'after'},
       (err,foundUserGoal) => {
         const goal = getItemFromList(foundUserGoal.goals,goalId);
