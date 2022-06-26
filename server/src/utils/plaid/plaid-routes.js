@@ -4,38 +4,43 @@ const { createTransaction } = require('../../main_modules/transactions/transacti
 const { fieldsAreNotNull } = require('../get-defined-fields');
 const fx = require('money');
 const { UserTransaction } = require('../../main_modules/transactions/models');
+const { authenticate } = require('../../main_modules/accounts/account-auth');
 fx.base = "USD";
 fx.rates = {//other rates need to be defined if we want to support other currencies
   "CAD": 1.29,
 }
-
-function saveTransactions(recently_added,userId, next) {
-  for (let t of recently_added) {
-    // console.log(t)
-    let {amount,category,date,name,iso_currency_code,transaction_id} = t;
-    let isIncome,convertedAmount;
-    if (amount < 0) isIncome = true;
-    // console.log(iso_currency_code);
-    convertedAmount = Math.abs(Math.round(fx(amount).from(iso_currency_code).to("CAD")*100)/100); //round to .2d
-    if (!fieldsAreNotNull({name,category: category[0],convertedAmount,isIncome})) { 
-      return next(new Error('missing params'))
-    }
-    findTransaction(userId,transaction_id,(err,foundTransaction)=> {
-      if (!foundTransaction) {
-        createTransaction(userId,{
-          title: name,
-          category: category[0],
-          date,
-          amount: convertedAmount,
-          isIncome,
-          plaidTransactionId: transaction_id
-        },(err,foundTransactions) => {
-          if (err) return next(err);
-        })
+function saveTransactions(recently_added,userId, token, next) {
+  authenticate(token,userId,(err,foundAccount) => {
+    if (err) return next(err)
+    if (!foundAccount) return next(new Error('account not found'));
+    console.log('saving auto imported transactions')
+    for (let t of recently_added) {
+      // console.log(t)
+      let {amount,category,date,name,iso_currency_code,transaction_id} = t;
+      let isIncome,convertedAmount;
+      if (amount < 0) isIncome = true;
+      // console.log(iso_currency_code);
+      convertedAmount = Math.abs(Math.round(fx(amount).from(iso_currency_code).to("CAD")*100)/100); //round to .2d
+      if (!fieldsAreNotNull({name,category: category[0],convertedAmount,isIncome})) { 
+        return next(new Error('missing params'))
       }
-    })
+      findTransaction(userId,transaction_id,(err,foundTransaction)=> {
+        if (!foundTransaction) {
+          createTransaction(userId,{
+            title: name,
+            category: category[0],
+            date,
+            amount: convertedAmount,
+            isIncome,
+            plaidTransactionId: transaction_id
+          },(err,foundTransactions) => {
+            if (err) return next(err);
+          })
+        }
+      })
 
-  }
+    }
+  })
 }
 function findTransaction(userId,plaidTransactionId, callback) {
   UserTransaction.findOne({$and:[{userId: userId}, {
@@ -318,7 +323,7 @@ module.exports = function(app) {
         const compareTxnsByDateAscending = (a, b) => (a.date > b.date) - (a.date < b.date);
         // Return the 100 most recent transactions
         const recently_added = [...added].sort(compareTxnsByDateAscending).slice(-100);
-        saveTransactions(recently_added,request.params.userId,next);
+        saveTransactions(recently_added,request.params.userId,request.query.token,next);
         // console.log(recently_added);
         response.json({latest_transactions: recently_added});
       })
