@@ -41,13 +41,13 @@ module.exports = {
         let goal;
         if (!foundUserGoal) {
           createUserGoal(accountId,[newGoal],(err,fug) => {
-            console.log('creating user goal...');
+            // console.log('creating user goal...');
             goal = fug.goals[0];
             if (goal) return callback(err,goal);
           });
         } else { 
           goal = foundUserGoal.goals[foundUserGoal.goals.length - 1] }
-        console.log('goal created');
+        // console.log('goal created');
         
         if (goal) return callback(err,goal);
         // return callback(new Error('goal creation unsuccessful'),null);
