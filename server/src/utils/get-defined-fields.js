@@ -26,11 +26,15 @@ function isValid(field) {
   return valid;
 }
 
-function fieldsAreNotNull(...fields) {
-  for (let field of fields) {
-    if (!field) {return false;}
+function fieldsAreNotNull(fields) {
+  let notNull = true;
+  for (let field in fields) {
+    if (!field) {
+      console.log(`missing ${field}`);
+      notNull = false;
+    }
   }
-  return true;
+  return notNull;
 }
 
 module.exports = {getDefinedFields,isValid,fieldsAreNotNull};

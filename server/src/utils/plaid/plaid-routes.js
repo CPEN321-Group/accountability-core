@@ -1,5 +1,47 @@
 
 const {PlaidUser} = require('./models');
+const { createTransaction } = require('../../main_modules/transactions/transaction-store');
+const { fieldsAreNotNull } = require('../get-defined-fields');
+const fx = require('money');
+const { UserTransaction } = require('../../main_modules/transactions/models');
+fx.base = "USD";
+fx.rates = {//other rates need to be defined if we want to support other currencies
+  "CAD": 1.29,
+}
+
+function saveTransactions(recently_added,userId, next) {
+  for (let t of recently_added) {
+    // console.log(t)
+    let {amount,category,date,name,iso_currency_code,transaction_id} = t;
+    let isIncome,convertedAmount;
+    if (amount < 0) isIncome = true;
+    // console.log(iso_currency_code);
+    convertedAmount = Math.abs(Math.round(fx(amount).from(iso_currency_code).to("CAD")*100)/100); //round to .2d
+    if (!fieldsAreNotNull({name,category: category[0],convertedAmount,isIncome})) { 
+      return next(new Error('missing params'))
+    }
+    findTransaction(userId,transaction_id,(err,foundTransaction)=> {
+      if (!foundTransaction) {
+        createTransaction(userId,{
+          title: name,
+          category: category[0],
+          date,
+          amount: convertedAmount,
+          isIncome,
+          plaidTransactionId: transaction_id
+        },(err,foundTransactions) => {
+          if (err) return next(err);
+        })
+      }
+    })
+
+  }
+}
+function findTransaction(userId,plaidTransactionId, callback) {
+  UserTransaction.findOne({$and:[{userId: userId}, {
+    transactions: { $elemMatch: { plaidTransactionId: plaidTransactionId }}
+  }]}, (err,foundTransaction) => callback(err,foundTransaction))
+}
 
 module.exports = function(app) {
   'use strict';
@@ -79,7 +121,7 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(cors());
   
-  app.post('/plaid/info', function (request, response, next) {
+  app.post('/plaid/:userId/info', function (request, response, next) {
     getTokens(request.query.userId, (accessToken, itemId) => {
       response.json({
         item_id: itemId,
@@ -91,7 +133,7 @@ module.exports = function(app) {
   
   // Create a link token with configs which we can then use to initialize Plaid Link client-side.
   // See https://plaid.com/docs/#create-link-token
-  app.post('/plaid/create_link_token', function (request, response, next) {
+  app.post('/plaid/:userId/create_link_token', function (request, response, next) {
     Promise.resolve()
       .then(async function () {
         const configs = {
@@ -122,7 +164,7 @@ module.exports = function(app) {
   // Create a link token with configs which we can then use to initialize Plaid Link client-side.
   // See https://plaid.com/docs/#payment-initiation-create-link-token-request
   app.post(
-    '/plaid/create_link_token_for_payment',
+    '/plaid/:userId/create_link_token_for_payment',
     function (request, response, next) {
       Promise.resolve()
         .then(async function () {
@@ -186,7 +228,7 @@ module.exports = function(app) {
   // Exchange token flow - exchange a Link public_token for
   // an API access_token
   // https://plaid.com/docs/#exchange-token-flow
-  app.post('/plaid/set_access_token', function (request, response, next) {
+  app.post('/plaid/:userId/set_access_token', function (request, response, next) {
     let publicToken = request.body.public_token;
     Promise.resolve()
       .then(async function () {
@@ -226,7 +268,7 @@ module.exports = function(app) {
   
   // Retrieve ACH or ETF Auth data for an Item's accounts
   // https://plaid.com/docs/#auth
-  app.get('/plaid/auth', function (request, response, next) {
+  app.get('/plaid/:userId/auth', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
         .then(async function () {
@@ -242,7 +284,7 @@ module.exports = function(app) {
   
   // Retrieve Transactions for an Item
   // https://plaid.com/docs/#transactions
-  app.get('/plaid/transactions', function (request, response, next) {
+  app.get('/plaid/:userId/transactions', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -261,8 +303,8 @@ module.exports = function(app) {
             access_token: accessToken,
             cursor: cursor,
           };
-          const response = await client.transactionsSync(request)
-          const data = response.data;
+          const res = await client.transactionsSync(request)
+          const data = res.data;
           // Add this page of results
           added = added.concat(data.added);
           modified = modified.concat(data.modified);
@@ -270,12 +312,14 @@ module.exports = function(app) {
           hasMore = data.has_more;
           // Update cursor to the next cursor
           cursor = data.next_cursor;
-          prettyPrintResponse(response);
+          prettyPrintResponse(res);
         }
   
         const compareTxnsByDateAscending = (a, b) => (a.date > b.date) - (a.date < b.date);
-        // Return the 8 most recent transactions
-        const recently_added = [...added].sort(compareTxnsByDateAscending).slice(-8);
+        // Return the 100 most recent transactions
+        const recently_added = [...added].sort(compareTxnsByDateAscending).slice(-100);
+        saveTransactions(recently_added,request.params.userId,next);
+        // console.log(recently_added);
         response.json({latest_transactions: recently_added});
       })
       .catch(next);
@@ -284,7 +328,7 @@ module.exports = function(app) {
   
   // Retrieve Investment Transactions for an Item
   // https://plaid.com/docs/#investments
-  app.get('/plaid/investments_transactions', function (request, response, next) {
+  app.get('/plaid/:userId/investments_transactions', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -309,7 +353,7 @@ module.exports = function(app) {
   
   // Retrieve Identity for an Item
   // https://plaid.com/docs/#identity
-  app.get('/plaid/identity', function (request, response, next) {
+  app.get('/plaid/:userId/identity', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -326,7 +370,7 @@ module.exports = function(app) {
   
   // Retrieve real-time Balances for each of an Item's accounts
   // https://plaid.com/docs/#balance
-  app.get('/plaid/balance', function (request, response, next) {
+  app.get('/plaid/:userId/balance', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -342,7 +386,7 @@ module.exports = function(app) {
   
   // Retrieve Holdings for an Item
   // https://plaid.com/docs/#investments
-  app.get('/plaid/holdings', function (request, response, next) {
+  app.get('/plaid/:userId/holdings', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -358,7 +402,7 @@ module.exports = function(app) {
   
   // Retrieve Liabilities for an Item
   // https://plaid.com/docs/#liabilities
-  app.get('/plaid/liabilities', function (request, response, next) {
+  app.get('/plaid/:userId/liabilities', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -374,7 +418,7 @@ module.exports = function(app) {
   
   // Retrieve information about an Item
   // https://plaid.com/docs/#retrieve-item
-  app.get('/plaid/item', function (request, response, next) {
+  app.get('/plaid/:userId/item', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -401,7 +445,7 @@ module.exports = function(app) {
   
   // Retrieve an Item's accounts
   // https://plaid.com/docs/#accounts
-  app.get('/plaid/accounts', function (request, response, next) {
+  app.get('/plaid/:userId/accounts', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -419,7 +463,7 @@ module.exports = function(app) {
   // Asset Report can contain up to 100 items, but for simplicity we're only
   // including one Item here.
   // https://plaid.com/docs/#assets
-  app.get('/plaid/assets', function (request, response, next) {
+  app.get('/plaid/:userId/assets', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -474,7 +518,7 @@ module.exports = function(app) {
     });
   });
   
-  app.get('/plaid/transfer', function (request, response, next) {
+  app.get('/plaid/:userId/transfer', function (request, response, next) {
     getTokens(request.query.userId, (accessToken,itemId,transferId) => {
       Promise.resolve()
       .then(async function () {
@@ -493,7 +537,7 @@ module.exports = function(app) {
   
   // This functionality is only relevant for the UK Payment Initiation product.
   // Retrieve Payment for a specified Payment ID
-  app.get('/plaid/payment', function (request, response, next) {
+  app.get('/plaid/:userId/payment', function (request, response, next) {
     getTokens(request.query.userId, (accessToken,itemId,transferId,paymentId) => {
       Promise.resolve()
       .then(async function () {
@@ -508,7 +552,7 @@ module.exports = function(app) {
   });
   
   //TO-DO: This endpoint will be deprecated in the near future
-  app.get('/plaid/income/verification/paystubs', function (request, response, next) {
+  app.get('/plaid/:userId/income/verification/paystubs', function (request, response, next) {
     getTokens(request.query.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
@@ -522,10 +566,10 @@ module.exports = function(app) {
     });
   })
   
-  app.use('/plaid', function (error, request, response, next) {
-    prettyPrintResponse(error.response);
-    response.json(formatError(error.response));
-  });
+  // app.use('/plaid', function (error, request, response, next) {
+  //   prettyPrintResponse(error.response);
+  //   response.json(formatError(error.response));
+  // });
   
   
   const prettyPrintResponse = (response) => {

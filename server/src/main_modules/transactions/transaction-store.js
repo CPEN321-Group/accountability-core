@@ -2,6 +2,7 @@ const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserTransaction} = require('./models');
 const { getDefinedFields } = require.main.require('./utils/get-defined-fields');
+const moment = require('moment');
 
 function parseTransactionData(fields) {
   const {title,category,date,amount,isIncome,receipt} = fields;
@@ -17,6 +18,25 @@ function parseTransactionData(fields) {
   }
   return fieldsToUpdate;
 }
+function formatTransaction(transaction) {
+  return {
+    title: transaction.title,
+    category: transaction.category,
+    date: moment(transaction.date).format('YYYY-MM-DD'),
+    amount: transaction.amount,
+    isIncome: transaction.isIncome,
+    _id: transaction._id,
+    receipt: transaction.receipt
+  }
+}
+function formatTransactions(userTransaction) {
+  let transactions = [];
+  for (const t of userTransaction.transactions) {
+    console.log(t);
+    transactions.push(formatTransaction(t));
+  }
+  return transactions;
+}
 
 function createUserTransaction(userId,transactions,callback) {
   const newUserTransaction = new UserTransaction({userId,transactions: transactions});
@@ -26,22 +46,24 @@ function createUserTransaction(userId,transactions,callback) {
 }
 module.exports = {
   findTransactions: (accountId,callback) => {
-    UserTransaction.findOne({userId: accountId},(err,foundUserTransaction) => callback(err,foundUserTransaction))
+    UserTransaction.findOne({userId: accountId},(err,foundUserTransaction) => 
+    callback(err,formatTransactions(foundUserTransaction))
+  )
   },
   findTransaction: (accountId,transactionId,callback) => {
     UserTransaction.findOne({userId:accountId},(err,foundUserTransaction) => {
       const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
-      if (transaction) return callback(err,transaction);
+      if (transaction) return callback(err,formatTransaction(transaction));
       return callback(new Error('transaction not found'),null);
     })
   },
   createTransaction: (accountId,data,callback) => {
     const {title,category,date,amount,isIncome,receipt} = data;
     let newTransaction;
-    if (!fieldsAreNotNull(title,category,date,amount,isIncome) && receipt) {
+    if (!fieldsAreNotNull({title,category,date,amount,isIncome}) && receipt) {
       parsePhysicalReceipt(receipt);
     } else
-      newTransaction = {title,category,date,amount,isIncome,receipt};
+      newTransaction = {title,category,date,amount: Math.abs(amount),isIncome,receipt};
     
     UserTransaction.findOneAndUpdate({userId: accountId},{ $push: { transactions: newTransaction } },
       {returnDocument: 'after'},
@@ -50,13 +72,17 @@ module.exports = {
         if (!foundUserTransaction) {
           createUserTransaction(accountId,[newTransaction],(err,createdUserTransaction) => {
             // console.log('creating user transaction...');
+            if (err) {
+              console.log(err)
+              return callback(err,null);
+            }
             transaction = createdUserTransaction.transactions[0];
-            if (transaction) return callback(err,transaction);
+            if (transaction) return callback(err,formatTransaction(transaction));
           });
         } else { 
           transaction = foundUserTransaction.transactions[foundUserTransaction.transactions.length - 1] }
         
-        if (transaction) return callback(err,transaction);
+        if (transaction) return callback(err,formatTransaction(transaction));
       }
     )
   },
@@ -72,7 +98,7 @@ module.exports = {
       (err,foundUserTransaction) => {
         if (!foundUserTransaction) return callback(new Error('transaction not found'),null);
         const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
-        if (transaction) return callback(err,transaction);
+        if (transaction) return callback(err,formatTransaction(transaction));
         return callback(new Error('transaction update unsuccessful'),null);
       }
     )
