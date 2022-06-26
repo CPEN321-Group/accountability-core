@@ -22,7 +22,7 @@ module.exports = function(app) {
       const {userId} = req.params;
       const df = getDefinedFields(req.query);
       const {title,target,current,deadline,token} = df;
-      if (!fieldsAreNotNull(title,target,current,deadline,token)) {next(new Error('missing params'))}
+      if (!fieldsAreNotNull({title,target,current,deadline,token})) {next(new Error('missing params'))}
 
       authenticate(token,userId,(err,foundAccount) => {
         if (err) return next(err)

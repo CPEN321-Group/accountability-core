@@ -11,7 +11,7 @@ module.exports = function(app) {
     .post((req,res,next) => {
       const df = getDefinedFields(req.query);
       const {firstname,lastname,email,age,profession,isAccountant} = df;
-      if (!fieldsAreNotNull(firstname,lastname,email,age,profession,isAccountant)) {
+      if (!fieldsAreNotNull({firstname,lastname,email,age,profession,isAccountant})) {
         return next(new Error('missing params'));
       }
       createAccount({
@@ -67,7 +67,7 @@ module.exports = function(app) {
       const {accountantId} = req.params;
       const df = getDefinedFields({accountantId,...req.query});
       const {token,authorId,date,rating,title,content} = df;
-      if (!fieldsAreNotNull(authorId,date,rating,title,token)) { return next(new Error('missing params'))}
+      if (!fieldsAreNotNull({authorId,date,rating,title,token})) { return next(new Error('missing params'))}
       authenticate(token,authorId, (err,foundAccount) => {
         if (err) return next(err);
         if (!foundAccount)  return next(new Error('accountant not found'))
