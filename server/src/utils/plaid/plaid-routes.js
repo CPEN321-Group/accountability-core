@@ -212,7 +212,7 @@ module.exports = function(app) {
           else {
             createNewUser(tokenResponse.data.access_token, tokenResponse.data.item_id, transferId);
           }
-          console.log('access token set.')
+          // console.log('access token set.')
         })
 
         response.json({
@@ -636,7 +636,7 @@ module.exports = function(app) {
   };
 
   const getTokens = (userId, callback, userToken = null) => {
-    console.log("fetching access token...")
+    // console.log("fetching access token...")
     PlaidUser.findOne({userId: userId || 'test'}, (err,foundUser) => {
       if (err || !foundUser) createNewUser(null,null);
       else {
@@ -646,7 +646,7 @@ module.exports = function(app) {
     })
   }
   const createNewUser = (accessToken, itemId, transferId = null, paymentId = null) => {
-    console.log("initializing new user...");
+    // console.log("initializing new user...");
     const newUser = new PlaidUser({
       userId: 'test',
       data: {
@@ -658,7 +658,7 @@ module.exports = function(app) {
     })
     newUser.save((err, foundUser) => {
       if (!err) {
-        console.log("newUser saved")
+        // console.log("newUser saved")
         const {accessToken, itemId, transferId, paymentId} = foundUser.data; 
         return {accessToken,itemId,transferId,paymentId};
       }

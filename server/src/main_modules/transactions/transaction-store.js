@@ -49,7 +49,7 @@ module.exports = {
         let transaction;
         if (!foundUserTransaction) {
           createUserTransaction(accountId,[newTransaction],(err,createdUserTransaction) => {
-            console.log('creating user transaction...');
+            // console.log('creating user transaction...');
             transaction = createdUserTransaction.transactions[0];
             if (transaction) return callback(err,transaction);
           });
