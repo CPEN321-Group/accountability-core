@@ -58,31 +58,25 @@ module.exports = {
     })
   },
   createTransaction: (accountId,data,callback) => {
-    const {title,category,date,amount,isIncome,receipt} = data;
+    const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = data;
     let newTransaction;
     if (!fieldsAreNotNull({title,category,date,amount,isIncome}) && receipt) {
       parsePhysicalReceipt(receipt);
+      console.log('extracting receipt...')
     } else
-      newTransaction = {title,category,date,amount: Math.abs(amount),isIncome,receipt};
+      newTransaction = {title,category,date,amount: Math.abs(amount),isIncome,receipt,plaidTransactionId};
     
     UserTransaction.findOneAndUpdate({userId: accountId},{ $push: { transactions: newTransaction } },
       {returnDocument: 'after'},
       (err,foundUserTransaction) => {
         let transaction;
         if (!foundUserTransaction) {
-          createUserTransaction(accountId,[newTransaction],(err,createdUserTransaction) => {
-            // console.log('creating user transaction...');
-            if (err) {
-              console.log(err)
-              return callback(err,null);
-            }
-            transaction = createdUserTransaction.transactions[0];
-            if (transaction) return callback(err,formatTransaction(transaction));
-          });
-        } else { 
-          transaction = foundUserTransaction.transactions[foundUserTransaction.transactions.length - 1] }
+          return callback(new Error('user not found'),null);
+        }
+        transaction = foundUserTransaction.transactions[foundUserTransaction.transactions.length - 1]
         
         if (transaction) return callback(err,formatTransaction(transaction));
+        return callback(new Error('transaction creation unsuccessful'),null);
       }
     )
   },

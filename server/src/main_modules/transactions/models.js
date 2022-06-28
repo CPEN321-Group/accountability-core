@@ -8,12 +8,13 @@ const transactionSchema = new mongoose.Schema({
   date: {...r_date, default: new Date()},
   amount: r_num,
   isIncome: {...r_bool,default: false},
-  receipt: String
+  receipt: String,
+  plaidTransactionId: String
 })
 
 const userTransactionSchema = new mongoose.Schema({
   userId: r_string,
-  transactions: [transactionSchema]
+  transactions: {type: [transactionSchema], default: []}
 })
 
 const UserTransaction = transactionDB.model('UserTransaction',userTransactionSchema)

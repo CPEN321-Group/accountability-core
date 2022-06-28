@@ -11,7 +11,7 @@ const goalSchema = new mongoose.Schema({
 
 const userGoalSchema = new mongoose.Schema({
   userId: r_string,
-  goals: [goalSchema]
+  goals: {type: [goalSchema], default: []}
 })
 
 const UserGoal = goalDB.model('UserGoal',userGoalSchema);

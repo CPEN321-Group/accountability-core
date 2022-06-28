@@ -1,3 +1,6 @@
+const { UserGoal } = require("../goals/models");
+const { UserTransaction } = require("../transactions/models");
+const { UserReport } = require("../reports/models");
 const { Account } = require("./models");
 const { parseProfileData } = require("./profile/profile");
 const { parseReviewData } = require("./review/review");
@@ -18,7 +21,16 @@ module.exports = {
    */
   createAccount: (data,callback) => {
     const account = new Account({...data});
-    account.save((err,createdAccount) => callback(err,createdAccount));
+    
+    account.save((err,createdAccount) => {
+      const userTransaction = new UserTransaction({userId:createdAccount.id});
+      const userGoal = new UserGoal({userId: createdAccount.id});
+      const userReport = new UserReport({userId: createdAccount.id})
+      userTransaction.save();
+      userGoal.save();
+      userReport.save();
+      callback(err,createdAccount);
+    });
   },
   /**
    * Wrapper for mongoose findById.
