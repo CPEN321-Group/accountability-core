@@ -1,8 +1,8 @@
+require('dotenv').config();
 const { getDefinedFields } = require.main.require("./utils/get-defined-fields");
 const { fieldsAreNotNull } = require("../../utils/get-defined-fields");
 const { generateToken, authenticate } = require("./account-auth");
 const { createAccount, findAccountById, updateProfile, createReview, deleteAccount, createSubscription, updateSubscription } = require("./account-store");
-const { Account } = require("./models");
 
 const _ = require.main.require('./utils/tests/model-samples')
 

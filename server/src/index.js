@@ -9,9 +9,6 @@ app.use(cors());
 
 
 require('./routes')(app);
-require('./utils/plaid/plaid-routes')(app);
-
-
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)

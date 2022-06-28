@@ -13,6 +13,8 @@ module.exports = function(app) {
   require('./main_modules/transactions/transaction-routes')(app);
   require('./main_modules/messaging/messaging-routes')(app);
   require('./main_modules/reports/report-routes')(app);
+  require('./utils/plaid/plaid-routes')(app);
+  require('./utils/stripe/stripe-routes')(app);
 
   /**
    * Default error handler - invoked by next(err).
