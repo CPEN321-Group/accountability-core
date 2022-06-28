@@ -127,7 +127,7 @@ module.exports = function(app) {
   app.use(cors());
   
   app.post('/plaid/:userId/info', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken, itemId) => {
+    getTokens(request.params.userId, (accessToken, itemId) => {
       response.json({
         item_id: itemId,
         access_token: accessToken,
@@ -201,10 +201,11 @@ module.exports = function(app) {
           const fieldsToSet = {
             "data.paymentId": paymentId, 
           }
-          PlaidUser.findOneAndUpdate({userId: request.query.userId || 'test'}, {$set: fieldsToSet}, (err,foundUser)=> {
+          PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, (err,foundUser)=> {
             if (err) {
-              createNewUser(null,null,null, paymentId);
-            }
+              console.log(err)
+            } 
+            if (!foundUser) creatPlaidUser(request.params.userId,null,null,null, paymentId);
           })
           const configs = {
             user: {
@@ -251,13 +252,13 @@ module.exports = function(app) {
           "data.itemId": tokenResponse.data.item_id,
           "data.transferId": transferId
         }
-        PlaidUser.findOneAndUpdate({userId: request.query.userId || 'test'}, {$set: fieldsToSet}, (err,foundUser)=> {
+        PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, (err,foundUser)=> {
           if (!err) {
             accessToken = foundUser.data.accessToken;
             itemId = foundUser.data.itemId;
           }
           else {
-            createNewUser(tokenResponse.data.access_token, tokenResponse.data.item_id, transferId);
+            creatPlaidUser(tokenResponse.data.access_token, tokenResponse.data.item_id, transferId);
           }
           // console.log('access token set.')
         })
@@ -274,7 +275,7 @@ module.exports = function(app) {
   // Retrieve ACH or ETF Auth data for an Item's accounts
   // https://plaid.com/docs/#auth
   app.get('/plaid/:userId/auth', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
         .then(async function () {
           const authResponse = await client.authGet({
@@ -290,7 +291,7 @@ module.exports = function(app) {
   // Retrieve Transactions for an Item
   // https://plaid.com/docs/#transactions
   app.get('/plaid/:userId/transactions', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         // Set cursor to empty to receive all historical updates
@@ -334,7 +335,7 @@ module.exports = function(app) {
   // Retrieve Investment Transactions for an Item
   // https://plaid.com/docs/#investments
   app.get('/plaid/:userId/investments_transactions', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         const startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
@@ -359,7 +360,7 @@ module.exports = function(app) {
   // Retrieve Identity for an Item
   // https://plaid.com/docs/#identity
   app.get('/plaid/:userId/identity', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         const identityResponse = await client.identityGet({
@@ -376,7 +377,7 @@ module.exports = function(app) {
   // Retrieve real-time Balances for each of an Item's accounts
   // https://plaid.com/docs/#balance
   app.get('/plaid/:userId/balance', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         const balanceResponse = await client.accountsBalanceGet({
@@ -392,7 +393,7 @@ module.exports = function(app) {
   // Retrieve Holdings for an Item
   // https://plaid.com/docs/#investments
   app.get('/plaid/:userId/holdings', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         const holdingsResponse = await client.investmentsHoldingsGet({
@@ -408,7 +409,7 @@ module.exports = function(app) {
   // Retrieve Liabilities for an Item
   // https://plaid.com/docs/#liabilities
   app.get('/plaid/:userId/liabilities', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         const liabilitiesResponse = await client.liabilitiesGet({
@@ -424,7 +425,7 @@ module.exports = function(app) {
   // Retrieve information about an Item
   // https://plaid.com/docs/#retrieve-item
   app.get('/plaid/:userId/item', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         // Pull the Item - this includes information about available products,
@@ -451,7 +452,7 @@ module.exports = function(app) {
   // Retrieve an Item's accounts
   // https://plaid.com/docs/#accounts
   app.get('/plaid/:userId/accounts', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         const accountsResponse = await client.accountsGet({
@@ -469,7 +470,7 @@ module.exports = function(app) {
   // including one Item here.
   // https://plaid.com/docs/#assets
   app.get('/plaid/:userId/assets', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         // You can specify up to two years of transaction history for an Asset
@@ -524,7 +525,7 @@ module.exports = function(app) {
   });
   
   app.get('/plaid/:userId/transfer', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken,itemId,transferId) => {
+    getTokens(request.params.userId, (accessToken,itemId,transferId) => {
       Promise.resolve()
       .then(async function () {
         const transferGetResponse = await client.transferGet({
@@ -543,7 +544,7 @@ module.exports = function(app) {
   // This functionality is only relevant for the UK Payment Initiation product.
   // Retrieve Payment for a specified Payment ID
   app.get('/plaid/:userId/payment', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken,itemId,transferId,paymentId) => {
+    getTokens(request.params.userId, (accessToken,itemId,transferId,paymentId) => {
       Promise.resolve()
       .then(async function () {
         const paymentGetResponse = await client.paymentInitiationPaymentGet({
@@ -558,7 +559,7 @@ module.exports = function(app) {
   
   //TO-DO: This endpoint will be deprecated in the near future
   app.get('/plaid/:userId/income/verification/paystubs', function (request, response, next) {
-    getTokens(request.query.userId, (accessToken) => {
+    getTokens(request.params.userId, (accessToken) => {
       Promise.resolve()
       .then(async function () {
         const paystubsGetResponse = await client.incomeVerificationPaystubsGet({
@@ -686,18 +687,19 @@ module.exports = function(app) {
 
   const getTokens = (userId, callback, userToken = null) => {
     // console.log("fetching access token...")
-    PlaidUser.findOne({userId: userId || 'test'}, (err,foundUser) => {
-      if (err || !foundUser) createNewUser(null,null);
+    PlaidUser.findOne({userId: userId}, (err,foundUser) => {
+      if (err) console.log(err)
+      if(!foundUser) creatPlaidUser(userId,null,null);
       else {
         const {accessToken,itemId,transferId,paymentId} = foundUser.data;
         callback(accessToken,itemId,transferId,paymentId);
       }
     })
   }
-  const createNewUser = (accessToken, itemId, transferId = null, paymentId = null) => {
+  const creatPlaidUser = (userId, accessToken, itemId, transferId = null, paymentId = null) => {
     // console.log("initializing new user...");
     const newUser = new PlaidUser({
-      userId: 'test',
+      userId,
       data: {
         accessToken,
         itemId,

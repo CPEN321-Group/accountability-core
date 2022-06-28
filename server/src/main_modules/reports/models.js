@@ -15,8 +15,8 @@ const reportSchema = new mongoose.Schema({
 
 const userReportSchema = new mongoose.Schema({
   userId: r_string,
-  accountantId: r_string,
-  reports: [reportSchema]
+  accountantId: String,
+  reports: {type: [reportSchema],default: []}
 })
 
 const UserReport = reportDB.model('UserReport', userReportSchema);
