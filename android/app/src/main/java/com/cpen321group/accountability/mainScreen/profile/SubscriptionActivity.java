@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
 import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
 import com.github.kittinunf.fuel.core.FuelError;
@@ -18,9 +20,6 @@ import com.google.android.material.color.DynamicColors;
 
 import com.stripe.android.paymentsheet.*;
 import com.stripe.android.PaymentConfiguration;
-// Add the following lines to build.gradle to use this example's networking library:
-//   implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
-//   implementation 'com.github.kittinunf.fuel:fuel-json:2.3.1'
 import com.github.kittinunf.fuel.*;
 
 import org.json.JSONException;
@@ -28,7 +27,7 @@ import org.json.JSONObject;
 
 public class SubscriptionActivity extends AppCompatActivity {
     PaymentSheet paymentSheet;
-    private String paymentClientSecret;
+    String paymentIntentClientSecret;
     PaymentSheet.CustomerConfiguration customerConfig;
 
     @Override
@@ -44,7 +43,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         }
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
-        Fuel.INSTANCE.post("Your backend endpoint/payment-sheet", null).responseString(new Handler<String>() {
+        Fuel.INSTANCE.post("http://165.232.129.241:8080/checkout", null).responseString(new Handler<String>() {
             @Override
             public void success(String s) {
                 try {
@@ -53,13 +52,17 @@ public class SubscriptionActivity extends AppCompatActivity {
                             result.getString("customer"),
                             result.getString("ephemeralKey")
                     );
-                    paymentClientSecret = result.getString("paymentClientSecret");
+                    paymentIntentClientSecret = result.getString("paymentIntent");
+                    Log.d("paymentIntent:", paymentIntentClientSecret);
                     PaymentConfiguration.init(getApplicationContext(), result.getString("publishableKey"));
-                } catch (JSONException e) { /* handle error */ }
-            }
+                } catch (JSONException e) { /* handle error */
 
+                }
+            }
             @Override
-            public void failure(@NonNull FuelError fuelError) { /* handle error */ }
+            public void failure(@NonNull FuelError fuelError) { /* handle error */
+                Log.d("stripe err:", "error post");
+            }
         });
 
         Button start_subscription = findViewById(R.id.start_subscription_button);
@@ -76,22 +79,22 @@ public class SubscriptionActivity extends AppCompatActivity {
                 .customer(customerConfig)
                 // Set `allowsDelayedPaymentMethods` to true if your business can handle payment methods
                 // that complete payment after a delay, like SEPA Debit and Sofort.
-                .allowsDelayedPaymentMethods(true)
-        .build();
+                .allowsDelayedPaymentMethods(true).build();
+
         paymentSheet.presentWithPaymentIntent(
-                paymentClientSecret,
+                paymentIntentClientSecret,
                 configuration
         );
     }
 
     void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {
         if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
-            Log.d("","Canceled");
+            Log.d("Stripe","Canceled");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
             Log.e("App", "Got error: ", ((PaymentSheetResult.Failed) paymentSheetResult).getError());
         } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             // Display for example, an order confirmation screen
-            Log.d("","Completed");
+            Log.d("Stripe","Completed");
         }
     }
 
