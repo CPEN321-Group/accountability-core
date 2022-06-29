@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Accountability"
-        tools:targetApi="32" >
+        tools:targetApi="32"
+        android:usesCleartextTraffic="true" >
         <activity
             android:name=".mainScreen.profile.SubscriptionActivity"
             android:exported="false" />

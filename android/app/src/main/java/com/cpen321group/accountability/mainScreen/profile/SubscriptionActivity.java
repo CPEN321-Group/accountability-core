@@ -43,7 +43,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         }
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
-        Fuel.INSTANCE.post("http://165.232.129.241:8080/checkout", null).responseString(new Handler<String>() {
+        Fuel.INSTANCE.post("http://165.232.129.241:80/checkout", null).responseString(new Handler<String>() {
             @Override
             public void success(String s) {
                 try {
@@ -95,6 +95,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             // Display for example, an order confirmation screen
             Log.d("Stripe","Completed");
+            paymentSheetResult.describeContents()
         }
     }
 
