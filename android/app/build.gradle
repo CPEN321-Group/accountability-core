@@ -48,4 +48,9 @@ dependencies {
     implementation  'androidx.biometric:biometric:1.1.0'
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    // Stripe Android SDK
+    implementation 'com.stripe:stripe-android:20.6.2'
+    // Stripe tutorial recommended api
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
+    implementation 'com.github.kittinunf.fuel:fuel-json:2.3.1'
 }

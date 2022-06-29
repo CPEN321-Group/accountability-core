@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingTop="18dp"
     android:paddingBottom="85dp"
-    tools:context=".mainScreen.profile.NotificationsFragment">
+    tools:context=".mainScreen.profile.ProfileFragment">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/signoutbutton"
@@ -164,6 +164,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/your_subscription_button"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
