@@ -1,6 +1,5 @@
 package com.cpen321group.accountability.mainScreen.profile;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
@@ -11,16 +10,17 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
-import com.github.kittinunf.fuel.core.FuelError;
-import com.github.kittinunf.fuel.core.Handler;
 import com.google.android.material.color.DynamicColors;
 
 import com.stripe.android.paymentsheet.*;
 import com.stripe.android.PaymentConfiguration;
-import com.github.kittinunf.fuel.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,29 +42,31 @@ public class SubscriptionActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
-
-        Fuel.INSTANCE.post("http://165.232.129.241:80/checkout", null).responseString(new Handler<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,"http://165.232.129.241:80/checkout", new Response.Listener<String>() {
             @Override
-            public void success(String s) {
+            public void onResponse(String response) {
                 try {
-                    final JSONObject result = new JSONObject(s);
+                    Log.d("paymentIntent:", "success");
+                    final JSONObject jsonResponse = new JSONObject(response);
                     customerConfig = new PaymentSheet.CustomerConfiguration(
-                            result.getString("customer"),
-                            result.getString("ephemeralKey")
+                            jsonResponse.getString("customer"),
+                            jsonResponse.getString("ephemeralKey")
                     );
-                    paymentIntentClientSecret = result.getString("paymentIntent");
+                    paymentIntentClientSecret = jsonResponse.getString("paymentIntent");
                     Log.d("paymentIntent:", paymentIntentClientSecret);
-                    PaymentConfiguration.init(getApplicationContext(), result.getString("publishableKey"));
-                } catch (JSONException e) { /* handle error */
-
+                    PaymentConfiguration.init(getApplicationContext(), jsonResponse.getString("publishableKey"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
+        }, new Response.ErrorListener() {
             @Override
-            public void failure(@NonNull FuelError fuelError) { /* handle error */
-                Log.d("stripe err:", "error post");
+            public void onErrorResponse(VolleyError error) {
+                Log.d("paymentIntent:", "err");
             }
         });
-
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
         Button start_subscription = findViewById(R.id.start_subscription_button);
         start_subscription.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +97,6 @@ public class SubscriptionActivity extends AppCompatActivity {
         } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
             // Display for example, an order confirmation screen
             Log.d("Stripe","Completed");
-            paymentSheetResult.describeContents()
         }
     }
 
