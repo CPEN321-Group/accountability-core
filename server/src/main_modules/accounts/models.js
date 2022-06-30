@@ -11,7 +11,9 @@ const accountSchema = new mongoose.Schema({
   isAuthenticated: {...r_bool, default: false},
   authenticateExpiryDate: {...r_date, default: '2022'},
   reviews: {type: [reviewSchema], default: []},
-  subscription: subscriptionSchema
+  subscription: subscriptionSchema,
+  stripeCustomerId: String,
+  stripeSubscriptionId: String
 })
 
 const Account = accountDB.model('Account', accountSchema);
