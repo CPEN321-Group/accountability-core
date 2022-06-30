@@ -1,5 +1,6 @@
 module.exports = function(app) {
   app.get('/',(req, res) => {
+    console.log('server is being accessed')
     res.send('server is active')
   })
 
