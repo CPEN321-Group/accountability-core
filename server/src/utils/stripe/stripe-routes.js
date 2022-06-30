@@ -58,8 +58,15 @@ async function createSubscriptionForCustomer(customer) {
 }
 
 function subscriptionIsActive(user) {
+  if (!user.subscription || !user.subscription.expiryDate)
+    return false;
+    
+  const {expiryDate} = user.subscription;
   const today = new Date();
-  return today.getTime() < user.subscription.expiryDate.getTime();
+  if (expiryDate && expiryDate instanceof Date && !isNaN(expiryDate.valueOf()))
+    return today.getTime() < expiryDate.getTime();
+  else
+    return false;
 }
 
 module.exports = function(app) {
@@ -69,6 +76,7 @@ module.exports = function(app) {
       res.send({key: process.env.STRIPE_PUBLIC_KEY })
     })
     app.post('/stripe/checkout/sessions/:userId', async (req,res,next) => {
+      console.log('creating session...')
       const {userId} = req.params;
       const {token} = req.query;
       authenticate(token,userId, async (err,foundAccount) => {
@@ -86,11 +94,11 @@ module.exports = function(app) {
               session = await createSession(userId,updatedUser.stripeCustomerId);
             });
           } else if (subscriptionIsActive(foundUser)) {
-            res.send('subscription already active');
+            return res.send('subscription already active');
           } else {
             session = await createSession(userId,foundUser.stripeCustomerId);
           }
-          res.send(session);
+          res.send(session.url);
         })
       })
     })
