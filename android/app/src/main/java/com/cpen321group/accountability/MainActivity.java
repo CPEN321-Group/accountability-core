@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     public static boolean is_darkMode;
     public static boolean is_notificationGlobalOn;
     public static boolean is_biometricAllowed;
+    public static boolean is_subscribed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
