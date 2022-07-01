@@ -38,8 +38,9 @@
     <string name="sign_in">"Sign In"</string>
     <string name="sign_out">"Sign Out"</string>
     <string name="register">"Register"</string>
-    <string name="facebook_app_id">593646015401301</string>
-    <string name="fb_login_protocol_scheme">fb593646015401301</string>
-    <string name="facebook_client_token">cabde47d8c27ab8cb755fd98d8659d0f</string>
+    <string name="facebook_app_id">744302863362348</string>
+    <string name="fb_login_protocol_scheme">fb744302863362348</string>
+    <string name="facebook_client_token">ade252e54ef5da08e9842d8ec2f489d1</string>
 
+    <string name="send">Send</string>
 </resources>

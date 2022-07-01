@@ -4,7 +4,7 @@
     package="com.cpen321group.accountability">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -15,6 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Accountability"
         tools:targetApi="32">
+        <activity
+            android:name=".welcome.RegisterSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainScreen.chat.ChattingActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.SettingsActivity"
             android:exported="false"

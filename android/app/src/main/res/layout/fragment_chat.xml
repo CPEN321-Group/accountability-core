@@ -78,6 +78,7 @@
                             android:orientation="horizontal">
 
                             <com.google.android.material.button.MaterialButton
+                                android:id="@+id/request_button_1"
                                 style="?attr/borderlessButtonStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -349,8 +350,10 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/request"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="18dp">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
@@ -359,7 +362,7 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="22dp"
             android:contentDescription="fab_content_desc"
-            app:srcCompat="@drawable/ic_edit_profile_24dp"/>
+            app:srcCompat="@drawable/ic_edit_profile_24dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

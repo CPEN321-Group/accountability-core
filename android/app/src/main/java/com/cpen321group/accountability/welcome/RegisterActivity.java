@@ -58,9 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(LoginResult loginResult) {
                         // App code
                         updateUIFB();
-                        LoginManager.getInstance().logOut();
                         Log.d(TAG,"SUCCESS!");
-                        Intent intent = new Intent(RegisterActivity.this, WelcomeActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, RegisterSettingActivity.class);
                         startActivity(intent);
                     }
 
@@ -123,8 +122,7 @@ public class RegisterActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             updateUI(account);
             // Signed in successfully, show authenticated UI.
-            signOut();
-            Intent intent = new Intent(RegisterActivity.this, WelcomeActivity.class);
+            Intent intent = new Intent(RegisterActivity.this, RegisterSettingActivity.class);
             startActivity(intent);
 
         } catch (ApiException e) {
@@ -168,13 +166,5 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d(TAG,"URL: "+profile.getLinkUri());
         }
     }
-    private void signOut() {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
-                });
-    }
+
 }
