@@ -68,7 +68,7 @@ module.exports = {
     )
   },
   deleteGoals: (accountId,callback) => {
-    UserGoal.deleteOne({userId: accountId}, (err) => {
+    UserGoal.findOneAndUpdate({userId: accountId}, {goals: []},(err) => {
       if (err) console.log(err);
       callback(err);
     })

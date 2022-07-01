@@ -3,6 +3,7 @@ const { getDefinedFields } = require('../../../utils/get-defined-fields');
 const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongo-required')
 
 const profileSchema = new mongoose.Schema({
+  avatar: String,
   firstname: r_string,
   lastname: r_string,
   email: r_string,
@@ -18,10 +19,11 @@ const profileSchema = new mongoose.Schema({
  * @param {object} fields - some or all of the fields in the profile schema
  */
 function parseProfileData(fields) {
-  const {firstname,lastname,email,age,profession,hasAccountant} = fields;
-  const df = getDefinedFields({firstname,lastname,email,age,profession,hasAccountant});
+  const {avatar,firstname,lastname,email,age,profession,hasAccountant} = fields;
+  const df = getDefinedFields({avatar,firstname,lastname,email,age,profession,hasAccountant});
 
   const fieldsToUpdate = {
+    ...(df.avatar && {"profile.avatar": df.avatar}),
     ...(df.firstname && {"profile.firstname": df.firstname}),
     ...(df.lastname && {"profile.lastname": df.lastname}),
     ...(df.email && {"profile.email": df.email}),

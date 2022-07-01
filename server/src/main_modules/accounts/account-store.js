@@ -49,9 +49,9 @@ module.exports = {
    * @param {*} callback 
    */
   updateProfile:(id,data,callback) => {
-    const {firstname,lastname,email,age,profession,hasAccountant} = data;
+    const {avatar,firstname,lastname,email,age,profession,hasAccountant} = data;
     
-    const fieldsToUpdate = parseProfileData({firstname,lastname,email,age,profession,hasAccountant})
+    const fieldsToUpdate = parseProfileData({avatar,firstname,lastname,email,age,profession,hasAccountant})
     Account.findByIdAndUpdate(id,{$set: fieldsToUpdate},
       {returnDocument: 'after'},
       (err,foundAccount) => {
