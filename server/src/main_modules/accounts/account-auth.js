@@ -13,7 +13,6 @@ const authenticate = (token, accountId, callback) => {
   Account.findById(accountId, (err,foundAccount) => {
     if (err || !foundAccount) return callback(err,null);
     if (!tokenIsValid(token,foundAccount.id)) {
-      //disable requirement for token whiles testing
       // return callback(err,foundAccount);
       return callback(new Error('invalid token'),{profile: foundAccount.profile});
     } else {
@@ -30,7 +29,7 @@ const authenticate = (token, accountId, callback) => {
 const generateToken = (data) => {
   const token = jwt.sign({ 
     data: data,
-  },process.env.JWT_SECRET, { expiresIn: '7d' });
+  },process.env.JWT_SECRET, { expiresIn: '30d' });
   return token;
 }
 /**
