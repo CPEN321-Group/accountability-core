@@ -1,5 +1,6 @@
 const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
 const { findGoals, deleteGoals, findGoal, updateGoal, deleteGoal,createGoal } = require('./goal-store');
+const { UserGoal } = require('./models');
 const { getDefinedFields } = require.main.require("./utils/get-defined-fields");
 const { authenticate } = require.main.require("./main_modules/accounts/account-auth");
 
@@ -7,15 +8,10 @@ const { authenticate } = require.main.require("./main_modules/accounts/account-a
 module.exports = function(app) {
   app.route('/goals/:userId')
     .get((req,res,next) => {
-      const {userId} = req.params;
-      const {token} = req.query;
-      authenticate(token,userId,(err,foundAccount) => {
-        if (err) return next(err)
-        if (!foundAccount) return next(new Error('account not found'));
-        findGoals(userId,(err,foundGoals) => {
-          if (err) return next(err);
-          return res.json(foundGoals);
-        })
+      UserGoal.findOne({userId: req.params.userId},(err,userGoal) => {
+        if (err) return next(err);
+        if (!userGoal) return res.status(404).end('account not found');
+        return res.json(userGoal.goals);
       })
     })
     .post((req,res,next) => {

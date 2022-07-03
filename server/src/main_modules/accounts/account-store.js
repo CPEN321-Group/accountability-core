@@ -22,16 +22,19 @@ module.exports = {
   createAccount: async (data,callback) => {
     const foundAccount = await Account.findOne({accountId: data.accountId});
     if (foundAccount) return callback(new Error('account already exists'),foundAccount);
-    const account = new Account({...data});
+
+    const isAccountant = (data.isAccountant === 'true');
+    const account = new Account({...data, isAccountant}); //cast to boolean as http can only send string
     
     account.save((err,account) => {
-      if (!data.isAccountant && !err) {
+      if (!isAccountant && !err) {
+        console.log('creating goals/transaction/reports document')
         const userTransaction = new UserTransaction({userId: data.accountId});
         const userGoal = new UserGoal({userId: data.accountId});
         const userReport = new UserReport({userId: data.accountId})
-        userTransaction.save(err => console.log(err));
-        userGoal.save(err => console.log(err));
-        userReport.save(err => console.log(err));
+        userTransaction.save(err => err && console.log(err));
+        userGoal.save(err => err && console.log(err));
+        userReport.save(err => err && console.log(err));
       }
       
       callback(err,account);
