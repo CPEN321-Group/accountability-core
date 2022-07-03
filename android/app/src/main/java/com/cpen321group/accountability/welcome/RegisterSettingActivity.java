@@ -111,7 +111,11 @@ public class RegisterSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 updateUIFB();
-                queue.add(createAccount());
+                try {
+                    queue.add(createAccount());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 if (GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN) != null) {
                     GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
                     signOut(account);
@@ -186,7 +190,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
         }
     }
 
-    private JsonObjectRequest createAccount(){
+    private JsonObjectRequest createAccount() throws JSONException {
         createProfile();
         final JSONObject jsonObject = new JSONObject();
         final JSONObject jsonProfile = new JSONObject();
@@ -204,6 +208,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
         } catch (JSONException e) {
             // handle exception
         }
+        //Log.d(TAG,jsonObject.getJSONObject("profile").getString("firstName"));
         JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, server_url+userId, jsonObject,
                 new Response.Listener<JSONObject>()
                 {
