@@ -20,7 +20,8 @@
         tools:targetApi="32">
         <activity
             android:name=".welcome.RegisterSettingActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".mainScreen.chat.ChattingActivity"
             android:exported="false"

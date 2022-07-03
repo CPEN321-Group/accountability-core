@@ -10,18 +10,24 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.core.motion.utils.Utils;
 import androidx.core.view.WindowCompat;
 
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -32,6 +38,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
 import com.facebook.Profile;
@@ -48,6 +55,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +69,9 @@ public class RegisterSettingActivity extends AppCompatActivity {
     private MyProfile myProfile_1;
     private String userId;
     private String text;
+    private EditText emailText;
+    private EditText ageText;
+    private EditText professionText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +87,32 @@ public class RegisterSettingActivity extends AppCompatActivity {
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
-        
+
+        //set visible
+        emailText = findViewById(R.id.email_text);
+        if(GoogleSignIn.getLastSignedInAccount(this)!=null){
+            emailText.setVisibility(View.INVISIBLE);
+        }else{
+            emailText.setVisibility(View.VISIBLE);
+        }
+
+        ageText = findViewById(R.id.age_text);
+        professionText = findViewById(R.id.profession_text);
 
         //change avatar
         Button changeButton = findViewById(R.id.btn_change);
         avatar = findViewById(R.id.iv_personal_icon);
+        if(GoogleSignIn.getLastSignedInAccount(this)!=null){
+            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(this);
+            if(account.getPhotoUrl()!=null){
+                avatar.setImageURI(account.getPhotoUrl());
+            }
+        }else{
+            Profile profile = Profile.getCurrentProfile();
+            if(profile.getLinkUri()!=null){
+                avatar.setImageURI(profile.getLinkUri());
+            }
+        }
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,17 +195,15 @@ public class RegisterSettingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (data != null) {
-                setImageToView(data);
+            Uri uri = data.getData();
+            String img_url = uri.getPath();
+            ContentResolver cr = this.getContentResolver();
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                avatar.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                Log.e("Exception", e.getMessage(),e);
             }
-        }
-    }
-
-    protected void setImageToView(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            avatar.setImageBitmap(photo);
         }
     }
 
@@ -261,12 +291,16 @@ public class RegisterSettingActivity extends AppCompatActivity {
             myProfile_1.setFirstName(account.getGivenName());
             myProfile_1.setLastName(account.getFamilyName());
             myProfile_1.setE_mail(account.getEmail());
+            myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
+            myProfile_1.setProfession(professionText.getEditableText().toString().trim());
             userId = account.getId()+"go";
         }else{
             Profile profile = Profile.getCurrentProfile();
             myProfile_1.setFirstName(profile.getFirstName());
             myProfile_1.setLastName(profile.getLastName());
-            myProfile_1.setE_mail("");
+            myProfile_1.setE_mail(emailText.getEditableText().toString().trim());
+            myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
+            myProfile_1.setProfession(professionText.getEditableText().toString().trim());
             userId = profile.getId()+"fb";
         }
     }

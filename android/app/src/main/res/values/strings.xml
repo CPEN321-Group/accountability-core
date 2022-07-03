@@ -45,4 +45,5 @@
     <string name="send">Send</string>
     <string name="chat">Chat</string>
     <string name="send_request">Send Request</string>
+    <integer name="default_age">20</integer>
 </resources>
