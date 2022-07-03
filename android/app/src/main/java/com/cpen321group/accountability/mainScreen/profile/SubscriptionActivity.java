@@ -20,8 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.cpen321group.accountability.HomeScreenActivity;
-import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.VariableStoration;
 import com.cpen321group.accountability.welcome.WelcomeActivity;
 import com.google.android.material.color.DynamicColors;
 
@@ -50,7 +50,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription);
-        if (MainActivity.is_darkMode) {
+        if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -151,7 +151,7 @@ public class SubscriptionActivity extends AppCompatActivity {
                         }
                     })
                     .show();
-            MainActivity.is_subscribed = true;
+            VariableStoration.is_subscribed = true;
         }
     }
 }

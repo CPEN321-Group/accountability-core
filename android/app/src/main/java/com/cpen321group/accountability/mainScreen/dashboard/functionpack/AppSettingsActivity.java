@@ -1,6 +1,6 @@
 package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
-import static com.cpen321group.accountability.MainActivity.is_darkMode;
+import static com.cpen321group.accountability.VariableStoration.is_darkMode;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +17,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.cpen321group.accountability.MainActivity;
+import com.cpen321group.accountability.HomeScreenActivity;
+import com.cpen321group.accountability.VariableStoration;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.VariableStoration;
 import com.google.android.material.color.DynamicColors;
 
 import java.util.concurrent.Executor;
@@ -42,7 +44,7 @@ public class AppSettingsActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_settings);
-        if (MainActivity.is_darkMode) {
+        if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -67,7 +69,7 @@ public class AppSettingsActivity extends AppCompatActivity {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(getApplicationContext(),
                         "Authentication succeeded!", Toast.LENGTH_SHORT).show();
-                MainActivity.is_biometricAllowed = true;
+                VariableStoration.is_biometricAllowed = true;
             }
 
             @Override
@@ -108,7 +110,7 @@ public class AppSettingsActivity extends AppCompatActivity {
 
         // biometric login switch
         Switch biometric_switch = (Switch)findViewById(R.id.biometric_switch);
-        if (MainActivity.is_biometricAllowed) {
+        if (VariableStoration.is_biometricAllowed) {
             biometric_switch.setChecked(true);
         } else {
             biometric_switch.setChecked(false);
@@ -120,7 +122,7 @@ public class AppSettingsActivity extends AppCompatActivity {
                     if (b) {
                         biometricPrompt.authenticate(promptInfo);
                     } else {
-                        MainActivity.is_biometricAllowed = false;
+                        VariableStoration.is_biometricAllowed = false;
                     }
                 }
             }
@@ -128,7 +130,7 @@ public class AppSettingsActivity extends AppCompatActivity {
 
         // Global notification switch
         Switch notification_switch = (Switch)findViewById(R.id.notificiation_switch);
-        if (MainActivity.is_notificationGlobalOn) {
+        if (VariableStoration.is_notificationGlobalOn) {
             notification_switch.setChecked(true);
         } else {
             notification_switch.setChecked(false);
@@ -138,9 +140,9 @@ public class AppSettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (notification_switch.isPressed()){
                     if (b) {
-                        MainActivity.is_notificationGlobalOn = true;
+                        VariableStoration.is_notificationGlobalOn = true;
                     } else {
-                        MainActivity.is_notificationGlobalOn = false;
+                        VariableStoration.is_notificationGlobalOn = false;
                     }
                 }
             }
@@ -150,7 +152,7 @@ public class AppSettingsActivity extends AppCompatActivity {
         set_theme_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent MainIntent = new Intent(AppSettingsActivity.this, MainActivity.class);
+                Intent MainIntent = new Intent(AppSettingsActivity.this, HomeScreenActivity.class);
                 startActivity(MainIntent);
             }
         });

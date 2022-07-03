@@ -13,8 +13,8 @@ import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.VariableStoration;
 import com.google.android.material.color.DynamicColors;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class ChattingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
-        if (MainActivity.is_darkMode) {
+        if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

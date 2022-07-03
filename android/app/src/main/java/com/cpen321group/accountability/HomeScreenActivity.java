@@ -47,7 +47,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        if (MainActivity.is_darkMode) {
+        if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -55,11 +55,11 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-            MainActivity.userID = account.getId()+"go";
+            VariableStoration.userID = account.getId()+"go";
         }else{
             Profile profile = Profile.getCurrentProfile();
-            MainActivity.userID = profile.getId()+"fb";
+            VariableStoration.userID = profile.getId()+"fb";
         }
-        Log.d("Home",MainActivity.userID);
+        Log.d("Home",VariableStoration.userID);
     }
 }
