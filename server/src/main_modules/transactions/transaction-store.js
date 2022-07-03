@@ -79,8 +79,8 @@ module.exports = {
     )
   },
   updateTransaction: (accountId,transactionId,data,callback) => {
-    const {title,target,current,deadline} = data;
-    const fieldsToUpdate = parseTransactionData({title,target,current,deadline});
+    const {title,category,date,amount,isIncome,receipt} = data;
+    const fieldsToUpdate = parseTransactionData({title,category,date,amount,isIncome,receipt});
 
     UserTransaction.findOneAndUpdate({$and:[{userId: accountId}, {
         transactions: { $elemMatch: { _id: transactionId }}
