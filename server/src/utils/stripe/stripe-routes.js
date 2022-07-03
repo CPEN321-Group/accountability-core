@@ -28,8 +28,8 @@ async function createSession(userId, customerId) {
   return session;
 }
 
-function findUserById(userId, callback) {
-  Account.findById(userId, (err,foundUser) => {
+function findUser(userId, callback) {
+  Account.findOne({accountId:userId}, (err,foundUser) => {
     if (err || !foundUser) 
       return callback(new Error('user not found'))
 
@@ -77,58 +77,49 @@ module.exports = function(app) {
     })
     app.post('/stripe/checkout/:userId', async (req,res,next) => {
       const {userId} = req.params;
-      const {token} = req.query;
       let customerId;
-      authenticate(token,userId, async (err,foundAccount) => {
-        if (err) return next(err);
-        if (!foundAccount) return next(new Error('account not found'));
-        findUserById(userId, async (err,foundUser) => {
-          if (!foundUser.stripeCustomerId) {
-            console.log('initializing new customer...')
-            customerId = await createCustomerForUser(foundUser).id;
-            Account.findByIdAndUpdate(foundUser.id, { stripeCustomerId: newCustomer.id }, async (err,updatedUser) => {
-              if (err) { return next(err)}
-            });
-          } else if (subscriptionIsActive(foundUser)) {
-            return res.send('subscription already active');
-          } else {
-            customerId = foundUser.stripeCustomerId;
-          }
-          const ephemeralKey = await stripe.ephemeralKeys.create(
-            {customer: customerId},
-            {apiVersion: '2020-08-27'}
-          );
-          const paymentIntent = await stripe.paymentIntents.create({
-            amount: 5000,
-            currency: 'cad',
-            customer: customerId,
-            automatic_payment_methods: {
-              enabled: true,
-            },
+      findUser(userId, async (err,foundUser) => {
+        if (!foundUser.stripeCustomerId) {
+          console.log('initializing new customer...')
+          customerId = await createCustomerForUser(foundUser).id;
+          Account.findByIdAndUpdate(foundUser.id, { stripeCustomerId: newCustomer.id }, async (err,updatedUser) => {
+            if (err) { return next(err)}
           });
-          res.json({
-            paymentIntent: paymentIntent.client_secret,
-            ephemeralKey: ephemeralKey.secret,
-            customer: customerId,
-            publishableKey: process.env.STRIPE_PUBLIC_KEY
-          });
-        })
+        } else if (subscriptionIsActive(foundUser)) {
+          return res.send('subscription already active');
+        } else {
+          customerId = foundUser.stripeCustomerId;
+        }
+        const ephemeralKey = await stripe.ephemeralKeys.create(
+          {customer: customerId},
+          {apiVersion: '2020-08-27'}
+        );
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: 5000,
+          currency: 'cad',
+          customer: customerId,
+          automatic_payment_methods: {
+            enabled: true,
+          },
+        });
+        res.json({
+          paymentIntent: paymentIntent.client_secret,
+          ephemeralKey: ephemeralKey.secret,
+          customer: customerId,
+          publishableKey: process.env.STRIPE_PUBLIC_KEY
+        });
       })
     })
     app.post('/stripe/checkout/sessions/:userId', async (req,res,next) => {
       console.log('creating session...')
       const {userId} = req.params;
-      const {token} = req.query;
-      authenticate(token,userId, async (err,foundAccount) => {
-        if (err) return next(err);
-        if (!foundAccount) return next(new Error('account not found'));
-        findUserById(userId, async (err,foundUser) => {
+        findUser(userId, async (err,foundUser) => {
           let session;
           if (!foundUser.stripeCustomerId) {
             console.log('initializing new customer...')
             const newCustomer = await createCustomerForUser(foundUser);
             const newSubscription = await createSubscriptionForCustomer(newCustomer);
-            Account.findByIdAndUpdate(foundUser.id, { stripeCustomerId: newCustomer.id,stripeSubscriptionId: newSubscription.id }, async (err,updatedUser) => {
+            Account.findOneAndUpdate(userId, { stripeCustomerId: newCustomer.id,stripeSubscriptionId: newSubscription.id }, async (err,updatedUser) => {
               if (err) { return next(err)}
                 
               session = await createSession(userId,updatedUser.stripeCustomerId);
@@ -140,17 +131,14 @@ module.exports = function(app) {
           }
           res.send(session.url);
         })
-      })
     })
     app.post('/stripe/portal/sessions/:userId', async (req,res,next) => {
       const returnUrl = 'http://localhost:8000/stripe/order/cancel';
-      authenticate(req.query.token,req.params.userId, async (err,foundAccount) => {
-        const portalSession = await stripe.billingPortal.sessions.create({
-          customer: foundAccount.stripeCustomerId,
-          return_url: returnUrl,
-        });
-        res.json(portalSession);
-      })
+      const portalSession = await stripe.billingPortal.sessions.create({
+        customer: foundAccount.stripeCustomerId,
+        return_url: returnUrl,
+      });
+      res.json(portalSession);
     })
 
     //listens for auto-billing to update subscription status in Account

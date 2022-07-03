@@ -10,37 +10,32 @@ fx.rates = {//other rates need to be defined if we want to support other currenc
   "CAD": 1.29,
 }
 function saveTransactions(recently_added,userId, token, next) {
-  authenticate(token,userId,(err,foundAccount) => {
-    if (err) return next(err)
-    if (!foundAccount) return next(new Error('account not found'));
-    console.log('saving auto imported transactions')
-    for (let t of recently_added) {
-      // console.log(t)
-      let {amount,category,date,name,iso_currency_code,transaction_id} = t;
-      let isIncome,convertedAmount;
-      if (amount < 0) isIncome = true;
-      // console.log(iso_currency_code);
-      convertedAmount = Math.abs(Math.round(fx(amount).from(iso_currency_code).to("CAD")*100)/100); //round to .2d
-      if (!fieldsAreNotNull({name,category: category[0],convertedAmount,isIncome})) { 
-        return next(new Error('missing params'))
-      }
-      findTransaction(userId,transaction_id,(err,foundTransaction)=> {
-        if (!foundTransaction) {
-          createTransaction(userId,{
-            title: name,
-            category: category[0],
-            date,
-            amount: convertedAmount,
-            isIncome,
-            plaidTransactionId: transaction_id
-          },(err,foundTransactions) => {
-            if (err) return next(err);
-          })
-        }
-      })
-
+  for (let t of recently_added) {
+    // console.log(t)
+    let {amount,category,date,name,iso_currency_code,transaction_id} = t;
+    let isIncome,convertedAmount;
+    if (amount < 0) isIncome = true;
+    // console.log(iso_currency_code);
+    convertedAmount = Math.abs(Math.round(fx(amount).from(iso_currency_code).to("CAD")*100)/100); //round to .2d
+    if (!fieldsAreNotNull({name,category: category[0],convertedAmount,isIncome})) { 
+      return next(new Error('missing params'))
     }
-  })
+    findTransaction(userId,transaction_id,(err,foundTransaction)=> {
+      if (!foundTransaction) {
+        createTransaction(userId,{
+          title: name,
+          category: category[0],
+          date,
+          amount: convertedAmount,
+          isIncome,
+          plaidTransactionId: transaction_id
+        },(err,foundTransactions) => {
+          if (err) return next(err);
+        })
+      }
+    })
+
+  }
 }
 function findTransaction(userId,plaidTransactionId, callback) {
   UserTransaction.findOne({$and:[{userId: userId}, {

@@ -41,7 +41,7 @@ module.exports = {
     });
   },
   /**
-   * Wrapper for mongoose findByIdAndUpdate
+   * Wrapper for mongoose findOneAndUpdate
    * @param {string} id 
    * @param {object} data - must contain fields: firsname,lastname,email,age,profession,hasAccountant
    * @param {*} callback 
