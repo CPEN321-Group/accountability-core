@@ -42,9 +42,14 @@
         <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.19765019071274909" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19493408203124993" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/activity_subscription.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/layout/activity_subscription_ok.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_subscription_okactivity.xml" value="0.17553191489361702" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.19244610821759253" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14175724637681159" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.24251861572265626" />
+        <entry key="app/src/main/res/layout/settings_activity.xml" value="0.1" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2898148148148148" />
       </map>
     </option>

@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public static String userID;
     public static String userName;
     public static boolean isAccountant = false;
+    public static boolean is_subscribed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
