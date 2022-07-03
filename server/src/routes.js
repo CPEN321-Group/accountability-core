@@ -33,6 +33,7 @@ module.exports = function(app) {
       return next(err)
     }
     if (err) {
+      console.log(err);
       return res.status(400).end(err.message);
     }
     res.status(400).end('missing parameters');
