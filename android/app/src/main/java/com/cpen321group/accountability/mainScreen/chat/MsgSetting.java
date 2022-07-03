@@ -47,18 +47,13 @@ public class MsgSetting extends RecyclerView.Adapter<MsgSetting.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Msg msg = list.get(position);
         if(msg.getType() == Msg.TYPE_RECEIVED){
-            //如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏
             holder.leftLayout.setVisibility(View.VISIBLE);
             holder.left_msg.setText(msg.getContent());
-
-            //注意此处隐藏右面的消息布局用的是 View.GONE
             holder.rightLayout.setVisibility(View.GONE);
         }else if(msg.getType() == Msg.TYPE_SEND){
-            //如果是发出的消息，则显示右边的消息布局，将左边的消息布局隐藏
+
             holder.rightLayout.setVisibility(View.VISIBLE);
             holder.right_msg.setText(msg.getContent());
-
-            //同样使用View.GONE
             holder.leftLayout.setVisibility(View.GONE);
         }
     }

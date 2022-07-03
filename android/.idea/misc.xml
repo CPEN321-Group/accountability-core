@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/drawable/login_button.xml" value="0.1385" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/drawable/register_button.xml" value="0.188" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_accountant_chat.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_chatting.xml" value="0.22" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_goal_set.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_home_screen.xml" value="0.1796875" />
@@ -18,6 +19,7 @@
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/fragment_profile.xml" value="0.3481331987891019" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/list_item.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/msg_setting.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/user_item.xml" value="0.14130434782608695" />
         <entry key="app/src/main/res/drawable-v24/chat-48px.xml" value="0.1785" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1785" />
         <entry key="app/src/main/res/drawable/face-48px.xml" value="0.243" />

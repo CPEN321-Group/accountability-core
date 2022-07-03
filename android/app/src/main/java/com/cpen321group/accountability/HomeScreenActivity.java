@@ -2,9 +2,14 @@ package com.cpen321group.accountability;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.cpen321group.accountability.welcome.RegisterSettingActivity;
+import com.facebook.Profile;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,5 +52,14 @@ public class HomeScreenActivity extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+
+        if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
+            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
+            MainActivity.userID = account.getId()+"go";
+        }else{
+            Profile profile = Profile.getCurrentProfile();
+            MainActivity.userID = profile.getId()+"fb";
+        }
+        Log.d("Home",MainActivity.userID);
     }
 }

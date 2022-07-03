@@ -57,7 +57,6 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
-                        updateUIFB();
                         Log.d(TAG,"SUCCESS!");
                         Intent intent = new Intent(RegisterActivity.this, RegisterSettingActivity.class);
                         startActivity(intent);
@@ -77,6 +76,11 @@ public class RegisterActivity extends AppCompatActivity {
         login_fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN) != null) {
+                    GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                    signOut(account);
+                    Log.d("Profile", "Google sign out successfully!");
+                }
                 signInFB();
             }
         });
@@ -90,6 +94,10 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.sign_in_button_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (Profile.getCurrentProfile() != null) {
+                    LoginManager.getInstance().logOut();
+                    Log.d("Profile", "Facebook sign out successfully!");
+                }
                 signInGoogle();
             }
         });
@@ -150,21 +158,18 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d(TAG,"Email: "+account.getEmail());
             Log.d(TAG,"Given Name: "+account.getGivenName());
             Log.d(TAG,"Family Name: "+account.getFamilyName());
-            Log.d(TAG,"URL: "+account.getPhotoUrl());
+            Log.d(TAG,"URL: "+account.getId());
         }
     }
 
-    private void updateUIFB() {
-        Profile profile = Profile.getCurrentProfile();
-        if(profile == null){
-            Log.d(TAG,"No one signed in!");
-        }else{
-            Log.d(TAG,"Pref Name: "+profile.getFirstName());
-            Log.d(TAG,"Email: "+"");
-            Log.d(TAG,"Given Name: "+profile.getFirstName());
-            Log.d(TAG,"Family Name: "+profile.getLastName());
-            Log.d(TAG,"URL: "+profile.getLinkUri());
-        }
+    private void signOut(GoogleSignInClient mGoogleSignInClient) {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
     }
 
 }
