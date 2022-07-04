@@ -10,7 +10,7 @@ const _ = require.main.require('./utils/tests/model-samples')
 module.exports = function(app) {
   app.route('/accounts')
     .post(async (req,res,next) => {
-      const df = getDefinedFields(req.body);
+      const df = getDefinedFields(req.query);
       const {accountId,avatar,firstname,lastname,email,age,profession,isAccountant} = df;
       if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
         return next(new Error('missing params'));
@@ -44,7 +44,7 @@ module.exports = function(app) {
       })
     })
     .put((req,res,next) => {
-      updateProfile(req.params.accountId,req.body, (err,account) => {
+      updateProfile(req.params.accountId,req.query, (err,account) => {
         if (err) return next(err);
         if (!account) return res.status(404).end('account not found');
         return res.json(account)
@@ -59,7 +59,7 @@ module.exports = function(app) {
   app.route('/reviews/:accountantId')
     .post((req,res,next) => {
       const {accountantId} = req.params;
-      const df = getDefinedFields(req.body);
+      const df = getDefinedFields(req.query);
       const {authorId,date,rating,title,content} = df;
       if (!fieldsAreNotNull({authorId,date,rating,title})) { return next(new Error('missing params'))}
       createReview(accountantId,df, (err,account) => {
@@ -71,7 +71,7 @@ module.exports = function(app) {
   app.route('/subscription/:accountId')
     .post((req,res,next) => {
       const {accountId} = req.params;
-      createSubscription(accountId,req.body, (err,account) => {
+      createSubscription(accountId,req.query, (err,account) => {
         if (err) return next(err);
         if (!account) return res.status(404).end('account not found');
         return res.json(account)
@@ -79,7 +79,7 @@ module.exports = function(app) {
     })
     .put((req,res,next) => {
       const {accountId} = req.params;
-      updateSubscription(accountId,req.body, (err,account) => {
+      updateSubscription(accountId,req.query, (err,account) => {
         if (err) return next(err);
         if (!account) return res.status(404).end('account not found');
         return res.json(account)

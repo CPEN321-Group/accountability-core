@@ -21,7 +21,9 @@ module.exports = {
    */
   createAccount: async (data,callback) => {
     const foundAccount = await Account.findOne({accountId: data.accountId});
-    if (foundAccount) return callback(new Error('account already exists'),foundAccount);
+    if (foundAccount) {
+      return callback(new Error('account already exists'),foundAccount);
+    }
 
     const isAccountant = (data.isAccountant === 'true');
     const account = new Account({...data, isAccountant}); //cast to boolean as http can only send string

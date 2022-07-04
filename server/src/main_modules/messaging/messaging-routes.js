@@ -13,7 +13,7 @@ module.exports = function(app) {
 
     })
     .post(async (req,res,next) => {
-      const {account1Id,account2Id} = req.body;
+      const {account1Id,account2Id} = req.query;
       
       const newConversation = new Conversation({
         members: [account1Id,account2Id],
@@ -56,7 +56,7 @@ module.exports = function(app) {
     .post(async (req,res) => {
       const newMessage = new Message({
         conversationId: req.params.conversationId,
-        ...req.body
+        ...req.query
       });
 
       try {
