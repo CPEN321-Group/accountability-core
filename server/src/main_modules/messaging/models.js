@@ -1,25 +1,20 @@
 const mongoose = require('mongoose');
-const chatDB = mongoose.createConnection('mongodb://localhost/chatDB')
+const messagingDB = mongoose.createConnection('mongodb://localhost/chatDB')
 const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongo-required')
 
 const messageSchema = new mongoose.Schema({
-  accountId:r_string,
-  timeStamp: r_date,
-  content: r_string
+  conversationId: r_string,
+  sender: r_string,
+  text: r_string,
+}, {timestamps: true} );
+
+const conversationSchema = new mongoose.Schema({
+  members: [String],
+  isFinished: {type: Boolean, default: false}
 })
 
-const chatSchema = new mongoose.Schema({
-  account1Id: r_string,
-  account2Id: r_string,
-  messages: [messageSchema]
-})
 
-const accountChatSchema = new mongoose.Schema({
-  accountId: r_string,
-  chatIdList: [r_string]
-})
+const Conversation = messagingDB.model('Conversation', conversationSchema);
+const Message = messagingDB.model('Message', messageSchema);
 
-const AccountChat = chatDB.model('UserChat',accountChatSchema);
-const Chat = chatDB.model('Chat', chatSchema);
-
-module.exports = {UserChat: AccountChat,Chat};
+module.exports = {Conversation, Message};
