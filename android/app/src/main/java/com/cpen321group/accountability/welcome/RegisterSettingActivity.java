@@ -30,17 +30,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.cpen321group.accountability.HomeScreenActivity;
-import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.RetrofitAPI;
+import com.cpen321group.accountability.VariableStoration;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -52,26 +45,29 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterSettingActivity extends AppCompatActivity {
     private TextInputLayout inputText;
     private AutoCompleteTextView autoText;
     private ImageView avatar;
     private String TAG = "register";
-    private String server_url = "http://localhost:8000/user/";
+    private String server_url = "http://20.239.52.70:8000/accounts";
     private MyProfile myProfile_1;
     private String userId;
     private String text;
     private EditText emailText;
     private EditText ageText;
     private EditText professionText;
+    private int GoogleOn = 0;
+    private GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +76,16 @@ public class RegisterSettingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_setting);
-        if (MainActivity.is_darkMode) {
+        if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        if(GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this)!=null){
+            GoogleOn = 1;
+            account = GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this);
+        }
 
         //set visible
         emailText = findViewById(R.id.email_text);
@@ -102,15 +101,10 @@ public class RegisterSettingActivity extends AppCompatActivity {
         //change avatar
         Button changeButton = findViewById(R.id.btn_change);
         avatar = findViewById(R.id.iv_personal_icon);
-        if(GoogleSignIn.getLastSignedInAccount(this)!=null){
+        if(GoogleOn == 1){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(this);
             if(account.getPhotoUrl()!=null){
                 avatar.setImageURI(account.getPhotoUrl());
-            }
-        }else{
-            Profile profile = Profile.getCurrentProfile();
-            if(profile.getLinkUri()!=null){
-                avatar.setImageURI(profile.getLinkUri());
             }
         }
         changeButton.setOnClickListener(new View.OnClickListener() {
@@ -139,13 +133,13 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
         //register button
         Button sign_out = findViewById(R.id.button_register);
+
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateUIFB();
                 try {
-                    queue.add(createAccount());
-                } catch (JSONException e) {
+                    postAccount();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 if (GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN) != null) {
@@ -207,103 +201,64 @@ public class RegisterSettingActivity extends AppCompatActivity {
         }
     }
 
-    private void updateUIFB() {
-        Profile profile = Profile.getCurrentProfile();
-        if(profile == null){
-            Log.d(TAG,"No one signed in!");
-        }else{
-            Log.d(TAG,"Pref Name: "+profile.getFirstName());
-            Log.d(TAG,"Email: "+profile.getId());
-            Log.d(TAG,"Given Name: "+profile.getFirstName());
-            Log.d(TAG,"Family Name: "+profile.getLastName());
-            Log.d(TAG,"URL: "+profile.getLinkUri());
-        }
-    }
-
-    private JsonObjectRequest createAccount() throws JSONException {
+    private void postAccount() throws IOException {
         createProfile();
-        final JSONObject jsonObject = new JSONObject();
-        final JSONObject jsonProfile = new JSONObject();
-        try {
-            jsonProfile.put("firstName",myProfile_1.getFirstName());
-            jsonProfile.put("lastName",myProfile_1.getLastName());
-            jsonProfile.put("e_mail",myProfile_1.getE_mail());
-            jsonProfile.put("age",myProfile_1.getAge());
-            jsonProfile.put("profession",myProfile_1.getProfession());
-            jsonObject.put("profile", jsonProfile);
-            jsonObject.put("isAccountant", (text=="Accountant"));
-            jsonObject.put("isAuthenticated", 0);
-            jsonObject.put("authenticateExpiryDate",null);
-            jsonObject.put("hasAccountant",0);
-        } catch (JSONException e) {
-            // handle exception
-        }
-        //Log.d(TAG,jsonObject.getJSONObject("profile").getString("firstName"));
-        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, server_url+userId, jsonObject,
-                new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // response
-                        Log.d("Response", response.toString());
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        ) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://20.239.52.70:8000")
+                // as we are sending data in json format so
+                // we have to add Gson converter factory
+                .addConverterFactory(GsonConverterFactory.create())
+                // at last we are building our retrofit builder.
+                .build();
 
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<String> call = retrofitAPI.createAccount(myProfile_1.getFirstName(),
+                                                      myProfile_1.getLastName(),
+                                                      myProfile_1.getE_mail(),
+                                                      myProfile_1.getAge(),
+                                                      myProfile_1.getProfession(), (text.equals("Accountant")),
+                                                      userId);
+
+        call.enqueue(new Callback<String>() {
             @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("Message",response.toString());
             }
 
             @Override
-            public byte[] getBody() {
-
-                try {
-                    Log.d("json", jsonObject.toString());
-                    return jsonObject.toString().getBytes("UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return null;
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("Message","error");
             }
-        };
-
-        return putRequest;
-
+        });
     }
 
     private void createProfile(){
         myProfile_1 = new MyProfile("","","",20,"student");
-        if(GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this)!=null){
-            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this);
+        if(GoogleOn == 1){
             myProfile_1.setFirstName(account.getGivenName());
             myProfile_1.setLastName(account.getFamilyName());
             myProfile_1.setE_mail(account.getEmail());
-            myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
-            myProfile_1.setProfession(professionText.getEditableText().toString().trim());
+            if(!ageText.getEditableText().toString().equals("")) {
+                myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
+            }
+            if(!professionText.getEditableText().toString().equals("")) {
+                myProfile_1.setProfession(professionText.getEditableText().toString().trim());
+            }
             userId = account.getId()+"go";
+            Log.d("userId",userId);
         }else{
             Profile profile = Profile.getCurrentProfile();
             myProfile_1.setFirstName(profile.getFirstName());
             myProfile_1.setLastName(profile.getLastName());
             myProfile_1.setE_mail(emailText.getEditableText().toString().trim());
-            myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
-            myProfile_1.setProfession(professionText.getEditableText().toString().trim());
+            if(!ageText.getEditableText().toString().equals("")) {
+                myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
+            }
+            if(!professionText.getEditableText().toString().equals("")) {
+                myProfile_1.setProfession(professionText.getEditableText().toString().trim());
+            }
             userId = profile.getId()+"fb";
+            Log.d("userId",userId);
         }
     }
 }
-
-

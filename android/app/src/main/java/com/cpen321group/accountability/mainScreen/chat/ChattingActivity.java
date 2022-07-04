@@ -13,8 +13,8 @@ import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.VariableStoration;
 import com.google.android.material.color.DynamicColors;
 
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ public class ChattingActivity extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private MsgSetting adapter;
     private String TAG = "Chatting";
+    private String roomName = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class ChattingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
-        if (MainActivity.is_darkMode) {
+        if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -47,13 +48,10 @@ public class ChattingActivity extends AppCompatActivity {
         msgRecyclerView = findViewById(R.id.msg_view);
         inputText = findViewById(R.id.text_view);
         send = findViewById(R.id.send_button);
-        Log.d(TAG,"show layout");
         layoutManager = new LinearLayoutManager(this);
         adapter = new MsgSetting(msgList = getData());
-        Log.d(TAG,"show layout_1");
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);
-        Log.d(TAG,"show layout_2");
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +65,10 @@ public class ChattingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void connectSocket(){
+
     }
 
     private List<Msg> getData(){

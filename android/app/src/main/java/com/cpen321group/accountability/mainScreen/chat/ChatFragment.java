@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,8 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cpen321group.accountability.MainActivity;
-import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.VariableStoration;
 import com.cpen321group.accountability.databinding.FragmentChatBinding;
 
 import java.util.ArrayList;
@@ -48,7 +46,7 @@ public class ChatFragment extends Fragment {
         userRecyclerView.setLayoutManager(layoutManager);
 
         adapter_user = new accountantSetting(userList = getData());
-        if(MainActivity.isAccountant == true){
+        if(VariableStoration.isAccountant == true){
             userRecyclerView.setAdapter(adapter);
         }else{
             userRecyclerView.setAdapter(adapter_user);

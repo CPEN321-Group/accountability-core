@@ -1,7 +1,5 @@
 package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
-import static com.cpen321group.accountability.MainActivity.is_darkMode;
-
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -14,8 +12,8 @@ import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 
-import com.cpen321group.accountability.MainActivity;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.VariableStoration;
 
 import java.util.concurrent.Executor;
 
@@ -45,7 +43,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(getActivity().getApplicationContext(),
                         "Authentication succeeded!", Toast.LENGTH_SHORT).show();
-                MainActivity.is_biometricAllowed = true;
+                VariableStoration.is_biometricAllowed = true;
             }
 
             @Override
