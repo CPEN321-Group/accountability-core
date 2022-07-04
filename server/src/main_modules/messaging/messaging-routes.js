@@ -3,6 +3,7 @@ const { Conversation, Message } = require("./models");
 module.exports = function(app) {
   app.route('/messaging/conversation')
     .get(async (req,res) => {
+      const {account1Id,account2Id} = req.query;
       try {
         const conversation = await Conversation.findOne({members: { $all: [account1Id, account2Id]}});
         res.status(200).json(conversation)
@@ -25,7 +26,7 @@ module.exports = function(app) {
           return res.status(400).send('conversation already exists')
         }
         const savedConversation = await newConversation.save();
-        res.status(200).send('conversation created');
+        res.status(200).send(savedConversation);
       } catch(err) {
         res.status(400).json(err)
       }
@@ -41,9 +42,22 @@ module.exports = function(app) {
       }
     })
 
-  app.route('/messaging/message') //requires conversationId, sender, text
+  app.route('/messaging/message/:conversationId') //requires conversationId, sender, text
+    .get(async (req,res) => {
+      try {
+        const messages = await Message.find({
+          conversationId: req.params.conversationId
+        })
+        res.status(200).json(messages);
+      } catch (err) {
+        res.status(400).json(err);
+      }
+    })
     .post(async (req,res) => {
-      const newMessage = new Message(req.body);
+      const newMessage = new Message({
+        conversationId: req.params.conversationId,
+        ...req.body
+      });
 
       try {
         const savedMessage = await newMessage.save();
@@ -53,14 +67,16 @@ module.exports = function(app) {
       }
     })
 
-  app.route('/messaging/message/:conversationId')
-    .get(async (req,res) => {
+
+  app.route('/messaging/request/:conversationId')
+    .put(async (req,res) => {
       try {
-        const messages = await Message.find({
-          conversationId: req.params.conversationId
-        })
-        res.status(200).json(messages);
-      } catch (err) {
+        const conversation = await Conversation.findOneAndUpdate(
+          {id: conversationId},
+          {isAccepted: true}  
+        );
+        res.status(200).json(conversation);
+      } catch(err) {
         res.status(400).json(err);
       }
     })
