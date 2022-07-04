@@ -12,7 +12,7 @@ module.exports = function(app) {
     })
   })
   .post((req,res,next) => {
-    const df = getDefinedFields(req.query);
+    const df = getDefinedFields(req.body);
     const {title,category,date,amount,isIncome,receipt} = df;
     if (!fieldsAreNotNull({title,category,amount,isIncome})) {return next(new Error('missing params'))}
     createTransaction(req.params.userId,{title,category,date,amount,isIncome,receipt},(err,foundTransactions) => {
@@ -37,7 +37,7 @@ module.exports = function(app) {
   })
   .put((req,res,next) => {
     const {userId,transactionId} = req.params;
-    updateTransaction(userId,transactionId,req.query,(err,foundTransaction) => {
+    updateTransaction(userId,transactionId,req.body,(err,foundTransaction) => {
       if (err) return next(err);
       return res.json(foundTransaction);
     })

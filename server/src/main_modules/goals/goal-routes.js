@@ -15,7 +15,7 @@ module.exports = function(app) {
       })
     })
     .post((req,res,next) => {
-      const df = getDefinedFields(req.query);
+      const df = getDefinedFields(req.body);
       const {title,target,current,deadline} = df;
       if (!fieldsAreNotNull({title,target,current,deadline})) {next(new Error('missing params'))}
       createGoal(req.params.userId,{title,target,current,deadline},(err,foundGoals) => {
@@ -42,7 +42,7 @@ module.exports = function(app) {
     .put((req,res,next) => {
       const {userId,goalId} = req.params;
       
-      updateGoal(userId,goalId,req.query,(err,goal) => {
+      updateGoal(userId,goalId,req.body,(err,goal) => {
         if (err) return next(err);
         return res.json(goal);
       })
