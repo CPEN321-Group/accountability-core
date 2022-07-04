@@ -26,6 +26,15 @@ module.exports = function(app) {
       })
     });
 
+  app.get('/accounts/accountants',async (req,res,next) => { //fetch all accountants
+    try {
+      const foundAccounts = await Account.find({isAccountant: true});
+      res.status(200).json(foundAccounts);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  })
+
   app.route('/accounts/:accountId')
     .get((req,res,next) => {
       Account.findOne({accountId: req.params.accountId},(err,account) => {

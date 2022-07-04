@@ -7,7 +7,7 @@ const goalSchema = new mongoose.Schema({
   target: r_num,
   current: {...r_num, default: 0},
   deadline: r_date,
-})
+},{timestamps:true});
 
 const userGoalSchema = new mongoose.Schema({
   userId: r_string,
