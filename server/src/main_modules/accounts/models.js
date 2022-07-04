@@ -6,12 +6,11 @@ const accountDB = mongoose.createConnection('mongodb://localhost/accountDB')
 
 const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongo-required')
 const accountSchema = new mongoose.Schema({
+  accountId: r_string,
   profile: {type: profileSchema, required: true},
   isAccountant: r_bool,
-  isAuthenticated: {...r_bool, default: false},
-  authenticateExpiryDate: {...r_date, default: '2022'},
   reviews: {type: [reviewSchema], default: []},
-  subscription: subscriptionSchema,
+  subscription: {type: subscriptionSchema, default: {subscriptionDate: '2022', expiryDate: '2022'}},
   stripeCustomerId: String,
   stripeSubscriptionId: String
 })

@@ -9,8 +9,6 @@ const profileSchema = new mongoose.Schema({
   email: r_string,
   age: r_num,
   profession: r_string,
-  numberOfClients: Number,
-  hasAccountant: {...r_bool, default: false},
 })
 
 /**
@@ -19,8 +17,8 @@ const profileSchema = new mongoose.Schema({
  * @param {object} fields - some or all of the fields in the profile schema
  */
 function parseProfileData(fields) {
-  const {avatar,firstname,lastname,email,age,profession,hasAccountant} = fields;
-  const df = getDefinedFields({avatar,firstname,lastname,email,age,profession,hasAccountant});
+  const {avatar,firstname,lastname,email,age,profession} = fields;
+  const df = getDefinedFields({avatar,firstname,lastname,email,age,profession});
 
   const fieldsToUpdate = {
     ...(df.avatar && {"profile.avatar": df.avatar}),
@@ -29,7 +27,6 @@ function parseProfileData(fields) {
     ...(df.email && {"profile.email": df.email}),
     ...(df.age && {"profile.age": df.age}),
     ...(df.profession && {"profile.profession": df.profession}),
-    ...(df.hasAccountant && {"profile.hasAccountant": df.hasAccountant}),
   }
   return fieldsToUpdate;
 }

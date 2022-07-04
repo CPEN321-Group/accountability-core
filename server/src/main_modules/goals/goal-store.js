@@ -37,12 +37,12 @@ module.exports = {
     const newGoal = {title,target,current,deadline};
     UserGoal.findOneAndUpdate({userId: accountId},{ $push: { goals: newGoal } },
       {returnDocument: 'after'},
-      (err,foundUserGoal) => {
+      (err,usergoal) => {
         let goal;
-        if (!foundUserGoal) {
-          return callback(new Error('user not found'),null);
+        if (!usergoal) {
+          return callback(new Error('account not found'),null);
         } 
-        goal = foundUserGoal.goals[foundUserGoal.goals.length - 1]
+        goal = usergoal.goals[usergoal.goals.length - 1]
         // console.log('goal created');
         
         if (goal) return callback(err,goal);
@@ -59,25 +59,26 @@ module.exports = {
       }]},
       {$set: fieldsToUpdate},
       {returnDocument: 'after'},
-      (err,foundUserGoal) => {
-        if (!foundUserGoal) return callback(new Error('goal not found'),null);
-        const goal = getItemFromList(foundUserGoal.goals,goalId);
+      (err,usergoal) => {
+        if (!usergoal) return callback(new Error('account/goal not found'),null);
+        const goal = getItemFromList(usergoal.goals,goalId);
         if (goal) return callback(err,goal);
         return callback(new Error('goal update unsuccessful'),null);
       }
     )
   },
   deleteGoals: (accountId,callback) => {
-    UserGoal.findOneAndUpdate({userId: accountId}, {goals: []},(err) => {
-      if (err) console.log(err);
-      callback(err);
+    UserGoal.findOneAndUpdate({userId: accountId}, {goals: []},{returnDocument:'after'},(err,usergoal) => {
+      if (err) callback(err,null);
+      if (!usergoal) callback(new Error('account not found'), null);
+      callback(err,usergoal);
     })
   },
   deleteGoal: (accountId,goalId,callback) => {
     UserGoal.findOneAndUpdate({userId: accountId},{$pull: {goals: {_id: goalId}}},
       {returnDocument: 'after'},
-      (err,foundUserGoal) => {
-        const goal = getItemFromList(foundUserGoal.goals,goalId);
+      (err,usergoal) => {
+        const goal = getItemFromList(usergoal.goals,goalId);
         if (goal) callback(new Error('goal deletion unsuccessful'));
         return callback(err);
       }

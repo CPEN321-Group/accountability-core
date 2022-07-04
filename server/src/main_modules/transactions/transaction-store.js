@@ -46,13 +46,14 @@ function createUserTransaction(userId,transactions,callback) {
 }
 module.exports = {
   findTransactions: (accountId,callback) => {
-    UserTransaction.findOne({userId: accountId},(err,foundUserTransaction) => 
-    callback(err,formatTransactions(foundUserTransaction))
+    UserTransaction.findOne({userId: accountId},(err,usertransaction) => 
+    callback(err,formatTransactions(usertransaction))
   )
   },
   findTransaction: (accountId,transactionId,callback) => {
-    UserTransaction.findOne({userId:accountId},(err,foundUserTransaction) => {
-      const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
+    UserTransaction.findOne({userId:accountId},(err,usertransaction) => {
+      if (!usertransaction) return callback(new Error('account not found'),null);
+      const transaction = getItemFromList(usertransaction.transactions,transactionId);
       if (transaction) return callback(err,formatTransaction(transaction));
       return callback(new Error('transaction not found'),null);
     })
@@ -61,19 +62,16 @@ module.exports = {
     const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = data;
     let newTransaction;
     if (!fieldsAreNotNull({title,category,date,amount,isIncome}) && receipt) {
-      parsePhysicalReceipt(receipt);
-      console.log('extracting receipt...')
+      return next(new Error('missing params')) //will change later to parse receipt
     } else
       newTransaction = {title,category,date,amount: Math.abs(amount),isIncome,receipt,plaidTransactionId};
     
     UserTransaction.findOneAndUpdate({userId: accountId},{ $push: { transactions: newTransaction } },
       {returnDocument: 'after'},
-      (err,foundUserTransaction) => {
+      (err,usertransaction) => {
         let transaction;
-        if (!foundUserTransaction) {
-          return callback(new Error('user not found'),null);
-        }
-        transaction = foundUserTransaction.transactions[foundUserTransaction.transactions.length - 1]
+        if (!usertransaction) return callback(new Error('account not found'),null);
+        transaction = usertransaction.transactions[usertransaction.transactions.length - 1]
         
         if (transaction) return callback(err,formatTransaction(transaction));
         return callback(new Error('transaction creation unsuccessful'),null);
@@ -81,33 +79,35 @@ module.exports = {
     )
   },
   updateTransaction: (accountId,transactionId,data,callback) => {
-    const {title,target,current,deadline} = data;
-    const fieldsToUpdate = parseTransactionData({title,target,current,deadline});
+    const {title,category,date,amount,isIncome,receipt} = data;
+    const fieldsToUpdate = parseTransactionData({title,category,date,amount,isIncome,receipt});
 
     UserTransaction.findOneAndUpdate({$and:[{userId: accountId}, {
         transactions: { $elemMatch: { _id: transactionId }}
       }]},
       {$set: fieldsToUpdate},
       {returnDocument: 'after'},
-      (err,foundUserTransaction) => {
-        if (!foundUserTransaction) return callback(new Error('transaction not found'),null);
-        const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
+      (err,usertransaction) => {
+        if (!usertransaction) return callback(new Error('account/transaction not found'),null);
+        const transaction = getItemFromList(usertransaction.transactions,transactionId);
         if (transaction) return callback(err,formatTransaction(transaction));
         return callback(new Error('transaction update unsuccessful'),null);
       }
     )
   },
   deleteTransactions: (accountId,callback) => {
-    UserTransaction.deleteOne({userId: accountId}, (err) => {
-      if (err) console.log(err);
-      callback(err);
+    UserTransaction.findOneAndUpdate({userId: accountId}, {transactions: []},(err,usertransaction) => {
+      if (err) return callback(err);
+      if (!usertransaction) return callback(new Error('account not found'))
+      return callback(err);
     })
   },
   deleteTransaction: (accountId,transactionId,callback) => {
     UserTransaction.findOneAndUpdate({userId: accountId},{$pull: {transactions: {_id: transactionId}}},
       {returnDocument: 'after'},
-      (err,foundUserTransaction) => {
-        const transaction = getItemFromList(foundUserTransaction.transactions,transactionId);
+      (err,usertransaction) => {
+        if (!usertransaction) return callback(new Error('account not found'),null);
+        const transaction = getItemFromList(usertransaction.transactions,transactionId);
         if (transaction) callback(new Error('transaction deletion unsuccessful'));
         return callback(err);
       }

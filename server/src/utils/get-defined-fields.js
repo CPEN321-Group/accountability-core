@@ -29,7 +29,7 @@ function isValid(field) {
 function fieldsAreNotNull(fields) {
   let notNull = true;
   for (let field in fields) {
-    if (!field) {
+    if (!field || field === undefined || field === '') {
       console.log(`missing ${field}`);
       notNull = false;
     }
