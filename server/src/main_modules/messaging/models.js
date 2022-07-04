@@ -10,7 +10,7 @@ const messageSchema = new mongoose.Schema({
 
 const conversationSchema = new mongoose.Schema({
   members: [String],
-  isAccepted: r_bool
+  isFinished: {type: Boolean, default: false}
 })
 
 

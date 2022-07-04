@@ -17,7 +17,6 @@ module.exports = function(app) {
       
       const newConversation = new Conversation({
         members: [account1Id,account2Id],
-        isAccepted: false
       })
 
       try {
@@ -31,7 +30,6 @@ module.exports = function(app) {
         res.status(400).json(err)
       }
     })
-
   app.route('/messaging/conversation/:accountId')
     .get(async (req,res) => {
       try {
@@ -68,12 +66,12 @@ module.exports = function(app) {
     })
 
 
-  app.route('/messaging/request/:conversationId')
+  app.route('/messaging/conversation/finished/:conversationId')
     .put(async (req,res) => {
       try {
         const conversation = await Conversation.findOneAndUpdate(
-          {id: conversationId},
-          {isAccepted: true}  
+          {id: req.params.conversationId},
+          {isFinished: req.query.isFinished}  
         );
         res.status(200).json(conversation);
       } catch(err) {
