@@ -5,12 +5,12 @@ const reportDB = mongoose.createConnection('mongodb://localhost/reportDB')
 const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongo-required')
 
 const reportSchema = new mongoose.Schema({
-  month: r_date,
+  monthYear: r_date,
   income: [transactionSchema],
   spendings: [transactionSchema],
   savings: r_num,
   goalsInProgress: [goalSchema],
-  recommendations: r_string
+  recommendations: String
 })
 
 const userReportSchema = new mongoose.Schema({
