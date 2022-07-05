@@ -4,7 +4,6 @@ module.exports = function(io) {
   const addUser = (userId,socketId) => {
     !users.some(user => user.userId === userId) &&
       users.push({userId,socketId});
-
     console.log(`adding users:`);
     console.log(users)
   }
@@ -48,7 +47,6 @@ module.exports = function(io) {
       } catch (err) {
         console.log(err);
       }
-      
     })
 
     //on disconnect
