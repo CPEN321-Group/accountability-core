@@ -4,6 +4,9 @@ module.exports = function(io) {
   const addUser = (userId,socketId) => {
     !users.some(user => user.userId === userId) &&
       users.push({userId,socketId});
+
+    console.log(`adding users:`);
+    console.log(users)
   }
 
   const removeUser = (socketId) => {
@@ -11,7 +14,15 @@ module.exports = function(io) {
   }
 
   const getUser = (userId) => {
-    return users.find(user => user.userId === userId);
+    console.log(`userId query is: ${userId}`)
+    let foundUser;
+    users.forEach(user => {
+      console.log(user);
+      console.log(`comparing ${user.userId} || ${userId}`);
+      if (user.userId === userId)
+        foundUser = user;
+    })
+    return foundUser;
   }
 
   io.on("connection", (socket) => {
@@ -25,12 +36,19 @@ module.exports = function(io) {
     })
 
     //send and get message
-    socket.on("sendMessage", ({senderId, receiverId, text}) => {
-      const receiver = getUser(receiverId);
-      io.to(receiver.socketId).emit("getMessage", {
-        userId: senderId,
-        text
-      })
+    socket.on("sendMessage", (senderId, receiverId, text) => {
+      const parsedReceiverId = receiverId.split(`\"`)[1];
+      console.log(senderId + parsedReceiverId + text);
+      const receiver = getUser(parsedReceiverId);
+      try {
+        io.to(receiver.socketId).emit("getMessage", {
+          userId: senderId,
+          text
+        })
+      } catch (err) {
+        console.log(err);
+      }
+      
     })
 
     //on disconnect
