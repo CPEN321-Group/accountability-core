@@ -94,6 +94,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 2000);
+        }, 1000);
     }
 }

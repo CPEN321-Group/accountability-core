@@ -9,4 +9,5 @@ public class VariableStoration {
     public static String userName;
     public static boolean isAccountant = false;
     public static boolean is_subscribed;
+    public static String roomID;
 }

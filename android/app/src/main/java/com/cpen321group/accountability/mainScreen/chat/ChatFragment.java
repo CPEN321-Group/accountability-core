@@ -128,8 +128,54 @@ public class ChatFragment extends Fragment {
         if(!VariableStoration.isAccountant){
             getAccountant(list);
         }else{
-            list.add(new String("110201542032693597636go"));
+            getUser(list);
         }
         return list;
+    }
+
+    private void getUser(List<String> accountList) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://20.239.52.70:8000/messaging/conversation/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(VariableStoration.userID);
+
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
+            @Override
+            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                ArrayList<JsonObject> jsonArray = response.body();
+                if(jsonArray!=null) {
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject jsonObject = jsonArray.get(i);
+                        Log.d("Message", jsonObject.get("members").toString());
+                        String string = jsonObject.get("members").toString();
+                        String bool = jsonObject.get("isFinished").toString();
+                        Log.d("isFinished",bool);
+                        if(bool.equals("false")){
+                            String[] array = string.split(",", 2);
+                            String s1 = array[0].substring(2, array[0].length() - 1);
+                            String s2 = array[1].substring(1, array[1].length() - 2);
+                            if (s1.equals(VariableStoration.userID)) {
+                                accountList.add(s2);
+                                adapter_user.notifyItemInserted(accountList.size() - 1);
+                                userRecyclerView.scrollToPosition(accountList.size() - 1);
+                            } else {
+                                accountList.add(s1);
+                                adapter_user.notifyItemInserted(accountList.size() - 1);
+                                userRecyclerView.scrollToPosition(accountList.size() - 1);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+                Log.d("Message", t.toString());
+            }
+        });
     }
 }

@@ -3,6 +3,7 @@ package com.cpen321group.accountability.mainScreen.chat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.VariableStoration;
 import com.google.android.material.color.DynamicColors;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +30,11 @@ import java.util.List;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChattingActivity extends AppCompatActivity {
 
@@ -39,7 +47,7 @@ public class ChattingActivity extends AppCompatActivity {
     private Socket mSocket;
     private String TAG = "Chatting";
     private String roomName = "1";
-    List<Msg> list = new ArrayList<>();
+    private List<Msg> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +63,12 @@ public class ChattingActivity extends AppCompatActivity {
         }
 
         //Starting of this activity
+        getData();
         msgRecyclerView = findViewById(R.id.msg_view);
         inputText = findViewById(R.id.text_view);
         send = findViewById(R.id.send_button);
         layoutManager = new LinearLayoutManager(this);
-        adapter = new MsgSetting(msgList = getData());
+        adapter = new MsgSetting(msgList);
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);
 
@@ -85,12 +94,8 @@ public class ChattingActivity extends AppCompatActivity {
                     adapter.notifyItemInserted(msgList.size()-1);
                     msgRecyclerView.scrollToPosition(msgList.size()-1);
                     inputText.setText("");
-                    ArrayList<String> msg = new ArrayList<>();
-                    msg.add(VariableStoration.userID);
-                    msg.add(VariableStoration.receiverID);
-                    msg.add(content);
                     mSocket.emit("sendMessage",VariableStoration.userID,VariableStoration.receiverID,content);
-                    Log.d("sendMessage",msg.toString());
+                    postMessage(content);
                 }
             }
         });
@@ -123,9 +128,12 @@ public class ChattingActivity extends AppCompatActivity {
             }
         };
 
-    private List<Msg> getData(){
-        list.add(new Msg("Hello",Msg.TYPE_RECEIVED));
-        return list;
+    private void getData(){
+        if (VariableStoration.roomID != null) {
+            getHistory();
+        } else {
+            msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));
+        }
     }
 
     @Override
@@ -134,5 +142,70 @@ public class ChattingActivity extends AppCompatActivity {
 
         mSocket.disconnect();
         mSocket.off("getMessage", onNewMessage);
+    }
+
+    private void postMessage(String text){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://20.239.52.70:8000/messaging/message/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<String> call = retrofitAPI.postMessage(VariableStoration.roomID,VariableStoration.userID,text);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("Message",response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("postMessage",t.toString());
+            }
+        });
+    }
+
+    private void getHistory(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://20.239.52.70:8000/messaging/message/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariableStoration.roomID);
+
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
+            @Override
+            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                ArrayList<JsonObject> jsonArray = response.body();
+                Log.d("history",response.toString());
+                if(jsonArray!=null) {
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject jsonObject = jsonArray.get(i);
+                        Log.d("history", jsonObject.get("text").toString());
+                        String string = jsonObject.get("text").toString();
+                        String hisId = jsonObject.get("sender").toString();
+                        Log.d("hisId",hisId);
+                        if (hisId.substring(1, hisId.length() - 1).equals(VariableStoration.userID)) {
+                            msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_SEND));
+                            adapter.notifyItemInserted(msgList.size()-1);
+                            msgRecyclerView.scrollToPosition(msgList.size()-1);
+                        } else {
+                            msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_RECEIVED));
+                            adapter.notifyItemInserted(msgList.size()-1);
+                            msgRecyclerView.scrollToPosition(msgList.size()-1);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+                Log.d("history",t.toString());
+            }
+        });
     }
 }
