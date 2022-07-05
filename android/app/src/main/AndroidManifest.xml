@@ -18,6 +18,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".mainScreen.dashboard.functionpack.GoalCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainScreen.profile.SubscriptionOKActivity"
             android:exported="false" />
         <activity

@@ -1,47 +1,58 @@
 package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cpen321group.accountability.CourseAdapter;
-import com.cpen321group.accountability.CourseModel;
+import com.cpen321group.accountability.GoalsAdapter;
+import com.cpen321group.accountability.GoalsModel;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.welcome.LoginActivity;
+import com.cpen321group.accountability.welcome.WelcomeActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
 public class GoalSetActivity extends AppCompatActivity {
 
-    private RecyclerView courseRV;
+    private RecyclerView goalsRV;
 
     // Arraylist for storing data
-    private ArrayList<CourseModel> courseModelArrayList;
+    private ArrayList<GoalsModel> goalsModelArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_set);
-        courseRV = findViewById(R.id.idRVCourse);
+        goalsRV = findViewById(R.id.goalRV);
 
         // here we have created new array list and added data to it.
-        courseModelArrayList = new ArrayList<>();
-        courseModelArrayList.add(new CourseModel("DSA in Java", 4, R.drawable.ic_camera_24));
-        courseModelArrayList.add(new CourseModel("Java Course", 3, R.drawable.ic_camera_24));
-        courseModelArrayList.add(new CourseModel("C++ COurse", 4, R.drawable.ic_camera_24));
-        courseModelArrayList.add(new CourseModel("DSA in C++", 4, R.drawable.ic_camera_24));
-        courseModelArrayList.add(new CourseModel("Kotlin for Android", 4, R.drawable.ic_camera_24));
-        courseModelArrayList.add(new CourseModel("Java for Android", 4, R.drawable.ic_camera_24));
-        courseModelArrayList.add(new CourseModel("HTML and CSS", 4, R.drawable.ic_camera_24));
+        goalsModelArrayList = new ArrayList<>();
+        goalsModelArrayList.add(new GoalsModel("Save for new Bike", "***", 315.27));
+        goalsModelArrayList.add(new GoalsModel("Trip to Mexico", "***", 1000.00));
 
         // we are initializing our adapter class and passing our arraylist to it.
-        CourseAdapter courseAdapter = new CourseAdapter(this, courseModelArrayList);
+        GoalsAdapter goalsAdapter = new GoalsAdapter(this, goalsModelArrayList);
 
         // below line is for setting a layout manager for our recycler view.
         // here we are creating vertical list so we will provide orientation as vertical
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
 //        // in below two lines we are setting layoutmanager and adapter to our recycler view.
-        courseRV.setLayoutManager(linearLayoutManager);
-        courseRV.setAdapter(courseAdapter);
+        goalsRV.setLayoutManager(linearLayoutManager);
+        goalsRV.setAdapter(goalsAdapter);
+
+        FloatingActionButton createXtendButton = (FloatingActionButton)findViewById(R.id.floating_action_button_goal);
+        createXtendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goalCreateIntent = new Intent(GoalSetActivity.this, GoalCreateActivity.class);
+                startActivity(goalCreateIntent);
+            }
+        });
     }
 }

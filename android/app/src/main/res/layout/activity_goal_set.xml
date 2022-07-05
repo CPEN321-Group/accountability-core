@@ -17,7 +17,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:paddingTop="?attr/actionBarSize"
-        android:id="@+id/idRVCourse"
+        android:id="@+id/goalRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </androidx.recyclerview.widget.RecyclerView>
@@ -39,7 +39,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button"
+            android:id="@+id/floating_action_button_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
