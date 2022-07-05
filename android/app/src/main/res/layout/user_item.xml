@@ -12,7 +12,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="center"
-        android:layout_weight="40"
+        android:layout_weight="20"
         app:srcCompat="@drawable/ic_profilesample_24dp" />
 
     <TextView
@@ -22,10 +22,9 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:textColor="@color/black"
-        android:layout_weight="30"
+        android:layout_weight="50"
         android:text="John"
-        android:textSize="24dp"
-        android:textStyle="bold"/>
+        android:textSize="16dp" />
 
     <Button
         android:id="@+id/button_accept"

@@ -103,8 +103,10 @@ public class RegisterSettingActivity extends AppCompatActivity {
         avatar = findViewById(R.id.iv_personal_icon);
         if(GoogleOn == 1){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(this);
-            if(account.getPhotoUrl()!=null){
-                avatar.setImageURI(account.getPhotoUrl());
+            if (account != null) {
+                if (account.getPhotoUrl() != null) {
+                    avatar.setImageURI(account.getPhotoUrl());
+                }
             }
         }
         changeButton.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +144,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN) != null) {
+                if (GoogleOn == 1) {
                     GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
                     signOut(account);
                     Log.d("Profile", "Google sign out successfully!");
@@ -205,19 +207,17 @@ public class RegisterSettingActivity extends AppCompatActivity {
         createProfile();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://20.239.52.70:8000")
-                // as we are sending data in json format so
-                // we have to add Gson converter factory
                 .addConverterFactory(GsonConverterFactory.create())
-                // at last we are building our retrofit builder.
                 .build();
 
+
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.createAccount(myProfile_1.getFirstName(),
-                                                      myProfile_1.getLastName(),
-                                                      myProfile_1.getE_mail(),
-                                                      myProfile_1.getAge(),
-                                                      myProfile_1.getProfession(), (text.equals("Accountant")),
-                                                      userId);
+        Call<String> call = retrofitAPI.createAccount(myProfile_1.getFirstname(),
+                myProfile_1.getLastname(),
+                myProfile_1.getEmail(),
+                myProfile_1.getAge(),
+                myProfile_1.getProfession(), myProfile_1.getAccountant(),
+                myProfile_1.getAccountId());
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -233,11 +233,11 @@ public class RegisterSettingActivity extends AppCompatActivity {
     }
 
     private void createProfile(){
-        myProfile_1 = new MyProfile("","","",20,"student");
+        myProfile_1 = new MyProfile("","","",20,"student",false,"");
         if(GoogleOn == 1){
-            myProfile_1.setFirstName(account.getGivenName());
-            myProfile_1.setLastName(account.getFamilyName());
-            myProfile_1.setE_mail(account.getEmail());
+            myProfile_1.setFirstname(account.getGivenName());
+            myProfile_1.setLastname(account.getFamilyName());
+            myProfile_1.setEmail(account.getEmail());
             if(!ageText.getEditableText().toString().equals("")) {
                 myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
             }
@@ -245,19 +245,23 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 myProfile_1.setProfession(professionText.getEditableText().toString().trim());
             }
             userId = account.getId()+"go";
+            myProfile_1.setAccountant((text.equals("Accountant")));
+            myProfile_1.setAccountId(userId);
             Log.d("userId",userId);
         }else{
             Profile profile = Profile.getCurrentProfile();
-            myProfile_1.setFirstName(profile.getFirstName());
-            myProfile_1.setLastName(profile.getLastName());
-            myProfile_1.setE_mail(emailText.getEditableText().toString().trim());
+            myProfile_1.setFirstname(profile.getFirstName());
+            myProfile_1.setLastname(profile.getLastName());
+            myProfile_1.setEmail(emailText.getEditableText().toString().trim());
             if(!ageText.getEditableText().toString().equals("")) {
                 myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
             }
             if(!professionText.getEditableText().toString().equals("")) {
                 myProfile_1.setProfession(professionText.getEditableText().toString().trim());
             }
+            myProfile_1.setAccountant((text.equals("Accountant")));
             userId = profile.getId()+"fb";
+            myProfile_1.setAccountId(userId);
             Log.d("userId",userId);
         }
     }

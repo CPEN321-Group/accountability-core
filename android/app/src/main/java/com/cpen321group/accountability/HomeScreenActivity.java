@@ -2,6 +2,7 @@ package com.cpen321group.accountability;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +23,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.cpen321group.accountability.databinding.ActivityHomeScreenBinding;
 import com.google.android.material.color.DynamicColors;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
@@ -53,13 +62,38 @@ public class HomeScreenActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
-            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-            VariableStoration.userID = account.getId()+"go";
-        }else{
-            Profile profile = Profile.getCurrentProfile();
-            VariableStoration.userID = profile.getId()+"fb";
-        }
-        Log.d("Home",VariableStoration.userID);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
+                    GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
+                    VariableStoration.userID = account.getId()+"go";
+                }else{
+                    Profile profile = Profile.getCurrentProfile();
+                    VariableStoration.userID = profile.getId()+"fb";
+                }
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://20.239.52.70:8000/accounts/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+
+                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+                Call<JsonObject> call = retrofitAPI.getAccount(VariableStoration.userID);
+
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        VariableStoration.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                        Log.d("Message",response.body().get("isAccountant").toString());
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.d("Message","error");
+                    }
+                });
+            }
+        }, 2000);
     }
 }

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.VariableStoration;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
             request_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    VariableStoration.receiverID = user_name.getText().toString();
                     Intent settingsIntent = new Intent(context, ChattingActivity.class);
                     context.startActivity(settingsIntent);
                 }

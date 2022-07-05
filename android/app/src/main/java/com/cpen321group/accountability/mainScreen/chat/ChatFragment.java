@@ -2,6 +2,7 @@ package com.cpen321group.accountability.mainScreen.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,28 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cpen321group.accountability.HomeScreenActivity;
+import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.VariableStoration;
 import com.cpen321group.accountability.databinding.FragmentChatBinding;
+import com.facebook.Profile;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChatFragment extends Fragment {
 
@@ -27,6 +45,7 @@ public class ChatFragment extends Fragment {
     private requestSetting adapter;
     private accountantSetting adapter_user;
     private String TAG = "Chat";
+    //private List<String> accountList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,17 +61,59 @@ public class ChatFragment extends Fragment {
         userRecyclerView = binding.chatRecycler;
 
         layoutManager = new LinearLayoutManager(getActivity());
-        adapter = new requestSetting(userList = getData());
+
         userRecyclerView.setLayoutManager(layoutManager);
 
         adapter_user = new accountantSetting(userList = getData());
-        if(VariableStoration.isAccountant == true){
+        if(VariableStoration.isAccountant){
+            adapter = new requestSetting(userList = getData());
             userRecyclerView.setAdapter(adapter);
         }else{
+            adapter_user = new accountantSetting(userList = getData());
             userRecyclerView.setAdapter(adapter_user);
         }
 
+
+        if(GoogleSignIn.getLastSignedInAccount(getActivity())!=null){
+            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(getActivity());
+            VariableStoration.userID = account.getId()+"go";
+        }else{
+            Profile profile = Profile.getCurrentProfile();
+            VariableStoration.userID = profile.getId()+"fb";
+        }
+
         return root;
+    }
+
+    private void getAccountant(List<String> accountList) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://20.239.52.70:8000/accounts/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAccountant();
+
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
+            @Override
+            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                ArrayList<JsonObject> jsonArray = response.body();
+                for(int i=0;i<jsonArray.size();i++){
+                    JsonObject jsonObject = jsonArray.get(i);
+                    Log.d("Message",jsonObject.get("accountId").toString());
+                    String string = jsonObject.get("accountId").toString();
+                    accountList.add(string.substring(1,string.length()-1));
+                    adapter_user.notifyItemInserted(accountList.size()-1);
+                    userRecyclerView.scrollToPosition(accountList.size()-1);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+                Log.d("Message", t.toString());
+            }
+        });
     }
 
     @Override
@@ -63,7 +124,12 @@ public class ChatFragment extends Fragment {
 
     private List<String> getData(){
         List<String> list = new ArrayList<>();
-        list.add(new String("David"));
+        //list.add(new String("100141214588378665776go"));
+        if(!VariableStoration.isAccountant){
+            getAccountant(list);
+        }else{
+            list.add(new String("110201542032693597636go"));
+        }
         return list;
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".welcome.RegisterSettingActivity">
 
 
@@ -17,18 +18,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/avatar" />
 
     <Button
         android:id="@+id/btn_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="change"
+        android:text="@string/change_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_personal_icon"></Button>
+        app:layout_constraintTop_toBottomOf="@+id/iv_personal_icon"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/menu"
@@ -57,7 +59,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="76dp"
         android:layout_marginTop="48dp"
-        android:hint="Age"
+        android:hint="@string/age"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menu" />
@@ -68,17 +70,16 @@
         android:layout_height="50dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="80dp"
-        android:hint="Profession"
+        android:hint="@string/pro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menu" />
+        app:layout_constraintTop_toBottomOf="@+id/menu"/>
 
     <EditText
         android:id="@+id/email_text"
         android:layout_width="262dp"
         android:layout_height="50dp"
         android:layout_marginBottom="60dp"
-        android:hint="E-mail"
-        android:fitsSystemWindows="true"
+        android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/button_register"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="88dp"
-        android:text="Register"
+        android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

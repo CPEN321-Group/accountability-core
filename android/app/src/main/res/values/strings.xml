@@ -45,5 +45,9 @@
     <string name="send">Send</string>
     <string name="chat">Chat</string>
     <string name="send_request">Send Request</string>
-    <integer name="default_age">20</integer>
+    <string name="change_avatar">Change</string>
+    <string name="e_mail">E-mail</string>
+    <string name="age">Age</string>
+    <string name="pro">Profession</string>
+    <string name="avatar">Avatar</string>
 </resources>
