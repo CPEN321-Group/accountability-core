@@ -96,7 +96,7 @@ module.exports = {
     )
   },
   deleteTransactions: (accountId,callback) => {
-    UserTransaction.findOneAndUpdate({userId: accountId}, {transactions: []},(err,usertransaction) => {
+    UserTransaction.findOneAndUpdate({userId: accountId}, {transactions: []},{returnDocument: 'after'},(err,usertransaction) => {
       if (err) return callback(err);
       if (!usertransaction) return callback(new Error('account not found'))
       return callback(err);

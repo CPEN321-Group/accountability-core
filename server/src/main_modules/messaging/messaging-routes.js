@@ -69,10 +69,11 @@ module.exports = function(app) {
   app.route('/messaging/conversation/finished/:conversationId')
     .put(async (req,res) => {
       try {
-        const isFinished = (data.isFinished === 'true');
+        const isFinished = (req.query.isFinished === 'true');
         const conversation = await Conversation.findOneAndUpdate(
           {id: req.params.conversationId},
-          {isFinished: isFinished}  
+          {isFinished: isFinished},
+          {returnDocument: 'after'}
         );
         res.status(200).json(conversation);
       } catch(err) {

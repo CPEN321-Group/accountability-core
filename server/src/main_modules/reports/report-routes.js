@@ -10,7 +10,7 @@ module.exports = function(app) {
       })
     })
     .delete((req,res,next) => {
-        UserReport.findOneAndUpdate({userId: req.params.userId}, {reports: []}, (err,userReport) => {
+        UserReport.findOneAndUpdate({userId: req.params.userId}, {reports: []}, {returnDocument: 'after'},(err,userReport) => {
           if (err || !userReport) return next(err);
           res.send(userReport);
         })
