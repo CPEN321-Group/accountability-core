@@ -71,10 +71,11 @@ module.exports = function(app) {
       try {
         const isFinished = (req.query.isFinished === 'true');
         const conversation = await Conversation.findOneAndUpdate(
-          {id: req.params.conversationId},
+          {_id: req.params.conversationId},
           {isFinished: isFinished},
           {returnDocument: 'after'}
         );
+        console.log(conversation);
         res.status(200).json(conversation);
       } catch(err) {
         res.status(400).json(err);
