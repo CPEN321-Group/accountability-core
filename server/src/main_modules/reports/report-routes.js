@@ -29,27 +29,40 @@ module.exports = function(app) {
     return totalIncome - totalSpendings;
   }
 
-  const roundToStartOfNextMonth = (date) => {
-    date.setHours(0, 0, 0, 0);
-    date.setMonth(date.getMonth()+1,1);
+  const getStartOfNextMonth = (date) => {
     let nextMonth = new Date(date);
+    nextMonth.setHours(0, 0, 0, 0);
+    nextMonth.setMonth(nextMonth.getMonth()+1,1);
     return nextMonth;
   }
 
-  app.route('/reports/:userId')
+  const getReport = async (userId, monthYear) => {
+    const userReport = await UserReport.findOne({userId: userId});
+    const foundReport = userReport.reports.find(report => {
+      const monthMatch = report.monthYear.getMonth() === monthYear.getMonth();
+      const yearMatch = report.monthYear.getYear() === monthYear.getYear();
+      return monthMatch && yearMatch;
+    })
+    return foundReport;
+  }
+
+  app.route('/reports/users/:userId')
     .get(async (req,res,next) => {
       try {
         const userReport = await UserReport.findOne({userId: req.params.userId})
         res.status(200).json(userReport)
       } catch (err) {
+        console.log(err)
         res.status(400).json(err);
       }
     })
     .post(async (req,res) => {
-      format
       const monthYear = new Date(req.query.monthYear);
       try {
-        const startOfNextMonth = roundToStartOfNextMonth(monthYear);
+        if (await getReport(req.params.userId,monthYear)) {
+          return res.status(400).end('report already exists');
+        }
+        const startOfNextMonth = getStartOfNextMonth(monthYear);
         const userGoal = await UserGoal.findOne({userId: req.params.userId});
         const ongoingGoals = getOngoingGoals(userGoal.goals, startOfNextMonth);
 
@@ -60,7 +73,7 @@ module.exports = function(app) {
         const savings = getSavings(income,spendings);
 
         const newReport = new Report({
-          monthYear, income, spendings, savings,
+          monthYear:monthYear, income, spendings, savings,
           goalsInProgress: ongoingGoals
         })
 
@@ -69,8 +82,9 @@ module.exports = function(app) {
           {$push: {reports: newReport}},
           {returnDocument: 'after'}
         )
-        res.status(200).json(userReport.reports)
+        res.status(200).json(newReport)
       } catch (err) {
+        console.log(err);
         res.status(400).json(err);
       }
     })
@@ -83,6 +97,7 @@ module.exports = function(app) {
         )
         res.status(200).json(userReport);
       } catch (err) {
+        console.log(err)
         res.status(400).json(err);
       }
     })
@@ -95,17 +110,19 @@ module.exports = function(app) {
         );
         res.status(200).json(userReport);
       } catch (err) {
+        console.log(err)
         res.status(400).json(err)
       }
     })
 
-  app.route('/reports/:userId/:reportId')
+  app.route('/reports/users/:userId/:reportId')
     .get(async (req,res) => {
       try {
         const userReport = await UserReport.findOne({userId: req.params.userId});
         const report = userReport.reports.find(r => r.id === req.params.reportId);
         res.status(200).json(report);
       } catch(err) {
+        console.log(err)
         res.status(400).json(err)
       }
     })
@@ -122,20 +139,32 @@ module.exports = function(app) {
         const report = userReport.reports.find(r => r.id === req.params.reportId)
         res.status(200).json(report);
       } catch (err) {
+        console.log(err)
         res.status(400).json(err)
       }
         
     })
     .delete(async (req,res) => {
       try {
-        const userReport = await findOneAndUpdate(
+        const userReport = await UserReport.findOneAndUpdate(
           {userId: req.params.userId},
           {$pull: {reports: {_id: req.params.reportId}}},
           {returnDocument: 'after'},
         )
         res.status(200).end('report deleted');
       } catch (err) {
+        console.log(err)
         res.status(400).json(err)
       }
     })
+
+  app.get('/reports/accountants/:accountantId', async (req,res) => { //fetch all userReports accessible by the acocuntant
+    try {
+      const userReports = await UserReport.find({accountantId: req.params.accountantId});
+      res.status(200).json(userReports);
+    } catch (err) {
+      console.log(err)
+      res.status(400).json(err);
+    }
+  })
 }
