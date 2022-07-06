@@ -65,11 +65,11 @@ public interface RetrofitAPI {
     @DELETE("{userId}")
     void deleteGoals(@Path("userId") String id);
 
-    @GET("{goalId}")
+    @GET("{userId}/{goalId}")
     Call<ArrayList<JsonObject>> getSpecificGoal(@Path("userId") String id,
                                                 @Path("goalId") String goalId);
 
-    @PUT("{goalId}")
+    @PUT("{userId}/{goalId}")
     Call<JsonObject> updateSpecificGoal(@Path("userId") String id,
                               @Path("goalId") String goalId,
                               @Query("title") String title,
@@ -77,7 +77,7 @@ public interface RetrofitAPI {
                               @Query("current") int currentCents,
                               @Query("deadline") String date);
 
-    @DELETE("{goalId}")
+    @DELETE("{userId}/{goalId}")
     void deleteSpecificGoals(@Path("userId") String id,
                              @Path("goalId") String goalId);
 }
