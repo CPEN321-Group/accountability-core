@@ -64,6 +64,14 @@ module.exports = function(app) {
         res.status(400).json(err)
       }
     })
+    .delete(async (req,res) => {
+      try {
+        await Message.deleteMany({conversationId: req.params.conversationId});
+        res.status(200).send('messages deleted');
+      } catch (err) {
+        res.status(400).json(err);
+      }
+    })
 
 
   app.route('/messaging/conversation/finished/:conversationId')
@@ -71,10 +79,11 @@ module.exports = function(app) {
       try {
         const isFinished = (req.query.isFinished === 'true');
         const conversation = await Conversation.findOneAndUpdate(
-          {id: req.params.conversationId},
+          {_id: req.params.conversationId},
           {isFinished: isFinished},
           {returnDocument: 'after'}
         );
+        console.log(conversation);
         res.status(200).json(conversation);
       } catch(err) {
         res.status(400).json(err);

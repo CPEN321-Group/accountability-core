@@ -4,8 +4,6 @@ module.exports = function(io) {
   const addUser = (userId,socketId) => {
     !users.some(user => user.userId === userId) &&
       users.push({userId,socketId});
-    console.log(`adding users:`);
-    console.log(users)
   }
 
   const removeUser = (socketId) => {
@@ -13,11 +11,8 @@ module.exports = function(io) {
   }
 
   const getUser = (userId) => {
-    console.log(`userId query is: ${userId}`)
     let foundUser;
     users.forEach(user => {
-      console.log(user);
-      console.log(`comparing ${user.userId} || ${userId}`);
       if (user.userId === userId)
         foundUser = user;
     })
@@ -30,15 +25,16 @@ module.exports = function(io) {
 
     //add a new online user
     socket.on('addUser', userId => { 
+      console.log('adding user');
       addUser(userId,socket.id);
+      console.log(users);
       io.emit("getUsers",users);
     })
 
     //send and get message
     socket.on("sendMessage", (senderId, receiverId, text) => {
-      const parsedReceiverId = receiverId.split(`\"`)[1];
-      console.log(senderId + parsedReceiverId + text);
-      const receiver = getUser(parsedReceiverId);
+      console.log(`receiverId: ${receiverId}\n`);
+      const receiver = getUser(receiverId);
       try {
         io.to(receiver.socketId).emit("getMessage", {
           userId: senderId,
@@ -46,6 +42,7 @@ module.exports = function(io) {
         })
       } catch (err) {
         console.log(err);
+        socket.emit('errorEvent', err);
       }
     })
 
@@ -53,6 +50,7 @@ module.exports = function(io) {
     socket.on("disconnect", () => {
       console.log('user disconnected')
       removeUser(socket.id)
+      console.log(users)
       io.emit("getUsers",users);
     })
 
