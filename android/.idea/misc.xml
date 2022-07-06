@@ -21,6 +21,23 @@
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/list_item.xml" value="0.14130434782608695" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/msg_setting.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/user_item.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/drawable/ic_album_24.xml" value="0.1865" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/drawable/ic_arrow_24dp.xml" value="0.1" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/drawable/ic_arrow_back_24.xml" value="0.1" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/drawable/ic_star_24dp.xml" value="0.295" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/activity_app_settings.xml" value="0.1308876811594203" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/activity_goal_create.xml" value="0.22760416666666666" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/activity_goal_set.xml" value="0.25" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/activity_goal_set_new.xml" value="0.22760416666666666" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/activity_home_screen.xml" value="0.11068895643363728" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/activity_subscription.xml" value="0.2066869300911854" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/card_layout.xml" value="0.23076923076923078" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/fragment_chat.xml" value="0.3030583873957368" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/fragment_dashboard.xml" value="0.22760416666666666" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/fragment_profile.xml" value="0.11068895643363728" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/fragment_time_picker.xml" value="0.22192028985507245" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/layout/settings_activity.xml" value="0.11068895643363728" />
+        <entry key="..\:/Users/liuyi/accountability-core/android/app/src/main/res/menu/top_app_bar.xml" value="0.22760416666666666" />
         <entry key="app/src/main/res/drawable-v24/chat-48px.xml" value="0.1785" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1785" />
         <entry key="app/src/main/res/drawable/face-48px.xml" value="0.243" />
