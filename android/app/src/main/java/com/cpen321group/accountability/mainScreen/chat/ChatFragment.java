@@ -2,6 +2,7 @@ package com.cpen321group.accountability.mainScreen.chat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +65,6 @@ public class ChatFragment extends Fragment {
 
         userRecyclerView.setLayoutManager(layoutManager);
 
-        adapter_user = new accountantSetting(userList = getData());
         if(VariableStoration.isAccountant){
             adapter = new requestSetting(userList = getData());
             userRecyclerView.setAdapter(adapter);
@@ -80,6 +80,12 @@ public class ChatFragment extends Fragment {
         }else{
             Profile profile = Profile.getCurrentProfile();
             VariableStoration.userID = profile.getId()+"fb";
+        }
+
+        if(!VariableStoration.isAccountant){
+            getAccountant(userList);
+        }else{
+            getUser(userList);
         }
 
         return root;
@@ -99,13 +105,15 @@ public class ChatFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
                 ArrayList<JsonObject> jsonArray = response.body();
-                for(int i=0;i<jsonArray.size();i++){
-                    JsonObject jsonObject = jsonArray.get(i);
-                    Log.d("Message",jsonObject.get("accountId").toString());
-                    String string = jsonObject.get("accountId").toString();
-                    accountList.add(string.substring(1,string.length()-1));
-                    adapter_user.notifyItemInserted(accountList.size()-1);
-                    userRecyclerView.scrollToPosition(accountList.size()-1);
+                if(response.body()!=null) {
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject jsonObject = jsonArray.get(i);
+                        Log.d("Message", jsonObject.get("accountId").toString());
+                        String string = jsonObject.get("accountId").toString();
+                        accountList.add(string.substring(1, string.length() - 1));
+                        adapter_user.notifyItemInserted(accountList.size() - 1);
+                        userRecyclerView.scrollToPosition(accountList.size() - 1);
+                    }
                 }
             }
 
@@ -123,13 +131,9 @@ public class ChatFragment extends Fragment {
     }
 
     private List<String> getData(){
+        //list.clear();
         List<String> list = new ArrayList<>();
-        //list.add(new String("100141214588378665776go"));
-        if(!VariableStoration.isAccountant){
-            getAccountant(list);
-        }else{
-            getUser(list);
-        }
+        userList.clear();
         return list;
     }
 
@@ -160,11 +164,12 @@ public class ChatFragment extends Fragment {
                             String s2 = array[1].substring(1, array[1].length() - 2);
                             if (s1.equals(VariableStoration.userID)) {
                                 accountList.add(s2);
-                                adapter_user.notifyItemInserted(accountList.size() - 1);
+                                adapter.notifyItemInserted(accountList.size() - 1);
                                 userRecyclerView.scrollToPosition(accountList.size() - 1);
                             } else {
                                 accountList.add(s1);
-                                adapter_user.notifyItemInserted(accountList.size() - 1);
+                                Log.d("list",accountList.toString());
+                                adapter.notifyItemInserted(accountList.size() - 1);
                                 userRecyclerView.scrollToPosition(accountList.size() - 1);
                             }
                         }

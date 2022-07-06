@@ -37,12 +37,14 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
         LinearLayout layout;
         TextView accountant_name;
         Button send_button;
+        Button history_button;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             Context context = itemView.getContext();
             layout = itemView.findViewById(R.id.account_info);
             accountant_name = itemView.findViewById(R.id.accountant_name);
             send_button = itemView.findViewById(R.id.request_button_1);
+            history_button = itemView.findViewById(R.id.history_button);
             send_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,7 +61,32 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
                     handler2.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            updateFinish();
                             Intent settingsIntent = new Intent(context, ChattingActivity.class);
+                            context.startActivity(settingsIntent);
+                        }
+                    },3000);
+                }
+            });
+
+            history_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    VariableStoration.receiverID = accountant_name.getText().toString();
+                    postRoomId();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getRoomID();
+                        }
+                    },1000);
+                    Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //updateFinish();
+                            Intent settingsIntent = new Intent(context, HistoryActivity.class);
                             context.startActivity(settingsIntent);
                         }
                     },3000);
@@ -121,9 +148,11 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                String id = response.body().get("_id").toString();
-                VariableStoration.roomID = id.substring(1,id.length()-1);
-                Log.d("Message",id);
+                if(response.body()!=null) {
+                    String id = response.body().get("_id").toString();
+                    VariableStoration.roomID = id.substring(1, id.length() - 1);
+                    Log.d("Message", id);
+                }
             }
 
             @Override
@@ -131,5 +160,30 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
                 Log.d("getRoomId",t.toString());
             }
         });
+    }
+
+    private void updateFinish(){
+        if(VariableStoration.roomID!=null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("http://20.239.52.70:8000/messaging/conversation/finished/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+
+
+            RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+            Call<String> call = retrofitAPI.updateFinished(VariableStoration.roomID,false);
+
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.d("Message", "success");
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    Log.d("Message", t.toString());
+                }
+            });
+        }
     }
 }

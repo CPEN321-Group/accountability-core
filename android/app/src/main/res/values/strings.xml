@@ -50,4 +50,7 @@
     <string name="age">Age</string>
     <string name="pro">Profession</string>
     <string name="avatar">Avatar</string>
+    <string name="accept_button">Accept</string>
+    <string name="accept_finish">Finish</string>
+    <string name="history_button">history</string>
 </resources>

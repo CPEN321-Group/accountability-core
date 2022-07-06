@@ -26,6 +26,8 @@ import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -84,8 +86,10 @@ public class HomeScreenActivity extends AppCompatActivity {
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        VariableStoration.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
-                        Log.d("Message",response.body().get("isAccountant").toString());
+                        if(response.body()!=null) {
+                            VariableStoration.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                            Log.d("Message", response.body().get("isAccountant").toString());
+                        }
                     }
 
                     @Override
