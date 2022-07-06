@@ -4,25 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
 import android.widget.Toast;
 
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.VariableStoration;
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.mainScreen.chat.Msg;
-import com.google.android.material.color.DynamicColors;
-import com.cpen321group.accountability.GoalsAdapter;
-import com.cpen321group.accountability.GoalsModel;
-import com.cpen321group.accountability.welcome.LoginActivity;
-import com.cpen321group.accountability.welcome.WelcomeActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
@@ -88,8 +80,10 @@ public class GoalSetActivity extends AppCompatActivity {
                         String title = jsonObject.get("title").toString();
                         String id = jsonObject.get("_id").toString();
                         int goal_cents = Integer.valueOf(jsonObject.get("target").toString());
-                        double price_dollar = goal_cents/100.0;
-                        goalsModelArrayList.add(new GoalsModel(title, id, VariableStoration.userID, price_dollar));
+                        int current_saving_cents = Integer.valueOf(jsonObject.get("current").toString());
+                        double price_dollar = goal_cents / 100.0;
+                        double current_saving = current_saving_cents / 100.0;
+                        goalsModelArrayList.add(new GoalsModel(title, id, VariableStoration.userID, price_dollar, current_saving));
                         GoalsAdapter goalsAdapter = new GoalsAdapter(getApplicationContext(), goalsModelArrayList);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         goalsRV.setLayoutManager(linearLayoutManager);

@@ -1,23 +1,18 @@
-package com.cpen321group.accountability;
+package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalCreateActivity;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalSetActivity;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.RetrofitAPI;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -50,8 +45,8 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
     public void onBindViewHolder(@NonNull GoalsAdapter.Viewholder holder, int position) {
         // to set data to textview and imageview of each card layout
         GoalsModel model = goalsModelArrayList.get(position);
-        holder.goalName.setText(model.getGoal_name());
-        holder.goalPrice.setText("$" + model.getGoal_price());
+        holder.goalName.setText(model.getGoal_name().replace("\"", ""));
+        holder.goalPrice.setText("Save: $" + model.getCurrent_saving() + " | Target: $" + model.getGoal_price());
         holder.goalDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
