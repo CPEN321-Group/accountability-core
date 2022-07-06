@@ -1,15 +1,32 @@
 package com.cpen321group.accountability;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalCreateActivity;
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalSetActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> {
 
@@ -35,6 +52,38 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
         GoalsModel model = goalsModelArrayList.get(position);
         holder.goalName.setText(model.getGoal_name());
         holder.goalPrice.setText("$" + model.getGoal_price());
+        holder.goalDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String goalIdRaw = model.getGoal_id();
+                String userId = model.getUser_id();
+                String goalId = goalIdRaw.replace("\"", "");
+                Log.d(userId, goalId);
+                deleteGoal(userId, goalId);
+            }
+        });
+    }
+
+    private void deleteGoal(String userId, String GoalId){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://20.239.52.70:8000/goals/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<JsonObject> call = retrofitAPI.deleteSpecificGoals(userId, GoalId);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("Delete", "success");
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("err", t.toString());
+            }
+        });
     }
 
     @Override
@@ -46,11 +95,15 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
 
     public class Viewholder extends RecyclerView.ViewHolder {
         private TextView goalName, goalPrice;
+        private Button goalDelete, goalSave;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
             goalName = itemView.findViewById(R.id.goalName);
             goalPrice = itemView.findViewById(R.id.goalPrice);
+            goalDelete = itemView.findViewById(R.id.goalDelete);
+            goalSave = itemView.findViewById(R.id.goalSave);
         }
     }
+
 }

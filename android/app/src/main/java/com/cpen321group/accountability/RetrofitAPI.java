@@ -78,6 +78,6 @@ public interface RetrofitAPI {
                               @Query("deadline") String date);
 
     @DELETE("{userId}/{goalId}")
-    void deleteSpecificGoals(@Path("userId") String id,
+    Call<JsonObject> deleteSpecificGoals(@Path("userId") String id,
                              @Path("goalId") String goalId);
 }
