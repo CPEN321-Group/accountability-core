@@ -19,6 +19,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".mainScreen.chat.AddReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainScreen.chat.ReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainScreen.chat.HistoryActivity"
             android:exported="false" />
         <activity

@@ -39,6 +39,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
         TextView accountant_id;
         Button send_button;
         Button history_button;
+        Button reviews_button;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             Context context = itemView.getContext();
@@ -47,6 +48,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
             accountant_id = itemView.findViewById(R.id.accountantInfo);
             send_button = itemView.findViewById(R.id.request_button_1);
             history_button = itemView.findViewById(R.id.history_button);
+            reviews_button=itemView.findViewById(R.id.review_button);
             send_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -87,11 +89,19 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
                     handler2.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            //updateFinish();
                             Intent settingsIntent = new Intent(context, HistoryActivity.class);
                             context.startActivity(settingsIntent);
                         }
                     },3000);
+                }
+            });
+
+            reviews_button.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    VariableStoration.receiverID = accountant_id.getText().toString();
+                    Intent settingsIntent = new Intent(context, ReviewActivity.class);
+                    context.startActivity(settingsIntent);
                 }
             });
         }

@@ -126,6 +126,7 @@ public class ChatFragment extends Fragment {
                         adapter_user.notifyItemInserted(accountList.size() - 1);
                         userRecyclerView.scrollToPosition(accountList.size()-1);
                     }
+                    userRecyclerView.scrollToPosition(0);
                 }
             }
 
@@ -193,6 +194,7 @@ public class ChatFragment extends Fragment {
                             }
                         }
                     }
+                    userRecyclerView.scrollToPosition(0);
                 }
             }
 

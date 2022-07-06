@@ -3,6 +3,7 @@ package com.cpen321group.accountability;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.http.DELETE;
@@ -51,6 +52,12 @@ public interface RetrofitAPI {
     Call<String> updateFinished(@Path("conversationId") String id,
                                 @Query("isFinished") boolean bool);
 
+    @POST("{accountantId}")
+    Call<String> postReview(@Path("accountantId") String id,
+                            @Query("date") Date date,
+                            @Query("content") String content,
+                            @Query("title") String title,
+                            @Query("rating") int rate);
     // Goals API
     @GET("{userId}")
     Call<ArrayList<JsonObject>> getAllGoals(@Path("userId") String id);
@@ -80,4 +87,5 @@ public interface RetrofitAPI {
     @DELETE("{userId}/{goalId}")
     Call<JsonObject> deleteSpecificGoals(@Path("userId") String id,
                              @Path("goalId") String goalId);
+
 }

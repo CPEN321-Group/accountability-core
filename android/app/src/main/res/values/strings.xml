@@ -55,4 +55,6 @@
     <string name="history_button">History</string>
     <string name="find_accountant">Find An Accountant</string>
     <string name="user_request">User Request</string>
+    <string name="reviews">Reviews</string>
+    <string name="create_button">Create</string>
 </resources>

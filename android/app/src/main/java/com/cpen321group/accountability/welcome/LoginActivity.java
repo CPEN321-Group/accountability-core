@@ -15,6 +15,7 @@ import com.cpen321group.accountability.VariableStoration;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -74,7 +75,12 @@ public class LoginActivity extends AppCompatActivity {
         login_fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signInFB();
+                if(Profile.getCurrentProfile()==null) {
+                    signInFB();
+                }else{
+                    Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

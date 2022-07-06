@@ -23,27 +23,34 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="90dp"
         android:layout_marginBottom="28dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="-16dp">
 
-
-        <EditText
-            android:id="@+id/text_view"
-            android:layout_width="250dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#CCCCCC"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/chatField"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="left"
-            android:hint="Type message here" />
+            android:hint="Type message here"
+            android:padding="10dp"
+            app:startIconContentDescription="content_description_start_icon">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_view"
+                android:layout_width="290dp"
+                android:layout_height="60dp"
+                android:inputType="textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/send_button"
-            android:layout_width="48dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:text="@string/send" />
     </LinearLayout>
 
