@@ -22,6 +22,7 @@
         app:startIconDrawable="@drawable/ic_goal_set_24">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/goalNameInput"
             android:layout_width="match_parent"
             android:layout_height="61dp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -42,15 +43,19 @@
         app:startIconDrawable="@drawable/ic_goal_set_24">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:inputType="phone"
+            android:id="@+id/goalTargetPriceInput"
             android:layout_width="match_parent"
             android:layout_height="61dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
+        tools:context=".mainScreen.dashboard.functionpack.GoalCreateActivity"
+        android:id="@+id/datePickerButton"
         android:layout_width="wrap_content"
         style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:layout_height="wrap_content"
-        android:onClick="showTimePickerDialog"
+        android:onClick="showDatePickerDialog"
         android:text="Pick your target date"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,6 +65,7 @@
         app:layout_constraintVertical_bias="0.115" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/goalCreateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create goal"
