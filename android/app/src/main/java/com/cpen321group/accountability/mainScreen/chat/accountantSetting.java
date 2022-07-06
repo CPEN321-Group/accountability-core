@@ -28,14 +28,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class accountantSetting extends RecyclerView.Adapter<accountantSetting.ViewHolder>{
-    private List<String> list;
+    private List<NameID> list;
 
-    public accountantSetting(List<String> list){
+    public accountantSetting(List<NameID> list){
         this.list = list;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout layout;
         TextView accountant_name;
+        TextView accountant_id;
         Button send_button;
         Button history_button;
         public ViewHolder(@NonNull View itemView) {
@@ -43,12 +44,13 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
             Context context = itemView.getContext();
             layout = itemView.findViewById(R.id.account_info);
             accountant_name = itemView.findViewById(R.id.accountant_name);
+            accountant_id = itemView.findViewById(R.id.accountantInfo);
             send_button = itemView.findViewById(R.id.request_button_1);
             history_button = itemView.findViewById(R.id.history_button);
             send_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VariableStoration.receiverID = accountant_name.getText().toString();
+                    VariableStoration.receiverID = accountant_id.getText().toString();
                     postRoomId();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -72,7 +74,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
             history_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VariableStoration.receiverID = accountant_name.getText().toString();
+                    VariableStoration.receiverID = accountant_id.getText().toString();
                     postRoomId();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -103,8 +105,9 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String name = list.get(position);
-        holder.accountant_name.setText(name);
+        NameID name_id = list.get(position);
+        holder.accountant_name.setText(name_id.getName());
+        holder.accountant_id.setText(name_id.getId());
     }
 
     @Override

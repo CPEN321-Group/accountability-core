@@ -52,5 +52,7 @@
     <string name="avatar">Avatar</string>
     <string name="accept_button">Accept</string>
     <string name="accept_finish">Finish</string>
-    <string name="history_button">history</string>
+    <string name="history_button">History</string>
+    <string name="find_accountant">Find An Accountant</string>
+    <string name="user_request">User Request</string>
 </resources>

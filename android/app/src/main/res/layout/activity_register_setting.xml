@@ -4,61 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".welcome.RegisterSettingActivity">
 
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="21dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_change"
+        app:srcCompat="@android:drawable/ic_notification_overlay" />
 
     <ImageView
         android:id="@+id/iv_personal_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/avatar"
         android:src="@drawable/ic_profilesample_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/avatar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_change"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:text="@string/change_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_personal_icon"/>
+        app:layout_constraintTop_toBottomOf="@+id/iv_personal_icon" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/menu"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="269dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="30dp"
         android:hint="Select"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_change">
 
-            <AutoCompleteTextView
-                android:id="@+id/select_text"
-                android:layout_width="252dp"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                tools:layout_editor_absoluteX="57dp"
-                tools:layout_editor_absoluteY="25dp" />
-
+        <AutoCompleteTextView
+            android:id="@+id/select_text"
+            android:layout_width="252dp"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
         android:id="@+id/age_text"
-        android:layout_width="100dp"
+        android:layout_width="60dp"
         android:layout_height="50dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="25dp"
+        android:background="#CCCCCC"
         android:hint="@string/age"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,34 +73,48 @@
 
     <EditText
         android:id="@+id/profession_text"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="50dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="80dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="75dp"
+        android:background="#CCCCCC"
         android:hint="@string/pro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menu"/>
+        app:layout_constraintTop_toBottomOf="@+id/menu" />
+
 
     <EditText
         android:id="@+id/email_text"
         android:layout_width="262dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="25dp"
+        android:background="#CCCCCC"
         android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/button_register"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profession_text" />
 
     <Button
         android:id="@+id/button_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="150dp"
         android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="21dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/age_text"
+        app:srcCompat="@android:drawable/ic_notification_overlay" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

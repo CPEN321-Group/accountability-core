@@ -139,22 +139,27 @@ public class RegisterSettingActivity extends AppCompatActivity {
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    postAccount();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                createProfile();
+                if((!myProfile_1.getEmail().equals(""))&&(text!=null)) {
+                    try {
+                        postAccount();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (GoogleOn == 1) {
+                        GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                        signOut(account);
+                        Log.d("Profile", "Google sign out successfully!");
+                    }
+                    if (Profile.getCurrentProfile() != null) {
+                        LoginManager.getInstance().logOut();
+                        Log.d("Profile", "Facebook sign out successfully!");
+                    }
+                    Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
+                    startActivity(settingsIntent);
+                }else{
+                    Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
                 }
-                if (GoogleOn == 1) {
-                    GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
-                    signOut(account);
-                    Log.d("Profile", "Google sign out successfully!");
-                }
-                if (Profile.getCurrentProfile() != null) {
-                    LoginManager.getInstance().logOut();
-                    Log.d("Profile", "Facebook sign out successfully!");
-                }
-                Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
-                startActivity(settingsIntent);
             }
         });
     }
@@ -204,7 +209,6 @@ public class RegisterSettingActivity extends AppCompatActivity {
     }
 
     private void postAccount() throws IOException {
-        createProfile();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://20.239.52.70:8000")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -245,7 +249,9 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 myProfile_1.setProfession(professionText.getEditableText().toString().trim());
             }
             userId = account.getId()+"go";
-            myProfile_1.setAccountant((text.equals("Accountant")));
+            if(text!=null) {
+                myProfile_1.setAccountant((text.equals("Accountant")));
+            }
             myProfile_1.setAccountId(userId);
             Log.d("userId",userId);
         }else{
@@ -259,7 +265,9 @@ public class RegisterSettingActivity extends AppCompatActivity {
             if(!professionText.getEditableText().toString().equals("")) {
                 myProfile_1.setProfession(professionText.getEditableText().toString().trim());
             }
-            myProfile_1.setAccountant((text.equals("Accountant")));
+            if(text!=null) {
+                myProfile_1.setAccountant((text.equals("Accountant")));
+            }
             userId = profile.getId()+"fb";
             myProfile_1.setAccountId(userId);
             Log.d("userId",userId);

@@ -6,7 +6,7 @@ public class VariableStoration {
     public static boolean is_biometricAllowed;
     public static String userID;
     public static String receiverID;
-    public static String userName;
+    public static String userName = "User";
     public static boolean isAccountant = false;
     public static boolean is_subscribed;
     public static String roomID;

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -44,9 +45,10 @@ public class ChatFragment extends Fragment {
     private RecyclerView userRecyclerView;
     private LinearLayoutManager layoutManager;
     private requestSetting adapter;
+    private TextView functionName;
     private accountantSetting adapter_user;
     private String TAG = "Chat";
-    //private List<String> accountList = new ArrayList<>();
+    private List<NameID> aList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,16 +62,19 @@ public class ChatFragment extends Fragment {
 //        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         userRecyclerView = binding.chatRecycler;
+        functionName = binding.textViewName;
 
         layoutManager = new LinearLayoutManager(getActivity());
 
         userRecyclerView.setLayoutManager(layoutManager);
 
         if(VariableStoration.isAccountant){
+            functionName.setText("User Request");
             adapter = new requestSetting(userList = getData());
             userRecyclerView.setAdapter(adapter);
         }else{
-            adapter_user = new accountantSetting(userList = getData());
+            functionName.setText("Find An Accountant");
+            adapter_user = new accountantSetting(aList = getAccountantData());
             userRecyclerView.setAdapter(adapter_user);
         }
 
@@ -83,7 +88,7 @@ public class ChatFragment extends Fragment {
         }
 
         if(!VariableStoration.isAccountant){
-            getAccountant(userList);
+            getAccountant(aList);
         }else{
             getUser(userList);
         }
@@ -91,7 +96,7 @@ public class ChatFragment extends Fragment {
         return root;
     }
 
-    private void getAccountant(List<String> accountList) {
+    private void getAccountant(List<NameID> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://20.239.52.70:8000/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -109,10 +114,17 @@ public class ChatFragment extends Fragment {
                     for (int i = 0; i < jsonArray.size(); i++) {
                         JsonObject jsonObject = jsonArray.get(i);
                         Log.d("Message", jsonObject.get("accountId").toString());
+                        Log.d("Message", jsonObject.get("profile").getAsJsonObject().get("firstname").toString());
                         String string = jsonObject.get("accountId").toString();
-                        accountList.add(string.substring(1, string.length() - 1));
+                        String string_name = jsonObject.get("profile").getAsJsonObject().get("firstname").toString();
+                        NameID nameid = new NameID("","Accountant");
+                        nameid.setId(string.substring(1, string.length() - 1));
+                        if(string_name != null) {
+                            nameid.setName(string_name.substring(1, string_name.length() - 1));
+                        }
+                        accountList.add(nameid);
                         adapter_user.notifyItemInserted(accountList.size() - 1);
-                        userRecyclerView.scrollToPosition(accountList.size() - 1);
+                        userRecyclerView.scrollToPosition(accountList.size()-1);
                     }
                 }
             }
@@ -134,6 +146,13 @@ public class ChatFragment extends Fragment {
         //list.clear();
         List<String> list = new ArrayList<>();
         userList.clear();
+        return list;
+    }
+
+    private List<NameID> getAccountantData(){
+        //list.clear();
+        List<NameID> list = new ArrayList<>();
+        aList.clear();
         return list;
     }
 
@@ -165,12 +184,12 @@ public class ChatFragment extends Fragment {
                             if (s1.equals(VariableStoration.userID)) {
                                 accountList.add(s2);
                                 adapter.notifyItemInserted(accountList.size() - 1);
-                                userRecyclerView.scrollToPosition(accountList.size() - 1);
+                                userRecyclerView.scrollToPosition(accountList.size()-1);
                             } else {
                                 accountList.add(s1);
                                 Log.d("list",accountList.toString());
                                 adapter.notifyItemInserted(accountList.size() - 1);
-                                userRecyclerView.scrollToPosition(accountList.size() - 1);
+                                userRecyclerView.scrollToPosition(accountList.size()-1);
                             }
                         }
                     }

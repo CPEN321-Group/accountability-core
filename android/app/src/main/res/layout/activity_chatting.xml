@@ -23,7 +23,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="28dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,16 +33,16 @@
         <EditText
             android:id="@+id/text_view"
             android:layout_width="250dp"
-            android:layout_height="48dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#CCCCCC"
             android:gravity="left"
-            android:background="#A5A5A5"
             android:hint="Type message here" />
 
         <Button
             android:id="@+id/send_button"
             android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/send" />
     </LinearLayout>

@@ -24,9 +24,12 @@ import androidx.navigation.ui.NavigationUI;
 import com.cpen321group.accountability.databinding.ActivityHomeScreenBinding;
 import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
+
+import java.nio.charset.StandardCharsets;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -89,6 +92,13 @@ public class HomeScreenActivity extends AppCompatActivity {
                         if(response.body()!=null) {
                             VariableStoration.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
                             Log.d("Message", response.body().get("isAccountant").toString());
+                            JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
+                            if(jsonname != null) {
+                                String name = jsonname.toString();
+                                if(!name.equals("")) {
+                                    VariableStoration.userName = name.substring(1, name.length() - 1);
+                                }
+                            }
                         }
                     }
 
