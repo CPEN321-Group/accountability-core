@@ -4,50 +4,51 @@ const {UserTransaction} = require('./models');
 const { getDefinedFields } = require.main.require('./utils/get-defined-fields');
 const moment = require('moment');
 
-function parseTransactionData(fields) {
-  const {title,category,date,amount,isIncome,receipt} = fields;
-  const df = getDefinedFields({title,category,date,amount,isIncome,receipt});
-
-  const fieldsToUpdate = {
-    ...(df.title && {"transactions.$.title": df.title}),
-    ...(df.category && {"transactions.$.category": df.category}),
-    ...(df.date && {"transactions.$.date": df.date}),
-    ...(df.amount && {"transactions.$.amount": df.amount}),
-    ...(df.isIncome && {"transactions.$.isIncome": df.isIncome}),
-    ...(df.receipt && {"transactions.$.receipt": df.receipt}),
-  }
-  return fieldsToUpdate;
-}
-function formatTransaction(transaction) {
-  return {
-    title: transaction.title,
-    category: transaction.category,
-    date: moment(transaction.date).format('YYYY-MM-DD'),
-    amount: transaction.amount,
-    isIncome: transaction.isIncome,
-    _id: transaction._id,
-    receipt: transaction.receipt
-  }
-}
-function formatTransactions(userTransaction) {
-  let transactions = [];
-  for (const t of userTransaction.transactions) {
-    console.log(t);
-    transactions.push(formatTransaction(t));
-  }
-  return transactions;
-}
-
-function createUserTransaction(userId,transactions,callback) {
-  const newUserTransaction = new UserTransaction({userId,transactions: transactions});
-  newUserTransaction.save((err,createdUserTransaction) => {
-    callback(err,createdUserTransaction)
-  })
-}
 module.exports = {
+  parseTransactionData: (fields) => {
+    const {title,category,date,amount,isIncome,receipt} = fields;
+    const df = getDefinedFields({title,category,date,amount,isIncome,receipt});
+  
+    const fieldsToUpdate = {
+      ...(df.title && {"transactions.$.title": df.title}),
+      ...(df.category && {"transactions.$.category": df.category}),
+      ...(df.date && {"transactions.$.date": df.date}),
+      ...(df.amount && {"transactions.$.amount": Math.abs(df.amount)}),
+      ...(df.isIncome && {"transactions.$.isIncome": df.isIncome}),
+      ...(df.receipt && {"transactions.$.receipt": df.receipt}),
+    }
+    return fieldsToUpdate;
+  },
+  formatTransaction: (transaction) => {
+    return {
+      title: transaction.title,
+      category: transaction.category,
+      date: moment(transaction.date).format('YYYY-MM-DD'),
+      amount: transaction.amount,
+      isIncome: transaction.isIncome,
+      _id: transaction._id,
+      receipt: transaction.receipt
+    }
+  },
+  formatTransactions: (transactions) => {
+    let formattedTransactions = [];
+    for (const t of transactions) {
+      console.log(t);
+      formattedTransactions.push(formatTransaction(t));
+    }
+    return formattedTransactions;
+  },
+  
+  createUserTransaction: (userId,transactions,callback) => {
+    const newUserTransaction = new UserTransaction({userId,transactions: transactions});
+    newUserTransaction.save((err,createdUserTransaction) => {
+      callback(err,createdUserTransaction)
+    })
+  },
+  //functions used by routes
   findTransactions: (accountId,callback) => {
     UserTransaction.findOne({userId: accountId},(err,usertransaction) => 
-    callback(err,formatTransactions(usertransaction))
+    callback(err,formatTransactions(usertransaction.transactions))
   )
   },
   findTransaction: (accountId,transactionId,callback) => {

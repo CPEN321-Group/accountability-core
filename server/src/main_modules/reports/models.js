@@ -19,6 +19,7 @@ const userReportSchema = new mongoose.Schema({
   reports: {type: [reportSchema],default: []}
 })
 
+const Report = reportDB.model('Report', reportSchema);
 const UserReport = reportDB.model('UserReport', userReportSchema);
 
-module.exports = {UserReport};
+module.exports = {UserReport,Report};
