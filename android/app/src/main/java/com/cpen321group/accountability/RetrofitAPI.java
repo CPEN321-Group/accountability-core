@@ -8,6 +8,7 @@ import org.json.JSONArray;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -58,5 +59,10 @@ public interface RetrofitAPI {
     Call<String> updateFinished(@Path("conversationId") String id,
                                 @Query("isFinished") boolean bool);
 
-
+    @POST("{accountantId}")
+    Call<String> postReview(@Path("accountantId") String id,
+                            @Query("date") Date date,
+                            @Query("content") String content,
+                            @Query("title") String title,
+                            @Query("rating") int rate);
 }
