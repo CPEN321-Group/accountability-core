@@ -1,19 +1,12 @@
 package com.cpen321group.accountability;
 
-import com.cpen321group.accountability.welcome.MyProfile;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.http.Body;
-import retrofit2.http.Field;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -65,4 +58,34 @@ public interface RetrofitAPI {
                             @Query("content") String content,
                             @Query("title") String title,
                             @Query("rating") int rate);
+    // Goals API
+    @GET("{userId}")
+    Call<ArrayList<JsonObject>> getAllGoals(@Path("userId") String id);
+
+    @POST("{userId}")
+    Call<JsonObject> postGoal(@Path("userId") String id,
+                              @Query("title") String title,
+                              @Query("target") int targetCents,
+                              @Query("current") int currentCents,
+                              @Query("deadline") String date);
+
+    @DELETE("{userId}")
+    void deleteGoals(@Path("userId") String id);
+
+    @GET("{userId}/{goalId}")
+    Call<ArrayList<JsonObject>> getSpecificGoal(@Path("userId") String id,
+                                                @Path("goalId") String goalId);
+
+    @PUT("{userId}/{goalId}")
+    Call<JsonObject> updateSpecificGoal(@Path("userId") String id,
+                              @Path("goalId") String goalId,
+                              @Query("title") String title,
+                              @Query("target") int targetCents,
+                              @Query("current") int currentCents,
+                              @Query("deadline") String date);
+
+    @DELETE("{userId}/{goalId}")
+    void deleteSpecificGoals(@Path("userId") String id,
+                             @Path("goalId") String goalId);
+
 }
