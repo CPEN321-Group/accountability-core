@@ -26,8 +26,9 @@ module.exports = {
     UserGoal.findOne({userId: accountId},(err,foundUserGoal) => callback(err,foundUserGoal))
   },
   findGoal: (accountId,goalId,callback) => {
-    UserGoal.findOne({userId:accountId},(err,foundUserGoal) => {
-      const goal = getItemFromList(foundUserGoal.goals,goalId);
+    UserGoal.findOne({userId:accountId},(err,usergoal) => {
+      if (!usergoal) return callback(new Error('account/goal not found'),null);
+      const goal = getItemFromList(usergoal.goals,goalId);
       if (goal) return callback(err,goal);
       return callback(new Error('goal not found'),null);
     })
@@ -78,6 +79,7 @@ module.exports = {
     UserGoal.findOneAndUpdate({userId: accountId},{$pull: {goals: {_id: goalId}}},
       {returnDocument: 'after'},
       (err,usergoal) => {
+        if (!usergoal) return callback(new Error('account not found'))
         const goal = getItemFromList(usergoal.goals,goalId);
         if (goal) callback(new Error('goal deletion unsuccessful'));
         return callback(err);

@@ -46,9 +46,10 @@ function createUserTransaction(userId,transactions,callback) {
 }
 module.exports = {
   findTransactions: (accountId,callback) => {
-    UserTransaction.findOne({userId: accountId},(err,usertransaction) => 
-    callback(err,formatTransactions(usertransaction))
-  )
+    UserTransaction.findOne({userId: accountId},(err,usertransaction) => {
+      if (!usertransaction) return callback(new Error('account not found'),null);
+      callback(err,formatTransactions(usertransaction))
+    })
   },
   findTransaction: (accountId,transactionId,callback) => {
     UserTransaction.findOne({userId:accountId},(err,usertransaction) => {
@@ -106,7 +107,7 @@ module.exports = {
     UserTransaction.findOneAndUpdate({userId: accountId},{$pull: {transactions: {_id: transactionId}}},
       {returnDocument: 'after'},
       (err,usertransaction) => {
-        if (!usertransaction) return callback(new Error('account not found'),null);
+        if (!usertransaction) return callback(new Error('account not found'));
         const transaction = getItemFromList(usertransaction.transactions,transactionId);
         if (transaction) callback(new Error('transaction deletion unsuccessful'));
         return callback(err);
