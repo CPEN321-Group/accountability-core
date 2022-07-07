@@ -58,7 +58,7 @@ public interface RetrofitAPI {
                             @Query("content") String content,
                             @Query("title") String title,
                             @Query("rating") int rate);
-    // Goals API
+    // Goals APIs
     @GET("{userId}")
     Call<ArrayList<JsonObject>> getAllGoals(@Path("userId") String id);
 
@@ -70,7 +70,7 @@ public interface RetrofitAPI {
                               @Query("deadline") String date);
 
     @DELETE("{userId}")
-    void deleteGoals(@Path("userId") String id);
+    Call<JsonObject> deleteGoals(@Path("userId") String id);
 
     @GET("{userId}/{goalId}")
     Call<ArrayList<JsonObject>> getSpecificGoal(@Path("userId") String id,
@@ -78,11 +78,46 @@ public interface RetrofitAPI {
 
     @PUT("{userId}/{goalId}")
     Call<JsonObject> updateSpecificGoal(@Path("userId") String id,
-                              @Path("goalId") String goalId,
-                              @Query("current") int currentCents);
+                                        @Path("goalId") String goalId,
+                                        @Query("current") int currentCents);
 
     @DELETE("{userId}/{goalId}")
     Call<JsonObject> deleteSpecificGoals(@Path("userId") String id,
-                             @Path("goalId") String goalId);
+                                         @Path("goalId") String goalId);
+
+    // Transaction APIs
+    @GET("{userId}")
+    Call<ArrayList<JsonObject>> getAllTransactions(@Path("userId") String id);
+
+    @POST("{userId}")
+    Call<JsonObject> postTransaction(@Path("userId") String id,
+                                     @Query("title") String title,
+                                     @Query("category") String category,
+                                     @Query("date") String date,
+                                     @Query("amount") int cents,
+                                     @Query("isIncome") boolean isIncome,
+                                     @Query("receipt") String receiptURL);
+
+    @DELETE("{userId}")
+    Call<ArrayList<JsonObject>> deleteAllTransactions(@Path("userId") String id);
+
+    @GET("{userId}/{transactionId}")
+    Call<JsonObject> getSpecificTransaction(@Path("userId") String id,
+                                            @Path("transactionId") String transactionId);
+
+    @PUT("{userId}/{transactionId}")
+    Call<JsonObject> updateSpecificTransaction(@Path("userId") String id,
+                                               @Path("transactionId") String transactionId,
+                                               @Query("current") int currentCents,
+                                               @Query("title") String title,
+                                               @Query("category") String category,
+                                               @Query("date") String date,
+                                               @Query("amount") int cents,
+                                               @Query("isIncome") boolean isIncome,
+                                               @Query("receipt") String receiptURL);
+
+    @DELETE("{userId}/{transactionId}")
+    Call<JsonObject> deleteSpecificTransaction(@Path("userId") String id,
+                                               @Path("transactionId") String transactionId);
 
 }
