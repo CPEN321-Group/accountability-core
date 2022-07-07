@@ -6,19 +6,19 @@ public class TransactionModel {
     private String transaction_title;
     private String transaction_category;
     private String transaction_date;
-    private String transaction_cents;
+    private double transaction_dollars;
     private boolean isIncome;
     private String receiptURL;
 
     public TransactionModel(String user_id, String transaction_id, String transaction_title,
                             String transaction_category, String transaction_date,
-                            String transaction_cents, boolean isIncome, String receiptURL) {
+                            double transaction_dollars, boolean isIncome, String receiptURL) {
         this.user_id = user_id;
         this.transaction_id = transaction_id;
         this.transaction_title = transaction_title;
         this.transaction_category = transaction_category;
         this.transaction_date = transaction_date;
-        this.transaction_cents = transaction_cents;
+        this.transaction_dollars = transaction_dollars;
         this.isIncome = isIncome;
         this.receiptURL = receiptURL;
     }
@@ -43,8 +43,8 @@ public class TransactionModel {
         this.transaction_date = transaction_date;
     }
 
-    public void setTransaction_cents(String transaction_cents) {
-        this.transaction_cents = transaction_cents;
+    public void setTransaction_cents(double transaction_dollars) {
+        this.transaction_dollars = transaction_dollars;
     }
 
     public void setIncome(boolean income) {
@@ -75,8 +75,8 @@ public class TransactionModel {
         return transaction_date;
     }
 
-    public String getTransaction_cents() {
-        return transaction_cents;
+    public double getTransaction_cents() {
+        return transaction_dollars;
     }
 
     public String getReceiptURL() {
