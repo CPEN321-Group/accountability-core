@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mainScreen.dashboard.functionpack.GoalSetActivity">
+    tools:context=".mainScreen.dashboard.functionpack.TransactionSetActivity">
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!-- Note: A RecyclerView can also be used -->
@@ -17,7 +17,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:paddingTop="?attr/actionBarSize"
-        android:id="@+id/goalRV"
+        android:id="@+id/transactionRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </androidx.recyclerview.widget.RecyclerView>
@@ -30,16 +30,16 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
+                android:id="@+id/topAppBar_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Your goals"
+                app:title="Transaction records"
                 app:menu="@menu/top_app_bar"
                 app:navigationIcon="@drawable/ic_arrow_back_24" />
 
         </com.google.android.material.appbar.AppBarLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_action_button_goal"
+            android:id="@+id/floating_action_button_transaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"

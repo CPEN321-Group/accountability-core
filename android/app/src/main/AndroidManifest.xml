@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".mainScreen.dashboard.functionpack.TransactionSetActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainScreen.chat.AddReviewActivity"
             android:exported="false" />
         <activity
@@ -53,8 +56,8 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.GoalSetActivity"
-            android:parentActivityName=".HomeScreenActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".HomeScreenActivity" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.ReportGenActivity"
             android:exported="false" />
