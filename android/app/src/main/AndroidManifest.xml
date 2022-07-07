@@ -19,12 +19,36 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
-            android:name=".welcome.RegisterSettingActivity"
+            android:name=".mainScreen.dashboard.functionpack.TransactionCreateActivity"
             android:exported="false" />
+        <activity
+            android:name=".mainScreen.dashboard.functionpack.TransactionSetActivity"
+            android:parentActivityName=".HomeScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainScreen.chat.AddReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainScreen.chat.ReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainScreen.chat.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".welcome.RegisterSettingActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".mainScreen.chat.ChattingActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".mainScreen.dashboard.functionpack.GoalCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainScreen.dashboard.functionpack.GoalUpdateActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainScreen.profile.SubscriptionOKActivity"
             android:exported="false" />
         <activity
@@ -36,7 +60,8 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.GoalSetActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".HomeScreenActivity" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.ReportGenActivity"
             android:exported="false" />
@@ -56,7 +81,7 @@
             android:exported="false" />
         <activity
             android:name=".welcome.WelcomeActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

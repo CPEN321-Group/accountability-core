@@ -10,28 +10,29 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.core.motion.utils.Utils;
 import androidx.core.view.WindowCompat;
 
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.VariableStoration;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
@@ -44,22 +45,29 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterSettingActivity extends AppCompatActivity {
     private TextInputLayout inputText;
     private AutoCompleteTextView autoText;
     private ImageView avatar;
     private String TAG = "register";
-    private String server_url = "http://localhost:8000/user/";
+    private String server_url = "http://20.239.52.70:8000/accounts";
     private MyProfile myProfile_1;
     private String userId;
     private String text;
+    private EditText emailText;
+    private EditText ageText;
+    private EditText professionText;
+    private int GoogleOn = 0;
+    private GoogleSignInAccount account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +82,33 @@ public class RegisterSettingActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        RequestQueue queue = Volley.newRequestQueue(this);
-        
+        if(GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this)!=null){
+            GoogleOn = 1;
+            account = GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this);
+        }
+
+        //set visible
+        emailText = findViewById(R.id.email_text);
+        if(GoogleSignIn.getLastSignedInAccount(this)!=null){
+            emailText.setVisibility(View.INVISIBLE);
+        }else{
+            emailText.setVisibility(View.VISIBLE);
+        }
+
+        ageText = findViewById(R.id.age_text);
+        professionText = findViewById(R.id.profession_text);
 
         //change avatar
         Button changeButton = findViewById(R.id.btn_change);
         avatar = findViewById(R.id.iv_personal_icon);
+        if(GoogleOn == 1){
+            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(this);
+            if (account != null) {
+                if (account.getPhotoUrl() != null) {
+                    avatar.setImageURI(account.getPhotoUrl());
+                }
+            }
+        }
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,22 +135,31 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
         //register button
         Button sign_out = findViewById(R.id.button_register);
+
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateUIFB();
-                queue.add(createAccount());
-                if (GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN) != null) {
-                    GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
-                    signOut(account);
-                    Log.d("Profile", "Google sign out successfully!");
+                createProfile();
+                if((!myProfile_1.getEmail().equals(""))&&(text!=null)) {
+                    try {
+                        postAccount();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (GoogleOn == 1) {
+                        GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                        signOut(account);
+                        Log.d("Profile", "Google sign out successfully!");
+                    }
+                    if (Profile.getCurrentProfile() != null) {
+                        LoginManager.getInstance().logOut();
+                        Log.d("Profile", "Facebook sign out successfully!");
+                    }
+                    Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
+                    startActivity(settingsIntent);
+                }else{
+                    Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
                 }
-                if (Profile.getCurrentProfile() != null) {
-                    LoginManager.getInstance().logOut();
-                    Log.d("Profile", "Facebook sign out successfully!");
-                }
-                Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
-                startActivity(settingsIntent);
             }
         });
     }
@@ -158,112 +196,81 @@ public class RegisterSettingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (data != null) {
-                setImageToView(data);
+            Uri uri = data.getData();
+            String img_url = uri.getPath();
+            ContentResolver cr = this.getContentResolver();
+            try {
+                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                avatar.setImageBitmap(bitmap);
+            } catch (FileNotFoundException e) {
+                Log.e("Exception", e.getMessage(),e);
             }
         }
     }
 
-    protected void setImageToView(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            avatar.setImageBitmap(photo);
-        }
-    }
+    private void postAccount() throws IOException {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://20.239.52.70:8000")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-    private void updateUIFB() {
-        Profile profile = Profile.getCurrentProfile();
-        if(profile == null){
-            Log.d(TAG,"No one signed in!");
-        }else{
-            Log.d(TAG,"Pref Name: "+profile.getFirstName());
-            Log.d(TAG,"Email: "+profile.getId());
-            Log.d(TAG,"Given Name: "+profile.getFirstName());
-            Log.d(TAG,"Family Name: "+profile.getLastName());
-            Log.d(TAG,"URL: "+profile.getLinkUri());
-        }
-    }
 
-    private JsonObjectRequest createAccount(){
-        createProfile();
-        final JSONObject jsonObject = new JSONObject();
-        final JSONObject jsonProfile = new JSONObject();
-        try {
-            jsonProfile.put("firstName",myProfile_1.getFirstName());
-            jsonProfile.put("lastName",myProfile_1.getLastName());
-            jsonProfile.put("e_mail",myProfile_1.getE_mail());
-            jsonProfile.put("age",myProfile_1.getAge());
-            jsonProfile.put("profession",myProfile_1.getProfession());
-            jsonObject.put("profile", jsonProfile);
-            jsonObject.put("isAccountant", (text=="Accountant"));
-            jsonObject.put("isAuthenticated", 0);
-            jsonObject.put("authenticateExpiryDate",null);
-            jsonObject.put("hasAccountant",0);
-        } catch (JSONException e) {
-            // handle exception
-        }
-        JsonObjectRequest putRequest = new JsonObjectRequest(Request.Method.PUT, server_url+userId, jsonObject,
-                new Response.Listener<JSONObject>()
-                {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // response
-                        Log.d("Response", response.toString());
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // error
-                        Log.d("Error.Response", error.toString());
-                    }
-                }
-        ) {
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<String> call = retrofitAPI.createAccount(myProfile_1.getFirstname(),
+                myProfile_1.getLastname(),
+                myProfile_1.getEmail(),
+                myProfile_1.getAge(),
+                myProfile_1.getProfession(), myProfile_1.getAccountant(),
+                myProfile_1.getAccountId());
 
+        call.enqueue(new Callback<String>() {
             @Override
-            public Map<String, String> getHeaders()
-            {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                return headers;
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.d("Message",response.toString());
             }
 
             @Override
-            public byte[] getBody() {
-
-                try {
-                    Log.d("json", jsonObject.toString());
-                    return jsonObject.toString().getBytes("UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return null;
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.d("Message","error");
             }
-        };
-
-        return putRequest;
-
+        });
     }
 
     private void createProfile(){
-        myProfile_1 = new MyProfile("","","",20,"student");
-        if(GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this)!=null){
-            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(RegisterSettingActivity.this);
-            myProfile_1.setFirstName(account.getGivenName());
-            myProfile_1.setLastName(account.getFamilyName());
-            myProfile_1.setE_mail(account.getEmail());
+        myProfile_1 = new MyProfile("","","",20,"student",false,"");
+        if(GoogleOn == 1){
+            myProfile_1.setFirstname(account.getGivenName());
+            myProfile_1.setLastname(account.getFamilyName());
+            myProfile_1.setEmail(account.getEmail());
+            if(!ageText.getEditableText().toString().equals("")) {
+                myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
+            }
+            if(!professionText.getEditableText().toString().equals("")) {
+                myProfile_1.setProfession(professionText.getEditableText().toString().trim());
+            }
             userId = account.getId()+"go";
+            if(text!=null) {
+                myProfile_1.setAccountant((text.equals("Accountant")));
+            }
+            myProfile_1.setAccountId(userId);
+            Log.d("userId",userId);
         }else{
             Profile profile = Profile.getCurrentProfile();
-            myProfile_1.setFirstName(profile.getFirstName());
-            myProfile_1.setLastName(profile.getLastName());
-            myProfile_1.setE_mail("");
+            myProfile_1.setFirstname(profile.getFirstName());
+            myProfile_1.setLastname(profile.getLastName());
+            myProfile_1.setEmail(emailText.getEditableText().toString().trim());
+            if(!ageText.getEditableText().toString().equals("")) {
+                myProfile_1.setAge(Integer.parseInt(ageText.getEditableText().toString().trim()));
+            }
+            if(!professionText.getEditableText().toString().equals("")) {
+                myProfile_1.setProfession(professionText.getEditableText().toString().trim());
+            }
+            if(text!=null) {
+                myProfile_1.setAccountant((text.equals("Accountant")));
+            }
             userId = profile.getId()+"fb";
+            myProfile_1.setAccountId(userId);
+            Log.d("userId",userId);
         }
     }
 }
-
-

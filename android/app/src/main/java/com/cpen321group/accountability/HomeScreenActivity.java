@@ -2,16 +2,19 @@ package com.cpen321group.accountability;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.cpen321group.accountability.mainScreen.chat.ReviewActivity;
 import com.cpen321group.accountability.welcome.RegisterSettingActivity;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
@@ -22,6 +25,19 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.cpen321group.accountability.databinding.ActivityHomeScreenBinding;
 import com.google.android.material.color.DynamicColors;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+
+import java.nio.charset.StandardCharsets;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
@@ -53,13 +69,47 @@ public class HomeScreenActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
-            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-            VariableStoration.userID = account.getId()+"go";
-        }else{
-            Profile profile = Profile.getCurrentProfile();
-            VariableStoration.userID = profile.getId()+"fb";
-        }
-        Log.d("Home",VariableStoration.userID);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
+                    GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
+                    VariableStoration.userID = account.getId()+"go";
+                }else{
+                    Profile profile = Profile.getCurrentProfile();
+                    VariableStoration.userID = profile.getId()+"fb";
+                }
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://20.239.52.70:8000/accounts/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+
+                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+                Call<JsonObject> call = retrofitAPI.getAccount(VariableStoration.userID);
+
+                call.enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if(response.body()!=null) {
+                            VariableStoration.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                            Log.d("Message", response.body().get("isAccountant").toString());
+                            JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
+                            if(jsonname != null) {
+                                String name = jsonname.toString();
+                                if(!name.equals("")) {
+                                    VariableStoration.userName = name.substring(1, name.length() - 1);
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.d("Message","error");
+                    }
+                });
+            }
+        }, 1000);
     }
 }
