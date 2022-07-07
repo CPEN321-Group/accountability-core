@@ -1,6 +1,7 @@
 package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,16 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
                 String goalId = goalIdRaw.replace("\"", "");
                 Log.d(userId, goalId);
                 deleteGoal(userId, goalId);
+            }
+        });
+        holder.goalSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String goalIdRaw = model.getGoal_id();
+                String goalId = goalIdRaw.replace("\"", "");
+                Intent goalUpdateIntent = new Intent(view.getContext(), GoalUpdateActivity.class);
+                goalUpdateIntent.putExtra("goalId", goalId);
+                view.getContext().startActivity(goalUpdateIntent);
             }
         });
     }

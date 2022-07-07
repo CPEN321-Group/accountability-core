@@ -39,6 +39,9 @@
             android:name=".mainScreen.dashboard.functionpack.GoalCreateActivity"
             android:exported="false" />
         <activity
+            android:name=".mainScreen.dashboard.functionpack.GoalUpdateActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainScreen.profile.SubscriptionOKActivity"
             android:exported="false" />
         <activity
@@ -50,6 +53,7 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.GoalSetActivity"
+            android:parentActivityName=".HomeScreenActivity"
             android:exported="false" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.ReportGenActivity"

@@ -79,10 +79,7 @@ public interface RetrofitAPI {
     @PUT("{userId}/{goalId}")
     Call<JsonObject> updateSpecificGoal(@Path("userId") String id,
                               @Path("goalId") String goalId,
-                              @Query("title") String title,
-                              @Query("target") int targetCents,
-                              @Query("current") int currentCents,
-                              @Query("deadline") String date);
+                              @Query("current") int currentCents);
 
     @DELETE("{userId}/{goalId}")
     Call<JsonObject> deleteSpecificGoals(@Path("userId") String id,
