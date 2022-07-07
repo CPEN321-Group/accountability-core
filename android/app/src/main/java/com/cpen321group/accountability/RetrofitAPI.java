@@ -108,7 +108,6 @@ public interface RetrofitAPI {
     @PUT("{userId}/{transactionId}")
     Call<JsonObject> updateSpecificTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId,
-                                               @Query("current") int currentCents,
                                                @Query("title") String title,
                                                @Query("category") String category,
                                                @Query("date") String date,
