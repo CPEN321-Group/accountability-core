@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mainScreen.dashboard.functionpack.TransactionCreateActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transactionNameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Your transaction title"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:startIconContentDescription="content_description_start_icon"
+        app:startIconDrawable="@drawable/ic_goal_set_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/transactionNameInput"
+            android:layout_width="match_parent"
+            android:layout_height="61dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transactionAmountPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Your transaction money"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
+        app:startIconContentDescription="content_description_start_icon"
+        app:startIconDrawable="@drawable/ic_goal_set_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:inputType="phone"
+            android:id="@+id/transactionAmountPriceInput"
+            android:layout_width="match_parent"
+            android:layout_height="61dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transactionCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Your transaction Category"
+        android:padding="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        app:startIconContentDescription="content_description_start_icon"
+        app:startIconDrawable="@drawable/ic_goal_set_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:inputType="phone"
+            android:id="@+id/transactionCategoryInput"
+            android:layout_width="match_parent"
+            android:layout_height="61dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        tools:context=".mainScreen.dashboard.functionpack.transactionCreateActivity"
+        android:id="@+id/datePickerButton"
+        android:layout_width="wrap_content"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:text="Pick your target date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/transactionCreateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create transaction"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
+        app:layout_constraintVertical_bias="0.831" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".mainScreen.dashboard.functionpack.TransactionCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainScreen.dashboard.functionpack.TransactionSetActivity"
             android:exported="false" />
         <activity
