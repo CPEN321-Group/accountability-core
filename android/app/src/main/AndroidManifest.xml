@@ -23,6 +23,7 @@
             android:exported="false" />
         <activity
             android:name=".mainScreen.dashboard.functionpack.TransactionSetActivity"
+            android:parentActivityName=".HomeScreenActivity"
             android:exported="false" />
         <activity
             android:name=".mainScreen.chat.AddReviewActivity"

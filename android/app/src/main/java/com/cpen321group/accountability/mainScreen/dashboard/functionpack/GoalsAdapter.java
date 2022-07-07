@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,7 +56,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
                 String userId = model.getUser_id();
                 String goalId = goalIdRaw.replace("\"", "");
                 Log.d(userId, goalId);
-                deleteGoal(userId, goalId);
+                deleteGoal(userId, goalId, v);
             }
         });
         holder.goalSave.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +71,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
         });
     }
 
-    private void deleteGoal(String userId, String GoalId){
+    private void deleteGoal(String userId, String GoalId, View view){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://20.239.52.70:8000/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -82,11 +83,13 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                //Toast.makeText(view.getContext(),"You have successfully deleted your selected goal",Toast.LENGTH_LONG).show();
                 Log.d("Delete", "success");
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                //Toast.makeText(view.getContext(),"Failed to delete your selected goal, you may try again",Toast.LENGTH_LONG).show();
                 Log.d("err", t.toString());
             }
         });
