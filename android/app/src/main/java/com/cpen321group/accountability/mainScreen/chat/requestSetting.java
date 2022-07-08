@@ -117,10 +117,14 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if(response.body()!=null) {
-                    String id = response.body().get("_id").toString();
-                    VariableStoration.roomID = id.substring(1, id.length() - 1);
-                    Log.d("Message", id);
+                try {
+                    if (response.body() != null) {
+                        String id = response.body().get("_id").toString();
+                        VariableStoration.roomID = id.substring(1, id.length() - 1);
+                        Log.d("getRoomId", id);
+                    }
+                }catch(Exception e){
+                    Log.d("getRoomId",e.toString());
                 }
             }
 

@@ -116,8 +116,8 @@ public class ChattingActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             return;
                         }
-                        Log.d("Message",username);
-                        Log.d("Message",message);
+                        Log.d("Socket",username);
+                        Log.d("Socket",message);
                         if(username.equals(VariableStoration.receiverID)) {
                             msgList.add(new Msg(message, Msg.TYPE_RECEIVED));
                             adapter.notifyItemInserted(msgList.size()-1);
@@ -180,25 +180,29 @@ public class ChattingActivity extends AppCompatActivity {
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                ArrayList<JsonObject> jsonArray = response.body();
-                Log.d("history",response.toString());
-                if(jsonArray!=null) {
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        JsonObject jsonObject = jsonArray.get(i);
-                        Log.d("history", jsonObject.get("text").toString());
-                        String string = jsonObject.get("text").toString();
-                        String hisId = jsonObject.get("sender").toString();
-                        Log.d("hisId",hisId);
-                        if (hisId.substring(1, hisId.length() - 1).equals(VariableStoration.userID)) {
-                            msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_SEND));
-                            adapter.notifyItemInserted(msgList.size()-1);
-                            msgRecyclerView.scrollToPosition(msgList.size()-1);
-                        } else {
-                            msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_RECEIVED));
-                            adapter.notifyItemInserted(msgList.size()-1);
-                            msgRecyclerView.scrollToPosition(msgList.size()-1);
+                try {
+                    ArrayList<JsonObject> jsonArray = response.body();
+                    Log.d("history", response.toString());
+                    if (jsonArray != null) {
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject jsonObject = jsonArray.get(i);
+                            Log.d("history", jsonObject.get("text").toString());
+                            String string = jsonObject.get("text").toString();
+                            String hisId = jsonObject.get("sender").toString();
+                            Log.d("hisId", hisId);
+                            if (hisId.substring(1, hisId.length() - 1).equals(VariableStoration.userID)) {
+                                msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_SEND));
+                                adapter.notifyItemInserted(msgList.size() - 1);
+                                msgRecyclerView.scrollToPosition(msgList.size() - 1);
+                            } else {
+                                msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_RECEIVED));
+                                adapter.notifyItemInserted(msgList.size() - 1);
+                                msgRecyclerView.scrollToPosition(msgList.size() - 1);
+                            }
                         }
                     }
+                }catch (Exception e){
+                    Log.d("history",e.toString());
                 }
             }
 
