@@ -29,6 +29,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class accountantSetting extends RecyclerView.Adapter<accountantSetting.ViewHolder>{
     private List<NameID> list;
+    private String TAG = "accountantSetting";
 
     public accountantSetting(List<NameID> list){
         this.list = list;
@@ -138,12 +139,12 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.d("Message",response.toString());
+                Log.d(TAG,response.toString());
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.d("postRoom",t.toString());
+                Log.d(TAG,t.toString());
             }
         });
     }
@@ -161,10 +162,14 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if(response.body()!=null) {
-                    String id = response.body().get("_id").toString();
-                    VariableStoration.roomID = id.substring(1, id.length() - 1);
-                    Log.d("Message", id);
+                try {
+                    if (response.body() != null) {
+                        String id = response.body().get("_id").toString();
+                        VariableStoration.roomID = id.substring(1, id.length() - 1);
+                        Log.d("getRoomId", id);
+                    }
+                }catch(Exception e){
+                        Log.d("getRoomId",e.toString());
                 }
             }
 
@@ -189,12 +194,12 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    Log.d("Message", "success");
+                    Log.d("updateFinish", "success");
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("Message", t.toString());
+                    Log.d("updateFinish", t.toString());
                 }
             });
         }

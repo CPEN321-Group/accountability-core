@@ -91,16 +91,20 @@ public class HomeScreenActivity extends AppCompatActivity {
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                        if(response.body()!=null) {
-                            VariableStoration.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
-                            Log.d("Message", response.body().get("isAccountant").toString());
-                            JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
-                            if(jsonname != null) {
-                                String name = jsonname.toString();
-                                if(!name.equals("")) {
-                                    VariableStoration.userName = name.substring(1, name.length() - 1);
+                        try {
+                            if (response.body() != null) {
+                                VariableStoration.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                                Log.d("Message", response.body().get("isAccountant").toString());
+                                JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
+                                if (jsonname != null) {
+                                    String name = jsonname.toString();
+                                    if (!name.equals("")) {
+                                        VariableStoration.userName = name.substring(1, name.length() - 1);
+                                    }
                                 }
                             }
+                        }catch(Exception e){
+                            Log.d("Home",e.toString());
                         }
                     }
 

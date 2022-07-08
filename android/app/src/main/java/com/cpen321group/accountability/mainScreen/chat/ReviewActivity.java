@@ -92,47 +92,51 @@ public class ReviewActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                JsonObject jsonArray = response.body();
-                Log.d("review",response.toString());
-                if(jsonArray!=null) {
-                    JsonArray reviews = jsonArray.getAsJsonArray("reviews");
-                    if(reviews!=null) {
-                        int count = 0;
-                        int mark = 0;
-                        for (int i = 0; i < reviews.size(); i++) {
-                            JsonObject jsonObject = reviews.get(i).getAsJsonObject();
-                            if(jsonObject != null) {
-                                String content = "";
-                                String title = "";
-                                if(jsonObject.get("content")!=null) {
-                                    Log.d("Review", jsonObject.get("content").getAsString());
-                                    content = jsonObject.get("content").getAsString();
+                try {
+                    JsonObject jsonArray = response.body();
+                    Log.d("review", response.toString());
+                    if (jsonArray != null) {
+                        JsonArray reviews = jsonArray.getAsJsonArray("reviews");
+                        if (reviews != null) {
+                            int count = 0;
+                            int mark = 0;
+                            for (int i = 0; i < reviews.size(); i++) {
+                                JsonObject jsonObject = reviews.get(i).getAsJsonObject();
+                                if (jsonObject != null) {
+                                    String content = "";
+                                    String title = "";
+                                    if (jsonObject.get("content") != null) {
+                                        Log.d("Review", jsonObject.get("content").getAsString());
+                                        content = jsonObject.get("content").getAsString();
+                                    }
+                                    if (jsonObject.get("title") != null) {
+                                        title = jsonObject.get("title").getAsString();
+                                    }
+                                    String date = jsonObject.get("date").getAsString();
+                                    String rate = jsonObject.get("rating").getAsString();
+                                    Log.d("Review", title);
+                                    Log.d("Review", date);
+                                    Log.d("Review", rate);
+                                    mark = Integer.valueOf(rate) + mark;
+                                    Review review_text = new Review("", "", "", "");
+                                    review_text.setContent(content);
+                                    review_text.setDate(date.substring(0, 10));
+                                    review_text.setRating(rate);
+                                    review_text.setTitle(title);
+                                    reviewList.add(review_text);
+                                    adapter.notifyItemInserted(reviewList.size() - 1);
+                                    reviewRecyclerView.scrollToPosition(reviewList.size() - 1);
+                                    count++;
                                 }
-                                if(jsonObject.get("title")!=null) {
-                                    title = jsonObject.get("title").getAsString();
-                                }
-                                String date = jsonObject.get("date").getAsString();
-                                String rate = jsonObject.get("rating").getAsString();
-                                Log.d("Review", title);
-                                Log.d("Review", date);
-                                Log.d("Review", rate);
-                                mark = Integer.valueOf(rate) + mark;
-                                Review review_text = new Review("", "", "", "");
-                                review_text.setContent(content);
-                                review_text.setDate(date.substring(0, 10));
-                                review_text.setRating(rate);
-                                review_text.setTitle(title);
-                                reviewList.add(review_text);
-                                adapter.notifyItemInserted(reviewList.size() - 1);
-                                reviewRecyclerView.scrollToPosition(reviewList.size() - 1);
-                                count++;
                             }
+                            reviewRecyclerView.scrollToPosition(0);
+                            DecimalFormat df = new DecimalFormat("0.0");
+                            accountMark = df.format((float) mark / (float) count);
+                            rating_mark.setText(accountMark);
                         }
-                        reviewRecyclerView.scrollToPosition(0);
-                        DecimalFormat df = new DecimalFormat("0.0");
-                        accountMark = df.format((float)mark/(float)count);
-                        rating_mark.setText(accountMark);
                     }
+                }catch(Exception e){
+                    Log.d("Review",e.toString());
                 }
             }
 
