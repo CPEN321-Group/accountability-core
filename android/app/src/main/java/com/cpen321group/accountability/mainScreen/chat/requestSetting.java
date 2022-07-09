@@ -68,21 +68,6 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
                     },3000);
                 }
             });
-
-            finish_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    VariableStoration.receiverID = user_id.getText().toString();
-                    getRoomID();
-                    Handler handler3 = new Handler();
-                    handler3.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                           updateFinish();
-                        }
-                    },1500);
-                }
-            });
         }
     }
     @NonNull
@@ -97,6 +82,22 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
         String name = list.get(position);
         holder.user_id.setText(name);
         holder.user_name_text.setText("User");
+        holder.finish_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VariableStoration.receiverID = holder.user_id.getText().toString();
+                getRoomID();
+                list.remove(holder.getAdapterPosition());  // remove the item from list
+                notifyItemRemoved(holder.getAdapterPosition());
+                Handler handler3 = new Handler();
+                handler3.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateFinish();
+                    }
+                },1500);
+            }
+        });
     }
 
     @Override
