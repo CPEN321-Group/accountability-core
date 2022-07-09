@@ -2,8 +2,10 @@ package com.cpen321group.accountability.mainScreen.chat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +21,10 @@ import android.widget.TextView;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalCreateActivity;
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalSetActivity;
 import com.google.android.material.color.DynamicColors;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -41,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ReviewActivity extends AppCompatActivity {
     private List<Review> reviewList = new ArrayList<>();
     private RecyclerView reviewRecyclerView;
-    private Button new_button;
+    private FloatingActionButton createXtendButton;
     private LinearLayoutManager layoutManager;
     private reviewSetting adapter;
     private String accountMark = "5.0";
@@ -49,8 +54,6 @@ public class ReviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-        DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         if (VariableStoration.is_darkMode) {
@@ -58,23 +61,32 @@ public class ReviewActivity extends AppCompatActivity {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+
+        // my_child_toolbar is defined in the layout file
+        Toolbar myChildToolbar =
+                (Toolbar) findViewById(R.id.topAppBar_review);
+        setSupportActionBar(myChildToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+
         getReviews();
         reviewRecyclerView = findViewById(R.id.review_view);
-        new_button = findViewById(R.id.button3);
+        createXtendButton = (FloatingActionButton)findViewById(R.id.floating_action_button_review);
         layoutManager = new LinearLayoutManager(this);
         adapter = new reviewSetting(reviewList);
         reviewRecyclerView.setLayoutManager(layoutManager);
         reviewRecyclerView.setAdapter(adapter);
         rating_mark = findViewById(R.id.textView4);
-        Button back_button =findViewById(R.id.button_back);
 
-        back_button.setVisibility(View.INVISIBLE);
-
-        new_button.setOnClickListener(new View.OnClickListener() {
+        createXtendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent settingsIntent = new Intent(ReviewActivity.this, AddReviewActivity.class);
-                startActivity(settingsIntent);
+                Intent goalCreateIntent = new Intent(ReviewActivity.this, AddReviewActivity.class);
+                startActivity(goalCreateIntent);
             }
         });
     }

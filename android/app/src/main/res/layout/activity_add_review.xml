@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.238"
             app:startIconContentDescription="content_description_start_icon"
-            app:startIconDrawable="@drawable/ic_goal_set_24">
+            app:startIconDrawable="@drawable/ic_star_24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/age_text"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.238"
             app:startIconContentDescription="content_description_start_icon"
-            app:startIconDrawable="@drawable/ic_goal_set_24">
+            app:startIconDrawable="@drawable/ic_star_24dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/reviewcontentInput"
