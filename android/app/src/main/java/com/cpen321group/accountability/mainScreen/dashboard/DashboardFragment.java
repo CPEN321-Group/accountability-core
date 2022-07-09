@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.mainScreen.dashboard.functionpack.AppSettingsActivity;
 import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalSetActivity;
 import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalsAdapter;
 import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalsModel;
@@ -63,7 +64,7 @@ public class DashboardFragment extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                Intent settingsIntent = new Intent(getActivity(), AppSettingsActivity.class);
                 startActivity(settingsIntent);
             }
         });

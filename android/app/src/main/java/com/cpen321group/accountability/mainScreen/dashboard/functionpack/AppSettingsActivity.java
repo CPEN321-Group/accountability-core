@@ -128,25 +128,25 @@ public class AppSettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Global notification switch
-        Switch notification_switch = (Switch)findViewById(R.id.notificiation_switch);
-        if (VariableStoration.is_notificationGlobalOn) {
-            notification_switch.setChecked(true);
-        } else {
-            notification_switch.setChecked(false);
-        }
-        notification_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (notification_switch.isPressed()){
-                    if (b) {
-                        VariableStoration.is_notificationGlobalOn = true;
-                    } else {
-                        VariableStoration.is_notificationGlobalOn = false;
-                    }
-                }
-            }
-        });
+//        // Global notification switch
+//        Switch notification_switch = (Switch)findViewById(R.id.notificiation_switch);
+//        if (VariableStoration.is_notificationGlobalOn) {
+//            notification_switch.setChecked(true);
+//        } else {
+//            notification_switch.setChecked(false);
+//        }
+//        notification_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if (notification_switch.isPressed()){
+//                    if (b) {
+//                        VariableStoration.is_notificationGlobalOn = true;
+//                    } else {
+//                        VariableStoration.is_notificationGlobalOn = false;
+//                    }
+//                }
+//            }
+//        });
 
         Button set_theme_button = findViewById(R.id.set_theme_button);
         set_theme_button.setOnClickListener(new View.OnClickListener() {
