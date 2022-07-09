@@ -109,30 +109,34 @@ public class ChatFragment extends Fragment {
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                ArrayList<JsonObject> jsonArray = response.body();
-                if(response.body()!=null) {
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        JsonObject jsonObject = jsonArray.get(i);
-                        Log.d("Message", jsonObject.get("accountId").toString());
-                        Log.d("Message", jsonObject.get("profile").getAsJsonObject().get("firstname").toString());
-                        String string = jsonObject.get("accountId").toString();
-                        String string_name = jsonObject.get("profile").getAsJsonObject().get("firstname").toString();
-                        NameID nameid = new NameID("","Accountant");
-                        nameid.setId(string.substring(1, string.length() - 1));
-                        if(string_name != null) {
-                            nameid.setName(string_name.substring(1, string_name.length() - 1));
+                try {
+                    ArrayList<JsonObject> jsonArray = response.body();
+                    if (response.body() != null) {
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject jsonObject = jsonArray.get(i);
+                            Log.d("getAccountant", jsonObject.get("accountId").toString());
+                            Log.d("getAccountant", jsonObject.get("profile").getAsJsonObject().get("firstname").toString());
+                            String string = jsonObject.get("accountId").toString();
+                            String string_name = jsonObject.get("profile").getAsJsonObject().get("firstname").toString();
+                            NameID nameid = new NameID("", "Accountant");
+                            nameid.setId(string.substring(1, string.length() - 1));
+                            if (!string_name.equals("")) {
+                                nameid.setName(string_name.substring(1, string_name.length() - 1));
+                            }
+                            accountList.add(nameid);
+                            adapter_user.notifyItemInserted(accountList.size() - 1);
+                            userRecyclerView.scrollToPosition(accountList.size() - 1);
                         }
-                        accountList.add(nameid);
-                        adapter_user.notifyItemInserted(accountList.size() - 1);
-                        userRecyclerView.scrollToPosition(accountList.size()-1);
+                        userRecyclerView.scrollToPosition(0);
                     }
-                    userRecyclerView.scrollToPosition(0);
+                }catch(Exception e){
+                    Log.d("getAccountant",e.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-                Log.d("Message", t.toString());
+                Log.d("getAccountant", t.toString());
             }
         });
     }
@@ -170,37 +174,41 @@ public class ChatFragment extends Fragment {
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                ArrayList<JsonObject> jsonArray = response.body();
-                if(jsonArray!=null) {
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        JsonObject jsonObject = jsonArray.get(i);
-                        Log.d("Message", jsonObject.get("members").toString());
-                        String string = jsonObject.get("members").toString();
-                        String bool = jsonObject.get("isFinished").toString();
-                        Log.d("isFinished",bool);
-                        if(bool.equals("false")){
-                            String[] array = string.split(",", 2);
-                            String s1 = array[0].substring(2, array[0].length() - 1);
-                            String s2 = array[1].substring(1, array[1].length() - 2);
-                            if (s1.equals(VariableStoration.userID)) {
-                                accountList.add(s2);
-                                adapter.notifyItemInserted(accountList.size() - 1);
-                                userRecyclerView.scrollToPosition(accountList.size()-1);
-                            } else {
-                                accountList.add(s1);
-                                Log.d("list",accountList.toString());
-                                adapter.notifyItemInserted(accountList.size() - 1);
-                                userRecyclerView.scrollToPosition(accountList.size()-1);
+                try {
+                    ArrayList<JsonObject> jsonArray = response.body();
+                    if (jsonArray != null) {
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject jsonObject = jsonArray.get(i);
+                            Log.d("Message", jsonObject.get("members").toString());
+                            String string = jsonObject.get("members").toString();
+                            String bool = jsonObject.get("isFinished").toString();
+                            Log.d("isFinished", bool);
+                            if (bool.equals("false")) {
+                                String[] array = string.split(",", 2);
+                                String s1 = array[0].substring(2, array[0].length() - 1);
+                                String s2 = array[1].substring(1, array[1].length() - 2);
+                                if (s1.equals(VariableStoration.userID)) {
+                                    accountList.add(s2);
+                                    adapter.notifyItemInserted(accountList.size() - 1);
+                                    userRecyclerView.scrollToPosition(accountList.size() - 1);
+                                } else {
+                                    accountList.add(s1);
+                                    Log.d("list", accountList.toString());
+                                    adapter.notifyItemInserted(accountList.size() - 1);
+                                    userRecyclerView.scrollToPosition(accountList.size() - 1);
+                                }
                             }
                         }
+                        userRecyclerView.scrollToPosition(0);
                     }
-                    userRecyclerView.scrollToPosition(0);
+                }catch(Exception e){
+                    Log.d("getUser",e.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-                Log.d("Message", t.toString());
+                Log.d("getUser", t.toString());
             }
         });
     }

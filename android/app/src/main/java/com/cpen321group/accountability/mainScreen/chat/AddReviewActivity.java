@@ -110,7 +110,7 @@ public class AddReviewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("Message","error");
+                    Log.d("postReview","error");
                 }
         });
     }
