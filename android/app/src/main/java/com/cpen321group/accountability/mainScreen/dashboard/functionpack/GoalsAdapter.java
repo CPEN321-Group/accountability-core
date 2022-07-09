@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +57,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
                 String userId = model.getUser_id();
                 String goalId = goalIdRaw.replace("\"", "");
                 Log.d(userId, goalId);
-                deleteGoal(userId, goalId, v);
+                deleteGoal(userId, goalId, v, holder);
             }
         });
         holder.goalSave.setOnClickListener(new View.OnClickListener() {
@@ -71,25 +72,27 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
         });
     }
 
-    private void deleteGoal(String userId, String GoalId, View view){
+    private void deleteGoal(String userId, String GoalId, View view, GoalsAdapter.Viewholder holder){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://20.239.52.70:8000/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.deleteSpecificGoals(userId, GoalId);
+        Call<ResponseBody> call = retrofitAPI.deleteSpecificGoals(userId, GoalId);
 
-        call.enqueue(new Callback<JsonObject>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                //Toast.makeText(view.getContext(),"You have successfully deleted your selected goal",Toast.LENGTH_LONG).show();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(view.getContext(),"You have successfully deleted your selected goal",Toast.LENGTH_LONG).show();
                 Log.d("Delete", "success");
+                goalsModelArrayList.remove(holder.getAdapterPosition());  // remove the item from list
+                notifyItemRemoved(holder.getAdapterPosition());
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                //Toast.makeText(view.getContext(),"Failed to delete your selected goal, you may try again",Toast.LENGTH_LONG).show();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(view.getContext(),"Failed to delete your selected goal, you may try again",Toast.LENGTH_LONG).show();
                 Log.d("err", t.toString());
             }
         });
