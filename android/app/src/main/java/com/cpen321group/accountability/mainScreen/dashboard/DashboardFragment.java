@@ -1,6 +1,7 @@
 package com.cpen321group.accountability.mainScreen.dashboard;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,7 +60,14 @@ public class DashboardFragment extends Fragment {
 //        final TextView textView = binding.textDashboard;
 //        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         dashName= binding.dashName;
-        dashName.setText("Good Morning, "+ VariableStoration.userName+"!");
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if ((hour>=19 && hour<=24) || (hour >=0 && hour <= 5)) {
+            dashName.setText("Good night, "+ VariableStoration.userName+"!");
+        } else if (hour>5 && hour<=12) {
+            dashName.setText("Good morning, "+ VariableStoration.userName+"!");
+        } else {
+            dashName.setText("Good afternoon, "+ VariableStoration.userName+"!");
+        }
         Button settings = binding.homeSettings;
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +90,14 @@ public class DashboardFragment extends Fragment {
             public void onClick(View view) {
                 Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
                 startActivity(goalIntent);
+            }
+        });
+        Button second_transaction = binding.transactionSecondaryButton;
+        second_transaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
+                startActivity(transactionIntent);
             }
         });
 
