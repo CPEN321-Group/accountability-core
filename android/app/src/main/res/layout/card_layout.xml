@@ -60,7 +60,7 @@
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="160dp"
+            android:layout_marginStart="140dp"
             android:layout_marginTop="80dp"
             android:text="Delete"
             />
@@ -69,9 +69,9 @@
             style="@style/Widget.Material3.Button.ElevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="260dp"
+            android:layout_marginStart="240dp"
             android:layout_marginTop="80dp"
-            android:text="Save"
+            android:text="New Savings"
             />
     </RelativeLayout>
 

@@ -42,7 +42,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeScreenActivity extends AppCompatActivity {
 
     private ActivityHomeScreenBinding binding;
-
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        // Not calling **super**, disables back button in current screen.
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Set Navigation Bar transparent

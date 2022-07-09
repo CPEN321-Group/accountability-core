@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1"
         app:startIconContentDescription="content_description_start_icon"
-        app:startIconDrawable="@drawable/ic_goal_set_24">
+        app:startIconDrawable="@drawable/ic_subscription_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/transactionNameInput"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25"
         app:startIconContentDescription="content_description_start_icon"
-        app:startIconDrawable="@drawable/ic_goal_set_24">
+        app:startIconDrawable="@drawable/ic_subscription_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:inputType="phone"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.4"
         app:startIconContentDescription="content_description_start_icon"
-        app:startIconDrawable="@drawable/ic_goal_set_24">
+        app:startIconDrawable="@drawable/ic_subscription_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/transactionCategoryInput"

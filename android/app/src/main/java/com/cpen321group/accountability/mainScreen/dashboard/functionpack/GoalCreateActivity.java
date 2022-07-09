@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,22 +47,31 @@ public class GoalCreateActivity extends AppCompatActivity {
                 goalName = goalNameEditText.getText().toString();
 
                 TextInputEditText goalTargetEditText = (TextInputEditText) findViewById(R.id.goalTargetPriceInput);
-                goalTarget = (int)Math.round((Double.parseDouble(goalTargetEditText.getText().toString())*100));
-                
+                String goalTargetText = goalTargetEditText.getText().toString();
                 date = "" + year + "/" + month + "/" + day;
                 Log.d("Goal Name:", goalName);
-                Log.d("Goal Target", ""+goalTarget);
+                Log.d("Goal Target", "" + goalTarget);
                 Log.d("Date:", "" + date);
-                try {
-                    createGoal();
-                    Intent GoalSetIntent = new Intent(GoalCreateActivity.this, GoalSetActivity.class);
-                    startActivity(GoalSetIntent);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (!goalName.equals("") && !goalTargetText.equals("") && !date.equals("")) {
+                    goalTarget = (int) Math.round((Double.parseDouble(goalTargetText) * 100));
+                    try {
+                        createGoal();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent GoalSetIntent = new Intent(GoalCreateActivity.this, GoalSetActivity.class);
+                            startActivity(GoalSetIntent);
+                        }
+                    }, 2000);
+                } else {
+                    Toast.makeText(GoalCreateActivity.this, "Some necessary information missing!", Toast.LENGTH_LONG).show();
                 }
             }
         });
-
     }
 
     public void showDatePickerDialog(View v) {
