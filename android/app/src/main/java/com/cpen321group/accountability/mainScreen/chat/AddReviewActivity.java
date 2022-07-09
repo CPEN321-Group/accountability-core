@@ -6,6 +6,7 @@ import androidx.core.view.WindowCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -80,8 +81,14 @@ public class AddReviewActivity extends AppCompatActivity {
                 content = reviewContentEditText.getText().toString();
                 if(rate != null && !content.equals("") && !title.equals("")) {
                     postReview();
-                    Intent settingsIntent = new Intent(AddReviewActivity.this, ReviewActivity.class);
-                    startActivity(settingsIntent);
+                    Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent settingsIntent = new Intent(AddReviewActivity.this, ReviewActivity.class);
+                            startActivity(settingsIntent);
+                        }
+                    },2000);
                 }else{
                     Toast.makeText(AddReviewActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
                 }

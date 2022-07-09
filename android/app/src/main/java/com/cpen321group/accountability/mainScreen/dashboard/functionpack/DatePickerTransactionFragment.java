@@ -33,7 +33,7 @@ public class DatePickerTransactionFragment extends DialogFragment
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         TransactionCreateActivity.year = year;
-        TransactionCreateActivity.month = month;
+        TransactionCreateActivity.month = month+1;
         TransactionCreateActivity.day = day;
     }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.mainScreen.chat.AddReviewActivity;
+import com.cpen321group.accountability.mainScreen.chat.ReviewActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
@@ -33,23 +36,34 @@ public class GoalUpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_update);
 
-
         Button updateGoal = findViewById(R.id.goalUpdateButton);
         updateGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TextInputEditText goalCurrentEditText = (TextInputEditText) findViewById(R.id.goalCurrentPriceInput);
-                goalCurrent = (int)Math.round((Double.parseDouble(goalCurrentEditText.getText().toString())*100));
-                Log.d("Goal Current", ""+goalCurrent);
+                String goalTextinput = goalCurrentEditText.getText().toString();
+
                 try {
                     Bundle extras = getIntent().getExtras();
                     if (extras != null) {
                         goalId = extras.getString("goalId");
                         //The key argument here must match that used in the other activity
                     }
-                    updateGoal();
-                    Intent GoalSetIntent = new Intent(GoalUpdateActivity.this, GoalSetActivity.class);
-                    startActivity(GoalSetIntent);
+                    if(goalId != null && !goalTextinput.equals("")) {
+                        goalCurrent = (int)Math.round((Double.parseDouble(goalCurrentEditText.getText().toString())*100));
+                        Log.d("Goal Current", ""+goalCurrent);
+                        updateGoal();
+                        Handler handler2 = new Handler();
+                        handler2.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent GoalSetIntent = new Intent(GoalUpdateActivity.this, GoalSetActivity.class);
+                                startActivity(GoalSetIntent);
+                            }
+                        },2000);
+                    }else{
+                        Toast.makeText(GoalUpdateActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

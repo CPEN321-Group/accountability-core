@@ -6,6 +6,7 @@ import androidx.fragment.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -50,16 +51,28 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 transactionCategory = transactionCategoryEditText.getText().toString();
 
                 TextInputEditText transactionAmountEditText = (TextInputEditText) findViewById(R.id.transactionAmountPriceInput);
-                transactionAmount = (int)Math.round((Double.parseDouble(transactionAmountEditText.getText().toString())*100));
+                String TransactionAmountText = transactionAmountEditText.getText().toString();
 
                 date = year + "/" + month + "/" + day;
                 Log.d("Date:", "" + date);
-                try {
-                    createTransaction();
-                    Intent TransactionSetIntent = new Intent(TransactionCreateActivity.this, TransactionSetActivity.class);
-                    startActivity(TransactionSetIntent);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                if(!date.equals("") && !transactionName.equals("") && !TransactionAmountText.equals("")) {
+                    transactionAmount = (int)Math.round((Double.parseDouble(TransactionAmountText)*100));
+                    try {
+                        createTransaction();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent TransactionSetIntent = new Intent(TransactionCreateActivity.this, TransactionSetActivity.class);
+                            startActivity(TransactionSetIntent);
+                        }
+                    },2000);
+                }else{
+                    Toast.makeText(TransactionCreateActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
                 }
             }
         });

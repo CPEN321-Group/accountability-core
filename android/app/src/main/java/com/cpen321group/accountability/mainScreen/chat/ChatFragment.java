@@ -50,6 +50,25 @@ public class ChatFragment extends Fragment {
     private String TAG = "Chat";
     private List<NameID> aList = new ArrayList<>();
 
+    private Handler handler = new Handler();
+    private Runnable runnable = new Runnable() {
+        public void run() {
+            this.update();
+            handler.postDelayed(this, 1000 * 120);// 间隔120秒
+        }
+        void update() {
+            if(VariableStoration.isAccountant){
+                layoutManager = new LinearLayoutManager(getActivity());
+                userRecyclerView.setLayoutManager(layoutManager);
+                getData();
+                functionName.setText("User Request");
+                adapter = new requestSetting(userList);
+                userRecyclerView.setAdapter(adapter);
+            }
+        }
+    };
+
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         ChatViewModel chatViewModel =
@@ -70,11 +89,11 @@ public class ChatFragment extends Fragment {
 
         if(VariableStoration.isAccountant){
             functionName.setText("User Request");
-            adapter = new requestSetting(userList = getData());
+            adapter = new requestSetting(userList);
             userRecyclerView.setAdapter(adapter);
         }else{
             functionName.setText("Find An Accountant");
-            adapter_user = new accountantSetting(aList = getAccountantData());
+            adapter_user = new accountantSetting(aList);
             userRecyclerView.setAdapter(adapter_user);
         }
 
@@ -92,7 +111,7 @@ public class ChatFragment extends Fragment {
         }else{
             getUser(userList);
         }
-
+        handler.postDelayed(runnable, 1000 * 60);
         return root;
     }
 
@@ -143,23 +162,21 @@ public class ChatFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        handler.removeCallbacks(runnable);
         super.onDestroyView();
         binding = null;
     }
 
-    private List<String> getData(){
-        //list.clear();
-        List<String> list = new ArrayList<>();
-        userList.clear();
-        return list;
+    private void getData(){
+        if(!VariableStoration.isAccountant){
+            aList.clear();
+            getAccountant(aList);
+        }else{
+            userList.clear();
+            getUser(userList);
+        }
     }
 
-    private List<NameID> getAccountantData(){
-        //list.clear();
-        List<NameID> list = new ArrayList<>();
-        aList.clear();
-        return list;
-    }
 
     private void getUser(List<String> accountList) {
         Retrofit retrofit = new Retrofit.Builder()

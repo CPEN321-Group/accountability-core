@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,30 +54,32 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 String transactionId = transactionIdRaw.replace("\"", "");
                 String userId = model.getUser_id();
                 Log.d ("UserId + TransactionId", userId+" "+transactionId);
-                deleteTransaction(userId, transactionId, view);
+                deleteTransaction(userId, transactionId, view, holder);
             }
         });
     }
 
-    private void deleteTransaction(String userId, String transactionId, View view) {
+    private void deleteTransaction(String userId, String transactionId, View view, TransactionAdapter.Viewholder holder) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://20.239.52.70:8000/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.deleteSpecificTransaction(userId, transactionId);
+        Call<ResponseBody> call = retrofitAPI.deleteSpecificTransaction(userId, transactionId);
 
-        call.enqueue(new Callback<JsonObject>() {
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                //Toast.makeText(view.getContext(),"You have successfully deleted your selected transaction",Toast.LENGTH_LONG).show();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(view.getContext(),"You have successfully deleted your selected transaction",Toast.LENGTH_LONG).show();
                 Log.d("Delete", "success");
+                transactionModelArrayList.remove(holder.getAdapterPosition());  // remove the item from list
+                notifyItemRemoved(holder.getAdapterPosition());
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                //Toast.makeText(view.getContext(),"Failed to delete your selected transaction, you may try again",Toast.LENGTH_LONG).show();
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(view.getContext(),"Failed to delete your selected transaction, you may try again",Toast.LENGTH_LONG).show();
                 Log.d("Delete", "failed");
             }
         });

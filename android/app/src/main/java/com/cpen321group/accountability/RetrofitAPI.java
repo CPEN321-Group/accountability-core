@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Date;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -82,8 +83,8 @@ public interface RetrofitAPI {
                                         @Query("current") int currentCents);
 
     @DELETE("{userId}/{goalId}")
-    Call<JsonObject> deleteSpecificGoals(@Path("userId") String id,
-                                         @Path("goalId") String goalId);
+    Call<ResponseBody> deleteSpecificGoals(@Path("userId") String id,
+                                           @Path("goalId") String goalId);
 
     // Transaction APIs
     @GET("{userId}")
@@ -116,7 +117,7 @@ public interface RetrofitAPI {
                                                @Query("receipt") String receiptURL);
 
     @DELETE("{userId}/{transactionId}")
-    Call<JsonObject> deleteSpecificTransaction(@Path("userId") String id,
+    Call<ResponseBody> deleteSpecificTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId);
 
 }

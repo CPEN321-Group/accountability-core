@@ -36,6 +36,12 @@ public class GoalSetActivity extends AppCompatActivity {
     // Arraylist for storing data
     private ArrayList<GoalsModel> goalsModelArrayList;
 
+    // disable system return button
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        // Not calling **super**, disables back button in current screen.
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
