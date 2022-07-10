@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { getDefinedFields } = require('../../../utils/get-defined-fields');
-const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongo-required')
+const {r_string,r_bool,r_num, r_date} = require('../../../utils/types/mongo-required')
 
 const profileSchema = new mongoose.Schema({
   avatar: String,

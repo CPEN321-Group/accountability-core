@@ -4,7 +4,7 @@ const { reviewSchema } = require('./review/review');
 const { subscriptionSchema } = require('./subscription/subscription');
 const accountDB = mongoose.createConnection('mongodb://localhost/accountDB')
 
-const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongo-required')
+const {r_string,r_bool,r_num, r_date} = require('../../utils/types/mongo-required')
 const accountSchema = new mongoose.Schema({
   accountId: r_string,
   profile: {type: profileSchema, required: true},
@@ -16,5 +16,6 @@ const accountSchema = new mongoose.Schema({
 })
 
 const Account = accountDB.model('Account', accountSchema);
+const Review = accountDB.model('Review', reviewSchema);
 
-module.exports = {Account};
+module.exports = {Account,Review};
