@@ -138,7 +138,7 @@ module.exports = {
       });
   
       const account = await Account.findOneAndUpdate(
-        {accountId: accountantId},
+        {$and:[{accountId: accountantId}, {isAccountant: true}]},
         {$push: {reviews: newReview}},
         {returnDocument: 'after'},
       );
