@@ -6,7 +6,14 @@ const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/get-defined-fields");
 
+/**
+ * Interface between endpoints and mongodb database. Each function defined will perform a CRUD operation on the accountDB
+ */
 module.exports = {
+  /**
+   * @param {object} fields - requires accountId,firstname,lastname,email,age,profession,isAccountant to be defined and of the right type
+   * @param {function} callback - is called with response status and data
+   */
   createAccount: async (fields,callback) => {
     try {
       const df = getDefinedFields(fields);
@@ -44,6 +51,10 @@ module.exports = {
     }
     
   },
+  /**
+   * @param {string} accountId - account id string
+   * @param {function} callback - is called with response status and data
+   */
   findAccount: async (accountId,callback) => {
     try {
       const account = await Account.findOne({accountId: accountId});
@@ -55,6 +66,9 @@ module.exports = {
     }
     
   },
+  /**
+   * @param {function} callback - is called with response status and data
+   */
   findAccountants: async (callback) => {
     try {
       const foundAccounts = await Account.find({isAccountant: true});
@@ -64,6 +78,12 @@ module.exports = {
       callback(400,err);
     }
   },
+  /**
+   * @param {string} id - account id
+   * @param {object} data - assume defined data fields (avatar,firstname,lastname,email,age,profession)
+   * are not-empty and valid strings, valid age
+   * @param {function} callback - is called with response status and data
+   */
   updateProfile: async (id,data,callback) => {    
     try {
       const {avatar,firstname,lastname,email,age,profession} = data;
@@ -82,6 +102,10 @@ module.exports = {
     }
     
   },
+  /**
+   * @param {string} id - account id
+   * @param {function} callback - is called with response status and data
+   */
   deleteAccount: async (id,callback) => {
     try {
       const account = await Account.findOneAndDelete({accountId: id});
@@ -96,7 +120,11 @@ module.exports = {
       return callback(400,err);
     }
   },
-
+  /**
+   * @param {string} accountantId - account id
+   * @param {object} fields - assume required fields (authorId,date,rating,title) are defined and are not-empty and valid strings
+   * @param {function} callback - is called with response status and data
+   */
   createReview: async (accountantId,fields,callback) => {
     try {
       const df = getDefinedFields(fields);
@@ -121,9 +149,18 @@ module.exports = {
       return callback(400,err);
     }
   },
+  /**
+   * Set the subcription and expiry date of the subcription
+   * @param {string} id - account id
+   * @param {object} fields - assume required fields (expiryDate,subscriptionDate) are defined and are not-empty and valid strings
+   * @param {function} callback - is called with response status and data
+   */
   createSubscription: async (id,fields,callback) => {
     try {
       const {subscriptionDate,expiryDate} = fields;
+      if (!fieldsAreNotNull({subscriptionDate,expiryDate})) {
+        return callback(400,'missing params');
+      }
       const fieldsToUpdate = parseSubscriptionData({subscriptionDate,expiryDate});
   
       const account = await Account.findOneAndUpdate(
@@ -138,9 +175,18 @@ module.exports = {
       return callback(400,err);
     }
   },
+  /**
+   * Modify the expiry date of the current subscription.
+   * @param {string} id - account id
+   * @param {object} fields - assume required fields (expiryDate) are defined and are not-empty and valid strings
+   * @param {function} callback - is called with response status and data
+   */
   updateSubscription: async (id,fields,callback) => {
     try {
       const {expiryDate} = fields;
+      if (!fieldsAreNotNull({expiryDate})) {
+        return callback(400,'missing params');
+      }
       const fieldsToUpdate = parseSubscriptionData({expiryDate})
       const account = await Account.findOneAndUpdate(
         {accountId: id},
