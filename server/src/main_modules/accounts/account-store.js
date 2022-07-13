@@ -35,14 +35,14 @@ module.exports = {
       }); 
       await newAccount.save();
       
-      if (!isAccountant) {
+      if (!isAct) {
         console.log('creating goals/transaction/reports document')
         const userTransaction = new UserTransaction({userId: newAccount.accountId});
         const userGoal = new UserGoal({userId: newAccount.accountId});
         const userReport = new UserReport({userId: newAccount.accountId});
-        await userTransaction.save();
-        await userGoal.save();
-        await userReport.save();
+        const t = await userTransaction.save();
+        const g = await userGoal.save();
+        const r = await userReport.save();
       }
       return callback(200,newAccount);
     } catch (err) {
