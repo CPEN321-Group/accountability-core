@@ -11,6 +11,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
 import com.cpen321group.accountability.mainScreen.dashboard.DashboardFragment;
+import com.cpen321group.accountability.welcome.WelcomeActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,12 +22,12 @@ import org.junit.runner.RunWith;
 public class ButtonEspressoTest {
 
     @Rule
-    public ActivityTestRule<HomeScreenActivity> activityRule =
-            new ActivityTestRule<>(HomeScreenActivity.class);
+    public ActivityTestRule<WelcomeActivity> activityRule =
+            new ActivityTestRule<>(WelcomeActivity.class);
 
     @Test
     public void listGoesOverTheFold() {
-        onView(withId(R.id.transaction_secondary_button))
+        onView(withId(R.id.welcome_register))
                 .perform(click())
                 .check(matches(isDisplayed()));
     }
