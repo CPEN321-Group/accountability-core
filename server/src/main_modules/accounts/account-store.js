@@ -129,7 +129,6 @@ module.exports = {
     try {
       const df = getDefinedFields(fields);
       const {authorId,rating,date,title,content} = df;
-      console.log(date);
       if (!fieldsAreNotNull({authorId,date,rating,title})) { 
         return callback(400,'missing params');
       }
@@ -164,7 +163,7 @@ module.exports = {
       const fieldsToUpdate = parseSubscriptionData({subscriptionDate,expiryDate});
   
       const account = await Account.findOneAndUpdate(
-        {accountId: id},
+        {$and:[{accountId: id}, {isAccountant: false}]},
         {$set: fieldsToUpdate},
         {returnDocument: 'after'},
       );
@@ -189,7 +188,7 @@ module.exports = {
       }
       const fieldsToUpdate = parseSubscriptionData({expiryDate})
       const account = await Account.findOneAndUpdate(
-        {accountId: id},
+        {$and:[{accountId: id}, {isAccountant: false}]},
         {$set: fieldsToUpdate},
         {returnDocument: 'after'},
       );
