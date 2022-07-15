@@ -161,8 +161,5 @@ describe('testing updateSubscription', () => {
 })
 
 // afterAll(()=>{ mongoose.disconnect();});
-afterAll(async done => {
-  // Closing the DB connection allows Jest to exit successfully.
-  dbConnection.close();
-  done();
-});
+afterAll(()=>{ mongoose.disconnect();done();});
+
