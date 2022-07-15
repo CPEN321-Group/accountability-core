@@ -3,8 +3,10 @@ on: [push]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     steps:
-      - working-directory: ./server
       - run: echo "### Install and build backend server"
       - run: npm install
       - run: echo "### Running test"
