@@ -26,3 +26,4 @@
     "jest": "^28.1.2"
   }
 }
+jest --runInBand --detectOpenHandles --forceExit
