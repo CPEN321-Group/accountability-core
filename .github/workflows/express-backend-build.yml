@@ -4,7 +4,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - run: cd server
+      - working-directory: ./server
       - run: echo "### Install and build backend server"
       - run: npm install
       - run: echo "### Running test"
