@@ -19,6 +19,10 @@ const account = {
   }
 };
 
+beforeAll(done => {
+  done()
+})
+
 describe('testing createAccount', () => {
   const accountFields = {
     accountId: '1234',
