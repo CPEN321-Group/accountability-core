@@ -160,4 +160,5 @@ describe('testing updateSubscription', () => {
   })
 })
 
-afterAll(()=>{ mongoose.disconnect();});
+afterAll(()=>{ mongoose.disconnect();
+             done();});
