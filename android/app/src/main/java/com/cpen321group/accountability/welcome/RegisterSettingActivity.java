@@ -88,11 +88,15 @@ public class RegisterSettingActivity extends AppCompatActivity {
         }
 
         //set visible
+        TextInputLayout email = findViewById(R.id.emailField);
+        ImageView image = findViewById(R.id.imageView5);
         emailText = findViewById(R.id.email_text);
         if(GoogleSignIn.getLastSignedInAccount(this)!=null){
-            emailText.setVisibility(View.INVISIBLE);
+            email.setVisibility(View.INVISIBLE);
+            image.setVisibility(View.INVISIBLE);
         }else{
-            emailText.setVisibility(View.VISIBLE);
+            email.setVisibility(View.VISIBLE);
+            image.setVisibility(View.VISIBLE);
         }
 
         ageText = findViewById(R.id.age_text);
@@ -109,6 +113,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 }
             }
         }
+        changeButton.setVisibility(View.INVISIBLE);
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
