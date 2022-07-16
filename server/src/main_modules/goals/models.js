@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const goalDB = mongoose.createConnection(process.env.MONGO_BASE_URL + '/goalDB')
+const goalDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/goalDB')
 const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongo-required')
 
 const goalSchema = new mongoose.Schema({

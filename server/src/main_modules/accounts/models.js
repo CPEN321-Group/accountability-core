@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { profileSchema } = require('./profile/profile');
 const { reviewSchema } = require('./review/review');
 const { subscriptionSchema } = require('./subscription/subscription');
-const accountDB = mongoose.createConnection(process.env.MONGO_BASE_URL + '/accountDB')
+const accountDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/accountDB')
 
 const {r_string,r_bool,r_num, r_date} = require('../../utils/types/mongo-required')
 const accountSchema = new mongoose.Schema({

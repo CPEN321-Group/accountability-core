@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const plaidDB = mongoose.createConnection(process.env.MONGO_BASE_URL + '/plaidDB')
+const plaidDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/plaidDB')
 
 const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongo-required')
 
