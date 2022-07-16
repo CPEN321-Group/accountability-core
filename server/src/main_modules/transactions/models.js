@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const transactionDB = mongoose.createConnection(process.env.MONGO_BASE_URL + '/transactionDB')
+const transactionDB = mongoose.createConnection('mongodb://localhost/transactionDB')
 const {r_string,r_bool,r_num,r_date} = require.main.require('./utils/types/mongo-required')
 
 const transactionSchema = new mongoose.Schema({
