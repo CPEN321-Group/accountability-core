@@ -4,6 +4,9 @@ const { Conversation, Message } = require("./models");
 module.exports = {
   findConversation: async (account1Id,account2Id,callback) => {
     try {
+      if (!fieldsAreNotNull({account1Id,account2Id})) {
+        return callback(400,'missing params');
+      }
       const conversation = await Conversation.findOne(
         {members: { $all: [account1Id, account2Id]}}
       );
@@ -18,6 +21,9 @@ module.exports = {
   },
   createConversation: async (account1Id,account2Id,callback) => {
     try {
+      if (!fieldsAreNotNull({account1Id,account2Id})) {
+        return callback(400,'missing params');
+      }
       const newConversation = new Conversation({
         members: [account1Id,account2Id],
       })
@@ -87,6 +93,9 @@ module.exports = {
   },
   updateIsFinished: async (conversationId,isFinished,callback) => {
     try {
+      if (!fieldsAreNotNull({isFinished})) {
+        return callback(400,'missing params');
+      }
       const isFin = (isFinished === 'true');
       const conversation = await Conversation.findOneAndUpdate(
         {_id: conversationId},
