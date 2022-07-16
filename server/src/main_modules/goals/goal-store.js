@@ -34,7 +34,6 @@ module.exports = {
       console.log(err);
       return callback(400,err);
     }
-    
   },
   createGoal: async (accountId,data,callback) => {
     try {
@@ -73,7 +72,6 @@ module.exports = {
       console.log(err);
       return callback(400,err);
     }
-    
   },
   findGoal: async (accountId,goalId,callback) => {
     try {
@@ -90,7 +88,6 @@ module.exports = {
       console.log(err);
       return callback(400,err);
     }
-    
   },
   updateGoal: async (accountId,goalId,data,callback) => {
     try {
@@ -130,6 +127,5 @@ module.exports = {
       console.log(err);
       return callback(400,err);
     }
-    
   },
 }
