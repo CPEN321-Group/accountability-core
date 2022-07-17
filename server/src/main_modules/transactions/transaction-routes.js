@@ -5,48 +5,42 @@ const { authenticate } = require.main.require("./main_modules/accounts/account-a
 
 module.exports = function(app) {
   app.route('/transactions/:userId')
-  .get((req,res,next) => {
-    findTransactions(req.params.userId,(err,foundTransactions) => {
-      if (err) return next(err);
-      return res.json(foundTransactions);
+  .get(async (req,res) => {
+    await findTransactions(req.params.userId,(status,returnData) => {
+      res.status(status).json(returnData);
     })
   })
-  .post((req,res,next) => {
-    const df = getDefinedFields(req.query);
-    const {title,category,date,amount,isIncome,receipt} = df;
-    if (!fieldsAreNotNull({title,category,amount,isIncome})) {return next(new Error('missing params'))}
-    createTransaction(req.params.userId,{title,category,date,amount,isIncome,receipt},(err,foundTransactions) => {
-      if (err) return next(err);
-      return res.json(foundTransactions);
-    })
+  .post(async (req,res,next) => {
+    await createTransaction(
+      req.params.userId,
+      req.query,
+      (status,returnData) => {
+        res.status(status).json(returnData);
+      })
   })
-  .delete((req,res,next) => {
-    deleteTransactions(req.params.userId, (err) => {
-      if (err) return next(err);
-      return res.end('transactions deleted');
+  .delete(async (req,res,next) => {
+    await deleteTransactions(req.params.userId, (status,returnData) => {
+      res.status(status).json(returnData);
     })
   })
 
   app.route('/transactions/:userId/:transactionId')
-  .get((req,res,next) => {
+  .get(async (req,res,next) => {
     const {userId,transactionId} = req.params;
-    findTransaction(userId,transactionId,(err,foundTransaction) => {
-      if (err) return next(err);
-      return res.json(foundTransaction);
+    await findTransaction(userId,transactionId,(status,returnData) => {
+      res.status(status).json(returnData);
     })
   })
-  .put((req,res,next) => {
+  .put(async (req,res,next) => {
     const {userId,transactionId} = req.params;
-    updateTransaction(userId,transactionId,req.query,(err,foundTransaction) => {
-      if (err) return next(err);
-      return res.json(foundTransaction);
+    await updateTransaction(userId,transactionId,req.query,(status,returnData) => {
+      res.status(status).json(returnData);
     })
   })
-  .delete((req,res,next) => {
+  .delete(async (req,res,next) => {
     const {userId,transactionId} = req.params;
-    deleteTransaction(userId,transactionId,(err) => {
-      if (err) return next(err);
-      return res.end('transaction deleted');
+    await deleteTransaction(userId,transactionId,(status,returnData) => {
+      res.status(status).json(returnData);
     })
   })
 }

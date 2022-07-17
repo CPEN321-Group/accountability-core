@@ -17,7 +17,8 @@ const userTransactionSchema = new mongoose.Schema({
   transactions: {type: [transactionSchema], default: []}
 })
 
+const Transaction = transactionDB.model('Transaction',transactionSchema);
 const UserTransaction = transactionDB.model('UserTransaction',userTransactionSchema)
 
 
-module.exports = {UserTransaction, transactionSchema};
+module.exports = {UserTransaction, transactionSchema,Transaction};

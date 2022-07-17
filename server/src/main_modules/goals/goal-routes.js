@@ -6,52 +6,43 @@ const { authenticate } = require.main.require("./main_modules/accounts/account-a
 
 
 module.exports = function(app) {
-  app.route('/goals/:userId')
-    .get((req,res,next) => {
-      UserGoal.findOne({userId: req.params.userId},(err,userGoal) => {
-        if (err) return next(err);
-        if (!userGoal) return res.status(404).end('account not found');
-        return res.json(userGoal.goals);
+  app.route('/goals/:accountId')
+    .get(async (req,res,next) => {
+      await findGoals(req.params.accountId, (status,returnData) => {
+        res.status(status).json(returnData);
       })
     })
-    .post((req,res,next) => {
-      const df = getDefinedFields(req.query);
-      const {title,target,current,deadline} = df;
-      if (!fieldsAreNotNull({title,target,current,deadline})) {next(new Error('missing params'))}
-      createGoal(req.params.userId,{title,target,current,deadline},(err,foundGoals) => {
-        if (err) return next(err);
-        return res.json(foundGoals);
-      })
+    .post(async (req,res,next) => {
+      await createGoal(
+        req.params.accountId,
+        req.query,
+        (status,returnData) => {
+          res.status(status).json(returnData);
+        })
     })
-    .delete((req,res,next) => {
-      deleteGoals(req.params.userId, (err,usergoal) => {
-        if (err) return next(err);
-        if (!usergoal) return res.status(404).end('account not found');
-        return res.end('goals deleted');
+    .delete(async (req,res,next) => {
+      await deleteGoals(req.params.accountId, (status,returnData) => {
+        res.status(status).json(returnData);
       })
     })
 
-  app.route('/goals/:userId/:goalId')
-    .get((req,res,next) => {
-      const {userId,goalId} = req.params;
-      findGoal(userId,goalId,(err,foundGoal) => {
-        if (err) return next(err);
-        return res.json(foundGoal);
+  app.route('/goals/:accountId/:goalId')
+    .get(async (req,res,next) => {
+      const {accountId,goalId} = req.params;
+      await findGoal(accountId,goalId, (status,returnData) => {
+        res.status(status).json(returnData);
       })
     })
-    .put((req,res,next) => {
-      const {userId,goalId} = req.params;
-      
-      updateGoal(userId,goalId,req.query,(err,goal) => {
-        if (err) return next(err);
-        return res.json(goal);
+    .put(async (req,res,next) => {
+      const {accountId,goalId} = req.params;
+      await updateGoal(accountId,goalId,req.query, (status,returnData) => {
+        res.status(status).json(returnData);
       })
     })
-    .delete((req,res,next) => {
-      const {userId,goalId} = req.params;
-      deleteGoal(userId,goalId,(err) => {
-        if (err) return next(err);
-        return res.end('goal deleted');
+    .delete(async (req,res,next) => {
+      const {accountId,goalId} = req.params;
+      await deleteGoal(accountId,goalId,(status,returnData) => {
+        res.status(status).json(returnData);
       })
     })
 }

@@ -14,6 +14,7 @@ const userGoalSchema = new mongoose.Schema({
   goals: {type: [goalSchema], default: []}
 })
 
+const Goal = goalDB.model('Goal',goalSchema);
 const UserGoal = goalDB.model('UserGoal',userGoalSchema);
 
-module.exports = {UserGoal, goalSchema};
+module.exports = {UserGoal, goalSchema, Goal};

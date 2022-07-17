@@ -1,5 +1,6 @@
+const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
-const {UserGoal} = require('./models');
+const {UserGoal, Goal} = require('./models');
 const { getDefinedFields } = require.main.require('./utils/get-defined-fields');
 
 function parseGoalData(fields) {
@@ -22,68 +23,112 @@ function createUserGoal(userId,goals,callback) {
   })
 }
 module.exports = {
-  findGoals: (accountId,callback) => {
-    UserGoal.findOne({userId: accountId},(err,foundUserGoal) => callback(err,foundUserGoal))
+  findGoals: async (accountId,callback) => {
+    try {
+      const usergoal = await UserGoal.findOne({userId: accountId});
+      if (!usergoal) {
+        return callback(404,'account not found');
+      }
+      return callback(200, usergoal.goals);
+    } catch (err) {
+      console.log(err);
+      return callback(400,err);
+    }
   },
-  findGoal: (accountId,goalId,callback) => {
-    UserGoal.findOne({userId:accountId},(err,usergoal) => {
-      if (!usergoal) return callback(new Error('account/goal not found'),null);
+  createGoal: async (accountId,data,callback) => {
+    try {
+      const df = getDefinedFields(data);
+      const {title,target,current,deadline} = df;
+      if (!fieldsAreNotNull({title,target,current,deadline})) {
+        return callback(400,'missing params');
+      }
+  
+      const goal = new Goal({title,target,current,deadline});
+      const usergoal = await UserGoal.findOneAndUpdate(
+        {userId: accountId},
+        { $push: { goals: goal } },
+        {returnDocument: 'after'}
+      )
+      if (!usergoal) {
+        return callback(404,'account not found');
+      }
+      return callback(200,goal)
+    } catch (err) {
+      console.log(err);
+      return callback(400,err);
+    }
+  },
+  deleteGoals: async (accountId,callback) => {
+    try {
+      const usergoal = await UserGoal.findOneAndUpdate(
+        {userId: accountId}, 
+        {goals: []},
+        {returnDocument:'after'});
+      if (!usergoal) {
+        return callback(404,'account not found');
+      }
+      return callback(200, 'goals deleted');
+    } catch (err) {
+      console.log(err);
+      return callback(400,err);
+    }
+  },
+  findGoal: async (accountId,goalId,callback) => {
+    try {
+      const usergoal = await UserGoal.findOne({userId:accountId});
+      if (!usergoal) {
+        return callback(404, 'account not found');
+      }
+        const goal = getItemFromList(usergoal.goals,goalId);
+        if (!goal) {
+          return callback(404, 'goal not found');
+        }
+        return callback(200, goal);
+    } catch (err) {
+      console.log(err);
+      return callback(400,err);
+    }
+  },
+  updateGoal: async (accountId,goalId,data,callback) => {
+    try {
+      const {title,target,current,deadline} = data;
+      const fieldsToUpdate = parseGoalData({title,target,current,deadline});
+  
+      const usergoal = await UserGoal.findOneAndUpdate(
+        {$and:[{userId: accountId}, {goals: { $elemMatch: { _id: goalId }}}]},
+        {$set: fieldsToUpdate},
+        {returnDocument: 'after'}
+      )
+      if (!usergoal) {
+        return callback(404, 'account/goal not found');
+      }
       const goal = getItemFromList(usergoal.goals,goalId);
-      if (goal) return callback(err,goal);
-      return callback(new Error('goal not found'),null);
-    })
-  },
-  createGoal: (accountId,data,callback) => {
-    const {title,target,current,deadline} = data;
-    const newGoal = {title,target,current,deadline};
-    UserGoal.findOneAndUpdate({userId: accountId},{ $push: { goals: newGoal } },
-      {returnDocument: 'after'},
-      (err,usergoal) => {
-        let goal;
-        if (!usergoal) {
-          return callback(new Error('account not found'),null);
-        } 
-        goal = usergoal.goals[usergoal.goals.length - 1]
-        // console.log('goal created');
-        
-        if (goal) return callback(err,goal);
-        return callback(new Error('goal creation unsuccessful'),null);
+      if (!goal) {
+        return callback(404,'goal not found');
       }
-    )
+      return callback(200, goal);
+    } catch (err) {
+      console.log(err);
+      return callback(400,err);
+    }
   },
-  updateGoal: (accountId,goalId,data,callback) => {
-    const {title,target,current,deadline} = data;
-    const fieldsToUpdate = parseGoalData({title,target,current,deadline});
-
-    UserGoal.findOneAndUpdate({$and:[{userId: accountId}, {
-        goals: { $elemMatch: { _id: goalId }}
-      }]},
-      {$set: fieldsToUpdate},
-      {returnDocument: 'after'},
-      (err,usergoal) => {
-        if (!usergoal) return callback(new Error('account/goal not found'),null);
-        const goal = getItemFromList(usergoal.goals,goalId);
-        if (goal) return callback(err,goal);
-        return callback(new Error('goal update unsuccessful'),null);
+  deleteGoal: async (accountId,goalId,callback) => {
+    try {
+      const usergoal = await UserGoal.findOneAndUpdate(
+        {userId: accountId},
+        {$pull: {goals: {_id: goalId}}},
+      )
+      if (!usergoal) { 
+        return callback(404, 'account not found')
       }
-    )
-  },
-  deleteGoals: (accountId,callback) => {
-    UserGoal.findOneAndUpdate({userId: accountId}, {goals: []},{returnDocument:'after'},(err,usergoal) => {
-      if (err) callback(err,null);
-      if (!usergoal) callback(new Error('account not found'), null);
-      callback(err,usergoal);
-    })
-  },
-  deleteGoal: (accountId,goalId,callback) => {
-    UserGoal.findOneAndUpdate({userId: accountId},{$pull: {goals: {_id: goalId}}},
-      {returnDocument: 'after'},
-      (err,usergoal) => {
-        if (!usergoal) return callback(new Error('account not found'))
-        const goal = getItemFromList(usergoal.goals,goalId);
-        if (goal) callback(new Error('goal deletion unsuccessful'));
-        return callback(err);
+      const goal = getItemFromList(usergoal.goals,goalId);
+      if (!goal) {
+        return callback(404, 'goal not found');
       }
-    )
+      return callback(200, 'goal deleted');
+    } catch (err) {
+      console.log(err);
+      return callback(400,err);
+    }
   },
 }
