@@ -117,10 +117,13 @@ module.exports = {
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId},
         {$pull: {goals: {_id: goalId}}},
-        {returnDocument: 'after'},
       )
       if (!usergoal) { 
         return callback(404, 'account not found')
+      }
+      const goal = getItemFromList(usergoal.goals,goalId);
+      if (!goal) {
+        return callback(404, 'goal not found');
       }
       return callback(200, 'goal deleted');
     } catch (err) {

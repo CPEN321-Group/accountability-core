@@ -2,6 +2,7 @@ const { UserReport, Report } = require("./models");
 const { UserGoal } = require("../goals/models");
 const { UserTransaction } = require("../transactions/models");
 const { fieldsAreNotNull } = require("../../utils/get-defined-fields");
+const { getItemFromList } = require("../../utils/get-from-list");
 
 const getOngoingGoals = (goals, startOfNextMonth) => {
   let ongoingGoals = goals.filter(goal => goal.deadline.getTime() > startOfNextMonth.getTime());
@@ -184,10 +185,13 @@ module.exports = {
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId},
         {$pull: {reports: {_id: reportId}}},
-        {returnDocument: 'after'},
       )
       if (!userReport) {
         return callback(404,'account not found');
+      }
+      const report = getItemFromList(userReport.reports,reportId);
+      if (!report) {
+        return callback(404, 'report not found');
       }
       return callback(200,'report deleted');
     } catch (err) {

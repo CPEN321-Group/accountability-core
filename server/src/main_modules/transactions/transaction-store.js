@@ -1,6 +1,6 @@
 const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
-const {UserTransaction} = require('./models');
+const {UserTransaction, Transaction} = require('./models');
 const { getDefinedFields } = require.main.require('./utils/get-defined-fields');
 const moment = require('moment');
 
@@ -50,73 +50,118 @@ module.exports = {
     })
   },
   //functions used by routes
-  findTransactions: (accountId,callback) => {
-    UserTransaction.findOne({userId: accountId},(err,usertransaction) => {
-      if (!usertransaction) return callback(new Error('account not found'),null);
-      callback(err,formatTransactions(usertransaction.transactions))
-    })
+  findTransactions: async (accountId,callback) => {
+    try {
+      const usertransaction = await UserTransaction.findOne({userId: accountId});
+      if (!usertransaction) {
+        return callback(404,'account not found');
+      }
+      return callback(200,usertransaction.transactions);
+    } catch (err) {
+      console.log(err);
+      return callback(400, err);
+    }
   },
-  findTransaction: (accountId,transactionId,callback) => {
-    UserTransaction.findOne({userId:accountId},(err,usertransaction) => {
-      if (!usertransaction) return callback(new Error('account not found'),null);
+  createTransaction: async (accountId,fields,callback) => {
+    try {
+      const df = getDefinedFields(fields);
+      const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = df;
+      if (!fieldsAreNotNull({title,category,amount,isIncome})) {
+        return callback(400, 'missing params');
+      }
+  
+      const newTransaction = new Transaction({
+        title,category,date,
+        amount: Math.abs(amount),
+        isIncome,receipt,plaidTransactionId
+      });
+      
+      const usertransaction = await UserTransaction.findOneAndUpdate(
+        {userId: accountId},
+        { $push: { transactions: newTransaction } },
+        {returnDocument: 'after'},
+      );
+      if (!usertransaction) {
+        return callback(404, 'account not found');
+      }
+      return callback(200, newTransaction);
+    } catch (err) {
+      console.log(err);
+      return callback(400, err);
+    }
+  },
+  deleteTransactions: async (accountId,callback) => {
+    try {
+      const usertransaction = await UserTransaction.findOneAndUpdate(
+        {userId: accountId}, 
+        {transactions: []},
+        {returnDocument: 'after'}
+      );
+      if (!usertransaction) {
+        return callback(404, 'account not found');
+      }
+      return callback(200, 'transactions deleted');
+    } catch (err) {
+      console.log(err);
+      return callback(400, err);
+    }
+  },
+  findTransaction: async (accountId,transactionId,callback) => {
+    try {
+      const usertransaction = await UserTransaction.findOne({userId:accountId});
+      if (!usertransaction) {
+        return callback(404, 'account not found');
+      }
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
-      if (transaction) return callback(err,formatTransaction(transaction));
-      return callback(new Error('transaction not found'),null);
-    })
-  },
-  createTransaction: (accountId,data,callback) => {
-    const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = data;
-    let newTransaction;
-    if (!fieldsAreNotNull({title,category,date,amount,isIncome}) && receipt) {
-      return next(new Error('missing params')) //will change later to parse receipt
-    } else
-      newTransaction = {title,category,date,amount: Math.abs(amount),isIncome,receipt,plaidTransactionId};
-    
-    UserTransaction.findOneAndUpdate({userId: accountId},{ $push: { transactions: newTransaction } },
-      {returnDocument: 'after'},
-      (err,usertransaction) => {
-        let transaction;
-        if (!usertransaction) return callback(new Error('account not found'),null);
-        transaction = usertransaction.transactions[usertransaction.transactions.length - 1]
-        
-        if (transaction) return callback(err,formatTransaction(transaction));
-        return callback(new Error('transaction creation unsuccessful'),null);
+      if (!transaction) {
+        return callback(404, 'transaction not found');
       }
-    )
+      return callback(200,transaction);
+    } catch (err) {
+      console.log(err);
+      return callback(400, err);
+    }
   },
-  updateTransaction: (accountId,transactionId,data,callback) => {
-    const {title,category,date,amount,isIncome,receipt} = data;
-    const fieldsToUpdate = parseTransactionData({title,category,date,amount,isIncome,receipt});
-
-    UserTransaction.findOneAndUpdate({$and:[{userId: accountId}, {
-        transactions: { $elemMatch: { _id: transactionId }}
-      }]},
-      {$set: fieldsToUpdate},
-      {returnDocument: 'after'},
-      (err,usertransaction) => {
-        if (!usertransaction) return callback(new Error('account/transaction not found'),null);
-        const transaction = getItemFromList(usertransaction.transactions,transactionId);
-        if (transaction) return callback(err,formatTransaction(transaction));
-        return callback(new Error('transaction update unsuccessful'),null);
+  updateTransaction: async (accountId,transactionId,data,callback) => {
+    try {
+      const {title,category,date,amount,isIncome,receipt} = data;
+      const fieldsToUpdate = parseTransactionData({title,category,date,amount,isIncome,receipt});
+  
+      const usertransaction = await UserTransaction.findOneAndUpdate(
+        {$and:[{userId: accountId}, {transactions: { $elemMatch: { _id: transactionId }}}]},
+        {$set: fieldsToUpdate},
+        {returnDocument: 'after'},
+      )
+      if (!usertransaction) {
+        return callback(404,'account not found');
       }
-    )
-  },
-  deleteTransactions: (accountId,callback) => {
-    UserTransaction.findOneAndUpdate({userId: accountId}, {transactions: []},{returnDocument: 'after'},(err,usertransaction) => {
-      if (err) return callback(err);
-      if (!usertransaction) return callback(new Error('account not found'))
-      return callback(err);
-    })
-  },
-  deleteTransaction: (accountId,transactionId,callback) => {
-    UserTransaction.findOneAndUpdate({userId: accountId},{$pull: {transactions: {_id: transactionId}}},
-      {returnDocument: 'after'},
-      (err,usertransaction) => {
-        if (!usertransaction) return callback(new Error('account not found'));
-        const transaction = getItemFromList(usertransaction.transactions,transactionId);
-        if (transaction) callback(new Error('transaction deletion unsuccessful'));
-        return callback(err);
+      const transaction = getItemFromList(usertransaction.transactions,transactionId);
+      if (!transaction) {
+        return callback(404,'transaction not found');
       }
-    )
+      return callback(200,transaction);
+    } catch (err) {
+      console.log(err);
+      return callback(400, err);
+    }
+  },
+  deleteTransaction: async (accountId,transactionId,callback) => {
+    try {
+      const usertransaction = await UserTransaction.findOneAndUpdate(
+        {userId: accountId},
+        {$pull: {transactions: {_id: transactionId}}},
+      )
+      if (!usertransaction) {
+        return callback(404, 'account not found');
+      }
+      const transaction = getItemFromList(usertransaction.transactions,transactionId);
+      if (!transaction) {
+        return callback(404, 'transaction not found');
+      }
+      return callback(200, 'transaction deleted');
+    } catch (err) {
+      console.log(err);
+      return callback(400, err);
+    }
   },
 }
