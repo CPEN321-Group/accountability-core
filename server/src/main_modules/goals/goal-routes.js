@@ -1,9 +1,4 @@
-const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
 const { findGoals, deleteGoals, findGoal, updateGoal, deleteGoal,createGoal } = require('./goal-store');
-const { UserGoal } = require('./models');
-const { getDefinedFields } = require.main.require("./utils/get-defined-fields");
-const { authenticate } = require.main.require("./main_modules/accounts/account-auth");
-
 
 module.exports = function(app) {
   app.route('/goals/:accountId')

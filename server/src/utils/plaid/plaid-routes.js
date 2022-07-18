@@ -4,7 +4,6 @@ const { createTransaction } = require('../../main_modules/transactions/transacti
 const { fieldsAreNotNull } = require('../get-defined-fields');
 const fx = require('money');
 const { UserTransaction } = require('../../main_modules/transactions/models');
-const { authenticate } = require('../../main_modules/accounts/account-auth');
 fx.base = "USD";
 fx.rates = {//other rates need to be defined if we want to support other currencies
   "CAD": 1.29,
@@ -53,7 +52,7 @@ module.exports = function(app) {
   // read env vars from .env file
   require('dotenv').config();
   const { Configuration, PlaidApi, PlaidEnvironments } = require('plaid');
-  const util = require('util');
+  // const util = require('util');
   const bodyParser = require('body-parser');
   const moment = require('moment');
   const cors = require('cors');
@@ -242,7 +241,8 @@ module.exports = function(app) {
         });
         prettyPrintResponse(tokenResponse);
         
-        let accessToken, itemId,transferId;
+        let transferId;
+        // let accessToken, itemId;
         if (PLAID_PRODUCTS.includes('transfer')) {
           transferId = await authorizeAndCreateTransfer(tokenResponse.data.access_token);
         }
@@ -616,11 +616,11 @@ module.exports = function(app) {
         });
     });
   
-  const formatError = (error) => {
-    return {
-      error: { ...error.data, status_code: error.status },
-    };
-  };
+  // const formatError = (error) => {
+  //   return {
+  //     error: { ...error.data, status_code: error.status },
+  //   };
+  // };
   
   // This is a helper function to authorize and create a Transfer after successful
   // exchange of a public_token for an access_token. The TRANSFER_ID is then used

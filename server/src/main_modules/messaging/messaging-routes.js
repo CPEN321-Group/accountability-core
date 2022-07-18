@@ -1,5 +1,4 @@
 const { findConversation, createConversation, findConversationsInAccount, findMessages, createMessage, deleteMessages, updateIsFinished } = require("./messaging-store");
-const { Conversation, Message } = require("./models");
 
 module.exports = function(app) {
   app.route('/messaging/conversation')

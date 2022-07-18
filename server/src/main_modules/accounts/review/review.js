@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {r_string,r_bool,r_num, r_date} = require('../../../utils/types/mongo-required')
+const {r_string,r_num, r_date} = require('../../../utils/types/mongo-required')
 
 const reviewSchema = new mongoose.Schema({
   authorId: r_string,

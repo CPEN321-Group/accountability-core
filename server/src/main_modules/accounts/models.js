@@ -4,7 +4,7 @@ const { reviewSchema } = require('./review/review');
 const { subscriptionSchema } = require('./subscription/subscription');
 const accountDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/accountDB')
 
-const {r_string,r_bool,r_num, r_date} = require('../../utils/types/mongo-required')
+const {r_string,r_bool} = require('../../utils/types/mongo-required')
 const accountSchema = new mongoose.Schema({
   accountId: r_string,
   profile: {type: profileSchema, required: true},
