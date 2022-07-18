@@ -1,9 +1,28 @@
+const { googleVerifyToken, facebookVerifyToken } = require('./main_modules/accounts/account-auth');
+
 module.exports = function(app) {
   app.get('/',(req, res) => {
     console.log('server is being accessed')
     res.send('server is active')
   })
 
+  app.all('*', async (req, res, next) => {
+    const {token} = req.query;
+    if ( req.path == '/' || !token) {
+      return next();
+    }
+
+    //authenticate user
+    const googleVerified = await googleVerifyToken(token);
+    const facebookVerified = await facebookVerifyToken(token);
+
+    if (googleVerified || facebookVerified) {
+      return next();
+    } else {
+      return res.status(403).end('invalid token provided')
+    }
+  });
+  
   require('./main_modules/accounts/account-routes')(app);
   require('./main_modules/goals/goal-routes')(app);
   require('./main_modules/transactions/transaction-routes')(app);
