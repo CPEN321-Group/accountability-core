@@ -29,6 +29,13 @@ public class WelcomeActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
+        SharedPreferences sharedPref =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        Boolean switchPref = sharedPref.getBoolean
+                (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+        //Toast.makeText(this, "Dark Theme: enabled", Toast.LENGTH_SHORT).show();
+        VariableStoration.is_darkMode = switchPref;
         if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
@@ -53,13 +60,5 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(signIntent);
             }
         });
-
-        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
-        SharedPreferences sharedPref =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        Boolean switchPref = sharedPref.getBoolean
-                (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-        Toast.makeText(this, switchPref.toString(), Toast.LENGTH_SHORT).show();
-        VariableStoration.is_darkMode = switchPref;
     }
 }

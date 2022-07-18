@@ -34,7 +34,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         PreferenceManager.getDefaultSharedPreferences(getContext());
                 Boolean switchPref = sharedPref.getBoolean
                         (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-                Toast.makeText(getContext(), switchPref.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Dark Theme: enabled", Toast.LENGTH_SHORT).show();
                 VariableStoration.is_darkMode = switchPref;
                 if (VariableStoration.is_darkMode) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
