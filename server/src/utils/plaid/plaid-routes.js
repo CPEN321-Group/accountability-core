@@ -40,8 +40,8 @@ function saveTransactions(recently_added,userId, token, next) {
 function findTransaction(userId,plaidTransactionId, callback) {
   UserTransaction.findOne(
     {$and:[
-      {userId: userId}, 
-      {transactions: { $elemMatch: { plaidTransactionId: plaidTransactionId }}}
+      {userId}, 
+      {transactions: { $elemMatch: { plaidTransactionId }}}
     ]}, 
     (err,foundTransaction) => callback(err,foundTransaction))
 }
@@ -306,7 +306,7 @@ module.exports = function(app) {
         while (hasMore) {
           const request = {
             access_token: accessToken,
-            cursor: cursor,
+            cursor,
           };
           const res = await client.transactionsSync(request)
           const data = res.data;
@@ -686,7 +686,7 @@ module.exports = function(app) {
 
   const getTokens = (userId, callback, userToken = null) => {
     // console.log("fetching access token...")
-    PlaidUser.findOne({userId: userId}, (err,foundUser) => {
+    PlaidUser.findOne({userId}, (err,foundUser) => {
       if (err) console.log(err)
       if(!foundUser) creatPlaidUser(userId,null,null);
       else {

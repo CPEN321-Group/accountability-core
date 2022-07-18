@@ -35,9 +35,9 @@ const getStartOfNextMonth = (date) => {
   return nextMonth;
 }
 
-const reportExists = async (userId, monthYear) => {
+const reportExists = async (accountId, monthYear) => {
   try {
-    const userReport = await UserReport.findOne({userId: userId});
+    const userReport = await UserReport.findOne({userId: accountId});
     if (!userReport) {
       return false
     }
@@ -113,7 +113,7 @@ module.exports = {
     try {
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId}, 
-        {accountantId: accountantId},
+        {accountantId},
         {returnDocument: 'after'}
       )
       if (!userReport) {

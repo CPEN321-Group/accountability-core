@@ -52,9 +52,7 @@ module.exports = {
   },
   findMessages: async (conversationId, callback) => {
     try {
-      const messages = await Message.find({
-        conversationId: conversationId
-      })
+      const messages = await Message.find({conversationId})
       if (!messages) {
         return callback(null,404,'messages not found');
       }
@@ -72,7 +70,7 @@ module.exports = {
         return callback(null,400, 'missing params');
       }
       const newMessage = new Message({
-        conversationId: conversationId,
+        conversationId,
         ...fields
       });
       const savedMessage = await newMessage.save();
@@ -84,7 +82,7 @@ module.exports = {
   },
   deleteMessages: async (conversationId,callback) => {
     try {
-      await Message.deleteMany({conversationId: conversationId});
+      await Message.deleteMany({conversationId});
       return callback(null,200,'messages deleted')
     } catch (err) {
       console.log(err)

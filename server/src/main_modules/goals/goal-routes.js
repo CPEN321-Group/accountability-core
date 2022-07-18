@@ -17,7 +17,7 @@ module.exports = function(app) {
           res.status(status).json(returnData);
         })
     })
-    .delete(async (req,res,next) => {
+    .delete(async (req,res) => {
       await deleteGoals(req.params.accountId, (err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
@@ -25,21 +25,21 @@ module.exports = function(app) {
     })
 
   app.route('/goals/:accountId/:goalId')
-    .get(async (req,res,next) => {
+    .get(async (req,res) => {
       const {accountId,goalId} = req.params;
       await findGoal(accountId,goalId, (err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
       })
     })
-    .put(async (req,res,next) => {
+    .put(async (req,res) => {
       const {accountId,goalId} = req.params;
       await updateGoal(accountId,goalId,req.query, (err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
       })
     })
-    .delete(async (req,res,next) => {
+    .delete(async (req,res) => {
       const {accountId,goalId} = req.params;
       await deleteGoal(accountId,goalId,(err,status,returnData) => {
         if (err) console.log(err);

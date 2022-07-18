@@ -28,7 +28,7 @@ const authenticate = (token, accountId, callback) => {
  */
 const generateToken = (data) => {
   const token = jwt.sign({ 
-    data: data,
+    data,
   },process.env.JWT_SECRET, { expiresIn: '30d' });
   return token;
 }

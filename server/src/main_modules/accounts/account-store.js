@@ -23,7 +23,7 @@ module.exports = {
       }
       const isAct = (isAccountant === 'true');
 
-      const foundAccount = await Account.findOne({accountId: accountId});
+      const foundAccount = await Account.findOne({accountId});
       if (foundAccount) {
         return callback(null,400,'account already exists');
       }
@@ -57,7 +57,7 @@ module.exports = {
    */
   findAccount: async (accountId,callback) => {
     try {
-      const account = await Account.findOne({accountId: accountId});
+      const account = await Account.findOne({accountId});
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
     } catch (err) {
