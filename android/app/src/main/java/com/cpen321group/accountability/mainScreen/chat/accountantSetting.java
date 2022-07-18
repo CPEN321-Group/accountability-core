@@ -128,7 +128,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
 
     private void postRoomId(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/messaging/")
+                .baseUrl(VariableStoration.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -151,7 +151,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
 
     private void getRoomID(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/messaging/")
+                .baseUrl(VariableStoration.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -183,7 +183,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
     private void updateFinish(){
         if(VariableStoration.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://20.239.52.70:8000/messaging/conversation/finished/")
+                    .baseUrl(VariableStoration.baseURL + "/messaging/conversation/finished/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

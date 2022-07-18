@@ -1,6 +1,9 @@
 package com.cpen321group.accountability;
 
 public class VariableStoration {
+
+    public static String baseURL = "http://20.104.57.27:8000";
+
     public static boolean is_darkMode;
     public static boolean is_notificationGlobalOn;
     public static boolean is_biometricAllowed;

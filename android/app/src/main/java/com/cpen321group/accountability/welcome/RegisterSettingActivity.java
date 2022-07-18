@@ -59,7 +59,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
     private AutoCompleteTextView autoText;
     private ImageView avatar;
     private String TAG = "register";
-    private String server_url = "http://20.239.52.70:8000/accounts";
+    private String server_url = VariableStoration.baseURL + "/accounts";
     private MyProfile myProfile_1;
     private String userId;
     private String text;
@@ -215,7 +215,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
     private void postAccount() throws IOException {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000")
+                .baseUrl(VariableStoration.baseURL + "")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
