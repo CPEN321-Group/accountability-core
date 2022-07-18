@@ -1,11 +1,10 @@
 // const { createSubscription: setAccountSubscription } = require('../../main_modules/accounts/account-store');
-const { Account } = require('../../main_modules/accounts/models');
 
 //setup based on https://www.youtube.com/watch?v=rPR2aJ6XnAc
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
-const PRICE_ID = 'price_1LFSrxGjSjq6aykFZNOKR1JP';
+// const PRICE_ID = 'price_1LFSrxGjSjq6aykFZNOKR1JP';
 
 // function getExpiry(subscriptionDate,validFor = 31) {
 //   let expiry = subscriptionDate;

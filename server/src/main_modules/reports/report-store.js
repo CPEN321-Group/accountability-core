@@ -20,10 +20,10 @@ const getSpendings = (transactions) => {
 }
 const getSavings = (income, spendings) => {
   let totalIncome = 0;
-  income.forEach(inc => totalIncome += inc.amount);
+  income.forEach(inc => {totalIncome += inc.amount});
 
   let totalSpendings = 0;
-  spendings.forEach(sp => totalSpendings += sp.amount);
+  spendings.forEach(sp => {totalSpendings += sp.amount});
 
   return totalIncome - totalSpendings;
 }
@@ -36,20 +36,16 @@ const getStartOfNextMonth = (date) => {
 }
 
 const reportExists = async (accountId, monthYear) => {
-  try {
-    const userReport = await UserReport.findOne({userId: accountId});
-    if (!userReport) {
-      return false
-    }
-    const exists = userReport.reports.some(report => {
-      const monthMatch = report.monthYear.getMonth() === monthYear.getMonth();
-      const yearMatch = report.monthYear.getYear() === monthYear.getYear();
-      return monthMatch && yearMatch;
-    })
-  return exists;
-  } catch (err) {
-    throw err;
+  const userReport = await UserReport.findOne({userId: accountId});
+  if (!userReport) {
+    return false
   }
+  const exists = userReport.reports.some(report => {
+    const monthMatch = report.monthYear.getMonth() === monthYear.getMonth();
+    const yearMatch = report.monthYear.getYear() === monthYear.getYear();
+    return monthMatch && yearMatch;
+  })
+  return exists;
 }
 
 async function compileReport(accountId,mY) {
@@ -201,7 +197,7 @@ module.exports = {
   },
   findUserReports: async (accountantId,callback) => {
     try {
-      const userReports = await UserReport.find({accountantId: accountantId});
+      const userReports = await UserReport.find({accountantId});
       return callback(null,200,userReports);
     } catch (err) {
       console.log(err)
