@@ -40,9 +40,9 @@ module.exports = {
         const userTransaction = new UserTransaction({userId: newAccount.accountId});
         const userGoal = new UserGoal({userId: newAccount.accountId});
         const userReport = new UserReport({userId: newAccount.accountId});
-        const t = await userTransaction.save();
-        const g = await userGoal.save();
-        const r = await userReport.save();
+        await userTransaction.save();
+        await userGoal.save();
+        await userReport.save();
       }
       return callback(null,200,newAccount);
     } catch (err) {
