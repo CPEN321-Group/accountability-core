@@ -76,39 +76,37 @@ module.exports = function(app) {
       res.send({key: process.env.STRIPE_PUBLIC_KEY })
     })
     app.post('/stripe/checkout/:userId', async (req,res,next) => {
-      const {userId} = req.params;
-      let customerId;
-      findUser(userId, async (err,foundUser) => {
-        if (!foundUser.stripeCustomerId) {
-          console.log('initializing new customer...')
-          customerId = await createCustomerForUser(foundUser).id;
-          Account.findByIdAndUpdate(foundUser.id, { stripeCustomerId: newCustomer.id }, async (err,updatedUser) => {
-            if (err) { return next(err)}
+      try {
+        const {userId} = req.params;
+        const newCustomer = await stripe.customers.create({
+          email: 'test123@gmail.com',
+          metadata: { userId: '1' },
+          name: `Bob Jones`
+        });
+        let customerId = newCustomer.id;
+          const ephemeralKey = await stripe.ephemeralKeys.create(
+            {customer: customerId},
+            {apiVersion: '2020-08-27'}
+          );
+          const paymentIntent = await stripe.paymentIntents.create({
+            amount: 5000,
+            currency: 'cad',
+            customer: customerId,
+            automatic_payment_methods: {
+              enabled: true,
+            },
           });
-        } else if (subscriptionIsActive(foundUser)) {
-          return res.send('subscription already active');
-        } else {
-          customerId = foundUser.stripeCustomerId;
-        }
-        const ephemeralKey = await stripe.ephemeralKeys.create(
-          {customer: customerId},
-          {apiVersion: '2020-08-27'}
-        );
-        const paymentIntent = await stripe.paymentIntents.create({
-          amount: 5000,
-          currency: 'cad',
-          customer: customerId,
-          automatic_payment_methods: {
-            enabled: true,
-          },
-        });
-        res.json({
-          paymentIntent: paymentIntent.client_secret,
-          ephemeralKey: ephemeralKey.secret,
-          customer: customerId,
-          publishableKey: process.env.STRIPE_PUBLIC_KEY
-        });
-      })
+          res.json({
+            paymentIntent: paymentIntent.client_secret,
+            ephemeralKey: ephemeralKey.secret,
+            customer: customerId,
+            publishableKey: process.env.STRIPE_PUBLIC_KEY
+          });
+      } catch (err) {
+        console.log(err);
+        res.status(500).json(err);
+      }
+      
     })
     app.post('/stripe/checkout/sessions/:userId', async (req,res,next) => {
       console.log('creating session...')
