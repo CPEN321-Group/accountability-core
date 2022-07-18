@@ -19,7 +19,7 @@ function parseGoalData(fields) {
 function createUserGoal(userId,goals,callback) {
   const newUserGoal = new UserGoal({userId,goals});
   newUserGoal.save((err,createdUserGoal) => {
-    callback(err,createdUserGoal)
+    callback(null,err,createdUserGoal)
   })
 }
 module.exports = {
@@ -27,12 +27,12 @@ module.exports = {
     try {
       const usergoal = await UserGoal.findOne({userId: accountId});
       if (!usergoal) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
-      return callback(200, usergoal.goals);
+      return callback(null,200, usergoal.goals);
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   createGoal: async (accountId,data,callback) => {
@@ -40,7 +40,7 @@ module.exports = {
       const df = getDefinedFields(data);
       const {title,target,current,deadline} = df;
       if (!fieldsAreNotNull({title,target,current,deadline})) {
-        return callback(400,'missing params');
+        return callback(null,400,'missing params');
       }
   
       const goal = new Goal({title,target,current,deadline});
@@ -50,12 +50,12 @@ module.exports = {
         {returnDocument: 'after'}
       )
       if (!usergoal) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
-      return callback(200,goal)
+      return callback(null,200,goal)
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   deleteGoals: async (accountId,callback) => {
@@ -65,28 +65,28 @@ module.exports = {
         {goals: []},
         {returnDocument:'after'});
       if (!usergoal) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
-      return callback(200, 'goals deleted');
+      return callback(null,200, 'goals deleted');
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   findGoal: async (accountId,goalId,callback) => {
     try {
       const usergoal = await UserGoal.findOne({userId:accountId});
       if (!usergoal) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
         const goal = getItemFromList(usergoal.goals,goalId);
         if (!goal) {
-          return callback(404, 'goal not found');
+          return callback(null,404, 'goal not found');
         }
-        return callback(200, goal);
+        return callback(null,200, goal);
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   updateGoal: async (accountId,goalId,data,callback) => {
@@ -100,16 +100,16 @@ module.exports = {
         {returnDocument: 'after'}
       )
       if (!usergoal) {
-        return callback(404, 'account/goal not found');
+        return callback(null,404, 'account/goal not found');
       }
       const goal = getItemFromList(usergoal.goals,goalId);
       if (!goal) {
-        return callback(404,'goal not found');
+        return callback(null,404,'goal not found');
       }
-      return callback(200, goal);
+      return callback(null,200, goal);
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   deleteGoal: async (accountId,goalId,callback) => {
@@ -119,16 +119,16 @@ module.exports = {
         {$pull: {goals: {_id: goalId}}},
       )
       if (!usergoal) { 
-        return callback(404, 'account not found')
+        return callback(null,404, 'account not found')
       }
       const goal = getItemFromList(usergoal.goals,goalId);
       if (!goal) {
-        return callback(404, 'goal not found');
+        return callback(null,404, 'goal not found');
       }
-      return callback(200, 'goal deleted');
+      return callback(null,200, 'goal deleted');
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
 }

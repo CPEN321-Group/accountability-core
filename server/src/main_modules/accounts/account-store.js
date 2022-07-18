@@ -19,13 +19,13 @@ module.exports = {
       const df = getDefinedFields(fields);
       const {accountId,avatar,firstname,lastname,email,age,profession,isAccountant} = df;
       if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
-        return callback(400,'missing params');
+        return callback(null,400,'missing params');
       }
       const isAct = (isAccountant === 'true');
 
       const foundAccount = await Account.findOne({accountId: accountId});
       if (foundAccount) {
-        return callback(400,'account already exists');
+        return callback(null,400,'account already exists');
       }
       
       const newAccount = new Account({
@@ -44,10 +44,10 @@ module.exports = {
         const g = await userGoal.save();
         const r = await userReport.save();
       }
-      return callback(200,newAccount);
+      return callback(null,200,newAccount);
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
     
   },
@@ -58,11 +58,11 @@ module.exports = {
   findAccount: async (accountId,callback) => {
     try {
       const account = await Account.findOne({accountId: accountId});
-      if (!account) return callback(404,'account not found');
-      return callback(200,account);
+      if (!account) return callback(null,404,'account not found');
+      return callback(null,200,account);
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
     
   },
@@ -72,10 +72,10 @@ module.exports = {
   findAccountants: async (callback) => {
     try {
       const foundAccounts = await Account.find({isAccountant: true});
-      callback(200,foundAccounts)
+      callback(null,200,foundAccounts)
     } catch (err){
       console.log(err);
-      callback(400,err);
+      callback(null,400,err);
     }
   },
   /**
@@ -94,11 +94,11 @@ module.exports = {
         {$set: fieldsToUpdate},
         {returnDocument: 'after'}
       );
-      if (!account) return callback(404,'account not found');
-      return callback(200,account);
+      if (!account) return callback(null,404,'account not found');
+      return callback(null,200,account);
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
     
   },
@@ -109,15 +109,15 @@ module.exports = {
   deleteAccount: async (id,callback) => {
     try {
       const account = await Account.findOneAndDelete({accountId: id});
-      if (!account) return callback(404,'account not found');
+      if (!account) return callback(null,404,'account not found');
 
       await UserGoal.deleteOne({userId: id})
       await UserTransaction.deleteOne({userId: id});
       await UserReport.deleteOne({userId:id});
-      return callback(200,'account deleted');
+      return callback(null,200,'account deleted');
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   /**
@@ -130,7 +130,7 @@ module.exports = {
       const df = getDefinedFields(fields);
       const {authorId,rating,date,title,content} = df;
       if (!fieldsAreNotNull({authorId,date,rating,title})) { 
-        return callback(400,'missing params');
+        return callback(null,400,'missing params');
       }
       const newReview = new Review({
         authorId,accountantId,date,rating,title,content
@@ -141,11 +141,11 @@ module.exports = {
         {$push: {reviews: newReview}},
         {returnDocument: 'after'},
       );
-      if (!account) return callback(404,'accountant not found');
-      return callback(200,account);
+      if (!account) return callback(null,404,'accountant not found');
+      return callback(null,200,account);
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   /**
@@ -158,7 +158,7 @@ module.exports = {
     try {
       const {subscriptionDate,expiryDate} = fields;
       if (!fieldsAreNotNull({subscriptionDate,expiryDate})) {
-        return callback(400,'missing params');
+        return callback(null,400,'missing params');
       }
       const fieldsToUpdate = parseSubscriptionData({subscriptionDate,expiryDate});
   
@@ -167,11 +167,11 @@ module.exports = {
         {$set: fieldsToUpdate},
         {returnDocument: 'after'},
       );
-      if (!account) return callback(404,'account not found');
-      return callback(200,account);
+      if (!account) return callback(null,404,'account not found');
+      return callback(null,200,account);
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   /**
@@ -184,7 +184,7 @@ module.exports = {
     try {
       const {expiryDate} = fields;
       if (!fieldsAreNotNull({expiryDate})) {
-        return callback(400,'missing params');
+        return callback(null,400,'missing params');
       }
       const fieldsToUpdate = parseSubscriptionData({expiryDate})
       const account = await Account.findOneAndUpdate(
@@ -192,11 +192,11 @@ module.exports = {
         {$set: fieldsToUpdate},
         {returnDocument: 'after'},
       );
-      if (!account) return callback(404,'account not found');
-      return callback(200,account);
+      if (!account) return callback(null,404,'account not found');
+      return callback(null,200,account);
     } catch (err) {
       console.log(err);
-      return callback(400,err);
+      return callback(null,400,err);
     }
   }
   

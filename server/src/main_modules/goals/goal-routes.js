@@ -7,21 +7,21 @@ const { authenticate } = require.main.require("./main_modules/accounts/account-a
 
 module.exports = function(app) {
   app.route('/goals/:accountId')
-    .get(async (req,res,next) => {
-      await findGoals(req.params.accountId, (status,returnData) => {
+    .get(async (req,res) => {
+      await findGoals(req.params.accountId, (err,status,returnData) => {
         res.status(status).json(returnData);
       })
     })
-    .post(async (req,res,next) => {
+    .post(async (req,res) => {
       await createGoal(
         req.params.accountId,
         req.query,
-        (status,returnData) => {
+        (err,status,returnData) => {
           res.status(status).json(returnData);
         })
     })
     .delete(async (req,res,next) => {
-      await deleteGoals(req.params.accountId, (status,returnData) => {
+      await deleteGoals(req.params.accountId, (err,status,returnData) => {
         res.status(status).json(returnData);
       })
     })
@@ -29,19 +29,19 @@ module.exports = function(app) {
   app.route('/goals/:accountId/:goalId')
     .get(async (req,res,next) => {
       const {accountId,goalId} = req.params;
-      await findGoal(accountId,goalId, (status,returnData) => {
+      await findGoal(accountId,goalId, (err,status,returnData) => {
         res.status(status).json(returnData);
       })
     })
     .put(async (req,res,next) => {
       const {accountId,goalId} = req.params;
-      await updateGoal(accountId,goalId,req.query, (status,returnData) => {
+      await updateGoal(accountId,goalId,req.query, (err,status,returnData) => {
         res.status(status).json(returnData);
       })
     })
     .delete(async (req,res,next) => {
       const {accountId,goalId} = req.params;
-      await deleteGoal(accountId,goalId,(status,returnData) => {
+      await deleteGoal(accountId,goalId,(err,status,returnData) => {
         res.status(status).json(returnData);
       })
     })

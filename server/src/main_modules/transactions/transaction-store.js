@@ -46,7 +46,7 @@ module.exports = {
   createUserTransaction: (userId,transactions,callback) => {
     const newUserTransaction = new UserTransaction({userId,transactions: transactions});
     newUserTransaction.save((err,createdUserTransaction) => {
-      callback(err,createdUserTransaction)
+      callback(null,err,createdUserTransaction)
     })
   },
   //functions used by routes
@@ -54,12 +54,12 @@ module.exports = {
     try {
       const usertransaction = await UserTransaction.findOne({userId: accountId});
       if (!usertransaction) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
-      return callback(200,usertransaction.transactions);
+      return callback(null,200,usertransaction.transactions);
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
   },
   createTransaction: async (accountId,fields,callback) => {
@@ -67,7 +67,7 @@ module.exports = {
       const df = getDefinedFields(fields);
       const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = df;
       if (!fieldsAreNotNull({title,category,amount,isIncome})) {
-        return callback(400, 'missing params');
+        return callback(null,400, 'missing params');
       }
   
       const newTransaction = new Transaction({
@@ -82,12 +82,12 @@ module.exports = {
         {returnDocument: 'after'},
       );
       if (!usertransaction) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
-      return callback(200, newTransaction);
+      return callback(null,200, newTransaction);
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
   },
   deleteTransactions: async (accountId,callback) => {
@@ -98,28 +98,28 @@ module.exports = {
         {returnDocument: 'after'}
       );
       if (!usertransaction) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
-      return callback(200, 'transactions deleted');
+      return callback(null,200, 'transactions deleted');
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
   },
   findTransaction: async (accountId,transactionId,callback) => {
     try {
       const usertransaction = await UserTransaction.findOne({userId:accountId});
       if (!usertransaction) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
       if (!transaction) {
-        return callback(404, 'transaction not found');
+        return callback(null,404, 'transaction not found');
       }
-      return callback(200,transaction);
+      return callback(null,200,transaction);
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
   },
   updateTransaction: async (accountId,transactionId,data,callback) => {
@@ -133,16 +133,16 @@ module.exports = {
         {returnDocument: 'after'},
       )
       if (!usertransaction) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
       if (!transaction) {
-        return callback(404,'transaction not found');
+        return callback(null,404,'transaction not found');
       }
-      return callback(200,transaction);
+      return callback(null,200,transaction);
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
   },
   deleteTransaction: async (accountId,transactionId,callback) => {
@@ -152,16 +152,16 @@ module.exports = {
         {$pull: {transactions: {_id: transactionId}}},
       )
       if (!usertransaction) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
       if (!transaction) {
-        return callback(404, 'transaction not found');
+        return callback(null,404, 'transaction not found');
       }
-      return callback(200, 'transaction deleted');
+      return callback(null,200, 'transaction deleted');
     } catch (err) {
       console.log(err);
-      return callback(400, err);
+      return callback(null,400, err);
     }
   },
 }

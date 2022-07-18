@@ -3,7 +3,7 @@ const { findReports, createReport, updateAccountant, deleteReports, findReport, 
 module.exports = function(app) {
   app.route('/reports/users/:accountId')
     .get(async (req,res) => {
-      await findReports(req.params.accountId,(status,returnData) => {
+      await findReports(req.params.accountId,(err,status,returnData) => {
         res.status(status).json(returnData);
       })
     })
@@ -11,7 +11,7 @@ module.exports = function(app) {
       await createReport(
         req.params.accountId, 
         req.query.monthYear,
-        (status,returnData) => {
+        (err,status,returnData) => {
           res.status(status).json(returnData);
         })
     })
@@ -19,12 +19,12 @@ module.exports = function(app) {
       await updateAccountant(
         req.params.accountId,
         req.query.accountantId,
-        (status,returnData) => {
+        (err,status,returnData) => {
           res.status(status).json(returnData);
         })
     })
     .delete(async (req,res) => {
-      await deleteReports(req.params.accountId,(status,returnData) => {
+      await deleteReports(req.params.accountId,(err,status,returnData) => {
         res.status(status).json(returnData);
       })
     })
@@ -34,7 +34,7 @@ module.exports = function(app) {
       await findReport(
         req.params.accountId,
         req.params.reportId,
-        (status,returnData) => {
+        (err,status,returnData) => {
           res.status(status).json(returnData);
         })
     })
@@ -43,7 +43,7 @@ module.exports = function(app) {
         req.params.accountId,
         req.params.reportId,
         req.query.recommendations,
-        (status,returnData) => {
+        (err,status,returnData) => {
           res.status(status).json(returnData);
         })
     })
@@ -51,13 +51,13 @@ module.exports = function(app) {
       await deleteReport(
         req.params.accountId,
         req.params.reportId,
-        (status,returnData) => {
+        (err,status,returnData) => {
           res.status(status).json(returnData);
         })
     })
 
   app.get('/reports/accountants/:accountantId', async (req,res) => { //fetch all userReports accessible by the acocuntant
-    await findUserReports(req.params.accountantId,(status,returnData) => {
+    await findUserReports(req.params.accountantId,(err,status,returnData) => {
       res.status(status).json(returnData);
     })
   })

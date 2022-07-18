@@ -6,7 +6,7 @@ const { authenticate } = require.main.require("./main_modules/accounts/account-a
 module.exports = function(app) {
   app.route('/transactions/:userId')
   .get(async (req,res) => {
-    await findTransactions(req.params.userId,(status,returnData) => {
+    await findTransactions(req.params.userId,(err,status,returnData) => {
       res.status(status).json(returnData);
     })
   })
@@ -14,12 +14,12 @@ module.exports = function(app) {
     await createTransaction(
       req.params.userId,
       req.query,
-      (status,returnData) => {
+      (err,status,returnData) => {
         res.status(status).json(returnData);
       })
   })
   .delete(async (req,res,next) => {
-    await deleteTransactions(req.params.userId, (status,returnData) => {
+    await deleteTransactions(req.params.userId, (err,status,returnData) => {
       res.status(status).json(returnData);
     })
   })
@@ -27,19 +27,19 @@ module.exports = function(app) {
   app.route('/transactions/:userId/:transactionId')
   .get(async (req,res,next) => {
     const {userId,transactionId} = req.params;
-    await findTransaction(userId,transactionId,(status,returnData) => {
+    await findTransaction(userId,transactionId,(err,status,returnData) => {
       res.status(status).json(returnData);
     })
   })
   .put(async (req,res,next) => {
     const {userId,transactionId} = req.params;
-    await updateTransaction(userId,transactionId,req.query,(status,returnData) => {
+    await updateTransaction(userId,transactionId,req.query,(err,status,returnData) => {
       res.status(status).json(returnData);
     })
   })
   .delete(async (req,res,next) => {
     const {userId,transactionId} = req.params;
-    await deleteTransaction(userId,transactionId,(status,returnData) => {
+    await deleteTransaction(userId,transactionId,(err,status,returnData) => {
       res.status(status).json(returnData);
     })
   })

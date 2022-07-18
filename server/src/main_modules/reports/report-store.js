@@ -76,25 +76,25 @@ module.exports = {
     try {
       const userReport = await UserReport.findOne({userId: accountId});
       if (!userReport) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
-      return callback(200,userReport.reports);
+      return callback(null,200,userReport.reports);
     } catch (err) {
       console.log(err)
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   createReport: async (accountId, monthYear, callback) => {
     try {
       if (!fieldsAreNotNull({monthYear})) {
-        return callback(400, 'missing params');
+        return callback(null,400, 'missing params');
       }
       const mY = new Date(monthYear);
       if (!await UserReport.findOne({userId: accountId})) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
       if (await reportExists(accountId,mY)) {
-        return callback(400,'report already exists');
+        return callback(null,400,'report already exists');
       }
       const newReport = await compileReport(accountId, mY);
 
@@ -102,11 +102,11 @@ module.exports = {
         {userId: accountId}, 
         {$push: {reports: newReport}}
       )
-      return callback(200, newReport);
+      return callback(null,200, newReport);
       
     } catch (err) {
       console.log(err);
-      return callback(400,err)
+      return callback(null,400,err)
     }
   },
   updateAccountant: async (accountId,accountantId, callback) => {
@@ -117,12 +117,12 @@ module.exports = {
         {returnDocument: 'after'}
       )
       if (!userReport) {
-        return callback(404, 'account not found');
+        return callback(null,404, 'account not found');
       }
-      return callback(200,userReport);
+      return callback(null,200,userReport);
     } catch (err) {
       console.log(err)
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   deleteReports: async (accountId, callback) => {
@@ -133,34 +133,34 @@ module.exports = {
         {returnDocument: 'after'}
       );
       if (!userReport) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
-      return callback(200,'reports deleted');
+      return callback(null,200,'reports deleted');
     } catch (err) {
       console.log(err)
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   findReport: async (accountId,reportId,callback) => {
     try {
       const userReport = await UserReport.findOne({userId: accountId});
       if (!userReport) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
       const report = userReport.reports.find(r => r.id === reportId);
       if (!report) {
-        return callback(404,'report not found');
+        return callback(null,404,'report not found');
       }
-      return callback(200, report);
+      return callback(null,200, report);
     } catch(err) {
       console.log(err)
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   updateRecommendations: async (accountId,reportId, recommendations,callback) => {
     try {
       if (!fieldsAreNotNull({accountId,reportId,recommendations})) {
-        return callback(400,'missing params');
+        return callback(null,400,'missing params');
       }
       const userReport = await UserReport.findOneAndUpdate(
         {$and:[{userId: accountId}, {reports: { $elemMatch: { _id: reportId }}}]},
@@ -168,16 +168,16 @@ module.exports = {
         {returnDocument: 'after'},
       )
       if (!userReport) {
-        return callback(404, 'account/report not found');
+        return callback(null,404, 'account/report not found');
       }
       const report = userReport.reports.find(r => r.id === reportId)
       if (!report) {
-        return callback(404, 'report not found');
+        return callback(null,404, 'report not found');
       }
-      return callback(200,report);
+      return callback(null,200,report);
     } catch (err) {
       console.log(err)
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   deleteReport: async (accountId, reportId, callback) => {
@@ -187,25 +187,25 @@ module.exports = {
         {$pull: {reports: {_id: reportId}}},
       )
       if (!userReport) {
-        return callback(404,'account not found');
+        return callback(null,404,'account not found');
       }
       const report = getItemFromList(userReport.reports,reportId);
       if (!report) {
-        return callback(404, 'report not found');
+        return callback(null,404, 'report not found');
       }
-      return callback(200,'report deleted');
+      return callback(null,200,'report deleted');
     } catch (err) {
       console.log(err)
-      return callback(400,err);
+      return callback(null,400,err);
     }
   },
   findUserReports: async (accountantId,callback) => {
     try {
       const userReports = await UserReport.find({accountantId: accountantId});
-      return callback(200,userReports);
+      return callback(null,200,userReports);
     } catch (err) {
       console.log(err)
-      return callback(400,err);
+      return callback(null,400,err);
     }
   }
 }
