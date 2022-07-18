@@ -7,6 +7,7 @@ module.exports = function(app) {
   app.route('/transactions/:userId')
   .get(async (req,res) => {
     await findTransactions(req.params.userId,(err,status,returnData) => {
+      if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })
@@ -15,11 +16,13 @@ module.exports = function(app) {
       req.params.userId,
       req.query,
       (err,status,returnData) => {
+        if (err) console.log(err);
         res.status(status).json(returnData);
       })
   })
   .delete(async (req,res,next) => {
     await deleteTransactions(req.params.userId, (err,status,returnData) => {
+      if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })
@@ -28,18 +31,21 @@ module.exports = function(app) {
   .get(async (req,res,next) => {
     const {userId,transactionId} = req.params;
     await findTransaction(userId,transactionId,(err,status,returnData) => {
+      if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })
   .put(async (req,res,next) => {
     const {userId,transactionId} = req.params;
     await updateTransaction(userId,transactionId,req.query,(err,status,returnData) => {
+      if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })
   .delete(async (req,res,next) => {
     const {userId,transactionId} = req.params;
     await deleteTransaction(userId,transactionId,(err,status,returnData) => {
+      if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })

@@ -36,6 +36,7 @@ describe('testing createAccount', () => {
 
   test('pre-existing account', async () => {
     await createAccount(accountFields, (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toEqual('account already exists')
     })
@@ -45,6 +46,7 @@ describe('testing createAccount', () => {
       ...accountFields,
       accountId: '1456'
     }, (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual(account)
     })
@@ -54,6 +56,7 @@ describe('testing createAccount', () => {
     await createAccount({
       accountId: '1456'
     }, (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toEqual('missing params')
     })
@@ -63,6 +66,7 @@ describe('testing createAccount', () => {
 describe('testing findAccount', () => {
   test('account exists', async () => {
     await findAccount('1234', (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual(account);
     })
@@ -70,6 +74,7 @@ describe('testing findAccount', () => {
   
   test('account not exist', async () => {
     await findAccount('1456', (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found');
     })
@@ -79,6 +84,7 @@ describe('testing findAccount', () => {
 describe('testing findAccountants', () => {
   test('no accountants are found', async () => {
     await findAccountants((err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual([]);
     })
@@ -88,6 +94,7 @@ describe('testing findAccountants', () => {
 describe('testing updateProfile', () => {
   test('account exists', async () => {
     await updateProfile('1234', {} ,(err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual(account);
     })
@@ -95,6 +102,7 @@ describe('testing updateProfile', () => {
   
   test('account not exist', async () => {
     await updateProfile('1456', {},(err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found');
     })
@@ -104,6 +112,7 @@ describe('testing updateProfile', () => {
 describe('testing deleteAccount', () => {
   test('account exists', async () => {
     await deleteAccount('1234', (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual('account deleted');
     })
@@ -111,6 +120,7 @@ describe('testing deleteAccount', () => {
   
   test('account not exist', async () => {
     await deleteAccount('1456', (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found');
     })
@@ -120,6 +130,7 @@ describe('testing deleteAccount', () => {
 describe('testing createReview', () => {
   test('account exists', async () => {
     await createReview('1234',{},(err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual(account);
     })
@@ -127,6 +138,7 @@ describe('testing createReview', () => {
   
   test('account not exist', async () => {
     await createReview('1456',{}, (err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('accountant not found');
     })
@@ -136,6 +148,7 @@ describe('testing createReview', () => {
 describe('testing createSubscription', () => {
   test('account exists', async () => {
     await createSubscription('1234', {},(err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual(account);
     })
@@ -143,6 +156,7 @@ describe('testing createSubscription', () => {
   
   test('account not exist', async () => {
     await createSubscription('1456', {},(err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found');
     })
@@ -152,12 +166,14 @@ describe('testing createSubscription', () => {
 describe('testing updateSubscription', () => {
   test('account exists', async () => {
     await updateSubscription('1234', {},(err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual(account);
     })
   })
   test('account not exist', async () => {
     await updateSubscription('1456', {},(err,status,returnData) => {
+      expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found');
     })

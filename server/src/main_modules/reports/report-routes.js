@@ -4,6 +4,7 @@ module.exports = function(app) {
   app.route('/reports/users/:accountId')
     .get(async (req,res) => {
       await findReports(req.params.accountId,(err,status,returnData) => {
+        if (err) console.log(err);
         res.status(status).json(returnData);
       })
     })
@@ -12,6 +13,7 @@ module.exports = function(app) {
         req.params.accountId, 
         req.query.monthYear,
         (err,status,returnData) => {
+          if (err) console.log(err);
           res.status(status).json(returnData);
         })
     })
@@ -20,11 +22,13 @@ module.exports = function(app) {
         req.params.accountId,
         req.query.accountantId,
         (err,status,returnData) => {
+          if (err) console.log(err);
           res.status(status).json(returnData);
         })
     })
     .delete(async (req,res) => {
       await deleteReports(req.params.accountId,(err,status,returnData) => {
+        if (err) console.log(err);
         res.status(status).json(returnData);
       })
     })
@@ -35,6 +39,7 @@ module.exports = function(app) {
         req.params.accountId,
         req.params.reportId,
         (err,status,returnData) => {
+          if (err) console.log(err);
           res.status(status).json(returnData);
         })
     })
@@ -44,6 +49,7 @@ module.exports = function(app) {
         req.params.reportId,
         req.query.recommendations,
         (err,status,returnData) => {
+          if (err) console.log(err);
           res.status(status).json(returnData);
         })
     })
@@ -52,12 +58,14 @@ module.exports = function(app) {
         req.params.accountId,
         req.params.reportId,
         (err,status,returnData) => {
+          if (err) console.log(err);
           res.status(status).json(returnData);
         })
     })
 
   app.get('/reports/accountants/:accountantId', async (req,res) => { //fetch all userReports accessible by the acocuntant
     await findUserReports(req.params.accountantId,(err,status,returnData) => {
+      if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })

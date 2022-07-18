@@ -21,6 +21,7 @@ function saveTransactions(recently_added,userId, token, next) {
       return next(new Error('missing params'))
     }
     findTransaction(userId,transaction_id,(err,foundTransaction)=> {
+      if (err) console.log(err);
       if (!foundTransaction) {
         createTransaction(userId,{
           title: name,
@@ -38,9 +39,12 @@ function saveTransactions(recently_added,userId, token, next) {
   }
 }
 function findTransaction(userId,plaidTransactionId, callback) {
-  UserTransaction.findOne({$and:[{userId: userId}, {
-    transactions: { $elemMatch: { plaidTransactionId: plaidTransactionId }}
-  }]}, (err,foundTransaction) => callback(err,foundTransaction))
+  UserTransaction.findOne(
+    {$and:[
+      {userId: userId}, 
+      {transactions: { $elemMatch: { plaidTransactionId: plaidTransactionId }}}
+    ]}, 
+    (err,foundTransaction) => callback(err,foundTransaction))
 }
 
 module.exports = function(app) {
