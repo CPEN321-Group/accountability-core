@@ -130,7 +130,7 @@ public class DashboardFragment extends Fragment {
 
     private void getAllGoals(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/goals/")
+                .baseUrl(VariableStoration.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -177,7 +177,7 @@ public class DashboardFragment extends Fragment {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/transactions/")
+                .baseUrl(VariableStoration.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);

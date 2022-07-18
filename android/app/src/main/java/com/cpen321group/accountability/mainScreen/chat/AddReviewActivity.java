@@ -101,7 +101,7 @@ public class AddReviewActivity extends AppCompatActivity {
         title = reviewNameEditText.getText().toString();
         content = reviewContentEditText.getText().toString();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/reviews/")
+                .baseUrl(VariableStoration.baseURL + "/reviews/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

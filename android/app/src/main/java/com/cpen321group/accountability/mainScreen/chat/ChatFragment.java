@@ -117,7 +117,7 @@ public class ChatFragment extends Fragment {
 
     private void getAccountant(List<NameID> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/accounts/")
+                .baseUrl(VariableStoration.baseURL + "/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -180,7 +180,7 @@ public class ChatFragment extends Fragment {
 
     private void getUser(List<String> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/messaging/conversation/")
+                .baseUrl(VariableStoration.baseURL + "/messaging/conversation/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

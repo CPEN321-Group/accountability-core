@@ -88,7 +88,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                     VariableStoration.userID = profile.getId()+"fb";
                 }
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://20.239.52.70:8000/accounts/")
+                        .baseUrl(VariableStoration.baseURL + "/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
