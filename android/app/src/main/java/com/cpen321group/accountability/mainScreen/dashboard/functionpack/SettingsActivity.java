@@ -19,7 +19,6 @@ import com.cpen321group.accountability.VariableStoration;
 import com.google.android.material.color.DynamicColors;
 
 public class SettingsActivity extends AppCompatActivity {
-    public static final String KEY_PREF_EXAMPLE_SWITCH = "dark_mode";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,5 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 }

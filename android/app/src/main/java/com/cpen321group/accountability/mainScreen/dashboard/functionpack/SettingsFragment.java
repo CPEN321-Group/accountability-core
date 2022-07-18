@@ -26,21 +26,30 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         Preference dark_mode_pref = findPreference("dark_mode");
-
         dark_mode_pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 SharedPreferences sharedPref =
                         PreferenceManager.getDefaultSharedPreferences(getContext());
-                Boolean switchPref = sharedPref.getBoolean
-                        (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-                Toast.makeText(getContext(), "Dark Theme: enabled", Toast.LENGTH_SHORT).show();
+                Boolean switchPref = sharedPref.getBoolean("dark_mode", false);
                 VariableStoration.is_darkMode = switchPref;
                 if (VariableStoration.is_darkMode) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
+                return false;
+            }
+        });
+
+        Preference notification_pref = findPreference("notification_allow");
+        notification_pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SharedPreferences sharedPref =
+                        PreferenceManager.getDefaultSharedPreferences(getContext());
+                Boolean notificationPref = sharedPref.getBoolean("notification_allow", false);
+                VariableStoration.is_notificationGlobalOn = notificationPref;
                 return false;
             }
         });

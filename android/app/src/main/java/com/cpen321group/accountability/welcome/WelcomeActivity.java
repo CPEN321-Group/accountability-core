@@ -32,15 +32,21 @@ public class WelcomeActivity extends AppCompatActivity {
         PreferenceManager.setDefaultValues(this, R.xml.root_preferences, false);
         SharedPreferences sharedPref =
                 PreferenceManager.getDefaultSharedPreferences(this);
+
+        // Dark Mode Toggle
         Boolean switchPref = sharedPref.getBoolean
-                (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-        //Toast.makeText(this, "Dark Theme: enabled", Toast.LENGTH_SHORT).show();
+                ("dark_mode", false);
         VariableStoration.is_darkMode = switchPref;
         if (VariableStoration.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+        // Notification toggle
+        Boolean notificationPref = sharedPref.getBoolean("notification_allow", false);
+        VariableStoration.is_notificationGlobalOn = notificationPref;
+
+
         loginbutton = findViewById(R.id.welcome_login);
         loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
