@@ -38,7 +38,6 @@ module.exports = function(app) {
       })
     })
     .delete(async (req,res) => {
-      const {accountId,goalId} = req.params;
       await deleteGoal(req.params.accountId,req.params.goalId,(err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);

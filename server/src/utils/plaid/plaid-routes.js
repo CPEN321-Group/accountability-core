@@ -43,7 +43,7 @@ function findTransaction(userId,plaidTransactionId, callback) {
   UserTransaction.findOne(
     {$and:[
       {userId}, 
-      {transactions: idMatch }
+      {transactions: transactionsMatch }
     ]}, 
     (err,foundTransaction) => callback(err,foundTransaction))
 }
