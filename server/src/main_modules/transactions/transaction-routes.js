@@ -26,22 +26,19 @@ module.exports = function(app) {
 
   app.route('/transactions/:userId/:transactionId')
   .get(async (req,res,next) => {
-    const {userId,transactionId} = req.params;
-    await findTransaction(userId,transactionId,(err,status,returnData) => {
+    await findTransaction(req.params.userId,req.params.transactionId,(err,status,returnData) => {
       if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })
   .put(async (req,res,next) => {
-    const {userId,transactionId} = req.params;
-    await updateTransaction(userId,transactionId,req.query,(err,status,returnData) => {
+    await updateTransaction(req.params.userId,req.params.transactionId,req.query,(err,status,returnData) => {
       if (err) console.log(err);
       res.status(status).json(returnData);
     })
   })
   .delete(async (req,res,next) => {
-    const {userId,transactionId} = req.params;
-    await deleteTransaction(userId,transactionId,(err,status,returnData) => {
+    await deleteTransaction(req.params.userId,req.params.transactionId,(err,status,returnData) => {
       if (err) console.log(err);
       res.status(status).json(returnData);
     })

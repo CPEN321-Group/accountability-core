@@ -75,10 +75,10 @@ module.exports = {
         amount: Math.abs(amount),
         isIncome,receipt,plaidTransactionId
       });
-      
+      const pushItem = { transactions: newTransaction };
       const usertransaction = await UserTransaction.findOneAndUpdate(
         {userId: accountId},
-        { $push: { transactions: newTransaction } },
+        { $push:  pushItem},
         {returnDocument: 'after'},
       );
       if (!usertransaction) {
@@ -147,9 +147,11 @@ module.exports = {
   },
   deleteTransaction: async (accountId,transactionId,callback) => {
     try {
+      const transactionsMatch = {_id: transactionId};
+      const pullItem = { transactions: transactionsMatch};
       const usertransaction = await UserTransaction.findOneAndUpdate(
         {userId: accountId},
-        {$pull: {transactions: {_id: transactionId}}},
+        {$pull: pullItem},
       )
       if (!usertransaction) {
         return callback(null,404, 'account not found');

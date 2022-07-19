@@ -38,10 +38,12 @@ function saveTransactions(recently_added,userId, token, next) {
   }
 }
 function findTransaction(userId,plaidTransactionId, callback) {
+  const idMatch = { plaidTransactionId };
+  const transactionsMatch = { $elemMatch: idMatch};
   UserTransaction.findOne(
     {$and:[
       {userId}, 
-      {transactions: { $elemMatch: { plaidTransactionId }}}
+      {transactions: idMatch }
     ]}, 
     (err,foundTransaction) => callback(err,foundTransaction))
 }
@@ -690,8 +692,7 @@ module.exports = function(app) {
       if (err) console.log(err)
       if(!foundUser) creatPlaidUser(userId,null,null);
       else {
-        const {accessToken,itemId,transferId,paymentId} = foundUser.data;
-        callback(accessToken,itemId,transferId,paymentId);
+        callback(foundUser.data.accessToken,foundUser.data.itemId,foundUser.data.transferId,foundUser.data.paymentId);
       }
     })
   }
@@ -709,8 +710,13 @@ module.exports = function(app) {
     newUser.save((err, foundUser) => {
       if (!err) {
         // console.log("newUser saved")
-        const {accessToken, itemId, transferId, paymentId} = foundUser.data; 
-        return {accessToken,itemId,transferId,paymentId};
+        const returnData = {
+          accessToken: foundUser.data.accessToken,
+          itemId: foundUser.data.itemId,
+          transferId: foundUser.data.transferId,
+          paymentId: foundUser.data.paymentId
+        }
+        return returnData;
       }
       else console.log(err);
     })

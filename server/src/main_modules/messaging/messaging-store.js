@@ -7,8 +7,9 @@ module.exports = {
       if (!fieldsAreNotNull({account1Id,account2Id})) {
         return callback(null,400,'missing params');
       }
+      const members = {$all: [account1Id, account2Id]};
       const conversation = await Conversation.findOne(
-        {members: { $all: [account1Id, account2Id]}}
+        {members}
       );
       if (!conversation) {
         return callback(null,404, 'conversation not found');

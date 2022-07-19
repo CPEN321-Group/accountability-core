@@ -15,14 +15,14 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   createAccount: async (fields,callback) => {
-    try {
-      const df = getDefinedFields(fields);
-      const {accountId,avatar,firstname,lastname,email,age,profession,isAccountant} = df;
-      if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
-        return callback(null,400,'missing params');
-      }
-      const isAct = (isAccountant === 'true');
+    const df = getDefinedFields(fields);
+    const {accountId,avatar,firstname,lastname,email,age,profession,isAccountant} = df;
+    if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
+      return callback(null,400,'missing params');
+    }
+    const isAct = (isAccountant === 'true');
 
+    try {
       const foundAccount = await Account.findOne({accountId});
       if (foundAccount) {
         return callback(null,400,'account already exists');
@@ -135,10 +135,10 @@ module.exports = {
       const newReview = new Review({
         authorId,accountantId,date,rating,title,content
       });
-  
+      const pushItem = {reviews: newReview};
       const account = await Account.findOneAndUpdate(
         {$and:[{accountId: accountantId}, {isAccountant: true}]},
-        {$push: {reviews: newReview}},
+        {$push: pushItem},
         {returnDocument: 'after'},
       );
       if (!account) return callback(null,404,'accountant not found');

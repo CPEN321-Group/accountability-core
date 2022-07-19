@@ -3,15 +3,13 @@ const { findConversation, createConversation, findConversationsInAccount, findMe
 module.exports = function(app) {
   app.route('/messaging/conversation')
     .get(async (req,res) => {
-      const {account1Id,account2Id} = req.query;
-      await findConversation(account1Id,account2Id,(err,status,returnData) => {
+      await findConversation(req.query.account1Id,req.query.account2Id,(err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
       })
     })
     .post(async (req,res,next) => {
-      const {account1Id,account2Id} = req.query;
-      await createConversation(account1Id,account2Id,(err,status,returnData) => {
+      await createConversation(req.query.account1Id,req.query.account2Id,(err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
       })

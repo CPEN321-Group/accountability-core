@@ -93,10 +93,10 @@ module.exports = {
         return callback(null,400,'report already exists');
       }
       const newReport = await compileReport(accountId, mY);
-
+      const pushItem = {reports: newReport}
       await UserReport.updateOne(
         {userId: accountId}, 
-        {$push: {reports: newReport}}
+        {$push: pushItem}
       )
       return callback(null,200, newReport);
       
@@ -160,7 +160,7 @@ module.exports = {
       }
       const userReport = await UserReport.findOneAndUpdate(
         {$and:[{userId: accountId}, {reports: { $elemMatch: { _id: reportId }}}]},
-        {$set: {"reports.$.recommendations": recommendations}},
+        {"reports.$.recommendations": recommendations},
         {returnDocument: 'after'},
       )
       if (!userReport) {
@@ -178,9 +178,11 @@ module.exports = {
   },
   deleteReport: async (accountId, reportId, callback) => {
     try {
+      const reportsMatch = {_id: reportId};
+      const pullItem = {reports: reportsMatch};
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId},
-        {$pull: {reports: {_id: reportId}}},
+        {$pull: pullItem},
       )
       if (!userReport) {
         return callback(null,404,'account not found');
