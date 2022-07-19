@@ -41,7 +41,7 @@ public class SubscriptionActivity extends AppCompatActivity {
     String paymentIntentClientSecret;
     PaymentSheet.CustomerConfiguration customerConfig;
     // temporary server for testing only
-    private String stripe_url = "http://20.239.52.70:8000/stripe/checkout/"+VariableStoration.userID;
+    private String stripe_url = VariableStoration.baseURL + "/stripe/checkout/"+VariableStoration.userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

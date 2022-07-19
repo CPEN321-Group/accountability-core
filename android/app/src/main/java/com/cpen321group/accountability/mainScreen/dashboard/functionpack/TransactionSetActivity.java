@@ -78,7 +78,7 @@ public class TransactionSetActivity extends AppCompatActivity {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://20.239.52.70:8000/transactions/")
+                .baseUrl(VariableStoration.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
