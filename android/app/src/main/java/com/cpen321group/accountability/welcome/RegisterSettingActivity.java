@@ -49,7 +49,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterSettingActivity extends AppCompatActivity {
-    private TextInputLayout inputText;
     private AutoCompleteTextView autoText;
     private ImageView avatar;
     private String TAG = "register";
@@ -117,7 +116,6 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
 
         //drop down menu
-        inputText = findViewById(R.id.menu);
         autoText = findViewById(R.id.select_text);
 
         String[] items = {"User", "Accountant"};
