@@ -81,14 +81,14 @@ public class GoalCreateActivity extends AppCompatActivity {
 
     private void createGoal() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/goals/")
+                .baseUrl("http://20.239.52.70:8000/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
         Call<JsonObject> call = retrofitAPI.postGoal(VariableStoration.userID, this.goalName, this.goalTarget, 0, this.date);
 
-        Log.d("API url:", VariableStoration.baseURL + "/goals/"+VariableStoration.userID+"/");
+        Log.d("API url:", "http://20.239.52.70:8000/goals/"+VariableStoration.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

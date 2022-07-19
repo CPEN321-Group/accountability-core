@@ -81,7 +81,7 @@ public class GoalSetActivity extends AppCompatActivity {
 
     private void getAllGoals(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/goals/")
+                .baseUrl("http://20.239.52.70:8000/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -233,14 +233,14 @@ public class TransactionCreateActivity extends AppCompatActivity {
 
     private void createTransaction() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/transactions/")
+                .baseUrl("http://20.239.52.70:8000/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
         Call<JsonObject> call = retrofitAPI.postTransaction(VariableStoration.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
 
-        Log.d("API url:", VariableStoration.baseURL + "/transactions/"+VariableStoration.userID+"/");
+        Log.d("API url:", "http://20.239.52.70:8000/transactions/"+VariableStoration.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

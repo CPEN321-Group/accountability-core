@@ -1,6 +1,5 @@
 package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -10,9 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
 import com.cpen321group.accountability.R;
@@ -21,37 +18,53 @@ import com.cpen321group.accountability.VariableStoration;
 import java.util.concurrent.Executor;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
-
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
-        Preference dark_mode_pref = findPreference("dark_mode");
-        dark_mode_pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                SharedPreferences sharedPref =
-                        PreferenceManager.getDefaultSharedPreferences(getContext());
-                Boolean switchPref = sharedPref.getBoolean("dark_mode", false);
-                VariableStoration.is_darkMode = switchPref;
-                if (VariableStoration.is_darkMode) {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                } else {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
-                return false;
-            }
-        });
 
-        Preference notification_pref = findPreference("notification_allow");
-        notification_pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        executor = ContextCompat.getMainExecutor(getContext());
+        biometricPrompt = new BiometricPrompt(getActivity(),
+                executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
-            public boolean onPreferenceClick(Preference preference) {
-                SharedPreferences sharedPref =
-                        PreferenceManager.getDefaultSharedPreferences(getContext());
-                Boolean notificationPref = sharedPref.getBoolean("notification_allow", false);
-                VariableStoration.is_notificationGlobalOn = notificationPref;
-                return false;
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getActivity().getApplicationContext(),
+                                "Authentication error: " + errString, Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                VariableStoration.is_biometricAllowed = true;
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getActivity().getApplicationContext(), "Authentication failed",
+                                Toast.LENGTH_SHORT)
+                        .show();
             }
         });
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric login for my app")
+                .setSubtitle("Log in using your biometric credential")
+                .setNegativeButtonText("Use account password")
+                .build();
+
+        // biometric login switch
+        SwitchPreference biometric_switch = (SwitchPreference) findPreference("biometric");
+        //https://blog.csdn.net/qq_31307919/article/details/51953511
+
     }
+
+
 }

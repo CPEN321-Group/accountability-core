@@ -72,7 +72,7 @@ public class DashboardFragment extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                Intent settingsIntent = new Intent(getActivity(), AppSettingsActivity.class);
                 startActivity(settingsIntent);
             }
         });
@@ -130,7 +130,7 @@ public class DashboardFragment extends Fragment {
 
     private void getAllGoals(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/goals/")
+                .baseUrl("http://20.239.52.70:8000/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -177,7 +177,7 @@ public class DashboardFragment extends Fragment {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/transactions/")
+                .baseUrl("http://20.239.52.70:8000/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);

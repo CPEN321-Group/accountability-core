@@ -107,7 +107,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
 
     private void getRoomID(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/")
+                .baseUrl("http://20.239.52.70:8000/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -138,7 +138,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
 
     private String getName(String id){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/accounts/")
+                .baseUrl("http://20.239.52.70:8000/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -169,7 +169,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
     private void updateFinish(){
         if(VariableStoration.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(VariableStoration.baseURL + "/messaging/conversation/finished/")
+                    .baseUrl("http://20.239.52.70:8000/messaging/conversation/finished/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

@@ -62,7 +62,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void getHistory(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/message/")
+                .baseUrl("http://20.239.52.70:8000/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
