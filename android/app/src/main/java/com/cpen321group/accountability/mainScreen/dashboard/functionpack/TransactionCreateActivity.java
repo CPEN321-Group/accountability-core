@@ -2,9 +2,11 @@ package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
@@ -13,7 +15,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -41,6 +45,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageActivity;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -59,6 +64,9 @@ public class TransactionCreateActivity extends AppCompatActivity {
     public static int day;
     private String date;
     private static final int REQUEST_CODE = 100;
+    protected static final int CHOOSE_PICTURE = 0;
+    protected static final int TAKE_PICTURE = 1;
+    protected static Uri tempUri;
     private Button capture_button;
     private TextView ocr_view;
     Bitmap bitmap;
@@ -115,9 +123,51 @@ public class TransactionCreateActivity extends AppCompatActivity {
         capture_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(TransactionCreateActivity.this);
+                //CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(TransactionCreateActivity.this);
+                showChoosePicDialog();
             }
         });
+    }
+
+    protected void showChoosePicDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Picture");
+        String[] items = { "From Gallery", "Camera" };
+        builder.setNegativeButton("Cancel", null);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case CHOOSE_PICTURE:
+                        Intent openAlbumIntent = new Intent(
+                                Intent.ACTION_GET_CONTENT);
+                        openAlbumIntent.setType("image/*");
+                        startActivityForResult(openAlbumIntent, CHOOSE_PICTURE);
+                        break;
+                    case TAKE_PICTURE:
+                        File file = new File(getExternalCacheDir(), "image.jpg");
+                        try {
+                            if(file.exists()) {
+                                file.delete();
+                            }
+                            file.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if(Build.VERSION.SDK_INT >= 24) {
+                            tempUri = FileProvider.getUriForFile(TransactionCreateActivity.this, "com.cpen321.provider", file);
+                        } else {
+                            tempUri = Uri.fromFile(file);
+                        }
+                        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
+                        startActivityForResult(takePhotoIntent, TAKE_PICTURE);
+                        break;
+                }
+            }
+        });
+        builder.create().show();
     }
 
     @Override
@@ -133,6 +183,17 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }else if(requestCode == TAKE_PICTURE){
+            if(resultCode == RESULT_OK){
+                CropImage.activity(tempUri)
+                        .start(this);
+            }
+        }else if(requestCode == CHOOSE_PICTURE){
+            if(resultCode == RESULT_OK){
+                assert data != null;
+                CropImage.activity(data.getData())
+                        .start(this);
             }
         }
     }
