@@ -28,11 +28,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> {
 
-    private Context context;
     private ArrayList<GoalsModel> goalsModelArrayList;
 
     public GoalsAdapter(Context context, ArrayList<GoalsModel> goalsModelArrayList) {
-        this.context = context;
         this.goalsModelArrayList = goalsModelArrayList;
     }
 

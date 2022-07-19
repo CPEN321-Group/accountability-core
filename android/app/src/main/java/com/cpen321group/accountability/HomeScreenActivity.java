@@ -40,7 +40,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
-        com.cpen321group.accountability.databinding.ActivityHomeScreenBinding binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
+        ActivityHomeScreenBinding binding = ActivityHomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Passing each menu ID as a set of Ids because each
