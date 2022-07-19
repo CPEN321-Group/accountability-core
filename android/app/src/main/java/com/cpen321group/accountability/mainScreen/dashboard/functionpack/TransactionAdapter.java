@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -62,7 +61,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     private void deleteTransaction(String userId, String transactionId, View view, TransactionAdapter.Viewholder holder) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/transactions/")
+                .baseUrl("http://20.239.52.70:8000/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

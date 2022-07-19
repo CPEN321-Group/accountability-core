@@ -74,7 +74,7 @@ public class ChattingActivity extends AppCompatActivity {
 
         try {
             //This address is the way you can connect to localhost with AVD(Android Virtual Device)
-            mSocket = IO.socket(VariableStoration.baseURL + "/");
+            mSocket = IO.socket("http://20.239.52.70:8000/");
             //Log.d("success", mSocket.id());
         } catch (URISyntaxException e) {
             e.printStackTrace();
@@ -146,7 +146,7 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void postMessage(String text){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/message/")
+                .baseUrl("http://20.239.52.70:8000/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -169,7 +169,7 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void getHistory(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/message/")
+                .baseUrl("http://20.239.52.70:8000/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

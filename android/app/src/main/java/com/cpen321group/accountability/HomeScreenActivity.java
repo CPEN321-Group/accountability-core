@@ -1,16 +1,13 @@
 package com.cpen321group.accountability;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.cpen321group.accountability.mainScreen.chat.ReviewActivity;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.SettingsActivity;
 import com.cpen321group.accountability.welcome.RegisterSettingActivity;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -25,7 +22,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.preference.PreferenceManager;
 
 import com.cpen321group.accountability.databinding.ActivityHomeScreenBinding;
 import com.google.android.material.color.DynamicColors;
@@ -88,7 +84,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                     VariableStoration.userID = profile.getId()+"fb";
                 }
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(VariableStoration.baseURL + "/accounts/")
+                        .baseUrl("http://20.239.52.70:8000/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 

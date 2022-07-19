@@ -44,7 +44,7 @@ module.exports = {
   formatTransaction, 
   formatTransactions,
   createUserTransaction: (userId,transactions,callback) => {
-    const newUserTransaction = new UserTransaction({userId,transactions: transactions});
+    const newUserTransaction = new UserTransaction({userId,transactions});
     newUserTransaction.save((err,createdUserTransaction) => {
       callback(null,err,createdUserTransaction)
     })

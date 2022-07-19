@@ -16,12 +16,6 @@ function parseGoalData(fields) {
   return fieldsToUpdate;
 }
 
-function createUserGoal(userId,goals,callback) {
-  const newUserGoal = new UserGoal({userId,goals});
-  newUserGoal.save((err,createdUserGoal) => {
-    callback(null,err,createdUserGoal)
-  })
-}
 module.exports = {
   findGoals: async (accountId,callback) => {
     try {

@@ -71,4 +71,8 @@ dependencies {
 
     // Pattern Password
     implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
+
+    // OCR core services
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
 }

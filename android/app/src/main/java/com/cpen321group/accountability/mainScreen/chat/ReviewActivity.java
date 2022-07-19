@@ -93,7 +93,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void getReviews(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/accounts/")
+                .baseUrl("http://20.239.52.70:8000/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const plaidDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/plaidDB')
 
-const {r_string,r_bool,r_num, r_date} = require.main.require('./utils/types/mongo-required')
+const {r_string} = require.main.require('./utils/types/mongo-required')
 
 const plaidDataSchema = new mongoose.Schema({
   accessToken: String,

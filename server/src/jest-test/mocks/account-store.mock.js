@@ -1,5 +1,3 @@
-const { Account } = require("../../main_modules/accounts/models");
-
 const account = {
   accountId: '1234',
   profile: {
@@ -19,7 +17,7 @@ const account = {
 
 module.exports = {
   createAccount: jest.fn(async (fields,callback) => {
-    const {accountId,firstname,lastname,email,age,profession,isAccountant} = fields;
+    const {accountId,firstname,lastname,email,age,profession} = fields;
     if (!(accountId && firstname && lastname && email && age && profession)) {
       return callback(null,400,'missing params');
     } else if (accountId === '1234') {

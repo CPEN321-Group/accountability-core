@@ -1,6 +1,9 @@
 {
   "name": "accountability-server",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=8.3.0"
+  },
   "description": "Main backend server for accountability application",
   "main": "src/index.js",
   "scripts": {

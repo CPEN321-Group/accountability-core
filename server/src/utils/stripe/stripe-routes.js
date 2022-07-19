@@ -1,73 +1,71 @@
-const { authenticate } = require('../../main_modules/accounts/account-auth');
-const { createSubscription: setAccountSubscription } = require('../../main_modules/accounts/account-store');
-const { Account } = require('../../main_modules/accounts/models');
+// const { createSubscription: setAccountSubscription } = require('../../main_modules/accounts/account-store');
 
 //setup based on https://www.youtube.com/watch?v=rPR2aJ6XnAc
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 
-const PRICE_ID = 'price_1LFSrxGjSjq6aykFZNOKR1JP';
+// const PRICE_ID = 'price_1LFSrxGjSjq6aykFZNOKR1JP';
 
-function getExpiry(subscriptionDate,validFor = 31) {
-  let expiry = subscriptionDate;
-  expiry.setDate(expiry.getDate() + validFor);
-  return expiry;
-}
-async function createSession(userId, customerId) {
-  const validFor = 31;
-  const session = await stripe.checkout.sessions.create({
-    success_url: "http://localhost:8000/stripe/order/success",
-    success_url: "http://localhost:8000/stripe/order/success?session_id={CHECKOUT_SESSION_ID}",
-    cancel_url: 'http://localhost:8000/stripe/order/cancel',
-    line_items: [{price: PRICE_ID, quantity: 1}],
-    metadata: { userId, validFor },
-    mode: 'subscription',
-    customer: customerId,
+// function getExpiry(subscriptionDate,validFor = 31) {
+//   let expiry = subscriptionDate;
+//   expiry.setDate(expiry.getDate() + validFor);
+//   return expiry;
+// }
+// async function createSession(userId, customerId) {
+//   const validFor = 31;
+//   const session = await stripe.checkout.sessions.create({
+//     success_url: "http://localhost:8000/stripe/order/success",
+//     success_url: "http://localhost:8000/stripe/order/success?session_id={CHECKOUT_SESSION_ID}",
+//     cancel_url: 'http://localhost:8000/stripe/order/cancel',
+//     line_items: [{price: PRICE_ID, quantity: 1}],
+//     metadata: { userId, validFor },
+//     mode: 'subscription',
+//     customer: customerId,
 
-  });
-  return session;
-}
+//   });
+//   return session;
+// }
 
-function findUser(userId, callback) {
-  Account.findOne({accountId:userId}, (err,foundUser) => {
-    if (err || !foundUser) 
-      return callback(new Error('user not found'))
+// function findUser(userId, callback) {
+//   Account.findOne({accountId:userId}, (err,foundUser) => {
+//     if (err || !foundUser) 
+//       return callback(new Error('user not found'))
 
-    callback(err,foundUser)
-  })
-}
-async function createCustomerForUser(user) {
-  const { firstname, lastname, email } = user.profile;
-  const newCustomer = await stripe.customers.create({
-    email: email,
-    metadata: { userId: user.id },
-    name: `${firstname} ${lastname}`
-  });
-  console.log(newCustomer);
-  return newCustomer;
-}
+//     callback(err,foundUser)
+//   })
+// }
+// async function createCustomerForUser(user) {
+//   const { firstname, lastname, email } = user.profile;
+//   const newCustomer = await stripe.customers.create({
+//     email: email,
+//     metadata: { userId: user.id },
+//     name: `${firstname} ${lastname}`
+//   });
+//   console.log(newCustomer);
+//   return newCustomer;
+// }
 
-async function createSubscriptionForCustomer(customer) {
-  const newSubscription = await stripe.subscriptions.create({
-    customer: customer.id,
-    items: [ {price: PRICE_ID}],
-    payment_behavior: 'default_incomplete'
-  })
-  console.log(newSubscription);
-  return newSubscription;
-}
+// async function createSubscriptionForCustomer(customer) {
+//   const newSubscription = await stripe.subscriptions.create({
+//     customer: customer.id,
+//     items: [ {price: PRICE_ID}],
+//     payment_behavior: 'default_incomplete'
+//   })
+//   console.log(newSubscription);
+//   return newSubscription;
+// }
 
-function subscriptionIsActive(user) {
-  if (!user.subscription || !user.subscription.expiryDate)
-    return false;
+// function subscriptionIsActive(user) {
+//   if (!user.subscription || !user.subscription.expiryDate)
+//     return false;
     
-  const {expiryDate} = user.subscription;
-  const today = new Date();
-  if (expiryDate && expiryDate instanceof Date && !isNaN(expiryDate.valueOf()))
-    return today.getTime() < expiryDate.getTime();
-  else
-    return false;
-}
+//   const {expiryDate} = user.subscription;
+//   const today = new Date();
+//   if (expiryDate && expiryDate instanceof Date && !isNaN(expiryDate.valueOf()))
+//     return today.getTime() < expiryDate.getTime();
+//   else
+//     return false;
+// }
 
 module.exports = function(app) {
     //stripe success redirect page
@@ -77,7 +75,7 @@ module.exports = function(app) {
     })
     app.post('/stripe/checkout/:userId', async (req,res) => {
       try {
-        const {userId} = req.params;
+        // const {userId} = req.params;
         const newCustomer = await stripe.customers.create({
           email: 'test123@gmail.com',
           metadata: { userId: '1' },

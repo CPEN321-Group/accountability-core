@@ -42,10 +42,9 @@ describe('testing createAccount', () => {
     })
   }) 
   test('valid creation', async () => {
-    await createAccount({
-      ...accountFields,
-      accountId: '1456'
-    }, (err,status,returnData) => {
+    let modifiedAccountFields = accountFields;
+    modifiedAccountFields.accountId = '1456'
+    await createAccount(modifiedAccountFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual(account)

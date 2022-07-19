@@ -1,7 +1,4 @@
-const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
 const { findTransactions, deleteTransactions, findTransaction, updateTransaction, deleteTransaction,createTransaction } = require('./transaction-store');
-const { getDefinedFields } = require.main.require("./utils/get-defined-fields");
-const { authenticate } = require.main.require("./main_modules/accounts/account-auth");
 
 module.exports = function(app) {
   app.route('/transactions/:userId')
