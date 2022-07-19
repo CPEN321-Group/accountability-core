@@ -69,9 +69,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.1.0'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
-
-    // OCR core services
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    implementation 'com.google.android.gms:play-services-mlkit-text-recognition:17.0.0'
-
 }
