@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mainScreen.dashboard.functionpack.GoalCreateActivity">
+    tools:context=".mainscreen.dashboard.functionpack.GoalCreateActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/goalNameField"
@@ -50,7 +50,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        tools:context=".mainScreen.dashboard.functionpack.GoalCreateActivity"
+        tools:context=".mainscreen.dashboard.functionpack.GoalCreateActivity"
         android:id="@+id/datePickerButton"
         android:layout_width="wrap_content"
         style="@style/Widget.Material3.Button.OutlinedButton.Icon"
