@@ -27,11 +27,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.Viewholder>{
 
-    private Context context;
     private ArrayList<TransactionModel> transactionModelArrayList;
 
     public TransactionAdapter(Context context,ArrayList<TransactionModel> transactionModelArrayList) {
-        this.context = context;
         this.transactionModelArrayList = transactionModelArrayList;
     }
 
