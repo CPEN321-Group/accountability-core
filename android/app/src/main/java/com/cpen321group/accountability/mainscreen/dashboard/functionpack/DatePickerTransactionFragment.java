@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -6,14 +6,8 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
-
-import com.cpen321group.accountability.R;
 
 public class DatePickerTransactionFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {

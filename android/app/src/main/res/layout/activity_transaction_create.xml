@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mainScreen.dashboard.functionpack.TransactionCreateActivity">
+    tools:context=".mainscreen.dashboard.functionpack.TransactionCreateActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/transactionNameField"
@@ -71,7 +71,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        tools:context=".mainScreen.dashboard.functionpack.transactionCreateActivity"
+        tools:context=".mainscreen.dashboard.functionpack.transactionCreateActivity"
         android:id="@+id/datePickerButton"
         android:layout_width="wrap_content"
         style="@style/Widget.Material3.Button.OutlinedButton.Icon"

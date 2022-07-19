@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
@@ -81,14 +81,14 @@ public class GoalCreateActivity extends AppCompatActivity {
 
     private void createGoal() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/goals/")
+                .baseUrl(VariableStore.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postGoal(VariableStoration.userID, this.goalName, this.goalTarget, 0, this.date);
+        Call<JsonObject> call = retrofitAPI.postGoal(VariableStore.userID, this.goalName, this.goalTarget, 0, this.date);
 
-        Log.d("API url:", VariableStoration.baseURL + "/goals/"+VariableStoration.userID+"/");
+        Log.d("API url:", VariableStore.baseURL + "/goals/"+ VariableStore.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

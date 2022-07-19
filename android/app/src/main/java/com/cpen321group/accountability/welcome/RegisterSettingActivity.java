@@ -1,26 +1,20 @@
 package com.cpen321group.accountability.welcome;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.constraintlayout.core.motion.utils.Utils;
 import androidx.core.view.WindowCompat;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,10 +24,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.cpen321group.accountability.HomeScreenActivity;
+
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -59,7 +53,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
     private AutoCompleteTextView autoText;
     private ImageView avatar;
     private String TAG = "register";
-    private String server_url = VariableStoration.baseURL + "/accounts";
+    private String server_url = VariableStore.baseURL + "/accounts";
     private MyProfile myProfile_1;
     private String userId;
     private String text;
@@ -76,7 +70,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_setting);
-        if (VariableStoration.is_darkMode) {
+        if (VariableStore.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -215,7 +209,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
     private void postAccount() throws IOException {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "")
+                .baseUrl(VariableStore.baseURL + "")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

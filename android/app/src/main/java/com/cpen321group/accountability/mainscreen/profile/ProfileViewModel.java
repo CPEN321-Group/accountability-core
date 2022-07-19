@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.profile;
+package com.cpen321group.accountability.mainscreen.profile;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

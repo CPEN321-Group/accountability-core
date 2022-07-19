@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.chat;
+package com.cpen321group.accountability.mainscreen.chat;
 
 public class NameID {
     private String id;

@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.profile;
+package com.cpen321group.accountability.mainscreen.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.color.DynamicColors;
 
 public class SubscriptionOKActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class SubscriptionOKActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription_ok);
-        if (VariableStoration.is_darkMode) {
+        if (VariableStore.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -31,7 +31,7 @@ public class SubscriptionOKActivity extends AppCompatActivity {
         start_subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VariableStoration.is_subscribed = false;
+                VariableStore.is_subscribed = false;
             }
         });
     }

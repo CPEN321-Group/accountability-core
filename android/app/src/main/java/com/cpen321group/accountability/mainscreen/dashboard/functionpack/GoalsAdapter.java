@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
-import com.google.gson.JsonObject;
+import com.cpen321group.accountability.VariableStore;
 
 import java.util.ArrayList;
 
@@ -75,7 +74,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
 
     private void deleteGoal(String userId, String GoalId, View view, GoalsAdapter.Viewholder holder){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/goals/")
+                .baseUrl(VariableStore.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -107,8 +106,10 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        private TextView goalName, goalPrice;
-        private Button goalDelete, goalSave;
+        private TextView goalName;
+        private TextView goalPrice;
+        private Button goalDelete;
+        private Button goalSave;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);

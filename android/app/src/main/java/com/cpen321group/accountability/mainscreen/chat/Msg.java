@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.chat;
+package com.cpen321group.accountability.mainscreen.chat;
 
 public class Msg {
     public static final int TYPE_RECEIVED = 0;

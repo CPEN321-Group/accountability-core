@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.chat;
+package com.cpen321group.accountability.mainscreen.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonObject;
 
@@ -37,7 +37,7 @@ public class HistoryActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        if (VariableStoration.is_darkMode) {
+        if (VariableStore.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -53,7 +53,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void getData(){
-        if (VariableStoration.roomID != null) {
+        if (VariableStore.roomID != null) {
             getHistory();
         } else {
             msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));
@@ -62,13 +62,13 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void getHistory(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/message/")
+                .baseUrl(VariableStore.baseURL + "/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariableStoration.roomID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariableStore.roomID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -83,7 +83,7 @@ public class HistoryActivity extends AppCompatActivity {
                             String string = jsonObject.get("text").toString();
                             String hisId = jsonObject.get("sender").toString();
                             Log.d("hisId", hisId);
-                            if (hisId.substring(1, hisId.length() - 1).equals(VariableStoration.userID)) {
+                            if (hisId.substring(1, hisId.length() - 1).equals(VariableStore.userID)) {
                                 msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_SEND));
                                 adapter.notifyItemInserted(msgList.size() - 1);
                                 msgRecyclerView.scrollToPosition(msgList.size() - 1);

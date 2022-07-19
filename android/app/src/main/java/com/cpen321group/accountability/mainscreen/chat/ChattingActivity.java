@@ -1,9 +1,8 @@
-package com.cpen321group.accountability.mainScreen.chat;
+package com.cpen321group.accountability.mainscreen.chat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonObject;
 
@@ -56,7 +55,7 @@ public class ChattingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
-        if (VariableStoration.is_darkMode) {
+        if (VariableStore.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -74,14 +73,14 @@ public class ChattingActivity extends AppCompatActivity {
 
         try {
             //This address is the way you can connect to localhost with AVD(Android Virtual Device)
-            mSocket = IO.socket(VariableStoration.baseURL + "/");
+            mSocket = IO.socket(VariableStore.baseURL + "/");
             //Log.d("success", mSocket.id());
         } catch (URISyntaxException e) {
             e.printStackTrace();
             Log.d("fail", "Failed to connect");
         }
         mSocket.connect();
-        mSocket.emit("addUser",VariableStoration.userID);
+        mSocket.emit("addUser", VariableStore.userID);
         //Register all the listener and callbacks here.
         mSocket.on("getMessage", onNewMessage);
 
@@ -94,7 +93,7 @@ public class ChattingActivity extends AppCompatActivity {
                     adapter.notifyItemInserted(msgList.size()-1);
                     msgRecyclerView.scrollToPosition(msgList.size()-1);
                     inputText.setText("");
-                    mSocket.emit("sendMessage",VariableStoration.userID,VariableStoration.receiverID,content);
+                    mSocket.emit("sendMessage", VariableStore.userID, VariableStore.receiverID,content);
                     postMessage(content);
                 }
             }
@@ -118,7 +117,7 @@ public class ChattingActivity extends AppCompatActivity {
                         }
                         Log.d("Socket",username);
                         Log.d("Socket",message);
-                        if(username.equals(VariableStoration.receiverID)) {
+                        if(username.equals(VariableStore.receiverID)) {
                             msgList.add(new Msg(message, Msg.TYPE_RECEIVED));
                             adapter.notifyItemInserted(msgList.size()-1);
                             msgRecyclerView.scrollToPosition(msgList.size()-1);
@@ -129,7 +128,7 @@ public class ChattingActivity extends AppCompatActivity {
         };
 
     private void getData(){
-        if (VariableStoration.roomID != null) {
+        if (VariableStore.roomID != null) {
             getHistory();
         } else {
             msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));
@@ -146,13 +145,13 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void postMessage(String text){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/message/")
+                .baseUrl(VariableStore.baseURL + "/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postMessage(VariableStoration.roomID,VariableStoration.userID,text);
+        Call<String> call = retrofitAPI.postMessage(VariableStore.roomID, VariableStore.userID,text);
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -169,13 +168,13 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void getHistory(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/message/")
+                .baseUrl(VariableStore.baseURL + "/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariableStoration.roomID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariableStore.roomID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -190,7 +189,7 @@ public class ChattingActivity extends AppCompatActivity {
                             String string = jsonObject.get("text").toString();
                             String hisId = jsonObject.get("sender").toString();
                             Log.d("hisId", hisId);
-                            if (hisId.substring(1, hisId.length() - 1).equals(VariableStoration.userID)) {
+                            if (hisId.substring(1, hisId.length() - 1).equals(VariableStore.userID)) {
                                 msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_SEND));
                                 adapter.notifyItemInserted(msgList.size() - 1);
                                 msgRecyclerView.scrollToPosition(msgList.size() - 1);

@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.dashboard;
+package com.cpen321group.accountability.mainscreen.dashboard;
 
 import android.content.Intent;
 import android.icu.util.Calendar;
@@ -9,26 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.AppSettingsActivity;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalSetActivity;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalsAdapter;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.GoalsModel;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.ReportGenActivity;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.SettingsActivity;
+import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.GoalSetActivity;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.ReportGenActivity;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.SettingsActivity;
 import com.cpen321group.accountability.databinding.FragmentDashboardBinding;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.TransactionAdapter;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.TransactionModel;
-import com.cpen321group.accountability.mainScreen.dashboard.functionpack.TransactionSetActivity;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.TransactionSetActivity;
 import com.google.gson.JsonObject;
 
 import java.text.ParseException;
@@ -62,11 +54,11 @@ public class DashboardFragment extends Fragment {
         dashName= binding.dashName;
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if ((hour>=19 && hour<=24) || (hour >=0 && hour <= 5)) {
-            dashName.setText("Good night, "+ VariableStoration.userName+"!");
+            dashName.setText("Good night, "+ VariableStore.userName+"!");
         } else if (hour>5 && hour<=12) {
-            dashName.setText("Good morning, "+ VariableStoration.userName+"!");
+            dashName.setText("Good morning, "+ VariableStore.userName+"!");
         } else {
-            dashName.setText("Good afternoon, "+ VariableStoration.userName+"!");
+            dashName.setText("Good afternoon, "+ VariableStore.userName+"!");
         }
         Button settings = binding.homeSettings;
         settings.setOnClickListener(new View.OnClickListener() {
@@ -130,12 +122,12 @@ public class DashboardFragment extends Fragment {
 
     private void getAllGoals(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/goals/")
+                .baseUrl(VariableStore.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(VariableStoration.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(VariableStore.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -177,11 +169,11 @@ public class DashboardFragment extends Fragment {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/transactions/")
+                .baseUrl(VariableStore.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariableStoration.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariableStore.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

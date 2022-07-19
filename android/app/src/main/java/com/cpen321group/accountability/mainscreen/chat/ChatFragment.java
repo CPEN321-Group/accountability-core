@@ -1,6 +1,5 @@
-package com.cpen321group.accountability.mainScreen.chat;
+package com.cpen321group.accountability.mainscreen.chat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,19 +14,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.cpen321group.accountability.databinding.FragmentChatBinding;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +50,7 @@ public class ChatFragment extends Fragment {
             handler.postDelayed(this, 1000 * 120);// 间隔120秒
         }
         void update() {
-            if(VariableStoration.isAccountant){
+            if(VariableStore.isAccountant){
                 layoutManager = new LinearLayoutManager(getActivity());
                 userRecyclerView.setLayoutManager(layoutManager);
                 getData();
@@ -87,7 +80,7 @@ public class ChatFragment extends Fragment {
 
         userRecyclerView.setLayoutManager(layoutManager);
 
-        if(VariableStoration.isAccountant){
+        if(VariableStore.isAccountant){
             functionName.setText("User Request");
             adapter = new requestSetting(userList);
             userRecyclerView.setAdapter(adapter);
@@ -100,13 +93,13 @@ public class ChatFragment extends Fragment {
 
         if(GoogleSignIn.getLastSignedInAccount(getActivity())!=null){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(getActivity());
-            VariableStoration.userID = account.getId()+"go";
+            VariableStore.userID = account.getId()+"go";
         }else{
             Profile profile = Profile.getCurrentProfile();
-            VariableStoration.userID = profile.getId()+"fb";
+            VariableStore.userID = profile.getId()+"fb";
         }
 
-        if(!VariableStoration.isAccountant){
+        if(!VariableStore.isAccountant){
             getAccountant(aList);
         }else{
             getUser(userList);
@@ -117,7 +110,7 @@ public class ChatFragment extends Fragment {
 
     private void getAccountant(List<NameID> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/accounts/")
+                .baseUrl(VariableStore.baseURL + "/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -168,7 +161,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void getData(){
-        if(!VariableStoration.isAccountant){
+        if(!VariableStore.isAccountant){
             aList.clear();
             getAccountant(aList);
         }else{
@@ -180,13 +173,13 @@ public class ChatFragment extends Fragment {
 
     private void getUser(List<String> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/messaging/conversation/")
+                .baseUrl(VariableStore.baseURL + "/messaging/conversation/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(VariableStoration.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(VariableStore.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -204,7 +197,7 @@ public class ChatFragment extends Fragment {
                                 String[] array = string.split(",", 2);
                                 String s1 = array[0].substring(2, array[0].length() - 1);
                                 String s2 = array[1].substring(1, array[1].length() - 2);
-                                if (s1.equals(VariableStoration.userID)) {
+                                if (s1.equals(VariableStore.userID)) {
                                     accountList.add(s2);
                                     adapter.notifyItemInserted(accountList.size() - 1);
                                     userRecyclerView.scrollToPosition(accountList.size() - 1);

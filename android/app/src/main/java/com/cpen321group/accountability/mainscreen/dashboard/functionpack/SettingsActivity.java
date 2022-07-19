@@ -1,21 +1,13 @@
-package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.preference.PreferenceScreen;
-import androidx.preference.SwitchPreference;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStoration;
 import com.google.android.material.color.DynamicColors;
 
 public class SettingsActivity extends AppCompatActivity {

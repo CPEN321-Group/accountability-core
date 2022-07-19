@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -7,7 +7,7 @@ import androidx.core.view.WindowCompat;
 import android.os.Bundle;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.color.DynamicColors;
 
 public class ReportGenActivity extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class ReportGenActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_gen);
-        if (VariableStoration.is_darkMode) {
+        if (VariableStore.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

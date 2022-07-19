@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
@@ -78,11 +78,11 @@ public class TransactionSetActivity extends AppCompatActivity {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/transactions/")
+                .baseUrl(VariableStore.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariableStoration.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariableStore.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -99,7 +99,7 @@ public class TransactionSetActivity extends AppCompatActivity {
                         int amount_cents = Integer.valueOf(jsonObject.get("amount").toString());
                         double price_dollar = amount_cents / 100.0;
                         String date = jsonObject.get("date").toString();
-                        transactionModelArrayList.add(new TransactionModel(VariableStoration.userID, id, title, category, date, price_dollar, false, "null"));
+                        transactionModelArrayList.add(new TransactionModel(VariableStore.userID, id, title, category, date, price_dollar, false, "null"));
                         TransactionAdapter transactionAdapter = new TransactionAdapter(getApplicationContext(), transactionModelArrayList);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         transactionsRV.setLayoutManager(linearLayoutManager);

@@ -1,8 +1,7 @@
-package com.cpen321group.accountability.mainScreen.dashboard.functionpack;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,10 +12,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStoration;
-import com.cpen321group.accountability.mainScreen.chat.AddReviewActivity;
-import com.cpen321group.accountability.mainScreen.chat.ReviewActivity;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 
@@ -73,12 +69,12 @@ public class GoalUpdateActivity extends AppCompatActivity {
 
     private void updateGoal() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStoration.baseURL + "/goals/")
+                .baseUrl(VariableStore.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.updateSpecificGoal(VariableStoration.userID, goalId, this.goalCurrent);
+        Call<JsonObject> call = retrofitAPI.updateSpecificGoal(VariableStore.userID, goalId, this.goalCurrent);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

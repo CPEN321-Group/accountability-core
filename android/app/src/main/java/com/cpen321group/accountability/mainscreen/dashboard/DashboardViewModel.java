@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.mainScreen.dashboard;
+package com.cpen321group.accountability.mainscreen.dashboard;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

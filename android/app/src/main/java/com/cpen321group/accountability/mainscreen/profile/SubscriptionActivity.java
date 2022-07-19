@@ -1,10 +1,9 @@
-package com.cpen321group.accountability.mainScreen.profile;
+package com.cpen321group.accountability.mainscreen.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,27 +20,22 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStoration;
-import com.cpen321group.accountability.welcome.WelcomeActivity;
+import com.cpen321group.accountability.VariableStore;
 import com.google.android.material.color.DynamicColors;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.stripe.android.paymentsheet.*;
 import com.stripe.android.PaymentConfiguration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.TimeUnit;
-
 public class SubscriptionActivity extends AppCompatActivity {
     PaymentSheet paymentSheet;
     String paymentIntentClientSecret;
     PaymentSheet.CustomerConfiguration customerConfig;
     // temporary server for testing only
-    private String stripe_url = VariableStoration.baseURL + "/stripe/checkout/"+VariableStoration.userID;
+    private String stripe_url = VariableStore.baseURL + "/stripe/checkout/"+ VariableStore.userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +44,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription);
-        if (VariableStoration.is_darkMode) {
+        if (VariableStore.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -151,7 +145,7 @@ public class SubscriptionActivity extends AppCompatActivity {
                         }
                     })
                     .show();
-            VariableStoration.is_subscribed = true;
+            VariableStore.is_subscribed = true;
         }
     }
 }
