@@ -1,7 +1,6 @@
-const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
+const { fieldsAreNotNull, getDefinedFields } = require('../../utils/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserGoal, Goal} = require('./models');
-const { getDefinedFields } = require.main.require('./utils/get-defined-fields');
 
 function parseGoalData(fields) {
   const {title,target,current,deadline} = fields;

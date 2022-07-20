@@ -1,7 +1,6 @@
-const { fieldsAreNotNull } = require('../../utils/get-defined-fields');
+const { fieldsAreNotNull, getDefinedFields } = require('../../utils/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserTransaction, Transaction} = require('./models');
-const { getDefinedFields } = require.main.require('./utils/get-defined-fields');
 const moment = require('moment');
 
 const formatTransactions = (transactions) => {
