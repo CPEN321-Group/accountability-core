@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonObject;
 
@@ -27,7 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HistoryActivity extends AppCompatActivity {
     private List<Msg> msgList = new ArrayList<>();
     private RecyclerView msgRecyclerView;
-    private LinearLayoutManager layoutManager;
     private MsgSetting adapter;
 
     @Override
@@ -37,7 +36,7 @@ public class HistoryActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        if (VariableStore.is_darkMode) {
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -46,14 +45,14 @@ public class HistoryActivity extends AppCompatActivity {
         //Starting of this activity
         getData();
         msgRecyclerView = findViewById(R.id.historyView);
-        layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new MsgSetting(msgList);
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);
     }
 
     private void getData(){
-        if (VariableStore.roomID != null) {
+        if (VariablesSpace.roomID != null) {
             getHistory();
         } else {
             msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));
@@ -62,13 +61,13 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void getHistory(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/messaging/message/")
+                .baseUrl(VariablesSpace.baseURL + "/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariableStore.roomID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariablesSpace.roomID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -83,7 +82,7 @@ public class HistoryActivity extends AppCompatActivity {
                             String string = jsonObject.get("text").toString();
                             String hisId = jsonObject.get("sender").toString();
                             Log.d("hisId", hisId);
-                            if (hisId.substring(1, hisId.length() - 1).equals(VariableStore.userID)) {
+                            if (hisId.substring(1, hisId.length() - 1).equals(VariablesSpace.userID)) {
                                 msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_SEND));
                                 adapter.notifyItemInserted(msgList.size() - 1);
                                 msgRecyclerView.scrollToPosition(msgList.size() - 1);

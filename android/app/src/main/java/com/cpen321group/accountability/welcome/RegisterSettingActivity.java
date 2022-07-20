@@ -1,7 +1,5 @@
 package com.cpen321group.accountability.welcome;
 
-import static com.google.android.gms.common.util.CollectionUtils.listOf;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +25,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -49,11 +47,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterSettingActivity extends AppCompatActivity {
-    private TextInputLayout inputText;
-    private AutoCompleteTextView autoText;
     private ImageView avatar;
-    private String TAG = "register";
-    private String server_url = VariableStore.baseURL + "/accounts";
     private MyProfile myProfile_1;
     private String userId;
     private String text;
@@ -70,7 +64,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_setting);
-        if (VariableStore.is_darkMode) {
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -101,10 +95,8 @@ public class RegisterSettingActivity extends AppCompatActivity {
         avatar = findViewById(R.id.iv_personal_icon);
         if(GoogleOn == 1){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(this);
-            if (account != null) {
-                if (account.getPhotoUrl() != null) {
-                    avatar.setImageURI(account.getPhotoUrl());
-                }
+            if (account != null && account.getPhotoUrl() != null) {
+                avatar.setImageURI(account.getPhotoUrl());
             }
         }
         changeButton.setVisibility(View.INVISIBLE);
@@ -117,8 +109,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
 
         //drop down menu
-        inputText = findViewById(R.id.menu);
-        autoText = findViewById(R.id.select_text);
+        AutoCompleteTextView autoText = findViewById(R.id.select_text);
 
         String[] items = {"User", "Accountant"};
         ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(RegisterSettingActivity.this, R.layout.list_item, items);
@@ -139,28 +130,32 @@ public class RegisterSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createProfile();
-                if((!myProfile_1.getEmail().equals(""))&&(text!=null)) {
-                    try {
-                        postAccount();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (GoogleOn == 1) {
-                        GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
-                        signOut(account);
-                        Log.d("Profile", "Google sign out successfully!");
-                    }
-                    if (Profile.getCurrentProfile() != null) {
-                        LoginManager.getInstance().logOut();
-                        Log.d("Profile", "Facebook sign out successfully!");
-                    }
-                    Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
-                    startActivity(settingsIntent);
-                }else{
-                    Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
-                }
+                checkForCreate();
             }
         });
+    }
+
+    private void checkForCreate(){
+        if((!myProfile_1.getEmail().equals(""))&&(text!=null)) {
+            try {
+                postAccount();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (GoogleOn == 1) {
+                GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                signOut(account);
+                Log.d("Profile", "Google sign out successfully!");
+            }
+            if (Profile.getCurrentProfile() != null) {
+                LoginManager.getInstance().logOut();
+                Log.d("Profile", "Facebook sign out successfully!");
+            }
+            Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
+            startActivity(settingsIntent);
+        }else{
+            Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
+        }
     }
 
     //Google sign out
@@ -196,7 +191,6 @@ public class RegisterSettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             Uri uri = data.getData();
-            String img_url = uri.getPath();
             ContentResolver cr = this.getContentResolver();
             try {
                 Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
@@ -209,7 +203,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
     private void postAccount() throws IOException {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "")
+                .baseUrl(VariablesSpace.baseURL + "")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

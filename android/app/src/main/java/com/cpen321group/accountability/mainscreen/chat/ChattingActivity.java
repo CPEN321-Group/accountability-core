@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonObject;
 
@@ -40,13 +40,8 @@ public class ChattingActivity extends AppCompatActivity {
     private List<Msg> msgList = new ArrayList<>();
     private RecyclerView msgRecyclerView;
     private EditText inputText;
-    private Button send;
-    private LinearLayoutManager layoutManager;
     private MsgSetting adapter;
     private Socket mSocket;
-    private String TAG = "Chatting";
-    private String roomName = "1";
-    private List<Msg> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +50,7 @@ public class ChattingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
-        if (VariableStore.is_darkMode) {
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -65,22 +60,22 @@ public class ChattingActivity extends AppCompatActivity {
         getData();
         msgRecyclerView = findViewById(R.id.msg_view);
         inputText = findViewById(R.id.text_view);
-        send = findViewById(R.id.send_button);
-        layoutManager = new LinearLayoutManager(this);
+        Button send = findViewById(R.id.send_button);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new MsgSetting(msgList);
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);
 
         try {
             //This address is the way you can connect to localhost with AVD(Android Virtual Device)
-            mSocket = IO.socket(VariableStore.baseURL + "/");
+            mSocket = IO.socket(VariablesSpace.baseURL + "/");
             //Log.d("success", mSocket.id());
         } catch (URISyntaxException e) {
             e.printStackTrace();
             Log.d("fail", "Failed to connect");
         }
         mSocket.connect();
-        mSocket.emit("addUser", VariableStore.userID);
+        mSocket.emit("addUser", VariablesSpace.userID);
         //Register all the listener and callbacks here.
         mSocket.on("getMessage", onNewMessage);
 
@@ -93,7 +88,7 @@ public class ChattingActivity extends AppCompatActivity {
                     adapter.notifyItemInserted(msgList.size()-1);
                     msgRecyclerView.scrollToPosition(msgList.size()-1);
                     inputText.setText("");
-                    mSocket.emit("sendMessage", VariableStore.userID, VariableStore.receiverID,content);
+                    mSocket.emit("sendMessage", VariablesSpace.userID, VariablesSpace.receiverID,content);
                     postMessage(content);
                 }
             }
@@ -117,7 +112,7 @@ public class ChattingActivity extends AppCompatActivity {
                         }
                         Log.d("Socket",username);
                         Log.d("Socket",message);
-                        if(username.equals(VariableStore.receiverID)) {
+                        if(username.equals(VariablesSpace.receiverID)) {
                             msgList.add(new Msg(message, Msg.TYPE_RECEIVED));
                             adapter.notifyItemInserted(msgList.size()-1);
                             msgRecyclerView.scrollToPosition(msgList.size()-1);
@@ -128,7 +123,7 @@ public class ChattingActivity extends AppCompatActivity {
         };
 
     private void getData(){
-        if (VariableStore.roomID != null) {
+        if (VariablesSpace.roomID != null) {
             getHistory();
         } else {
             msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));
@@ -145,13 +140,13 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void postMessage(String text){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/messaging/message/")
+                .baseUrl(VariablesSpace.baseURL + "/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postMessage(VariableStore.roomID, VariableStore.userID,text);
+        Call<String> call = retrofitAPI.postMessage(VariablesSpace.roomID, VariablesSpace.userID,text);
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -168,13 +163,13 @@ public class ChattingActivity extends AppCompatActivity {
 
     private void getHistory(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/messaging/message/")
+                .baseUrl(VariablesSpace.baseURL + "/messaging/message/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariableStore.roomID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(VariablesSpace.roomID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -189,7 +184,7 @@ public class ChattingActivity extends AppCompatActivity {
                             String string = jsonObject.get("text").toString();
                             String hisId = jsonObject.get("sender").toString();
                             Log.d("hisId", hisId);
-                            if (hisId.substring(1, hisId.length() - 1).equals(VariableStore.userID)) {
+                            if (hisId.substring(1, hisId.length() - 1).equals(VariablesSpace.userID)) {
                                 msgList.add(new Msg(string.substring(1, string.length() - 1), Msg.TYPE_SEND));
                                 adapter.notifyItemInserted(msgList.size() - 1);
                                 msgRecyclerView.scrollToPosition(msgList.size() - 1);

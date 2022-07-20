@@ -1,6 +1,6 @@
 package com.cpen321group.accountability;
 
-public class VariableStore {
+public class VariablesSpace {
 
     public static String baseURL = "http://20.104.57.27:8000";
 

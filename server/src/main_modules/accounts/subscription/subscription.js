@@ -8,8 +8,10 @@ const subscriptionSchema = new mongoose.Schema({
 })
 
 function parseSubscriptionData(fields) {
-  const {subscriptionDate,expiryDate} = fields;
-  const df = getDefinedFields({subscriptionDate,expiryDate});
+  const df = getDefinedFields({
+    subscriptionDate: fields.subscriptionDate,
+    expiryDate: fields.expiryDate
+  });
 
   const fieldsToUpdate = {
     ...(df.subscriptionDate && {"subscription.subscriptionDate": df.subscriptionDate}),

@@ -17,10 +17,10 @@ const account = {
 
 module.exports = {
   createAccount: jest.fn(async (fields,callback) => {
-    const {accountId,firstname,lastname,email,age,profession} = fields;
-    if (!(accountId && firstname && lastname && email && age && profession)) {
+    if (!(fields.accountId && fields.firstname && fields.lastname && 
+      fields.email && fields.age && fields.profession)) {
       return callback(null,400,'missing params');
-    } else if (accountId === '1234') {
+    } else if (fields.accountId === '1234') {
       return callback(null,400,'account already exists');
     } else {
       return callback(null,200,account);

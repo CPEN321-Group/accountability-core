@@ -29,7 +29,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -224,20 +224,20 @@ public class TransactionCreateActivity extends AppCompatActivity {
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerTransactionFragment();
+        DialogFragment newFragment = new com.cpen321group.accountability.mainScreen.dashboard.functionpack.DatePickerTransactionFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     private void createTransaction() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/transactions/")
+                .baseUrl(VariablesSpace.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postTransaction(VariableStore.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
+        Call<JsonObject> call = retrofitAPI.postTransaction(VariablesSpace.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
 
-        Log.d("API url:", VariableStore.baseURL + "/transactions/"+ VariableStore.userID+"/");
+        Log.d("API url:", VariablesSpace.baseURL + "/transactions/"+ VariablesSpace.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.cpen321group.accountability.mainscreen.dashboard.functionpack.GoalSetActivity;
 import com.cpen321group.accountability.mainscreen.dashboard.functionpack.ReportGenActivity;
 import com.cpen321group.accountability.mainscreen.dashboard.functionpack.SettingsActivity;
@@ -43,8 +42,8 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
+//        DashboardViewModel dashboardViewModel =
+//                new ViewModelProvider(this).get(DashboardViewModel.class);
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -54,11 +53,11 @@ public class DashboardFragment extends Fragment {
         dashName= binding.dashName;
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if ((hour>=19 && hour<=24) || (hour >=0 && hour <= 5)) {
-            dashName.setText("Good night, "+ VariableStore.userName+"!");
+            dashName.setText("Good night, "+ VariablesSpace.userName+"!");
         } else if (hour>5 && hour<=12) {
-            dashName.setText("Good morning, "+ VariableStore.userName+"!");
+            dashName.setText("Good morning, "+ VariablesSpace.userName+"!");
         } else {
-            dashName.setText("Good afternoon, "+ VariableStore.userName+"!");
+            dashName.setText("Good afternoon, "+ VariablesSpace.userName+"!");
         }
         Button settings = binding.homeSettings;
         settings.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +121,12 @@ public class DashboardFragment extends Fragment {
 
     private void getAllGoals(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/goals/")
+                .baseUrl(VariablesSpace.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(VariableStore.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(VariablesSpace.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -169,11 +168,11 @@ public class DashboardFragment extends Fragment {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/transactions/")
+                .baseUrl(VariablesSpace.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariableStore.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariablesSpace.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

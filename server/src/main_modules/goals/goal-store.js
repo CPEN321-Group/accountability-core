@@ -38,9 +38,10 @@ module.exports = {
       }
   
       const goal = new Goal({title,target,current,deadline});
+      const pushItem = { goals: goal };
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId},
-        { $push: { goals: goal } },
+        { $push: pushItem },
         {returnDocument: 'after'}
       )
       if (!usergoal) {
@@ -108,9 +109,11 @@ module.exports = {
   },
   deleteGoal: async (accountId,goalId,callback) => {
     try {
+      const goalMatch = {_id: goalId};
+      const pullItem = {goals: goalMatch};
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId},
-        {$pull: {goals: {_id: goalId}}},
+        {$pull: pullItem},
       )
       if (!usergoal) { 
         return callback(null,404, 'account not found')

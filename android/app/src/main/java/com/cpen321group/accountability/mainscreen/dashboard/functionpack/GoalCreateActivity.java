@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
@@ -81,14 +81,14 @@ public class GoalCreateActivity extends AppCompatActivity {
 
     private void createGoal() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/goals/")
+                .baseUrl(VariablesSpace.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postGoal(VariableStore.userID, this.goalName, this.goalTarget, 0, this.date);
+        Call<JsonObject> call = retrofitAPI.postGoal(VariablesSpace.userID, this.goalName, this.goalTarget, 0, this.date);
 
-        Log.d("API url:", VariableStore.baseURL + "/goals/"+ VariableStore.userID+"/");
+        Log.d("API url:", VariablesSpace.baseURL + "/goals/"+ VariablesSpace.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
