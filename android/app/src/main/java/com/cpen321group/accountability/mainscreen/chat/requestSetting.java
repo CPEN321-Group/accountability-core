@@ -150,7 +150,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d("Message", "success");
+                    Log.d("Message", "success");
                 }
 
                 @Override

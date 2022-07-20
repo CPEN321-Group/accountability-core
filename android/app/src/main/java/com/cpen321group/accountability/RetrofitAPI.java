@@ -55,6 +55,7 @@ public interface RetrofitAPI {
 
     @POST("{accountantId}")
     Call<String> postReview(@Path("accountantId") String id,
+                            @Query("authorId") String userid,
                             @Query("date") Date date,
                             @Query("content") String content,
                             @Query("title") String title,
