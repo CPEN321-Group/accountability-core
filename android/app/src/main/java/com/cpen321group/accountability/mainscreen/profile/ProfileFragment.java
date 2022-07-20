@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.databinding.FragmentProfileBinding;
