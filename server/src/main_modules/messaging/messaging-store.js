@@ -1,4 +1,4 @@
-const { getDefinedFields, fieldsAreNotNull } = require("../../utils/get-defined-fields");
+const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
 const { Conversation, Message } = require("./models");
 
 module.exports = {

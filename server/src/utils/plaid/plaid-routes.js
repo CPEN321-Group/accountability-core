@@ -1,7 +1,7 @@
 
 const {PlaidUser} = require('./models');
 const { createTransaction } = require('../../main_modules/transactions/transaction-store');
-const { fieldsAreNotNull } = require('../get-defined-fields');
+const { fieldsAreNotNull } = require('../checks/get-defined-fields');
 const fx = require('money');
 const { UserTransaction } = require('../../main_modules/transactions/models');
 fx.base = "USD";

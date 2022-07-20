@@ -4,8 +4,8 @@ const { UserReport } = require("../reports/models");
 const { Account, Review } = require("./models");
 const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
-const { getDefinedFields, fieldsAreNotNull } = require("../../utils/get-defined-fields");
-const { isLetterString } = require("../../utils/check-string");
+const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
+const { isLetterString } = require("../../utils/checks/string-check");
 
 /**
  * Interface between endpoints and mongodb database. Each function defined will perform a CRUD operation on the accountDB

@@ -1,4 +1,4 @@
-const { fieldsAreNotNull, getDefinedFields } = require('../../utils/get-defined-fields');
+const { fieldsAreNotNull, getDefinedFields } = require('../../utils/checks/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserTransaction, Transaction} = require('./models');
 const moment = require('moment');

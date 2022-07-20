@@ -1,4 +1,5 @@
-const { fieldsAreNotNull, getDefinedFields } = require('../../utils/get-defined-fields');
+const { isPastDate } = require('../../utils/checks/date-check');
+const { fieldsAreNotNull, getDefinedFields } = require('../../utils/checks/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserGoal, Goal} = require('./models');
 
@@ -13,10 +14,6 @@ function parseGoalData(fields) {
     ...(df.deadline && {"goals.$.deadline": df.deadline}),
   }
   return fieldsToUpdate;
-}
-function isPastDate(date) {
-  const today = new Date();
-  return today.getTime() > date.getTime();
 }
 
 module.exports = {
