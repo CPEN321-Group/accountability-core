@@ -85,7 +85,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 date = year + "/" + month + "/" + day;
                 Log.d("Date:", "" + date);
 
-                if(!date.equals("") && !transactionName.equals("") && !TransactionAmountText.equals("")) {
+                if(!date.equals("0/0/0") && !transactionName.equals("") && !TransactionAmountText.equals("")) {
                     transactionAmount = (int)Math.round((Double.parseDouble(TransactionAmountText)*100));
                     try {
                         createTransaction();

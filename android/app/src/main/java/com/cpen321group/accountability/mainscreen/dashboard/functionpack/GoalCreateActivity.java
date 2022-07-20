@@ -52,7 +52,7 @@ public class GoalCreateActivity extends AppCompatActivity {
                 Log.d("Goal Name:", goalName);
                 Log.d("Goal Target", "" + goalTarget);
                 Log.d("Date:", "" + date);
-                if (!goalName.equals("") && !goalTargetText.equals("") && !date.equals("")) {
+                if (!goalName.equals("") && !goalTargetText.equals("") && !date.equals("0/0/0")) {
                     goalTarget = (int) Math.round((Double.parseDouble(goalTargetText) * 100));
                     try {
                         createGoal();
