@@ -85,9 +85,8 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   updateProfile: async (id,data,callback) => {    
+    const {avatar,firstname,lastname,email,age,profession} = data;
     try {
-      const {avatar,firstname,lastname,email,age,profession} = data;
-
       const fieldsToUpdate = parseProfileData({avatar,firstname,lastname,email,age,profession});
       const account = await Account.findOneAndUpdate(
         {accountId: id},
