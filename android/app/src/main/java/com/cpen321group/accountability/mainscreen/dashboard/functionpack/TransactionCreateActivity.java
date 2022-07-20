@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 
@@ -83,14 +83,14 @@ public class TransactionCreateActivity extends AppCompatActivity {
 
     private void createTransaction() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/transactions/")
+                .baseUrl(VariablesSpace.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postTransaction(VariableStore.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
+        Call<JsonObject> call = retrofitAPI.postTransaction(VariablesSpace.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
 
-        Log.d("API url:", VariableStore.baseURL + "/transactions/"+ VariableStore.userID+"/");
+        Log.d("API url:", VariablesSpace.baseURL + "/transactions/"+ VariablesSpace.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

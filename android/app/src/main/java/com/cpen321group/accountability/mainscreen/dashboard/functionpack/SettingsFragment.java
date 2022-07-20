@@ -9,7 +9,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -23,8 +23,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 SharedPreferences sharedPref =
                         PreferenceManager.getDefaultSharedPreferences(getContext());
                 Boolean switchPref = sharedPref.getBoolean("dark_mode", false);
-                VariableStore.is_darkMode = switchPref;
-                if (VariableStore.is_darkMode) {
+                VariablesSpace.is_darkMode = switchPref;
+                if (VariablesSpace.is_darkMode) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -40,7 +40,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 SharedPreferences sharedPref =
                         PreferenceManager.getDefaultSharedPreferences(getContext());
                 Boolean notificationPref = sharedPref.getBoolean("notification_allow", false);
-                VariableStore.is_notificationGlobalOn = notificationPref;
+                VariablesSpace.is_notificationGlobalOn = notificationPref;
                 return false;
             }
         });

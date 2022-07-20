@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -42,7 +42,7 @@ public class AddReviewActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_review);
-        if (VariableStore.is_darkMode) {
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -97,13 +97,13 @@ public class AddReviewActivity extends AppCompatActivity {
         title = reviewNameEditText.getText().toString();
         content = reviewContentEditText.getText().toString();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/reviews/")
+                .baseUrl(VariablesSpace.baseURL + "/reviews/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Date date = Calendar.getInstance().getTime();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postReview(VariableStore.receiverID,date,content,title,Integer.parseInt(rate));
+        Call<String> call = retrofitAPI.postReview(VariablesSpace.receiverID,date,content,title,Integer.parseInt(rate));
 
         call.enqueue(new Callback<String>() {
             @Override

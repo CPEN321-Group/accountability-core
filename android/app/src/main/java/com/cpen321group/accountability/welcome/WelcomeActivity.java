@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.material.color.DynamicColors;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -32,15 +32,15 @@ public class WelcomeActivity extends AppCompatActivity {
         // Dark Mode Toggle
         Boolean switchPref = sharedPref.getBoolean
                 ("dark_mode", false);
-        VariableStore.is_darkMode = switchPref;
-        if (VariableStore.is_darkMode) {
+        VariablesSpace.is_darkMode = switchPref;
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         // Notification toggle
         Boolean notificationPref = sharedPref.getBoolean("notification_allow", false);
-        VariableStore.is_notificationGlobalOn = notificationPref;
+        VariablesSpace.is_notificationGlobalOn = notificationPref;
 
 
         Button loginbutton = findViewById(R.id.welcome_login);
