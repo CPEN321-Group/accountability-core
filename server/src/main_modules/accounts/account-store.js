@@ -56,7 +56,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   findAccount: async (accountId,callback) => {
-    if(false);
+    if(false && callback);
     try {
       const account = await Account.findOne({accountId});
       if (!account) return callback(null,404,'account not found');
