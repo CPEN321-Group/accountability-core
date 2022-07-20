@@ -5,6 +5,7 @@ const { Account, Review } = require("./models");
 const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/get-defined-fields");
+const { isLetterString } = require("../../utils/check-string");
 
 /**
  * Interface between endpoints and mongodb database. Each function defined will perform a CRUD operation on the accountDB
@@ -22,6 +23,9 @@ module.exports = {
     }
     if (age < 0 || age > 200) {
       return callback(null,400,'invalid age');
+    }
+    if (!isLetterString(firstname + lastname + profession)) {
+      return callback(null, 400, 'illegal characters');
     }
     const isAct = (isAccountant === true || isAccountant === 'true');
 
@@ -60,6 +64,9 @@ module.exports = {
    */
   findAccount: async (accountId,callback) => {
     try {
+      if (!fieldsAreNotNull({accountId})) {
+        return callback(null,400,'missing params');
+      }
       const account = await Account.findOne({accountId});
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
@@ -90,7 +97,12 @@ module.exports = {
   updateProfile: async (id,data,callback) => {    
     try {
       const {avatar,firstname,lastname,email,age,profession} = data;
-
+      if (age && (age < 0 || age > 200)) {
+        return callback(null, 400, 'invalid age')
+      }
+      if (!isLetterString(firstname + lastname + profession)) {
+        return callback(null, 400, 'illegal characters');
+      }
       const fieldsToUpdate = parseProfileData({avatar,firstname,lastname,email,age,profession});
       const account = await Account.findOneAndUpdate(
         {accountId: id},
@@ -134,6 +146,9 @@ module.exports = {
       const {authorId,rating,date,title,content} = df;
       if (!fieldsAreNotNull({authorId,date,rating,title})) { 
         return callback(null,400,'missing params');
+      }
+      if (rating < 0 || rating > 10) {
+        return callback(null,400,'invalid rating');
       }
       const newReview = new Review({
         authorId,accountantId,date,rating,title,content
