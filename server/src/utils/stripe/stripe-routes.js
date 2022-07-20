@@ -74,6 +74,7 @@ module.exports = function(app) {
       res.send({key: process.env.STRIPE_PUBLIC_KEY })
     })
     app.post('/stripe/checkout/:userId', async (req,res) => {
+      if(req);
       try {
         // const {userId} = req.params;
         const newCustomer = await stripe.customers.create({

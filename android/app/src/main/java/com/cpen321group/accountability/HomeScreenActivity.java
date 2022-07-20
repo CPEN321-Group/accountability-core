@@ -3,6 +3,7 @@ package com.cpen321group.accountability;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -13,7 +14,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.cpen321group.accountability.databinding.ActivityHomeScreenBinding;
@@ -33,6 +33,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     public void onBackPressed() {
         // super.onBackPressed();
         // Not calling **super**, disables back button in current screen.
+        Toast.makeText(this, "If you want to sign out, use sign out button instead", Toast.LENGTH_LONG).show();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +46,15 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_chat, R.id.navigation_dashboard, R.id.navigation_profile)
-                .build();
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.navigation_chat, R.id.navigation_dashboard, R.id.navigation_profile)
+//                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_screen);
         // Uncomment it if action bar is required.
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        if (VariableStore.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -64,32 +65,32 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void run() {
                 if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
                     GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-                    VariableStore.userID = account.getId()+"go";
+                    FrontendConstants.userID = account.getId()+"go";
                 }else{
                     Profile profile = Profile.getCurrentProfile();
-                    VariableStore.userID = profile.getId()+"fb";
+                    FrontendConstants.userID = profile.getId()+"fb";
                 }
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(VariableStore.baseURL + "/accounts/")
+                        .baseUrl(FrontendConstants.baseURL + "/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
 
                 RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-                Call<JsonObject> call = retrofitAPI.getAccount(VariableStore.userID);
+                Call<JsonObject> call = retrofitAPI.getAccount(FrontendConstants.userID);
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         try {
                             if (response.body() != null) {
-                                VariableStore.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                                FrontendConstants.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
                                 Log.d("Message", response.body().get("isAccountant").toString());
                                 JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
                                 if (jsonname != null) {
                                     String name = jsonname.toString();
                                     if (!name.equals("")) {
-                                        VariableStore.userName = name.substring(1, name.length() - 1);
+                                        FrontendConstants.userName = name.substring(1, name.length() - 1);
                                     }
                                 }
                             }

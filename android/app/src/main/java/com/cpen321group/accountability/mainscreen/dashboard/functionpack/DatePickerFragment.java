@@ -8,9 +8,12 @@ import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+
+    final long today = System.currentTimeMillis() - 1000;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -24,12 +27,25 @@ public class DatePickerFragment extends DialogFragment
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
+    @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
-        GoalCreateActivity.year = year;
-        GoalCreateActivity.month = month+1;
-        GoalCreateActivity.day = day;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+        //If user tries to select date in past (or today)
+        if (calendar.getTimeInMillis() < today)
+        {
+            //Make them try again
+            GoalCreateActivity.year = 0;
+            GoalCreateActivity.month = 0;
+            GoalCreateActivity.day = 0;
+            Toast.makeText(getContext(), "Invalid date, please select the date no earlier than today", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            //success
+            GoalCreateActivity.year = year;
+            GoalCreateActivity.month = month+1;
+            GoalCreateActivity.day = day;
+        }
     }
-
-
 }

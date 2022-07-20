@@ -10,12 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.databinding.FragmentChatBinding;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,10 +36,9 @@ public class ChatFragment extends Fragment {
     private List<String> userList = new ArrayList<>();
     private RecyclerView userRecyclerView;
     private LinearLayoutManager layoutManager;
-    private requestSetting adapter;
+    private RequestSetting adapter;
     private TextView functionName;
-    private accountantSetting adapter_user;
-    private String TAG = "Chat";
+    private AccountantSetting adapter_user;
     private List<NameID> aList = new ArrayList<>();
 
     private Handler handler = new Handler();
@@ -50,12 +48,12 @@ public class ChatFragment extends Fragment {
             handler.postDelayed(this, 1000 * 120);// 间隔120秒
         }
         void update() {
-            if(VariableStore.isAccountant){
+            if(FrontendConstants.isAccountant){
                 layoutManager = new LinearLayoutManager(getActivity());
                 userRecyclerView.setLayoutManager(layoutManager);
                 getData();
                 functionName.setText("User Request");
-                adapter = new requestSetting(userList);
+                adapter = new RequestSetting(userList);
                 userRecyclerView.setAdapter(adapter);
             }
         }
@@ -64,9 +62,6 @@ public class ChatFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ChatViewModel chatViewModel =
-                new ViewModelProvider(this).get(ChatViewModel.class);
-
         binding = FragmentChatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -80,26 +75,26 @@ public class ChatFragment extends Fragment {
 
         userRecyclerView.setLayoutManager(layoutManager);
 
-        if(VariableStore.isAccountant){
+        if(FrontendConstants.isAccountant){
             functionName.setText("User Request");
-            adapter = new requestSetting(userList);
+            adapter = new RequestSetting(userList);
             userRecyclerView.setAdapter(adapter);
         }else{
             functionName.setText("Find An Accountant");
-            adapter_user = new accountantSetting(aList);
+            adapter_user = new AccountantSetting(aList);
             userRecyclerView.setAdapter(adapter_user);
         }
 
 
         if(GoogleSignIn.getLastSignedInAccount(getActivity())!=null){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(getActivity());
-            VariableStore.userID = account.getId()+"go";
+            FrontendConstants.userID = account.getId()+"go";
         }else{
             Profile profile = Profile.getCurrentProfile();
-            VariableStore.userID = profile.getId()+"fb";
+            FrontendConstants.userID = profile.getId()+"fb";
         }
 
-        if(!VariableStore.isAccountant){
+        if(!FrontendConstants.isAccountant){
             getAccountant(aList);
         }else{
             getUser(userList);
@@ -110,7 +105,7 @@ public class ChatFragment extends Fragment {
 
     private void getAccountant(List<NameID> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/accounts/")
+                .baseUrl(FrontendConstants.baseURL + "/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -161,7 +156,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void getData(){
-        if(!VariableStore.isAccountant){
+        if(!FrontendConstants.isAccountant){
             aList.clear();
             getAccountant(aList);
         }else{
@@ -173,13 +168,13 @@ public class ChatFragment extends Fragment {
 
     private void getUser(List<String> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/messaging/conversation/")
+                .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(VariableStore.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -197,7 +192,7 @@ public class ChatFragment extends Fragment {
                                 String[] array = string.split(",", 2);
                                 String s1 = array[0].substring(2, array[0].length() - 1);
                                 String s2 = array[1].substring(1, array[1].length() - 2);
-                                if (s1.equals(VariableStore.userID)) {
+                                if (s1.equals(FrontendConstants.userID)) {
                                     accountList.add(s2);
                                     adapter.notifyItemInserted(accountList.size() - 1);
                                     userRecyclerView.scrollToPosition(accountList.size() - 1);

@@ -12,9 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
@@ -37,6 +38,8 @@ public class TransactionSetActivity extends AppCompatActivity {
     public void onBackPressed() {
         // super.onBackPressed();
         // Not calling **super**, disables back button in current screen.
+        Intent backIntent = new Intent(TransactionSetActivity.this, HomeScreenActivity.class);
+        startActivity(backIntent);
     }
 
     @Override
@@ -78,11 +81,11 @@ public class TransactionSetActivity extends AppCompatActivity {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/transactions/")
+                .baseUrl(FrontendConstants.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariableStore.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -99,8 +102,8 @@ public class TransactionSetActivity extends AppCompatActivity {
                         int amount_cents = Integer.valueOf(jsonObject.get("amount").toString());
                         double price_dollar = amount_cents / 100.0;
                         String date = jsonObject.get("date").toString();
-                        transactionModelArrayList.add(new TransactionModel(VariableStore.userID, id, title, category, date, price_dollar, false, "null"));
-                        TransactionAdapter transactionAdapter = new TransactionAdapter(getApplicationContext(), transactionModelArrayList);
+                        transactionModelArrayList.add(new TransactionModel(FrontendConstants.userID, id, title, category, date, price_dollar, false, "null"));
+                        TransactionAdapter transactionAdapter = new TransactionAdapter(transactionModelArrayList);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         transactionsRV.setLayoutManager(linearLayoutManager);
                         transactionsRV.setAdapter(transactionAdapter);
@@ -112,7 +115,7 @@ public class TransactionSetActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-
+                Log.d("Transaction history: ",t.toString());
             }
         });
 

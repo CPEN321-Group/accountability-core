@@ -6,6 +6,9 @@
         <item name="android:navigationBarColor">
             @android:color/transparent
         </item>
+        <item name="android:windowLightNavigationBar">
+            true
+        </item>
 
         <!-- Optional, if drawing behind the status bar too -->
         <!--        <item name="android:statusBarColor">-->

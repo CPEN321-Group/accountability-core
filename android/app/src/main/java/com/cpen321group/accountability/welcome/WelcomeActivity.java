@@ -11,15 +11,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.material.color.DynamicColors;
 
 public class WelcomeActivity extends AppCompatActivity {
     private String TAG = "WelcomeActivity";
-    private Button loginbutton;
-    private Button registerbutton;
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        // Not calling **super**, disables back button in current screen.
+        Toast.makeText(this, "You need to sign in or register first", Toast.LENGTH_LONG).show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Set Navigation Bar transparent
@@ -34,18 +39,18 @@ public class WelcomeActivity extends AppCompatActivity {
         // Dark Mode Toggle
         Boolean switchPref = sharedPref.getBoolean
                 ("dark_mode", false);
-        VariableStore.is_darkMode = switchPref;
-        if (VariableStore.is_darkMode) {
+        FrontendConstants.is_darkMode = switchPref;
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
         // Notification toggle
         Boolean notificationPref = sharedPref.getBoolean("notification_allow", false);
-        VariableStore.is_notificationGlobalOn = notificationPref;
+        FrontendConstants.is_notificationGlobalOn = notificationPref;
 
 
-        loginbutton = findViewById(R.id.welcome_login);
+        Button loginbutton = findViewById(R.id.welcome_login);
         loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +60,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        registerbutton = findViewById(R.id.welcome_register);
+        Button registerbutton = findViewById(R.id.welcome_register);
         registerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

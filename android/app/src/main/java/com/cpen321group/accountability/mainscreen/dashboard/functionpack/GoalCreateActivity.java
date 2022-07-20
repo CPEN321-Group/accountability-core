@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
@@ -30,9 +30,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GoalCreateActivity extends AppCompatActivity {
     private String goalName;
     private int goalTarget;
-    public static int year;
-    public static int month;
-    public static int day;
+    public static int year = 0;
+    public static int month = 0;
+    public static int day = 0;
     private String date;
 
     @Override
@@ -52,7 +52,7 @@ public class GoalCreateActivity extends AppCompatActivity {
                 Log.d("Goal Name:", goalName);
                 Log.d("Goal Target", "" + goalTarget);
                 Log.d("Date:", "" + date);
-                if (!goalName.equals("") && !goalTargetText.equals("") && !date.equals("")) {
+                if (!goalName.equals("") && !goalTargetText.equals("") && !date.equals("0/0/0")) {
                     goalTarget = (int) Math.round((Double.parseDouble(goalTargetText) * 100));
                     try {
                         createGoal();
@@ -72,6 +72,9 @@ public class GoalCreateActivity extends AppCompatActivity {
                 }
             }
         });
+        year = 0;
+        month = 0;
+        day = 0;
     }
 
     public void showDatePickerDialog(View v) {
@@ -81,14 +84,14 @@ public class GoalCreateActivity extends AppCompatActivity {
 
     private void createGoal() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/goals/")
+                .baseUrl(FrontendConstants.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postGoal(VariableStore.userID, this.goalName, this.goalTarget, 0, this.date);
+        Call<JsonObject> call = retrofitAPI.postGoal(FrontendConstants.userID, this.goalName, this.goalTarget, 0, this.date);
 
-        Log.d("API url:", VariableStore.baseURL + "/goals/"+ VariableStore.userID+"/");
+        Log.d("API url:", FrontendConstants.baseURL + "/goals/"+ FrontendConstants.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

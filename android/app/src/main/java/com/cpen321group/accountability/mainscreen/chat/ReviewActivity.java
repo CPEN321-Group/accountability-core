@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -33,9 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ReviewActivity extends AppCompatActivity {
     private List<Review> reviewList = new ArrayList<>();
     private RecyclerView reviewRecyclerView;
-    private FloatingActionButton createXtendButton;
-    private LinearLayoutManager layoutManager;
-    private reviewSetting adapter;
+    private ReviewSetting adapter;
     private String accountMark = "5.0";
     private TextView rating_mark;
 
@@ -43,7 +41,7 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        if (VariableStore.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -62,9 +60,9 @@ public class ReviewActivity extends AppCompatActivity {
 
         getReviews();
         reviewRecyclerView = findViewById(R.id.review_view);
-        createXtendButton = (FloatingActionButton)findViewById(R.id.floating_action_button_review);
-        layoutManager = new LinearLayoutManager(this);
-        adapter = new reviewSetting(reviewList);
+        FloatingActionButton createXtendButton = (FloatingActionButton)findViewById(R.id.floating_action_button_review);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        adapter = new ReviewSetting(reviewList);
         reviewRecyclerView.setLayoutManager(layoutManager);
         reviewRecyclerView.setAdapter(adapter);
         rating_mark = findViewById(R.id.textView4);
@@ -80,13 +78,13 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void getReviews(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/accounts/")
+                .baseUrl(FrontendConstants.baseURL + "/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getAccount(VariableStore.receiverID);
+        Call<JsonObject> call = retrofitAPI.getAccount(FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

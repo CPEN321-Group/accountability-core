@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -31,7 +31,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddReviewActivity extends AppCompatActivity {
-    private AutoCompleteTextView autoText;
     private String rate;
     private String title;
     private String content;
@@ -43,14 +42,14 @@ public class AddReviewActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_review);
-        if (VariableStore.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
         //drop down menu
-        autoText = findViewById(R.id.rate_text);
+        AutoCompleteTextView autoText = findViewById(R.id.rate_text);
 
         String[] items = {"1", "2","3","4","5"};
         ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(AddReviewActivity.this, R.layout.list_item, items);
@@ -98,13 +97,13 @@ public class AddReviewActivity extends AppCompatActivity {
         title = reviewNameEditText.getText().toString();
         content = reviewContentEditText.getText().toString();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/reviews/")
+                .baseUrl(FrontendConstants.baseURL + "/reviews/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         Date date = Calendar.getInstance().getTime();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postReview(VariableStore.receiverID,date,content,title,Integer.parseInt(rate));
+        Call<String> call = retrofitAPI.postReview(FrontendConstants.receiverID, FrontendConstants.userID,date,content,title,Integer.parseInt(rate));
 
         call.enqueue(new Callback<String>() {
             @Override

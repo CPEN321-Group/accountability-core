@@ -69,6 +69,7 @@ async function compileReport(accountId,mY) {
 
 module.exports = {
   findReports: async (accountId, callback) => {
+    if(callback);
     try {
       const userReport = await UserReport.findOne({userId: accountId});
       if (!userReport) {
@@ -81,6 +82,7 @@ module.exports = {
     }
   },
   createReport: async (accountId, monthYear, callback) => {
+    if(callback);
     try {
       if (!fieldsAreNotNull({monthYear})) {
         return callback(null,400, 'missing params');
@@ -106,6 +108,7 @@ module.exports = {
     }
   },
   updateAccountant: async (accountId,accountantId, callback) => {
+    if(callback);
     try {
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId}, 
@@ -122,6 +125,7 @@ module.exports = {
     }
   },
   deleteReports: async (accountId, callback) => {
+    if(callback);
     try {
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId}, 
@@ -138,6 +142,7 @@ module.exports = {
     }
   },
   findReport: async (accountId,reportId,callback) => {
+    if(callback);
     try {
       const userReport = await UserReport.findOne({userId: accountId});
       if (!userReport) {
@@ -154,6 +159,7 @@ module.exports = {
     }
   },
   updateRecommendations: async (accountId,reportId, recommendations,callback) => {
+    if(callback);
     try {
       if (!fieldsAreNotNull({accountId,reportId,recommendations})) {
         return callback(null,400,'missing params');
@@ -177,6 +183,7 @@ module.exports = {
     }
   },
   deleteReport: async (accountId, reportId, callback) => {
+    if(callback);
     try {
       const reportsMatch = {_id: reportId};
       const pullItem = {reports: reportsMatch};
@@ -198,6 +205,7 @@ module.exports = {
     }
   },
   findUserReports: async (accountantId,callback) => {
+    if(callback);
     try {
       const userReports = await UserReport.find({accountantId});
       return callback(null,200,userReports);

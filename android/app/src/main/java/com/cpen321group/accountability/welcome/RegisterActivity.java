@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -34,7 +34,6 @@ import java.util.Arrays;
 
 public class RegisterActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
-    private LoginButton login_fb;
     private String TAG="LoginActivity";
     private int RC_SIGN_IN = 1;
     private GoogleSignInClient mGoogleSignInClient;
@@ -45,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        if (VariableStore.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -72,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
                         // App code
                     }
                 });
-        login_fb = findViewById(R.id.login_button_fb);
+        LoginButton login_fb = findViewById(R.id.login_button_fb);
         login_fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

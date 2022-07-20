@@ -20,7 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.material.color.DynamicColors;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -35,7 +35,7 @@ public class SubscriptionActivity extends AppCompatActivity {
     String paymentIntentClientSecret;
     PaymentSheet.CustomerConfiguration customerConfig;
     // temporary server for testing only
-    private String stripe_url = VariableStore.baseURL + "/stripe/checkout/"+ VariableStore.userID;
+    private String stripe_url = FrontendConstants.baseURL + "/stripe/checkout/"+ FrontendConstants.userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription);
-        if (VariableStore.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -145,7 +145,7 @@ public class SubscriptionActivity extends AppCompatActivity {
                         }
                     })
                     .show();
-            VariableStore.is_subscribed = true;
+            FrontendConstants.is_subscribed = true;
         }
     }
 }

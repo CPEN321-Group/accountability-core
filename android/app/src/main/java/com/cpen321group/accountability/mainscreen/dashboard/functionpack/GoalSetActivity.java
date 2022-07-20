@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.widget.Toast;
 
+import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
@@ -41,12 +42,14 @@ public class GoalSetActivity extends AppCompatActivity {
     public void onBackPressed() {
         // super.onBackPressed();
         // Not calling **super**, disables back button in current screen.
+        Intent backIntent = new Intent(GoalSetActivity.this, HomeScreenActivity.class);
+        startActivity(backIntent);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_set);
-        if (VariableStore.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -81,12 +84,12 @@ public class GoalSetActivity extends AppCompatActivity {
 
     private void getAllGoals(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "/goals/")
+                .baseUrl(FrontendConstants.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(VariableStore.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -103,8 +106,8 @@ public class GoalSetActivity extends AppCompatActivity {
                         int current_saving_cents = Integer.valueOf(jsonObject.get("current").toString());
                         double price_dollar = goal_cents / 100.0;
                         double current_saving = current_saving_cents / 100.0;
-                        goalsModelArrayList.add(new GoalsModel(title, id, VariableStore.userID, price_dollar, current_saving));
-                        GoalsAdapter goalsAdapter = new GoalsAdapter(getApplicationContext(), goalsModelArrayList);
+                        goalsModelArrayList.add(new GoalsModel(title, id, FrontendConstants.userID, price_dollar, current_saving));
+                        GoalsAdapter goalsAdapter = new GoalsAdapter(goalsModelArrayList);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         goalsRV.setLayoutManager(linearLayoutManager);
                         goalsRV.setAdapter(goalsAdapter);
