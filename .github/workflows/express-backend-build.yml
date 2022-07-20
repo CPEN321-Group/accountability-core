@@ -20,4 +20,4 @@ jobs:
       - name: Install modules
         run: npm install
       - name: Run tests
-        run: npm test
+        run: jest --runInBand --coverage --detectOpenHandles --forceExit
