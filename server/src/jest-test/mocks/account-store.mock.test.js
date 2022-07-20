@@ -179,10 +179,6 @@ describe('testing updateSubscription', () => {
   })
 })
 
-// afterAll(()=>{ mongoose.disconnect();});
-// afterAll( async () =>{
-//         await mongoose.connection.close()
-//     })
 afterAll((done) => {
   mongoose.disconnect();
   done();
