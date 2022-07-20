@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.widget.Toast;
 
+import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.mainscreen.dashboard.DashboardFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
@@ -41,6 +43,8 @@ public class GoalSetActivity extends AppCompatActivity {
     public void onBackPressed() {
         // super.onBackPressed();
         // Not calling **super**, disables back button in current screen.
+        Intent backIntent = new Intent(GoalSetActivity.this, HomeScreenActivity.class);
+        startActivity(backIntent);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
