@@ -49,9 +49,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterSettingActivity extends AppCompatActivity {
-    private AutoCompleteTextView autoText;
     private ImageView avatar;
-    private String TAG = "register";
     private String server_url = VariableStore.baseURL + "/accounts";
     private MyProfile myProfile_1;
     private String userId;
@@ -100,10 +98,8 @@ public class RegisterSettingActivity extends AppCompatActivity {
         avatar = findViewById(R.id.iv_personal_icon);
         if(GoogleOn == 1){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(this);
-            if (account != null) {
-                if (account.getPhotoUrl() != null) {
-                    avatar.setImageURI(account.getPhotoUrl());
-                }
+            if (account != null && account.getPhotoUrl() != null) {
+                avatar.setImageURI(account.getPhotoUrl());
             }
         }
         changeButton.setVisibility(View.INVISIBLE);
@@ -116,7 +112,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
 
         //drop down menu
-        autoText = findViewById(R.id.select_text);
+        AutoCompleteTextView autoText = findViewById(R.id.select_text);
 
         String[] items = {"User", "Accountant"};
         ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(RegisterSettingActivity.this, R.layout.list_item, items);
@@ -137,28 +133,32 @@ public class RegisterSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createProfile();
-                if((!myProfile_1.getEmail().equals(""))&&(text!=null)) {
-                    try {
-                        postAccount();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (GoogleOn == 1) {
-                        GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
-                        signOut(account);
-                        Log.d("Profile", "Google sign out successfully!");
-                    }
-                    if (Profile.getCurrentProfile() != null) {
-                        LoginManager.getInstance().logOut();
-                        Log.d("Profile", "Facebook sign out successfully!");
-                    }
-                    Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
-                    startActivity(settingsIntent);
-                }else{
-                    Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
-                }
+                checkForCreate();
             }
         });
+    }
+
+    private void checkForCreate(){
+        if((!myProfile_1.getEmail().equals(""))&&(text!=null)) {
+            try {
+                postAccount();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (GoogleOn == 1) {
+                GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                signOut(account);
+                Log.d("Profile", "Google sign out successfully!");
+            }
+            if (Profile.getCurrentProfile() != null) {
+                LoginManager.getInstance().logOut();
+                Log.d("Profile", "Facebook sign out successfully!");
+            }
+            Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
+            startActivity(settingsIntent);
+        }else{
+            Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
+        }
     }
 
     //Google sign out
@@ -194,7 +194,6 @@ public class RegisterSettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             Uri uri = data.getData();
-            String img_url = uri.getPath();
             ContentResolver cr = this.getContentResolver();
             try {
                 Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));

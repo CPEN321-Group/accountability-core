@@ -31,7 +31,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddReviewActivity extends AppCompatActivity {
-    private AutoCompleteTextView autoText;
     private String rate;
     private String title;
     private String content;
@@ -50,7 +49,7 @@ public class AddReviewActivity extends AppCompatActivity {
         }
 
         //drop down menu
-        autoText = findViewById(R.id.rate_text);
+        AutoCompleteTextView autoText = findViewById(R.id.rate_text);
 
         String[] items = {"1", "2","3","4","5"};
         ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(AddReviewActivity.this, R.layout.list_item, items);

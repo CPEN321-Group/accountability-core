@@ -18,8 +18,6 @@ import com.google.android.material.color.DynamicColors;
 
 public class WelcomeActivity extends AppCompatActivity {
     private String TAG = "WelcomeActivity";
-    private Button loginbutton;
-    private Button registerbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Set Navigation Bar transparent
@@ -45,7 +43,7 @@ public class WelcomeActivity extends AppCompatActivity {
         VariableStore.is_notificationGlobalOn = notificationPref;
 
 
-        loginbutton = findViewById(R.id.welcome_login);
+        Button loginbutton = findViewById(R.id.welcome_login);
         loginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +53,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        registerbutton = findViewById(R.id.welcome_register);
+        Button registerbutton = findViewById(R.id.welcome_register);
         registerbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

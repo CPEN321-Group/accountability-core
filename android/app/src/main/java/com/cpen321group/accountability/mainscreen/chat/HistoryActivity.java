@@ -27,7 +27,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HistoryActivity extends AppCompatActivity {
     private List<Msg> msgList = new ArrayList<>();
     private RecyclerView msgRecyclerView;
-    private LinearLayoutManager layoutManager;
     private MsgSetting adapter;
 
     @Override
@@ -46,7 +45,7 @@ public class HistoryActivity extends AppCompatActivity {
         //Starting of this activity
         getData();
         msgRecyclerView = findViewById(R.id.historyView);
-        layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new MsgSetting(msgList);
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);

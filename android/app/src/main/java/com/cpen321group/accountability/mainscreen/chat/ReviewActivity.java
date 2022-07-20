@@ -33,8 +33,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ReviewActivity extends AppCompatActivity {
     private List<Review> reviewList = new ArrayList<>();
     private RecyclerView reviewRecyclerView;
-    private FloatingActionButton createXtendButton;
-    private LinearLayoutManager layoutManager;
     private reviewSetting adapter;
     private String accountMark = "5.0";
     private TextView rating_mark;
@@ -62,8 +60,8 @@ public class ReviewActivity extends AppCompatActivity {
 
         getReviews();
         reviewRecyclerView = findViewById(R.id.review_view);
-        createXtendButton = (FloatingActionButton)findViewById(R.id.floating_action_button_review);
-        layoutManager = new LinearLayoutManager(this);
+        FloatingActionButton createXtendButton = (FloatingActionButton)findViewById(R.id.floating_action_button_review);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new reviewSetting(reviewList);
         reviewRecyclerView.setLayoutManager(layoutManager);
         reviewRecyclerView.setAdapter(adapter);

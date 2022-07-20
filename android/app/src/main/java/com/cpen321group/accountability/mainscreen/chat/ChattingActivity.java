@@ -40,13 +40,8 @@ public class ChattingActivity extends AppCompatActivity {
     private List<Msg> msgList = new ArrayList<>();
     private RecyclerView msgRecyclerView;
     private EditText inputText;
-    private Button send;
-    private LinearLayoutManager layoutManager;
     private MsgSetting adapter;
     private Socket mSocket;
-    private String TAG = "Chatting";
-    private String roomName = "1";
-    private List<Msg> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +60,8 @@ public class ChattingActivity extends AppCompatActivity {
         getData();
         msgRecyclerView = findViewById(R.id.msg_view);
         inputText = findViewById(R.id.text_view);
-        send = findViewById(R.id.send_button);
-        layoutManager = new LinearLayoutManager(this);
+        Button send = findViewById(R.id.send_button);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new MsgSetting(msgList);
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);

@@ -32,7 +32,6 @@ import java.util.Arrays;
 
 public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
-    private LoginButton login_fb;
     private String TAG="LoginActivity";
     private int RC_SIGN_IN = 1;
     private GoogleSignInClient mGoogleSignInClient;
@@ -71,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                         // App code
                     }
                 });
-        login_fb = findViewById(R.id.login_button_fb);
+        LoginButton login_fb = findViewById(R.id.login_button_fb);
         login_fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
