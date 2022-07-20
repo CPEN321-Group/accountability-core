@@ -30,9 +30,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class GoalCreateActivity extends AppCompatActivity {
     private String goalName;
     private int goalTarget;
-    public static int year;
-    public static int month;
-    public static int day;
+    public static int year = 0;
+    public static int month = 0;
+    public static int day = 0;
     private String date;
 
     @Override
@@ -72,6 +72,9 @@ public class GoalCreateActivity extends AppCompatActivity {
                 }
             }
         });
+        year = 0;
+        month = 0;
+        day = 0;
     }
 
     public void showDatePickerDialog(View v) {
