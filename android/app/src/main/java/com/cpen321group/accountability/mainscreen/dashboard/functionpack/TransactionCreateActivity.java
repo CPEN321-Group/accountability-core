@@ -224,7 +224,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new com.cpen321group.accountability.mainScreen.dashboard.functionpack.DatePickerTransactionFragment();
+        DialogFragment newFragment = new com.cpen321group.accountability.mainscreen.dashboard.functionpack.DatePickerTransactionFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
