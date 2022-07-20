@@ -7,7 +7,7 @@
   "description": "Main backend server for accountability application",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest --runInBand --coverage --detectOpenHandles --forceExit",
+    "test": "jest --runInBand --forceExit",
     "start": "node src/index.js",
     "create-subscription": "node src/utils/stripe/create-product.js"
   },

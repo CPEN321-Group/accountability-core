@@ -5,6 +5,10 @@
  */
 function getDefinedFields(fields) {
   let definedFields = {};
+  if (!fields) {
+    return definedFields;
+  }
+  
   Object.keys(fields).forEach((key) => {
     if(fields && isValid(fields[key])){
       definedFields[key] = fields[key];

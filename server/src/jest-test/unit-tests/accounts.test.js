@@ -1,23 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const { createAccount, findAccount, findAccountants, updateProfile, deleteAccount, createReview, createSubscription, updateSubscription } = require("../../main_modules/accounts/account-store");
 
-const account = {
-  accountId: '1234',
-  profile: {
-    firstname: 'Bob',
-    lastname: 'Jones',
-    email: 'test123@gmail.com',
-    age: 25,
-    profession: 'Student'
-  },
-  isAccountant: false,
-  reviews: [],
-  subscription: {
-    subscriptionDate: '2023',
-    expiryDate: '2024'
-  }
-};
-
 beforeAll(done => {
   done()
 })
@@ -44,25 +27,54 @@ describe('testing createAccount', () => {
   }) 
 
   test('some fields are missing', async () => {
-    await createAccount({
-      accountId: '1456'
-    }, (err,status,returnData) => {
+    await createAccount(
+      {accountId: '1456', firstname: 'Bob'}, 
+      (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toEqual('missing params')
     })
   })
-
-
-  test('valid creation', async () => {
+  test('empty string was used', async () => {
     let modifiedAccountFields = accountFields;
-    modifiedAccountFields.accountId = 'ai93n'
+    modifiedAccountFields.accountId = 'ai93n';
+    modifiedAccountFields.firstname = '';
     await createAccount(modifiedAccountFields, (err,status,returnData) => {
       expect(err).toBeNull()
-      expect(status).toStrictEqual(200);
+      expect(status).toStrictEqual(400);
+      expect(returnData).toEqual('missing params');
     })
-    await deleteAccount(modifiedAccountFields.accountId, (err,status,returnData) => {});
   })
+
+  test('accountId is null', async () => {
+    await createAccount(null, (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(400);
+      expect(returnData).toEqual('missing params');
+    })
+  })
+  test('invalid age', async () => {
+    let modifiedAccountFields = accountFields;
+    modifiedAccountFields.accountId = 'ai93n';
+    modifiedAccountFields.age = -1;
+    await createAccount(modifiedAccountFields, (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(400);
+      expect(returnData).toEqual('invalid age');
+    })
+  })
+
+
+  // test('valid creation', async () => {
+  //   let modifiedAccountFields = accountFields;
+  //   modifiedAccountFields.accountId = 'ai93n'
+  //   await createAccount(modifiedAccountFields, (err,status,returnData) => {
+  //     expect(err).toBeNull()
+  //     expect(status).toStrictEqual(200);
+  //     expect(returnData).toHaveProperty('accountId');
+  //   })
+  //   await deleteAccount(modifiedAccountFields.accountId, (err,status,returnData) => {});
+  // })
 })
 
 // describe('testing findAccount', () => {

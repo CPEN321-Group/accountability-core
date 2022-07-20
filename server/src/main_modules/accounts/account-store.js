@@ -20,7 +20,10 @@ module.exports = {
     if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
       return callback(null,400,'missing params');
     }
-    const isAct = (isAccountant === 'true');
+    if (age < 0 || age > 200) {
+      return callback(null,400,'invalid age');
+    }
+    const isAct = (isAccountant === true || isAccountant === 'true');
 
     try {
       const foundAccount = await Account.findOne({accountId});

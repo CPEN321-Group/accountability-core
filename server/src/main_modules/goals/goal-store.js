@@ -9,10 +9,14 @@ function parseGoalData(fields) {
   const fieldsToUpdate = {
     ...(df.title && {"goals.$.title": df.title}),
     ...(df.target && {"goals.$.target": df.target}),
-    ...(df.current && {"goals.$.current": df.current}),
+    ...(df.current && {"goals.$.current": Math.abs(df.current)}),
     ...(df.deadline && {"goals.$.deadline": df.deadline}),
   }
   return fieldsToUpdate;
+}
+function isPastDate(date) {
+  const today = new Date();
+  return today.getTime() > date.getTime();
 }
 
 module.exports = {
@@ -35,8 +39,10 @@ module.exports = {
       if (!fieldsAreNotNull({title,target,current,deadline})) {
         return callback(null,400,'missing params');
       }
-  
-      const goal = new Goal({title,target,current,deadline});
+      if (isPastDate(new Date(deadline))) {
+        return callback(null,400,'goal deadline cannot be in the past');
+      }
+      const goal = new Goal({title,target,current: Math.abs(current),deadline});
       const pushItem = { goals: goal };
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId},
@@ -87,6 +93,9 @@ module.exports = {
     try {
       const {title,target,current,deadline} = data;
       const fieldsToUpdate = parseGoalData({title,target,current,deadline});
+      if (deadline && isPastDate(new Date(deadline))) {
+        return callback(null, 400, 'goal deadline cannot be in the past');
+      }
   
       const usergoal = await UserGoal.findOneAndUpdate(
         {$and:[{userId: accountId}, {goals: { $elemMatch: { _id: goalId }}}]},
