@@ -199,7 +199,7 @@ public class DashboardFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-
+                Log.d("Transaction History:",t.toString());
             }
         });
 

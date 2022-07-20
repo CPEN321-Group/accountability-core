@@ -112,7 +112,7 @@ public class TransactionSetActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
-
+                Log.d("Transaction history: ",t.toString());
             }
         });
 
