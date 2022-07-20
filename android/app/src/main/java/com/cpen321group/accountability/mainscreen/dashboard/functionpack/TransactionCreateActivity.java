@@ -159,6 +159,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
                     default:
                         Log.d("Select dialog: ", "Selected nothing");
                         // DO NOTHING
+                        break;
                 }
             }
         });
