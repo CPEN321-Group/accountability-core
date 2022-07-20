@@ -90,7 +90,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        private TextView transactionName, transactionDetails;
+        private TextView transactionName;
+        private TextView transactionDetails;
         private Button deleteTransaction;
         public Viewholder(@NonNull View itemView) {
             super(itemView);

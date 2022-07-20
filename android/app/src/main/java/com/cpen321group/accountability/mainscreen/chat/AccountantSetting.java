@@ -27,11 +27,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class accountantSetting extends RecyclerView.Adapter<accountantSetting.ViewHolder>{
+public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.ViewHolder>{
     private List<NameID> list;
-    private String TAG = "accountantSetting";
+    private String TAG = "AccountantSetting";
 
-    public accountantSetting(List<NameID> list){
+    public AccountantSetting(List<NameID> list){
         this.list = list;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -109,9 +109,9 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
     }
     @NonNull
     @Override
-    public accountantSetting.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AccountantSetting.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.accountant_item,parent,false);
-        return new accountantSetting.ViewHolder(view);
+        return new AccountantSetting.ViewHolder(view);
     }
 
     @Override

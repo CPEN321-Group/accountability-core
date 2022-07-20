@@ -192,21 +192,20 @@ public class TransactionCreateActivity extends AppCompatActivity {
     private void getTextFromImage(Bitmap bitmap){
         TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         InputImage image = InputImage.fromBitmap(bitmap, 0);
-        Task<Text> result =
-                recognizer.process(image)
-                        .addOnSuccessListener(new OnSuccessListener<Text>() {
+        recognizer.process(image)
+                .addOnSuccessListener(new OnSuccessListener<Text>() {
+                    @Override
+                    public void onSuccess(Text visionText) {
+                        ocr_view.setText(visionText.getText());
+                    }
+                })
+                .addOnFailureListener(
+                        new OnFailureListener() {
                             @Override
-                            public void onSuccess(Text visionText) {
-                                ocr_view.setText(visionText.getText());
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(TransactionCreateActivity.this,"Try Again!",Toast.LENGTH_LONG).show();
                             }
-                        })
-                        .addOnFailureListener(
-                                new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(TransactionCreateActivity.this,"Try Again!",Toast.LENGTH_LONG).show();
-                                    }
-                                });
+                        });
     }
 
     public void showDatePickerDialog(View v) {

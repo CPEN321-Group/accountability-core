@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,9 +36,9 @@ public class ChatFragment extends Fragment {
     private List<String> userList = new ArrayList<>();
     private RecyclerView userRecyclerView;
     private LinearLayoutManager layoutManager;
-    private requestSetting adapter;
+    private RequestSetting adapter;
     private TextView functionName;
-    private accountantSetting adapter_user;
+    private AccountantSetting adapter_user;
     private List<NameID> aList = new ArrayList<>();
 
     private Handler handler = new Handler();
@@ -54,7 +53,7 @@ public class ChatFragment extends Fragment {
                 userRecyclerView.setLayoutManager(layoutManager);
                 getData();
                 functionName.setText("User Request");
-                adapter = new requestSetting(userList);
+                adapter = new RequestSetting(userList);
                 userRecyclerView.setAdapter(adapter);
             }
         }
@@ -63,9 +62,6 @@ public class ChatFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ChatViewModel chatViewModel =
-                new ViewModelProvider(this).get(ChatViewModel.class);
-
         binding = FragmentChatBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -81,11 +77,11 @@ public class ChatFragment extends Fragment {
 
         if(FrontendConstants.isAccountant){
             functionName.setText("User Request");
-            adapter = new requestSetting(userList);
+            adapter = new RequestSetting(userList);
             userRecyclerView.setAdapter(adapter);
         }else{
             functionName.setText("Find An Accountant");
-            adapter_user = new accountantSetting(aList);
+            adapter_user = new AccountantSetting(aList);
             userRecyclerView.setAdapter(adapter_user);
         }
 

@@ -27,10 +27,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHolder>{
-    private String name;
+public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHolder>{
     private List<String> list;
-    public requestSetting(List<String> list){
+    public RequestSetting(List<String> list){
         this.list = list;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -72,13 +71,13 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
     }
     @NonNull
     @Override
-    public requestSetting.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RequestSetting.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item,parent,false);
-        return new requestSetting.ViewHolder(view);
+        return new RequestSetting.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull requestSetting.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RequestSetting.ViewHolder holder, int position) {
         String name = list.get(position);
         holder.user_id.setText(name);
         holder.user_name_text.setText("User");
