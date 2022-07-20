@@ -30,7 +30,6 @@ import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 import com.google.mlkit.vision.common.InputImage;
