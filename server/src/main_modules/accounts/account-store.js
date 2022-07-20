@@ -56,6 +56,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   findAccount: async (accountId,callback) => {
+    console.log("this is fixing Codacy")
     try {
       const account = await Account.findOne({accountId});
       if (!account) return callback(null,404,'account not found');
@@ -85,8 +86,9 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   updateProfile: async (id,data,callback) => {    
-    const {avatar,firstname,lastname,email,age,profession} = data;
     try {
+      const {avatar,firstname,lastname,email,age,profession} = data;
+
       const fieldsToUpdate = parseProfileData({avatar,firstname,lastname,email,age,profession});
       const account = await Account.findOneAndUpdate(
         {accountId: id},
