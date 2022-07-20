@@ -104,7 +104,7 @@ public class GoalSetActivity extends AppCompatActivity {
                         double price_dollar = goal_cents / 100.0;
                         double current_saving = current_saving_cents / 100.0;
                         goalsModelArrayList.add(new GoalsModel(title, id, FrontendConstants.userID, price_dollar, current_saving));
-                        GoalsAdapter goalsAdapter = new GoalsAdapter(getApplicationContext(), goalsModelArrayList);
+                        GoalsAdapter goalsAdapter = new GoalsAdapter(goalsModelArrayList);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         goalsRV.setLayoutManager(linearLayoutManager);
                         goalsRV.setAdapter(goalsAdapter);

@@ -100,7 +100,7 @@ public class TransactionSetActivity extends AppCompatActivity {
                         double price_dollar = amount_cents / 100.0;
                         String date = jsonObject.get("date").toString();
                         transactionModelArrayList.add(new TransactionModel(FrontendConstants.userID, id, title, category, date, price_dollar, false, "null"));
-                        TransactionAdapter transactionAdapter = new TransactionAdapter(getApplicationContext(), transactionModelArrayList);
+                        TransactionAdapter transactionAdapter = new TransactionAdapter(transactionModelArrayList);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         transactionsRV.setLayoutManager(linearLayoutManager);
                         transactionsRV.setAdapter(transactionAdapter);

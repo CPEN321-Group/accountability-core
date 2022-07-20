@@ -29,7 +29,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     private ArrayList<TransactionModel> transactionModelArrayList;
 
-    public TransactionAdapter(Context context,ArrayList<TransactionModel> transactionModelArrayList) {
+    public TransactionAdapter(ArrayList<TransactionModel> transactionModelArrayList) {
         this.transactionModelArrayList = transactionModelArrayList;
     }
 

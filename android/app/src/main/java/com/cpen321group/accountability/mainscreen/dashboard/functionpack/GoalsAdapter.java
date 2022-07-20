@@ -30,7 +30,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
 
     private ArrayList<GoalsModel> goalsModelArrayList;
 
-    public GoalsAdapter(Context context, ArrayList<GoalsModel> goalsModelArrayList) {
+    public GoalsAdapter(ArrayList<GoalsModel> goalsModelArrayList) {
         this.goalsModelArrayList = goalsModelArrayList;
     }
 
