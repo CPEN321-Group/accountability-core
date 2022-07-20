@@ -64,7 +64,6 @@ public class TransactionCreateActivity extends AppCompatActivity {
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
     protected static Uri tempUri;
-    private Button capture_button;
     private TextView ocr_view;
     Bitmap bitmap;
 
@@ -72,7 +71,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_create);
-        capture_button = findViewById(R.id.recipeButton);
+        Button capture_button = findViewById(R.id.recipeButton);
         ocr_view = findViewById(R.id.ocr_view);
         Button createTransaction = findViewById(R.id.transactionCreateButton);
         createTransaction.setOnClickListener(new View.OnClickListener() {
@@ -186,12 +185,10 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 CropImage.activity(tempUri)
                         .start(this);
             }
-        }else if(requestCode == CHOOSE_PICTURE){
-            if(resultCode == RESULT_OK){
-                assert data != null;
-                CropImage.activity(data.getData())
-                        .start(this);
-            }
+        }else if(requestCode == CHOOSE_PICTURE && resultCode == RESULT_OK){
+            assert data != null;
+            CropImage.activity(data.getData())
+                    .start(this);
         }
     }
 

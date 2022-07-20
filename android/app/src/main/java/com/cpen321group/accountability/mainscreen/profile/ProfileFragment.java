@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent subscriptionIntent;
-                if (VariablesSpace.is_subscribed != true){
+                if (!VariablesSpace.is_subscribed){
                     subscriptionIntent = new Intent(getActivity(), SubscriptionActivity.class);
                 } else {
                     subscriptionIntent = new Intent(getActivity(), SubscriptionOKActivity.class);
