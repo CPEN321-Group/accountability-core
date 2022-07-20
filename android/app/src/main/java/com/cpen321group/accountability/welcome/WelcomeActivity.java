@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.FrontendConstants;
@@ -18,6 +19,12 @@ import com.google.android.material.color.DynamicColors;
 
 public class WelcomeActivity extends AppCompatActivity {
     private String TAG = "WelcomeActivity";
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        // Not calling **super**, disables back button in current screen.
+        Toast.makeText(this, "You need to sign in or register first", Toast.LENGTH_LONG).show();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Set Navigation Bar transparent
