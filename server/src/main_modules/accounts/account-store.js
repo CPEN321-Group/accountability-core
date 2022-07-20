@@ -57,7 +57,6 @@ module.exports = {
    */
   findAccount: async (accountId,callback) => {
     console.log("this is fixing Codacy");
-    if(callback) console.log("callback exist");
     try {
       const account = await Account.findOne({accountId});
       if (!account) return callback(null,404,'account not found');
