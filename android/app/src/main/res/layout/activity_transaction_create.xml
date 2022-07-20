@@ -46,7 +46,8 @@
             android:id="@+id/transactionAmountPriceInput"
             android:layout_width="match_parent"
             android:layout_height="61dp"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:digits="1234567890." />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -86,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:onClick="showDatePickerDialog"
-            android:text="Pick your target date"
+            android:text="Pick your transaction date"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"

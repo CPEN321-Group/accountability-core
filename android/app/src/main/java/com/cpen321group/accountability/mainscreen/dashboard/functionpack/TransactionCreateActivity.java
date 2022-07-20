@@ -52,9 +52,9 @@ public class TransactionCreateActivity extends AppCompatActivity {
     private String transactionName;
     private String transactionCategory;
     private int transactionAmount;
-    public static int year;
-    public static int month;
-    public static int day;
+    public static int year = 0;
+    public static int month = 0;
+    public static int day = 0;
     private String date;
     private static final int REQUEST_CODE = 100;
     protected static final int CHOOSE_PICTURE = 0;
@@ -85,7 +85,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 date = year + "/" + month + "/" + day;
                 Log.d("Date:", "" + date);
 
-                if(!date.equals("") && !transactionName.equals("") && !TransactionAmountText.equals("")) {
+                if(!date.equals("0/0/0") && !transactionName.equals("") && !TransactionAmountText.equals("")) {
                     transactionAmount = (int)Math.round((Double.parseDouble(TransactionAmountText)*100));
                     try {
                         createTransaction();
@@ -105,6 +105,9 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 }
             }
         });
+        year = 0;
+        month = 0;
+        day = 0;
 
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{
