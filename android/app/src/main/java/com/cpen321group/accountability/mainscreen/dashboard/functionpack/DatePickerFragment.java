@@ -7,12 +7,13 @@ import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+
+    final long today = System.currentTimeMillis() - 1000;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -25,8 +26,6 @@ public class DatePickerFragment extends DialogFragment
         // Create a new instance of DatePickerDialog and return it
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
-
-    final long today = System.currentTimeMillis() - 1000;
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
