@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.google.android.material.color.DynamicColors;
 
 public class SubscriptionOKActivity extends AppCompatActivity {
@@ -21,7 +21,7 @@ public class SubscriptionOKActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subscription_ok);
-        if (VariableStore.is_darkMode) {
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -31,7 +31,7 @@ public class SubscriptionOKActivity extends AppCompatActivity {
         start_subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VariableStore.is_subscribed = false;
+                VariablesSpace.is_subscribed = false;
             }
         });
     }

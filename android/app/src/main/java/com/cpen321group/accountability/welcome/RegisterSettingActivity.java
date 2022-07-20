@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariableStore;
+import com.cpen321group.accountability.VariablesSpace;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -52,7 +52,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
     private AutoCompleteTextView autoText;
     private ImageView avatar;
     private String TAG = "register";
-    private String server_url = VariableStore.baseURL + "/accounts";
+    private String server_url = VariablesSpace.baseURL + "/accounts";
     private MyProfile myProfile_1;
     private String userId;
     private String text;
@@ -69,7 +69,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_setting);
-        if (VariableStore.is_darkMode) {
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -207,7 +207,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
     private void postAccount() throws IOException {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariableStore.baseURL + "")
+                .baseUrl(VariablesSpace.baseURL + "")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
