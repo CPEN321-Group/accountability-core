@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.cpen321group.accountability.databinding.ActivityHomeScreenBinding;

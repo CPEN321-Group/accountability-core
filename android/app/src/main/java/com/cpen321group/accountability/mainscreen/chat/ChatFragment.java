@@ -40,7 +40,6 @@ public class ChatFragment extends Fragment {
     private requestSetting adapter;
     private TextView functionName;
     private accountantSetting adapter_user;
-    private String TAG = "Chat";
     private List<NameID> aList = new ArrayList<>();
 
     private Handler handler = new Handler();

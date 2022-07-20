@@ -136,36 +136,6 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
         });
     }
 
-    private String getName(String id){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/accounts/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getAccount(VariablesSpace.userID);
-
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                if(response.body()!=null) {
-                    name = response.body().get("firstname").toString();
-                    Log.d("Message", name);
-                }else{
-                    name = "User";
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d("Message",t.toString());
-                name = "User";
-            }
-        });
-        return name;
-    }
-
     private void updateFinish(){
         if(VariablesSpace.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()

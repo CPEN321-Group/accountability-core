@@ -1,6 +1,5 @@
 package com.cpen321group.accountability.mainscreen.chat;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,9 @@ import com.cpen321group.accountability.R;
 
 import java.util.List;
 
-public class reviewSetting extends RecyclerView.Adapter<reviewSetting.ViewHolder>{
+public class ReviewSetting extends RecyclerView.Adapter<ReviewSetting.ViewHolder>{
     private List<Review> list;
-    public reviewSetting(List<Review> list){
+    public ReviewSetting(List<Review> list){
         this.list = list;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -25,7 +24,6 @@ public class reviewSetting extends RecyclerView.Adapter<reviewSetting.ViewHolder
         private TextView title_text;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            Context context = itemView.getContext();
             rate_text=itemView.findViewById(R.id.rating_text);
             content_text = itemView.findViewById(R.id.review_content);
             date_text = itemView.findViewById(R.id.date_text);
@@ -34,9 +32,9 @@ public class reviewSetting extends RecyclerView.Adapter<reviewSetting.ViewHolder
     }
     @NonNull
     @Override
-    public reviewSetting.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReviewSetting.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_item,parent,false);
-        return new reviewSetting.ViewHolder(view);
+        return new ReviewSetting.ViewHolder(view);
     }
 
     @Override

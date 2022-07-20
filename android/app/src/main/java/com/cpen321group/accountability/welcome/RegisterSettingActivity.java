@@ -1,7 +1,5 @@
 package com.cpen321group.accountability.welcome;
 
-import static com.google.android.gms.common.util.CollectionUtils.listOf;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,7 +48,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterSettingActivity extends AppCompatActivity {
     private ImageView avatar;
-    private String server_url = VariablesSpace.baseURL + "/accounts";
     private MyProfile myProfile_1;
     private String userId;
     private String text;
