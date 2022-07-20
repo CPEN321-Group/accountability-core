@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
             request_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VariablesSpace.receiverID = user_id.getText().toString();
+                    FrontendConstants.receiverID = user_id.getText().toString();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -85,7 +85,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
         holder.finish_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                VariablesSpace.receiverID = holder.user_id.getText().toString();
+                FrontendConstants.receiverID = holder.user_id.getText().toString();
                 getRoomID();
                 list.remove(holder.getAdapterPosition());  // remove the item from list
                 notifyItemRemoved(holder.getAdapterPosition());
@@ -107,13 +107,13 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
 
     private void getRoomID(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/messaging/")
+                .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getRoomId(VariablesSpace.userID, VariablesSpace.receiverID);
+        Call<JsonObject> call = retrofitAPI.getRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -121,7 +121,7 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
                 try {
                     if (response.body() != null) {
                         String id = response.body().get("_id").toString();
-                        VariablesSpace.roomID = id.substring(1, id.length() - 1);
+                        FrontendConstants.roomID = id.substring(1, id.length() - 1);
                         Log.d("getRoomId", id);
                     }
                 }catch(Exception e){
@@ -137,15 +137,15 @@ public class requestSetting extends RecyclerView.Adapter<requestSetting.ViewHold
     }
 
     private void updateFinish(){
-        if(VariablesSpace.roomID!=null) {
+        if(FrontendConstants.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(VariablesSpace.baseURL + "/messaging/conversation/finished/")
+                    .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/finished/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
 
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<String> call = retrofitAPI.updateFinished(VariablesSpace.roomID,true);
+            Call<String> call = retrofitAPI.updateFinished(FrontendConstants.roomID,true);
 
             call.enqueue(new Callback<String>() {
                 @Override

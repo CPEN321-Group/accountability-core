@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         DynamicColors.applyToActivitiesIfAvailable(this.getApplication());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        if (VariablesSpace.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);

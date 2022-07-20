@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.databinding.FragmentProfileBinding;
 import com.cpen321group.accountability.welcome.WelcomeActivity;
 import com.facebook.Profile;
@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
 //        final TextView textView = binding.textNotifications;
 //        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         profileName = binding.profileName;
-        profileName.setText(VariablesSpace.userName);
+        profileName.setText(FrontendConstants.userName);
         Button sign_out = binding.signoutbutton;
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent subscriptionIntent;
-                if (!VariablesSpace.is_subscribed){
+                if (!FrontendConstants.is_subscribed){
                     subscriptionIntent = new Intent(getActivity(), SubscriptionActivity.class);
                 } else {
                     subscriptionIntent = new Intent(getActivity(), SubscriptionOKActivity.class);

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.databinding.FragmentChatBinding;
 import com.facebook.Profile;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -49,7 +49,7 @@ public class ChatFragment extends Fragment {
             handler.postDelayed(this, 1000 * 120);// 间隔120秒
         }
         void update() {
-            if(VariablesSpace.isAccountant){
+            if(FrontendConstants.isAccountant){
                 layoutManager = new LinearLayoutManager(getActivity());
                 userRecyclerView.setLayoutManager(layoutManager);
                 getData();
@@ -79,7 +79,7 @@ public class ChatFragment extends Fragment {
 
         userRecyclerView.setLayoutManager(layoutManager);
 
-        if(VariablesSpace.isAccountant){
+        if(FrontendConstants.isAccountant){
             functionName.setText("User Request");
             adapter = new requestSetting(userList);
             userRecyclerView.setAdapter(adapter);
@@ -92,13 +92,13 @@ public class ChatFragment extends Fragment {
 
         if(GoogleSignIn.getLastSignedInAccount(getActivity())!=null){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(getActivity());
-            VariablesSpace.userID = account.getId()+"go";
+            FrontendConstants.userID = account.getId()+"go";
         }else{
             Profile profile = Profile.getCurrentProfile();
-            VariablesSpace.userID = profile.getId()+"fb";
+            FrontendConstants.userID = profile.getId()+"fb";
         }
 
-        if(!VariablesSpace.isAccountant){
+        if(!FrontendConstants.isAccountant){
             getAccountant(aList);
         }else{
             getUser(userList);
@@ -109,7 +109,7 @@ public class ChatFragment extends Fragment {
 
     private void getAccountant(List<NameID> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/accounts/")
+                .baseUrl(FrontendConstants.baseURL + "/accounts/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -160,7 +160,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void getData(){
-        if(!VariablesSpace.isAccountant){
+        if(!FrontendConstants.isAccountant){
             aList.clear();
             getAccountant(aList);
         }else{
@@ -172,13 +172,13 @@ public class ChatFragment extends Fragment {
 
     private void getUser(List<String> accountList) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/messaging/conversation/")
+                .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(VariablesSpace.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -196,7 +196,7 @@ public class ChatFragment extends Fragment {
                                 String[] array = string.split(",", 2);
                                 String s1 = array[0].substring(2, array[0].length() - 1);
                                 String s2 = array[1].substring(1, array[1].length() - 2);
-                                if (s1.equals(VariablesSpace.userID)) {
+                                if (s1.equals(FrontendConstants.userID)) {
                                     accountList.add(s2);
                                     adapter.notifyItemInserted(accountList.size() - 1);
                                     userRecyclerView.scrollToPosition(accountList.size() - 1);

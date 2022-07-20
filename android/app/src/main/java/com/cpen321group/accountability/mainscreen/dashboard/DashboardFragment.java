@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.mainscreen.dashboard.functionpack.GoalSetActivity;
 import com.cpen321group.accountability.mainscreen.dashboard.functionpack.ReportGenActivity;
 import com.cpen321group.accountability.mainscreen.dashboard.functionpack.SettingsActivity;
@@ -53,11 +53,11 @@ public class DashboardFragment extends Fragment {
         dashName= binding.dashName;
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if ((hour>=19 && hour<=24) || (hour >=0 && hour <= 5)) {
-            dashName.setText("Good night, "+ VariablesSpace.userName+"!");
+            dashName.setText("Good night, "+ FrontendConstants.userName+"!");
         } else if (hour>5 && hour<=12) {
-            dashName.setText("Good morning, "+ VariablesSpace.userName+"!");
+            dashName.setText("Good morning, "+ FrontendConstants.userName+"!");
         } else {
-            dashName.setText("Good afternoon, "+ VariablesSpace.userName+"!");
+            dashName.setText("Good afternoon, "+ FrontendConstants.userName+"!");
         }
         Button settings = binding.homeSettings;
         settings.setOnClickListener(new View.OnClickListener() {
@@ -121,12 +121,12 @@ public class DashboardFragment extends Fragment {
 
     private void getAllGoals(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/goals/")
+                .baseUrl(FrontendConstants.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(VariablesSpace.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -168,11 +168,11 @@ public class DashboardFragment extends Fragment {
 
     private void getAllTransactions() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/transactions/")
+                .baseUrl(FrontendConstants.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(VariablesSpace.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

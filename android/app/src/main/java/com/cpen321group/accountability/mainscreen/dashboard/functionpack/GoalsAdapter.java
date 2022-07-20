@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 
 import java.util.ArrayList;
 
@@ -72,7 +72,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
 
     private void deleteGoal(String userId, String GoalId, View view, GoalsAdapter.Viewholder holder){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/goals/")
+                .baseUrl(FrontendConstants.baseURL + "/goals/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

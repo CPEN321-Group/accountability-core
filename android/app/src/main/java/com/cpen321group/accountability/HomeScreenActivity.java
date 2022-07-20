@@ -52,7 +52,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        if (VariablesSpace.is_darkMode) {
+        if (FrontendConstants.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -63,32 +63,32 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void run() {
                 if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
                     GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-                    VariablesSpace.userID = account.getId()+"go";
+                    FrontendConstants.userID = account.getId()+"go";
                 }else{
                     Profile profile = Profile.getCurrentProfile();
-                    VariablesSpace.userID = profile.getId()+"fb";
+                    FrontendConstants.userID = profile.getId()+"fb";
                 }
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(VariablesSpace.baseURL + "/accounts/")
+                        .baseUrl(FrontendConstants.baseURL + "/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
 
                 RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-                Call<JsonObject> call = retrofitAPI.getAccount(VariablesSpace.userID);
+                Call<JsonObject> call = retrofitAPI.getAccount(FrontendConstants.userID);
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         try {
                             if (response.body() != null) {
-                                VariablesSpace.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                                FrontendConstants.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
                                 Log.d("Message", response.body().get("isAccountant").toString());
                                 JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
                                 if (jsonname != null) {
                                     String name = jsonname.toString();
                                     if (!name.equals("")) {
-                                        VariablesSpace.userName = name.substring(1, name.length() - 1);
+                                        FrontendConstants.userName = name.substring(1, name.length() - 1);
                                     }
                                 }
                             }

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
             send_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VariablesSpace.receiverID = accountant_id.getText().toString();
+                    FrontendConstants.receiverID = accountant_id.getText().toString();
                     postRoomId();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -77,7 +77,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
             history_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    VariablesSpace.receiverID = accountant_id.getText().toString();
+                    FrontendConstants.receiverID = accountant_id.getText().toString();
                     postRoomId();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -100,7 +100,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
             reviews_button.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    VariablesSpace.receiverID = accountant_id.getText().toString();
+                    FrontendConstants.receiverID = accountant_id.getText().toString();
                     Intent settingsIntent = new Intent(context, ReviewActivity.class);
                     context.startActivity(settingsIntent);
                 }
@@ -128,13 +128,13 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
 
     private void postRoomId(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/messaging/")
+                .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postRoomId(VariablesSpace.userID, VariablesSpace.receiverID);
+        Call<String> call = retrofitAPI.postRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -151,13 +151,13 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
 
     private void getRoomID(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/messaging/")
+                .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getRoomId(VariablesSpace.userID, VariablesSpace.receiverID);
+        Call<JsonObject> call = retrofitAPI.getRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -165,7 +165,7 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
                 try {
                     if (response.body() != null) {
                         String id = response.body().get("_id").toString();
-                        VariablesSpace.roomID = id.substring(1, id.length() - 1);
+                        FrontendConstants.roomID = id.substring(1, id.length() - 1);
                         Log.d("getRoomId", id);
                     }
                 }catch(Exception e){
@@ -181,15 +181,15 @@ public class accountantSetting extends RecyclerView.Adapter<accountantSetting.Vi
     }
 
     private void updateFinish(){
-        if(VariablesSpace.roomID!=null) {
+        if(FrontendConstants.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(VariablesSpace.baseURL + "/messaging/conversation/finished/")
+                    .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/finished/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
 
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<String> call = retrofitAPI.updateFinished(VariablesSpace.roomID,false);
+            Call<String> call = retrofitAPI.updateFinished(FrontendConstants.roomID,false);
 
             call.enqueue(new Callback<String>() {
                 @Override

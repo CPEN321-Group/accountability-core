@@ -17,11 +17,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,7 +27,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.VariablesSpace;
+import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -44,7 +42,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -219,14 +216,14 @@ public class TransactionCreateActivity extends AppCompatActivity {
 
     private void createTransaction() throws IOException{
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(VariablesSpace.baseURL + "/transactions/")
+                .baseUrl(FrontendConstants.baseURL + "/transactions/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postTransaction(VariablesSpace.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
+        Call<JsonObject> call = retrofitAPI.postTransaction(FrontendConstants.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
 
-        Log.d("API url:", VariablesSpace.baseURL + "/transactions/"+ VariablesSpace.userID+"/");
+        Log.d("API url:", FrontendConstants.baseURL + "/transactions/"+ FrontendConstants.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
