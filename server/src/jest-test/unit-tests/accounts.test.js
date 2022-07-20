@@ -368,6 +368,6 @@ describe('testing updateSubscription', () => {
 //         await mongoose.connection.close()
 //     })
 afterAll((done) => {
-  mongoose.connection.close();
+  mongoose.disconnect();
   done();
 });
