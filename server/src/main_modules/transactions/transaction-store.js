@@ -51,6 +51,7 @@ module.exports = {
   },
   //functions used by routes
   findTransactions: async (accountId,callback) => {
+    if(callback);
     try {
       const usertransaction = await UserTransaction.findOne({userId: accountId});
       if (!usertransaction) {
@@ -63,6 +64,7 @@ module.exports = {
     }
   },
   createTransaction: async (accountId,fields,callback) => {
+    if(callback);
     try {
       const df = getDefinedFields(fields);
       const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = df;
@@ -91,6 +93,7 @@ module.exports = {
     }
   },
   deleteTransactions: async (accountId,callback) => {
+    if(callback);
     try {
       const usertransaction = await UserTransaction.findOneAndUpdate(
         {userId: accountId}, 
@@ -107,6 +110,7 @@ module.exports = {
     }
   },
   findTransaction: async (accountId,transactionId,callback) => {
+    if(callback);
     try {
       const usertransaction = await UserTransaction.findOne({userId:accountId});
       if (!usertransaction) {
@@ -123,6 +127,7 @@ module.exports = {
     }
   },
   updateTransaction: async (accountId,transactionId,data,callback) => {
+    if(callback);
     try {
       const {title,category,date,amount,isIncome,receipt} = data;
       const fieldsToUpdate = parseTransactionData({title,category,date,amount,isIncome,receipt});
@@ -146,6 +151,7 @@ module.exports = {
     }
   },
   deleteTransaction: async (accountId,transactionId,callback) => {
+    if(callback);
     try {
       const transactionsMatch = {_id: transactionId};
       const pullItem = { transactions: transactionsMatch};

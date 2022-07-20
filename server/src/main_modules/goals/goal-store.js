@@ -18,6 +18,7 @@ function parseGoalData(fields) {
 
 module.exports = {
   findGoals: async (accountId,callback) => {
+    if(callback);
     try {
       const usergoal = await UserGoal.findOne({userId: accountId});
       if (!usergoal) {
@@ -30,6 +31,7 @@ module.exports = {
     }
   },
   createGoal: async (accountId,data,callback) => {
+    if(callback);
     try {
       const df = getDefinedFields(data);
       const {title,target,current,deadline} = df;
@@ -54,6 +56,7 @@ module.exports = {
     }
   },
   deleteGoals: async (accountId,callback) => {
+    if(callback);
     try {
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId}, 
@@ -69,6 +72,7 @@ module.exports = {
     }
   },
   findGoal: async (accountId,goalId,callback) => {
+    if(callback);
     try {
       const usergoal = await UserGoal.findOne({userId:accountId});
       if (!usergoal) {
@@ -85,6 +89,7 @@ module.exports = {
     }
   },
   updateGoal: async (accountId,goalId,data,callback) => {
+    if(callback);
     try {
       const {title,target,current,deadline} = data;
       const fieldsToUpdate = parseGoalData({title,target,current,deadline});
@@ -108,6 +113,7 @@ module.exports = {
     }
   },
   deleteGoal: async (accountId,goalId,callback) => {
+    if(callback);
     try {
       const goalMatch = {_id: goalId};
       const pullItem = {goals: goalMatch};

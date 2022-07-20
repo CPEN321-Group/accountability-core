@@ -71,6 +71,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   findAccountants: async (callback) => {
+    if(callback);
     try {
       const foundAccounts = await Account.find({isAccountant: true});
       callback(null,200,foundAccounts)
@@ -86,6 +87,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   updateProfile: async (id,data,callback) => {    
+    if(callback);
     try {
       const {avatar,firstname,lastname,email,age,profession} = data;
 
@@ -108,6 +110,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   deleteAccount: async (id,callback) => {
+    if(callback);
     try {
       const account = await Account.findOneAndDelete({accountId: id});
       if (!account) return callback(null,404,'account not found');
@@ -127,6 +130,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   createReview: async (accountantId,fields,callback) => {
+    if(callback);
     try {
       const df = getDefinedFields(fields);
       const {authorId,rating,date,title,content} = df;
@@ -156,6 +160,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   createSubscription: async (id,fields,callback) => {
+    if(callback);
     try {
       const {subscriptionDate,expiryDate} = fields;
       if (!fieldsAreNotNull({subscriptionDate,expiryDate})) {
@@ -182,6 +187,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   updateSubscription: async (id,fields,callback) => {
+    if(callback);
     try {
       const {expiryDate} = fields;
       if (!fieldsAreNotNull({expiryDate})) {

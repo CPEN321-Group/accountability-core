@@ -3,6 +3,7 @@ const { Conversation, Message } = require("./models");
 
 module.exports = {
   findConversation: async (account1Id,account2Id,callback) => {
+    if(callback);
     try {
       if (!fieldsAreNotNull({account1Id,account2Id})) {
         return callback(null,400,'missing params');
@@ -21,6 +22,7 @@ module.exports = {
     }
   },
   createConversation: async (account1Id,account2Id,callback) => {
+    if(callback);
     try {
       if (!fieldsAreNotNull({account1Id,account2Id})) {
         return callback(null,400,'missing params');
@@ -40,6 +42,7 @@ module.exports = {
     }
   },
   findConversationsInAccount: async (accountId,callback) => {
+    if(callback);
     try {
       const conversations = await Conversation.find({members: { $in: [accountId]}});
       if (!conversations) { //impossible path as an empty list will be returned
@@ -52,6 +55,7 @@ module.exports = {
     }
   },
   findMessages: async (conversationId, callback) => {
+    if(callback);
     try {
       const messages = await Message.find({conversationId})
       if (!messages) {
@@ -64,6 +68,7 @@ module.exports = {
     }
   },
   createMessage: async (conversationId,fields,callback) => {
+    if(callback);
     try {
       const df = getDefinedFields(fields);
       const {sender,text} = df;
@@ -82,6 +87,7 @@ module.exports = {
     }
   },
   deleteMessages: async (conversationId,callback) => {
+    if(callback);
     try {
       await Message.deleteMany({conversationId});
       return callback(null,200,'messages deleted')
@@ -91,6 +97,7 @@ module.exports = {
     }
   },
   updateIsFinished: async (conversationId,isFinished,callback) => {
+    if(callback);
     try {
       if (!fieldsAreNotNull({isFinished})) {
         return callback(null,400,'missing params');
