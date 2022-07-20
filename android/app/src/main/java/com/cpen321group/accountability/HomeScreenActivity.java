@@ -45,15 +45,15 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_chat, R.id.navigation_dashboard, R.id.navigation_profile)
-                .build();
+//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.navigation_chat, R.id.navigation_dashboard, R.id.navigation_profile)
+//                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_home_screen);
         // Uncomment it if action bar is required.
 //        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        if (VariableStore.is_darkMode) {
+        if (VariablesSpace.is_darkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -64,32 +64,32 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void run() {
                 if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
                     GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-                    VariableStore.userID = account.getId()+"go";
+                    VariablesSpace.userID = account.getId()+"go";
                 }else{
                     Profile profile = Profile.getCurrentProfile();
-                    VariableStore.userID = profile.getId()+"fb";
+                    VariablesSpace.userID = profile.getId()+"fb";
                 }
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(VariableStore.baseURL + "/accounts/")
+                        .baseUrl(VariablesSpace.baseURL + "/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
 
                 RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-                Call<JsonObject> call = retrofitAPI.getAccount(VariableStore.userID);
+                Call<JsonObject> call = retrofitAPI.getAccount(VariablesSpace.userID);
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         try {
                             if (response.body() != null) {
-                                VariableStore.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                                VariablesSpace.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
                                 Log.d("Message", response.body().get("isAccountant").toString());
                                 JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
                                 if (jsonname != null) {
                                     String name = jsonname.toString();
                                     if (!name.equals("")) {
-                                        VariableStore.userName = name.substring(1, name.length() - 1);
+                                        VariablesSpace.userName = name.substring(1, name.length() - 1);
                                     }
                                 }
                             }
