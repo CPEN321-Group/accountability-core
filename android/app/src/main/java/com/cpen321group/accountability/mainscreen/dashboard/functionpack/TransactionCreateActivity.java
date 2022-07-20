@@ -156,6 +156,9 @@ public class TransactionCreateActivity extends AppCompatActivity {
                         takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
                         startActivityForResult(takePhotoIntent, TAKE_PICTURE);
                         break;
+                    default:
+                        Log.d("Select dialog: ", "Selected nothing");
+                        // DO NOTHING
                 }
             }
         });
