@@ -1,4 +1,3 @@
-const { isPastDate } = require('../../utils/checks/date-check');
 const { fieldsAreNotNull, getDefinedFields } = require('../../utils/checks/get-defined-fields');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserGoal, Goal} = require('./models');
@@ -37,9 +36,6 @@ module.exports = {
       const {title,target,current,deadline} = df;
       if (!fieldsAreNotNull({title,target,current,deadline})) {
         return callback(null,400,'missing params');
-      }
-      if (isPastDate(new Date(deadline))) {
-        return callback(null,400,'goal deadline cannot be in the past');
       }
       const goal = new Goal({title,target,current: Math.abs(current),deadline});
       const pushItem = { goals: goal };
@@ -95,9 +91,7 @@ module.exports = {
     try {
       const {title,target,current,deadline} = data;
       const fieldsToUpdate = parseGoalData({title,target,current,deadline});
-      if (deadline && isPastDate(new Date(deadline))) {
-        return callback(null, 400, 'goal deadline cannot be in the past');
-      }
+      
   
       const usergoal = await UserGoal.findOneAndUpdate(
         {$and:[{userId: accountId}, {goals: { $elemMatch: { _id: goalId }}}]},

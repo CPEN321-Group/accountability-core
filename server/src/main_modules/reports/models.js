@@ -8,7 +8,10 @@ const reportSchema = new mongoose.Schema({
   monthYear: r_date,
   income: [transactionSchema],
   spendings: [transactionSchema],
-  savings: r_num,
+  savings: {
+    ...r_num,
+    min: 0
+  },
   goalsInProgress: [goalSchema],
   recommendations: String
 })

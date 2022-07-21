@@ -6,7 +6,10 @@ const transactionSchema = new mongoose.Schema({
   title: r_string,
   category: r_string,
   date: {type: Date, required: true, default: new Date()},
-  amount: r_num,
+  amount: {
+    ...r_num,
+    min: 0
+  },
   isIncome: {type: Boolean, required: true,default: false},
   receipt: String,
   plaidTransactionId: String

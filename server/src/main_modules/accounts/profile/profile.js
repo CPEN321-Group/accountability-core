@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { getDefinedFields } = require('../../../utils/checks/get-defined-fields');
-const {r_string, letter_string,email_string} = require('../../../utils/types/mongo-required')
+const {r_string, letter_string,email_string, r_num} = require('../../../utils/types/mongo-required')
 
 const profileSchema = new mongoose.Schema({
   avatar: String,
@@ -8,8 +8,7 @@ const profileSchema = new mongoose.Schema({
   lastname: letter_string,
   email: {required: true, ...email_string},
   age: {
-    type: Number,
-    required: true,
+    ...r_num,
     min: 0,
     max: 200
   },

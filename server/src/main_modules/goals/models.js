@@ -1,12 +1,25 @@
 const mongoose = require('mongoose');
 const { r_string, r_num, r_date } = require('../../utils/types/mongo-required');
 const goalDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/goalDB')
+const { isPastDate } = require('../../utils/checks/date-check');
 
 const goalSchema = new mongoose.Schema({
   title: r_string,
-  target: r_num,
-  current: {...r_num, default: 0},
-  deadline: r_date,
+  target: {
+    ...r_num,
+    min: 10
+  },
+  current: {
+    ...r_num, 
+    default: 0,
+    min: 0
+  },
+  deadline: {
+    ...r_date,
+    validate: {
+      validator: isPastDate
+    }
+  },
 },{timestamps:true});
 
 const userGoalSchema = new mongoose.Schema({

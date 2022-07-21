@@ -5,7 +5,12 @@ const reviewSchema = new mongoose.Schema({
   authorId: r_string,
   accountantId: r_string,
   date: r_date,
-  rating: r_num,
+  rating: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 5
+  },
   title: r_string,
   content: String
 })
