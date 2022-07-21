@@ -39,7 +39,7 @@ beforeAll(done => {
 describe('testing createAccount', () => {
 
   test('accountId in use', async () => {
-    await createAccount(accountFields, (err,status,returnData) => {}); //create accountId = 1234
+    await createAccount(accountFields, () => undefined); //create accountId = 1234
     await createAccount(accountFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
@@ -100,19 +100,19 @@ describe('testing createAccount', () => {
   test('valid creation', async () => {
     const modifiedAccountFields = {...accountFields};
     modifiedAccountFields.accountId = 'ai93n'
-    await deleteAccount(modifiedAccountFields.accountId, (err,status,returnData) => {});
+    await deleteAccount(modifiedAccountFields.accountId, () => undefined);
     await createAccount(modifiedAccountFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('accountId');
     })
-    await deleteAccount(modifiedAccountFields.accountId, (err,status,returnData) => {});
+    await deleteAccount(modifiedAccountFields.accountId, () => undefined);
   })
 })
 
 describe('testing findAccount', () => {
   test('account exists', async () => {
-    await createAccount(accountFields, (err,status,returnData) => {});
+    await createAccount(accountFields, () => undefined);
     await findAccount('1234', (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
@@ -200,7 +200,7 @@ describe('testing updateProfile', () => {
 
 describe('testing deleteAccount', () => {
   test('account exists', async () => {
-    await createAccount(accountFields,(err,status,returnData) => {});
+    await createAccount(accountFields,() => undefined);
     await deleteAccount('1234', (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
@@ -227,7 +227,7 @@ describe('testing deleteAccount', () => {
 
 describe('testing createReview', () => {
   test('review created', async () => {
-    await createAccount(accountantFields,(err,status,returnData) => {});
+    await createAccount(accountantFields,() => undefined);
     await createReview('1456',reviewFields,(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
@@ -272,7 +272,7 @@ describe('testing createReview', () => {
 
 describe('testing createSubscription', () => {
   test('subscription created', async () => {
-    await createAccount(accountFields, (err,status,returnData) => {});
+    await createAccount(accountFields, () => undefined);
     await createSubscription('1234', subscriptionFields,(err,status,returnData) => {
       console.log(returnData)
       expect(err).toBeNull()
@@ -319,7 +319,7 @@ describe('testing createSubscription', () => {
 
 describe('testing updateSubscription', () => {
   test('subscription updated', async () => {
-    await createAccount(accountFields, (err,status,returnData) => {});
+    await createAccount(accountFields, () => undefined);
     await updateSubscription('1234', subscriptionFields,(err,status,returnData) => {
       console.log(returnData)
       expect(err).toBeNull()

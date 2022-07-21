@@ -5,7 +5,6 @@ const { Account, Review } = require("./models");
 const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
-const { isLetterString } = require("../../utils/checks/string-check");
 
 /**
  * Interface between endpoints and mongodb database. Each function defined will perform a CRUD operation on the accountDB
@@ -20,12 +19,6 @@ module.exports = {
     const {accountId,avatar,firstname,lastname,email,age,profession,isAccountant} = df;
     if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
       return callback(null,400,'missing params');
-    }
-    if (age < 0 || age > 200) {
-      return callback(null,400,'invalid age');
-    }
-    if (!isLetterString(firstname + lastname + profession)) {
-      return callback(null, 400, 'illegal characters');
     }
     const isAct = (isAccountant === true || isAccountant === 'true');
 
@@ -100,12 +93,7 @@ module.exports = {
     if(callback);
     try {
       const {avatar,firstname,lastname,email,age,profession} = data;
-      if (age && (age < 0 || age > 200)) {
-        return callback(null, 400, 'invalid age')
-      }
-      if (!isLetterString(firstname + lastname + profession)) {
-        return callback(null, 400, 'illegal characters');
-      }
+
       const fieldsToUpdate = parseProfileData({avatar,firstname,lastname,email,age,profession});
       const account = await Account.findOneAndUpdate(
         {accountId: id},
