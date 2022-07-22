@@ -116,7 +116,7 @@ module.exports = function(app) {
     //         console.log('initializing new customer...')
     //         const newCustomer = await createCustomerForUser(foundUser);
     //         const newSubscription = await createSubscriptionForCustomer(newCustomer);
-    //         Account.findOneAndUpdate({accountId: userId}, { stripeCustomerId: newCustomer.id,stripeSubscriptionId: newSubscription.id }, {returnDocument: 'after'}, async (err,updatedUser) => {
+    //         Account.findOneAndUpdate({accountId: userId}, { stripeCustomerId: newCustomer.id,stripeSubscriptionId: newSubscription.id }, {returnDocument: 'after', runValidators: true}, async (err,updatedUser) => {
     //           if (err) { return next(err)}
                 
     //           session = await createSession(userId,updatedUser.stripeCustomerId);

@@ -201,7 +201,7 @@ module.exports = function(app) {
           const fieldsToSet = {
             "data.paymentId": paymentId, 
           }
-          PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after'},(err,foundUser)=> {
+          PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after', runValidators: true},(err,foundUser)=> {
             if (err) {
               console.log(err)
             } 
@@ -253,7 +253,7 @@ module.exports = function(app) {
           "data.itemId": tokenResponse.data.item_id,
           "data.transferId": transferId
         }
-        PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after'},(err,foundUser)=> {
+        PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after', runValidators: true},(err,foundUser)=> {
           if (!err) {
             accessToken = foundUser.data.accessToken;
             itemId = foundUser.data.itemId;

@@ -111,7 +111,7 @@ module.exports = {
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId}, 
         {accountantId},
-        {returnDocument: 'after'}
+        {returnDocument: 'after', runValidators: true}
       )
       if (!userReport) {
         return callback(null,404, 'account not found');
@@ -127,7 +127,7 @@ module.exports = {
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId}, 
         {reports: []},
-        {returnDocument: 'after'}
+        {returnDocument: 'after', runValidators: true}
       );
       if (!userReport) {
         return callback(null,404,'account not found');
@@ -162,7 +162,7 @@ module.exports = {
       const userReport = await UserReport.findOneAndUpdate(
         {$and:[{userId: accountId}, {reports: { $elemMatch: { _id: reportId }}}]},
         {"reports.$.recommendations": recommendations},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       )
       if (!userReport) {
         return callback(null,404, 'account/report not found');

@@ -57,7 +57,8 @@ module.exports = {
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId}, 
         {goals: []},
-        {returnDocument:'after'});
+        {returnDocument:'after', runValidators: true}
+      );
       if (!usergoal) {
         return callback(null,404,'account not found');
       }
@@ -92,7 +93,7 @@ module.exports = {
       const usergoal = await UserGoal.findOneAndUpdate(
         {$and:[{userId: accountId}, {goals: { $elemMatch: { _id: goalId }}}]},
         {$set: fieldsToUpdate},
-        {returnDocument: 'after'}
+        {returnDocument: 'after', runValidators: true}
       )
       if (!usergoal) {
         return callback(null,404, 'account/goal not found');

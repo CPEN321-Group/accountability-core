@@ -44,6 +44,7 @@ module.exports = {
       }
       return callback(null,200,newAccount);
     } catch (err) {
+      console.log(err);
       return callback(null,400, err);
     }
     

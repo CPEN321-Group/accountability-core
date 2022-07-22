@@ -100,7 +100,7 @@ module.exports = {
       const conversation = await Conversation.findOneAndUpdate(
         {_id: conversationId},
         {isFinished: isFin},
-        {returnDocument: 'after'}
+        {returnDocument: 'after', runValidators: true}
       );
       if (!conversation) {
         return callback(null,404,'conversation not found');

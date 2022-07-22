@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const { createAccount, findAccount, findAccountants, updateProfile, deleteAccount, createReview, createSubscription, updateSubscription } = require("../../main_modules/accounts/account-store");
 
+
 const accountFields = {
   accountId: '1234',
   firstname: 'Bob',
@@ -33,11 +34,13 @@ const subscriptionFields = {
 }
 
 beforeAll(done => {
+  jest.mock('../../main_modules/reports/models')
+  jest.mock('../../main_modules/transactions/models')
+  jest.mock('../../main_modules/goals/models')
   done()
 })
 
 describe('testing createAccount', () => {
-
   test('accountId in use', async () => {
     await createAccount(accountFields, () => undefined); //create accountId = 1234
     await createAccount(accountFields, (err,status,returnData) => {
@@ -62,7 +65,6 @@ describe('testing createAccount', () => {
     modifiedAccountFields.accountId = 'ai93n';
     modifiedAccountFields.firstname = '';
     await createAccount(modifiedAccountFields, (err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
@@ -137,6 +139,13 @@ describe('testing findAccount', () => {
       expect(returnData).toEqual('account not found');
     })
   })
+  test('accountId is wrong type', async () => {
+    await findAccount({test: 'test'}, (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(400);
+      expect(returnData).toHaveProperty('name','CastError');
+    })
+  })
 })
 
 describe('testing findAccountants', () => {
@@ -203,8 +212,10 @@ describe('testing updateProfile', () => {
 
 describe('testing deleteAccount', () => {
   test('account exists', async () => {
-    await createAccount(accountFields,() => undefined);
-    await deleteAccount('1234', (err,status,returnData) => {
+    const modifiedAccountFields = {...accountFields};
+    modifiedAccountFields.accountId = 'ai93n'
+    await createAccount(modifiedAccountFields,() => undefined);
+    await deleteAccount('ai93n', (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual('account deleted');
@@ -224,6 +235,13 @@ describe('testing deleteAccount', () => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found');
+    })
+  })
+  test('accountId is wrong type', async () => {
+    await deleteAccount({test: 'test'}, (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(400);
+      expect(returnData).toHaveProperty('name','CastError');
     })
   })
 })
@@ -357,6 +375,22 @@ describe('testing updateSubscription', () => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found')
+    })
+  })
+})
+
+describe('testing findAccountants - connection error', () => {
+  test('wrong type', async () => {
+    mongoose.connections.forEach(async c => {
+      if (c.name === 'accountDB') {
+        console.log('closing connection');
+        await c.close();
+      }
+    })
+    await findAccountants((err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(400);
+      expect(returnData).toHaveProperty('name','MongoNotConnectedError');
     })
   })
 })
