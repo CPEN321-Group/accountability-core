@@ -22,7 +22,7 @@ const accountantFields = {
 }
 const reviewFields = {
   authorId: '1234',
-  rating: 10,
+  rating: 5,
   date: 'Jun 2022',
   title: 'Good work',
   content: 'Thank you'
@@ -43,17 +43,18 @@ describe('testing createAccount', () => {
     await createAccount(accountFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('account already exists')
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   }) 
 
   test('some fields are missing', async () => {
+    await deleteAccount('ai93n', ()=>undefined);
     await createAccount(
-      {accountId: '1456', firstname: 'Bob'}, 
+      {accountId: 'ai93n', firstname: 'Bob'}, 
       (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params')
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('empty string was used', async () => {
@@ -61,9 +62,10 @@ describe('testing createAccount', () => {
     modifiedAccountFields.accountId = 'ai93n';
     modifiedAccountFields.firstname = '';
     await createAccount(modifiedAccountFields, (err,status,returnData) => {
+      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
 
@@ -71,17 +73,18 @@ describe('testing createAccount', () => {
     await createAccount(null, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('invalid age', async () => {
+    await deleteAccount('ai93n', ()=> undefined);
     const modifiedAccountFields = { ...accountFields };
     modifiedAccountFields.accountId = 'ai93n';
     modifiedAccountFields.age = -1;
     await createAccount(modifiedAccountFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('invalid age');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
 
@@ -92,7 +95,7 @@ describe('testing createAccount', () => {
     await createAccount(modifiedAccountFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('illegal characters');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
 
@@ -130,8 +133,8 @@ describe('testing findAccount', () => {
   test('accountId is null', async () => {
     await findAccount(null, (err,status,returnData) => {
       expect(err).toBeNull()
-      expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(status).toStrictEqual(404);
+      expect(returnData).toEqual('account not found');
     })
   })
 })
@@ -185,7 +188,7 @@ describe('testing updateProfile', () => {
     await updateProfile('1234', { age: -1 },(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('invalid age');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
 
@@ -193,7 +196,7 @@ describe('testing updateProfile', () => {
     await updateProfile('1234', { firstname: '$%()#' },(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('illegal characters');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
 })
@@ -247,16 +250,17 @@ describe('testing createReview', () => {
     await createReview('1456',{title: 'Hi'},(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   }),
   test('invalid rating', async () => {
+    
     const modifiedReviewFields = { ...reviewFields};
     modifiedReviewFields.rating = 11;
     await createReview('1456',modifiedReviewFields,(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('invalid rating');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('empty string', async () => {
@@ -265,7 +269,7 @@ describe('testing createReview', () => {
     await createReview('1456',modifiedReviewFields,(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
 })
@@ -274,7 +278,6 @@ describe('testing createSubscription', () => {
   test('subscription created', async () => {
     await createAccount(accountFields, () => undefined);
     await createSubscription('1234', subscriptionFields,(err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('subscription');
@@ -294,22 +297,20 @@ describe('testing createSubscription', () => {
     await createSubscription('1234', {},(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('empty string used', async () => {
     const modifiedSubFields = { ...subscriptionFields};
     modifiedSubFields.subscriptionDate = '';
     await createSubscription('1234', modifiedSubFields,(err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params')
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('accountId is null', async () => {
     await createSubscription(null, subscriptionFields,(err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found')
@@ -321,7 +322,6 @@ describe('testing updateSubscription', () => {
   test('subscription updated', async () => {
     await createAccount(accountFields, () => undefined);
     await updateSubscription('1234', subscriptionFields,(err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('subscription');
@@ -341,21 +341,19 @@ describe('testing updateSubscription', () => {
     await updateSubscription('1234', {},(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('empty string used', async () => {
 
     await updateSubscription('1234', {expiryDate: ''},(err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params')
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('accountId is null', async () => {
     await updateSubscription(null, subscriptionFields,(err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toEqual('account not found')

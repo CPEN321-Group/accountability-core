@@ -5,7 +5,17 @@ const transactionDB = mongoose.createConnection((process.env.MONGO_BASE_URL || '
 const transactionSchema = new mongoose.Schema({
   title: r_string,
   category: r_string,
-  date: {type: Date, required: true, default: new Date()},
+  date: {
+    type: Date, 
+    required: true, 
+    default: new Date(),
+    validate: {
+      validator: function(v) {
+        return v.getTime() <= Date.now()
+      },
+      message: "Transaction date cannot be in the future"
+    }
+  },
   amount: {
     ...r_num,
     min: 0

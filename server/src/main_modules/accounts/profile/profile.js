@@ -4,15 +4,15 @@ const {r_string, letter_string,email_string, r_num} = require('../../../utils/ty
 
 const profileSchema = new mongoose.Schema({
   avatar: String,
-  firstname: letter_string,
-  lastname: letter_string,
+  firstname: {...letter_string, required: true},
+  lastname: {...letter_string, required: true},
   email: {required: true, ...email_string},
   age: {
     ...r_num,
     min: 0,
     max: 200
   },
-  profession: letter_string,
+  profession: {...letter_string, required: true},
 })
 
 /**

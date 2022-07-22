@@ -42,7 +42,7 @@ module.exports = {
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId},
         { $push: pushItem },
-        {returnDocument: 'after'}
+        {returnDocument: 'after', runValidators: true}
       )
       if (!usergoal) {
         return callback(null,404,'account not found');

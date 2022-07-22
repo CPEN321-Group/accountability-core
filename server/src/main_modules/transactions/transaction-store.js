@@ -2,6 +2,8 @@ const { fieldsAreNotNull, getDefinedFields } = require('../../utils/checks/get-d
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserTransaction, Transaction} = require('./models');
 const moment = require('moment');
+const { isPastDate } = require('../../utils/checks/date-check');
+const {ValidationError} = require('../../utils/errors');
 
 const formatTransactions = (transactions) => {
   let formattedTransactions = [];
@@ -67,9 +69,6 @@ module.exports = {
     try {
       const df = getDefinedFields(fields);
       const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = df;
-      if (!fieldsAreNotNull({title,category,amount,isIncome})) {
-        return callback(null,400, 'missing params');
-      }
   
       const newTransaction = new Transaction({
         title,category,date,
@@ -80,7 +79,7 @@ module.exports = {
       const usertransaction = await UserTransaction.findOneAndUpdate(
         {userId: accountId},
         { $push:  pushItem},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       );
       if (!usertransaction) {
         return callback(null,404, 'account not found');

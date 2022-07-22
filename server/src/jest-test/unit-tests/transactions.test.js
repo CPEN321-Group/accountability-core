@@ -45,7 +45,7 @@ describe('testing createTransaction', () => {
     await createTransaction('1234',{}, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('date is in the future', async () => {
@@ -54,7 +54,7 @@ describe('testing createTransaction', () => {
     await createTransaction('1234',modifiedTFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
-      expect(returnData).toEqual('missing params');
+      expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
 })

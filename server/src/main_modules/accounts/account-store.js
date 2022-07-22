@@ -5,6 +5,7 @@ const { Account, Review } = require("./models");
 const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
+const { ValidationError } = require("../../utils/errors");
 
 /**
  * Interface between endpoints and mongodb database. Each function defined will perform a CRUD operation on the accountDB
@@ -17,15 +18,12 @@ module.exports = {
   createAccount: async (fields,callback) => {
     const df = getDefinedFields(fields);
     const {accountId,avatar,firstname,lastname,email,age,profession,isAccountant} = df;
-    if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
-      return callback(null,400,'missing params');
-    }
+
     const isAct = (isAccountant === true || isAccountant === 'true');
 
     try {
-      const foundAccount = await Account.findOne({accountId});
-      if (foundAccount) {
-        return callback(null,400,'account already exists');
+      if (await Account.findOne({accountId})) {
+        throw new ValidationError('account already exists');
       }
       
       const newAccount = new Account({
@@ -58,9 +56,6 @@ module.exports = {
   findAccount: async (accountId,callback) => {
     if(callback);
     try {
-      if (!fieldsAreNotNull({accountId})) {
-        return callback(null,400,'missing params');
-      }
       const account = await Account.findOne({accountId});
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
@@ -98,7 +93,7 @@ module.exports = {
       const account = await Account.findOneAndUpdate(
         {accountId: id},
         {$set: fieldsToUpdate},
-        {returnDocument: 'after'}
+        {returnDocument: 'after', runValidators: true}
       );
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
@@ -137,12 +132,7 @@ module.exports = {
     try {
       const df = getDefinedFields(fields);
       const {authorId,rating,date,title,content} = df;
-      if (!fieldsAreNotNull({authorId,date,rating,title})) { 
-        return callback(null,400,'missing params');
-      }
-      if (rating < 0 || rating > 10) {
-        return callback(null,400,'invalid rating');
-      }
+
       const newReview = new Review({
         authorId,accountantId,date,rating,title,content
       });
@@ -150,7 +140,7 @@ module.exports = {
       const account = await Account.findOneAndUpdate(
         {$and:[{accountId: accountantId}, {isAccountant: true}]},
         {$push: pushItem},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       );
       if (!account) return callback(null,404,'accountant not found');
       return callback(null,200,account);
@@ -170,14 +160,14 @@ module.exports = {
     try {
       const {subscriptionDate,expiryDate} = fields;
       if (!fieldsAreNotNull({subscriptionDate,expiryDate})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const fieldsToUpdate = parseSubscriptionData({subscriptionDate,expiryDate});
   
       const account = await Account.findOneAndUpdate(
         {$and:[{accountId: id}, {isAccountant: false}]},
         {$set: fieldsToUpdate},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       );
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
@@ -197,13 +187,13 @@ module.exports = {
     try {
       const {expiryDate} = fields;
       if (!fieldsAreNotNull({expiryDate})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const fieldsToUpdate = parseSubscriptionData({expiryDate})
       const account = await Account.findOneAndUpdate(
         {$and:[{accountId: id}, {isAccountant: false}]},
         {$set: fieldsToUpdate},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       );
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
