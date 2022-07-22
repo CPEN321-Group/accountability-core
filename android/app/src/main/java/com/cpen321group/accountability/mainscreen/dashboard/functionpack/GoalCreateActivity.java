@@ -3,7 +3,6 @@ package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 
@@ -101,18 +99,7 @@ public class GoalCreateActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                new MaterialAlertDialogBuilder(getApplicationContext())
-                        .setIcon(R.drawable.ic_goal_set_24)
-                        .setTitle("Sorry, we encountered in errors")
-                        .setMessage("Failed to add your goal.")
-                        .setNeutralButton("Try again", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent GoalCreateIntent = new Intent(GoalCreateActivity.this, GoalCreateActivity.class);
-                                startActivity(GoalCreateIntent);
-                            }
-                        })
-                        .show();
+                Toast.makeText(getApplicationContext(),"Sorry, we encountered in errors, failed to add your goal. Try Again",Toast.LENGTH_LONG).show();
                 Log.d("Message","error");
             }
         });
