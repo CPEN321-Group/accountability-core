@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.GoalCreateActivity;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -35,10 +36,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.color.DynamicColors;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -129,30 +133,38 @@ public class RegisterSettingActivity extends AppCompatActivity {
         sign_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createProfile();
-                checkForCreate();
+                try {
+                    createProfile();
+                    checkForCreate();
+                }catch(Exception e){
+                    Log.d("register",e.toString());
+                }
             }
         });
     }
 
+    private boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
     private void checkForCreate(){
         if((!myProfile_1.getEmail().equals(""))&&(text!=null)) {
-            try {
-                postAccount();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (!isEmailValid(myProfile_1.getEmail())){
+                Log.d("address",myProfile_1.getEmail());
+                Toast.makeText(getApplicationContext(),"Email address is not valid",Toast.LENGTH_LONG).show();
+            }else {
+                if(myProfile_1.getAge()>0) {
+                    try {
+                        postAccount();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
+                    startActivity(settingsIntent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Age is not valid",Toast.LENGTH_LONG).show();
+                }
             }
-            if (GoogleOn == 1) {
-                GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
-                signOut(account);
-                Log.d("Profile", "Google sign out successfully!");
-            }
-            if (Profile.getCurrentProfile() != null) {
-                LoginManager.getInstance().logOut();
-                Log.d("Profile", "Facebook sign out successfully!");
-            }
-            Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
-            startActivity(settingsIntent);
         }else{
             Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
         }
@@ -220,11 +232,23 @@ public class RegisterSettingActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 Log.d("Message",response.toString());
+                if (GoogleOn == 1) {
+                    GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                    signOut(account);
+                    Log.d("Profile", "Google sign out successfully!");
+                }
+                if (Profile.getCurrentProfile() != null) {
+                    LoginManager.getInstance().logOut();
+                    Log.d("Profile", "Facebook sign out successfully!");
+                }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.d("Message","error");
+                Toast.makeText(getApplicationContext(),"Failed to register, Check the Internet",Toast.LENGTH_LONG).show();
+                Intent Intent = new Intent(RegisterSettingActivity.this, RegisterSettingActivity.class);
+                startActivity(Intent);
+                Log.d("Message",t.toString());
             }
         });
     }

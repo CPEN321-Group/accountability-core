@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.WindowCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +19,9 @@ import android.widget.Toast;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
+import com.cpen321group.accountability.welcome.RegisterSettingActivity;
 import com.google.android.material.color.DynamicColors;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Calendar;
@@ -113,8 +116,9 @@ public class AddReviewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("postReview","error");
-                }
+                Toast.makeText(getApplicationContext(),"Failed to add, Check the Internet!",Toast.LENGTH_LONG).show();
+                Log.d("postReview","error");
+            }
         });
     }
 }
