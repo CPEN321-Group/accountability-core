@@ -25,7 +25,6 @@ module.exports = {
       }
       return callback(null,200, usergoal.goals);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -49,7 +48,6 @@ module.exports = {
       }
       return callback(null,200,goal)
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -65,7 +63,6 @@ module.exports = {
       }
       return callback(null,200, 'goals deleted');
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -82,7 +79,6 @@ module.exports = {
         }
         return callback(null,200, goal);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -107,7 +103,6 @@ module.exports = {
       }
       return callback(null,200, goal);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -129,7 +124,6 @@ module.exports = {
       }
       return callback(null,200, 'goal deleted');
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },

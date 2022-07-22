@@ -17,7 +17,6 @@ module.exports = {
       }
       return callback(null,200, conversation);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -37,7 +36,6 @@ module.exports = {
       const savedConversation = await newConversation.save();
       return callback(null,200,savedConversation);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -50,7 +48,6 @@ module.exports = {
       }
       return callback(null,200,conversations);
     } catch(err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -63,7 +60,6 @@ module.exports = {
       }
       return callback(null,200,messages);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -82,7 +78,6 @@ module.exports = {
       const savedMessage = await newMessage.save();
       return callback(null,200,savedMessage);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -92,7 +87,6 @@ module.exports = {
       await Message.deleteMany({conversationId});
       return callback(null,200,'messages deleted')
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -113,7 +107,6 @@ module.exports = {
       }
       return callback(null,200, conversation);
     } catch(err) {
-      console.log(err)
       return callback(null,400,err);
     }
   }

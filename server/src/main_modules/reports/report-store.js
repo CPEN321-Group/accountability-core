@@ -77,7 +77,6 @@ module.exports = {
       }
       return callback(null,200,userReport.reports);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -103,7 +102,6 @@ module.exports = {
       return callback(null,200, newReport);
       
     } catch (err) {
-      console.log(err);
       return callback(null,400,err)
     }
   },
@@ -120,7 +118,6 @@ module.exports = {
       }
       return callback(null,200,userReport);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -137,7 +134,6 @@ module.exports = {
       }
       return callback(null,200,'reports deleted');
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -154,7 +150,6 @@ module.exports = {
       }
       return callback(null,200, report);
     } catch(err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -178,7 +173,6 @@ module.exports = {
       }
       return callback(null,200,report);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -200,7 +194,6 @@ module.exports = {
       }
       return callback(null,200,'report deleted');
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   },
@@ -210,7 +203,6 @@ module.exports = {
       const userReports = await UserReport.find({accountantId});
       return callback(null,200,userReports);
     } catch (err) {
-      console.log(err)
       return callback(null,400,err);
     }
   }

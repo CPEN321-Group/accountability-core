@@ -1,6 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const { createAccount } = require("../../main_modules/accounts/account-store");
-const { createTransaction, deleteTransactions } = require("../../main_modules/transactions/transaction-store.js");
+const { createTransaction, deleteTransactions, findTransactions, findTransaction } = require("../../main_modules/transactions/transaction-store.js");
 
 const accountFields = {
   accountId: '1234',
@@ -22,6 +22,44 @@ const transactionFields = {
 
 beforeAll(done => {
   done()
+})
+describe('testing findTransactions', () => {
+  test('transactions found', async () => {
+    await findTransactions('1234', (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(200);
+      expect(returnData).toBeInstanceOf(Array);
+    })
+  })
+  test('account not found', async () => {
+    await findTransactions('ai93n', (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(404);
+      expect(returnData).toEqual('account not found');
+    })
+  })
+})
+
+describe('testing findTransaction', () => {
+  test('transaction found', async () => {
+    let id;
+    await createTransaction('1234',transactionFields, (err,status,returnData) => {
+      expect(returnData).toHaveProperty('_id');
+      id = returnData.id;
+    })
+    await findTransaction('1234', id, (err,status,returnData) => {
+      expect(err).toBeNull()
+      // expect(status).toStrictEqual(200);
+      expect(returnData).toHaveProperty('_id');
+    })
+  })
+  test('account not found', async () => {
+    await findTransactions('ai93n', (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(404);
+      expect(returnData).toEqual('account not found');
+    })
+  })
 })
 
 describe('testing createTransaction', () => {

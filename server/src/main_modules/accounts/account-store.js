@@ -44,7 +44,6 @@ module.exports = {
       }
       return callback(null,200,newAccount);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
     
@@ -60,7 +59,6 @@ module.exports = {
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
     
@@ -74,7 +72,6 @@ module.exports = {
       const foundAccounts = await Account.find({isAccountant: true});
       callback(null,200,foundAccounts)
     } catch (err){
-      console.log(err);
       callback(null,400,err);
     }
   },
@@ -98,7 +95,6 @@ module.exports = {
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
     
@@ -118,7 +114,6 @@ module.exports = {
       await UserReport.deleteOne({userId:id});
       return callback(null,200,'account deleted');
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -145,7 +140,6 @@ module.exports = {
       if (!account) return callback(null,404,'accountant not found');
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -172,7 +166,6 @@ module.exports = {
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -198,7 +191,6 @@ module.exports = {
       if (!account) return callback(null,404,'account not found');
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   }

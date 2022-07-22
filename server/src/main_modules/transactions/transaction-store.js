@@ -60,7 +60,6 @@ module.exports = {
       }
       return callback(null,200,usertransaction.transactions);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
   },
@@ -86,7 +85,6 @@ module.exports = {
       }
       return callback(null,200, newTransaction);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
   },
@@ -103,7 +101,6 @@ module.exports = {
       }
       return callback(null,200, 'transactions deleted');
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
   },
@@ -114,13 +111,14 @@ module.exports = {
       if (!usertransaction) {
         return callback(null,404, 'account not found');
       }
+      console.log(usertransaction);
+      console.log(transactionId)
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
       if (!transaction) {
         return callback(null,404, 'transaction not found');
       }
       return callback(null,200,transaction);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
   },
@@ -144,7 +142,6 @@ module.exports = {
       }
       return callback(null,200,transaction);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
   },
@@ -166,7 +163,6 @@ module.exports = {
       }
       return callback(null,200, 'transaction deleted');
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
   },
