@@ -1,4 +1,5 @@
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
+const { NotFoundError, ValidationError } = require("../../utils/errors");
 const { Conversation, Message } = require("./models");
 
 module.exports = {
@@ -6,14 +7,14 @@ module.exports = {
     
     try {
       if (!fieldsAreNotNull({account1Id,account2Id})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const members = {$all: [account1Id, account2Id]};
       const conversation = await Conversation.findOne(
         {members}
       );
       if (!conversation) {
-        return callback(null,404, 'conversation not found');
+        return callback(null,404, new NotFoundError('conversation not found'));
       }
       return callback(null,200, conversation);
     } catch (err) {
@@ -24,14 +25,14 @@ module.exports = {
     
     try {
       if (!fieldsAreNotNull({account1Id,account2Id})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const newConversation = new Conversation({
         members: [account1Id,account2Id],
       })
       const foundConversation = await Conversation.findOne({members: { $all: [account1Id, account2Id]}});
       if (foundConversation) {
-        return callback(null,400, 'conversation already exists');
+        throw new ValidationError('conversation already exists');
       }
       const savedConversation = await newConversation.save();
       return callback(null,200,savedConversation);
@@ -44,7 +45,7 @@ module.exports = {
     try {
       const conversations = await Conversation.find({members: { $in: [accountId]}});
       if (!conversations) { //impossible path as an empty list will be returned
-        return callback(null,404,'conversations not found');
+        return callback(null,404,new NotFoundError('conversations not found'));
       }
       return callback(null,200,conversations);
     } catch(err) {
@@ -56,7 +57,7 @@ module.exports = {
     try {
       const messages = await Message.find({conversationId})
       if (!messages) {
-        return callback(null,404,'messages not found');
+        return callback(null,404,new NotFoundError('messages not found'));
       }
       return callback(null,200,messages);
     } catch (err) {
@@ -69,7 +70,7 @@ module.exports = {
       const df = getDefinedFields(fields);
       const {sender,text} = df;
       if (!fieldsAreNotNull({conversationId,sender,text})) {
-        return callback(null,400, 'missing params');
+        throw new ValidationError('missing params');
       }
       const newMessage = new Message({
         conversationId,
@@ -94,7 +95,7 @@ module.exports = {
     
     try {
       if (!fieldsAreNotNull({isFinished})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const isFin = (isFinished === 'true');
       const conversation = await Conversation.findOneAndUpdate(
@@ -103,7 +104,7 @@ module.exports = {
         {returnDocument: 'after', runValidators: true}
       );
       if (!conversation) {
-        return callback(null,404,'conversation not found');
+        return callback(null,404,new NotFoundError('conversation not found'));
       }
       return callback(null,200, conversation);
     } catch(err) {

@@ -3,6 +3,7 @@ const { UserGoal } = require("../goals/models");
 const { UserTransaction } = require("../transactions/models");
 const { fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
 const { getItemFromList } = require("../../utils/get-from-list");
+const { NotFoundError, ValidationError } = require("../../utils/errors");
 
 const getOngoingGoals = (goals, startOfNextMonth) => {
   let ongoingGoals = goals.filter(goal => goal.deadline.getTime() > startOfNextMonth.getTime());
@@ -73,7 +74,7 @@ module.exports = {
     try {
       const userReport = await UserReport.findOne({userId: accountId});
       if (!userReport) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
       return callback(null,200,userReport.reports);
     } catch (err) {
@@ -84,14 +85,14 @@ module.exports = {
     
     try {
       if (!fieldsAreNotNull({monthYear})) {
-        return callback(null,400, 'missing params');
+        throw new ValidationError('missing params');
       }
       const mY = new Date(monthYear);
       if (!await UserReport.findOne({userId: accountId})) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
       if (await reportExists(accountId,mY)) {
-        return callback(null,400,'report already exists');
+        throw new ValidationError('report already exists');
       }
       const newReport = await compileReport(accountId, mY);
       const pushItem = {reports: newReport}
@@ -114,7 +115,7 @@ module.exports = {
         {returnDocument: 'after', runValidators: true}
       )
       if (!userReport) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
       return callback(null,200,userReport);
     } catch (err) {
@@ -130,7 +131,7 @@ module.exports = {
         {returnDocument: 'after', runValidators: true}
       );
       if (!userReport) {
-        return callback(null,404,'account not found');
+        return callback(null,404,new NotFoundError('account not found'));
       }
       return callback(null,200,'reports deleted');
     } catch (err) {
@@ -142,11 +143,11 @@ module.exports = {
     try {
       const userReport = await UserReport.findOne({userId: accountId});
       if (!userReport) {
-        return callback(null,404,'account not found');
+        return callback(null,404,new NotFoundError('account not found'));
       }
       const report = userReport.reports.find(r => r.id === reportId);
       if (!report) {
-        return callback(null,404,'report not found');
+        return callback(null,404,new NotFoundError('report not found'));
       }
       return callback(null,200, report);
     } catch(err) {
@@ -157,7 +158,7 @@ module.exports = {
     
     try {
       if (!fieldsAreNotNull({accountId,reportId,recommendations})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const userReport = await UserReport.findOneAndUpdate(
         {$and:[{userId: accountId}, {reports: { $elemMatch: { _id: reportId }}}]},
@@ -165,12 +166,10 @@ module.exports = {
         {returnDocument: 'after', runValidators: true},
       )
       if (!userReport) {
-        return callback(null,404, 'account/report not found');
+        return callback(null,404, new NotFoundError('account/report not found'));
       }
       const report = userReport.reports.find(r => r.id === reportId)
-      if (!report) {
-        return callback(null,404, 'report not found');
-      }
+
       return callback(null,200,report);
     } catch (err) {
       return callback(null,400,err);
@@ -186,11 +185,11 @@ module.exports = {
         {$pull: pullItem},
       )
       if (!userReport) {
-        return callback(null,404,'account not found');
+        return callback(null,404,new NotFoundError('account not found'));
       }
       const report = getItemFromList(userReport.reports,reportId);
       if (!report) {
-        return callback(null,404, 'report not found');
+        return callback(null,404, new NotFoundError('report not found'));
       }
       return callback(null,200,'report deleted');
     } catch (err) {

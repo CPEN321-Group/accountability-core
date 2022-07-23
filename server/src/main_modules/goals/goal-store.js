@@ -1,4 +1,5 @@
 const { fieldsAreNotNull, getDefinedFields } = require('../../utils/checks/get-defined-fields');
+const { NotFoundError, ValidationError } = require('../../utils/errors');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserGoal, Goal} = require('./models');
 
@@ -21,7 +22,7 @@ module.exports = {
     try {
       const usergoal = await UserGoal.findOne({userId: accountId});
       if (!usergoal) {
-        return callback(null,404,'account not found');
+        return callback(null,404,new NotFoundError('account not found'));
       }
       return callback(null,200, usergoal.goals);
     } catch (err) {
@@ -34,7 +35,7 @@ module.exports = {
       const df = getDefinedFields(data);
       const {title,target,current,deadline} = df;
       if (!fieldsAreNotNull({title,target,current,deadline})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const goal = new Goal({title,target,current: Math.abs(current),deadline});
       const pushItem = { goals: goal };
@@ -44,7 +45,7 @@ module.exports = {
         {returnDocument: 'after', runValidators: true}
       )
       if (!usergoal) {
-        return callback(null,404,'account not found');
+        return callback(null,404,new NotFoundError('account not found'));
       }
       return callback(null,200,goal)
     } catch (err) {
@@ -60,7 +61,7 @@ module.exports = {
         {returnDocument:'after', runValidators: true}
       );
       if (!usergoal) {
-        return callback(null,404,'account not found');
+        return callback(null,404,new NotFoundError('account not found'));
       }
       return callback(null,200, 'goals deleted');
     } catch (err) {
@@ -72,11 +73,11 @@ module.exports = {
     try {
       const usergoal = await UserGoal.findOne({userId:accountId});
       if (!usergoal) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
         const goal = getItemFromList(usergoal.goals,goalId);
         if (!goal) {
-          return callback(null,404, 'goal not found');
+          return callback(null,404, new NotFoundError('goal not found'));
         }
         return callback(null,200, goal);
     } catch (err) {
@@ -96,12 +97,10 @@ module.exports = {
         {returnDocument: 'after', runValidators: true}
       )
       if (!usergoal) {
-        return callback(null,404, 'account/goal not found');
+        return callback(null,404, new NotFoundError('account/goal not found'));
       }
       const goal = getItemFromList(usergoal.goals,goalId);
-      if (!goal) {
-        return callback(null,404,'goal not found');
-      }
+
       return callback(null,200, goal);
     } catch (err) {
       return callback(null,400,err);
@@ -117,11 +116,11 @@ module.exports = {
         {$pull: pullItem},
       )
       if (!usergoal) { 
-        return callback(null,404, 'account not found')
+        return callback(null,404, new NotFoundError('account not found'))
       }
       const goal = getItemFromList(usergoal.goals,goalId);
       if (!goal) {
-        return callback(null,404, 'goal not found');
+        return callback(null,404, new NotFoundError('goal not found'));
       }
       return callback(null,200, 'goal deleted');
     } catch (err) {
