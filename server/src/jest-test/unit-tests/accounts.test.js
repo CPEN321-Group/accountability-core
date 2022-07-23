@@ -102,9 +102,21 @@ describe('testing createAccount', () => {
   })
 
 
-  test('valid creation', async () => {
+  test('create user', async () => {
     const modifiedAccountFields = {...accountFields};
     modifiedAccountFields.accountId = 'ai93n'
+    await deleteAccount(modifiedAccountFields.accountId, () => undefined);
+    await createAccount(modifiedAccountFields, (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(200);
+      expect(returnData).toHaveProperty('accountId');
+    })
+    await deleteAccount(modifiedAccountFields.accountId, () => undefined);
+  })
+  test('create accountant', async () => {
+    const modifiedAccountFields = {...accountFields};
+    modifiedAccountFields.accountId = 'accountanttest'
+    modifiedAccountFields.isAccountant = true;
     await deleteAccount(modifiedAccountFields.accountId, () => undefined);
     await createAccount(modifiedAccountFields, (err,status,returnData) => {
       expect(err).toBeNull()
@@ -160,7 +172,14 @@ describe('testing findAccountants', () => {
 
 describe('testing updateProfile', () => {
   test('account updated', async () => {
-    await updateProfile('1234', { firstname: 'John'} ,(err,status,returnData) => {
+    const updateFields = { 
+      firstname: 'John', 
+      avatar: 'www.google.com', 
+      lastname: 'Smith', 
+      email: 'test234@gmail.com', 
+      profession: 'Kid'
+    }
+    await updateProfile('1234',updateFields,(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('profile');

@@ -130,7 +130,13 @@ describe('testing createTransaction', () => {
 
 describe('testing updateTransaction', () => {
   test('transaction updated', async () => {
-    await updateTransaction('1234', id, {title: 'Apple TV'}, (err,status,returnData) => {
+    const updateFields =  {
+      title: 'Apple TV',
+      category: 'Food',
+      isIncome: true,
+      receipt: 'www.google.com'
+    }
+    await updateTransaction('1234', id,updateFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('title', 'Apple TV');
