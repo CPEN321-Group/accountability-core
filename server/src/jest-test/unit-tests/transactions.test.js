@@ -2,8 +2,10 @@ const { default: mongoose } = require("mongoose");
 const { Transaction } = require("../../main_modules/transactions/models");
 const { createTransaction, deleteTransactions, findTransactions, findTransaction, updateTransaction, deleteTransaction } = require("../../main_modules/transactions/transaction-store.js");
 
+const existingId = '1234'
+const nonExistingId = 'ai93n';
 const accountFields = {
-  accountId: '1234',
+  accountId: existingId,
   firstname: 'Bob',
   lastname: 'Jones',
   email: 'test123@gmail.com',
@@ -27,17 +29,17 @@ beforeAll(done => {
 })
 describe('testing findTransactions', () => {
   test('transactions found', async () => {
-    await findTransactions('1234', (err,status,returnData) => {
+    await findTransactions(existingId, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toBeInstanceOf(Array);
     })
   })
   test('account not found', async () => {
-    await findTransactions('ai93n', (err,status,returnData) => {
+    await findTransactions(nonExistingId, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('account not found');
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
   test('wrong id type', async () => {
@@ -51,29 +53,29 @@ describe('testing findTransactions', () => {
 
 describe('testing findTransaction', () => {
   test('transaction found', async () => {
-    await createTransaction('1234',transactionFields, (err,status,returnData) => {
+    await createTransaction(existingId,transactionFields, (err,status,returnData) => {
       expect(returnData).toHaveProperty('_id');
       id = returnData.id;
     })
-    await findTransaction('1234', id, (err,status,returnData) => {
+    await findTransaction(existingId, id, (err,status,returnData) => {
       expect(err).toBeNull()
       // expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('_id');
     })
   })
   test('account not found', async () => {
-    await findTransaction('ai93n', id, (err,status,returnData) => {
+    await findTransaction(nonExistingId, id, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('account not found');
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
 
   test('transaction not found', async () => {
-    await findTransaction('1234', 'test', (err,status,returnData) => {
+    await findTransaction(existingId, 'test', (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('transaction not found');
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
   test('wrong id type', async () => {
@@ -87,7 +89,7 @@ describe('testing findTransaction', () => {
 
 describe('testing createTransaction', () => {
   test('successfully create transaction', async () => {
-    await createTransaction('1234',transactionFields, (err,status,returnData) => {
+    await createTransaction(existingId,transactionFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('_id')
@@ -95,14 +97,14 @@ describe('testing createTransaction', () => {
   })
 
   test('account not found', async () => {
-    await createTransaction('ai93n',transactionFields, (err,status,returnData) => {
+    await createTransaction(nonExistingId,transactionFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('account not found');
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
   test('missing fields', async () => {
-    await createTransaction('1234',{}, (err,status,returnData) => {
+    await createTransaction(existingId,{}, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
@@ -111,7 +113,7 @@ describe('testing createTransaction', () => {
   test('date is in the future', async () => {
     const modifiedTFields = { ...transactionFields };
     modifiedTFields.date = '2023'
-    await createTransaction('1234',modifiedTFields, (err,status,returnData) => {
+    await createTransaction(existingId,modifiedTFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
@@ -120,7 +122,7 @@ describe('testing createTransaction', () => {
   test('amount is negative', async () => {
     const modifiedTFields = { ...transactionFields };
     modifiedTFields.amount = -20
-    await createTransaction('1234',modifiedTFields, (err,status,returnData) => {
+    await createTransaction(existingId,modifiedTFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
@@ -136,7 +138,7 @@ describe('testing updateTransaction', () => {
       isIncome: true,
       receipt: 'www.google.com'
     }
-    await updateTransaction('1234', id,updateFields, (err,status,returnData) => {
+    await updateTransaction(existingId, id,updateFields, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('title', 'Apple TV');
@@ -144,37 +146,37 @@ describe('testing updateTransaction', () => {
   })
   test('transaction not found', async () => {
     const transaction = new Transaction({ ...transactionFields});
-    await updateTransaction('1234', transaction.id, {title: 'Apple TV'}, (err,status,returnData) => {
+    await updateTransaction(existingId, transaction.id, {title: 'Apple TV'}, (err,status,returnData) => {
       console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('account/transaction not found')
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
 
   test('account not found', async () => {
-    await updateTransaction('ai93n', id, {title: 'Apple TV'}, (err,status,returnData) => {
+    await updateTransaction(nonExistingId, id, {title: 'Apple TV'}, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('account/transaction not found');
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
   test('missing fields',async () => {
-    await updateTransaction('1234', id, {}, (err,status,returnData) => {
+    await updateTransaction(existingId, id, {}, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('_id');
     })
   })
   test('date is in the future',async () => {
-    await updateTransaction('1234', id, {date: '2023'}, (err,status,returnData) => {
+    await updateTransaction(existingId, id, {date: '2023'}, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
   test('amount is negative',async () => {
-    await updateTransaction('1234', id, {amount: -20}, (err,status,returnData) => {
+    await updateTransaction(existingId, id, {amount: -20}, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
@@ -184,17 +186,17 @@ describe('testing updateTransaction', () => {
 
 describe('testing deleteTransactions', () => {
   test('transactions deleted', async () => {
-    await deleteTransactions('1234', (err,status,returnData) => {
+    await deleteTransactions(existingId, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual('transactions deleted')
     })
   })
   test('account not found', async () => {
-    await deleteTransactions('ai93n', (err,status,returnData) => {
+    await deleteTransactions(nonExistingId, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('account not found')
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
   test('wrong id type', async () => {
@@ -205,30 +207,31 @@ describe('testing deleteTransactions', () => {
     })
   })
 })
+
 describe('testing deleteTransaction', () => {
   test('transaction deleted', async () => {
-    await createTransaction('1234',transactionFields, (err,status,returnData) => {
+    await createTransaction(existingId,transactionFields, (err,status,returnData) => {
       expect(returnData).toHaveProperty('_id');
       id = returnData.id;
     })
-    await deleteTransaction('1234', id, (err,status,returnData) => {
+    await deleteTransaction(existingId, id, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual('transaction deleted')
     })
   })
   test('account not found', async () => {
-    await deleteTransaction('ai93n', id, (err,status,returnData) => {
+    await deleteTransaction(nonExistingId, id, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('account not found')
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
   test('account not found', async () => {
-    await deleteTransaction('1234', id, (err,status,returnData) => {
+    await deleteTransaction(existingId, id, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
-      expect(returnData).toEqual('transaction not found')
+      expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
   test('wrong id type', async () => {

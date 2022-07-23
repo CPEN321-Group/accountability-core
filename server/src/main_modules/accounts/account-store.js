@@ -5,7 +5,7 @@ const { Account, Review } = require("./models");
 const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
-const { ValidationError } = require("../../utils/errors");
+const { ValidationError, NotFoundError } = require("../../utils/errors");
 
 /**
  * Interface between endpoints and mongodb database. Each function defined will perform a CRUD operation on the accountDB
@@ -56,7 +56,7 @@ module.exports = {
   findAccount: async (accountId,callback) => {
     try {
       const account = await Account.findOne({accountId});
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
       return callback(null,400, err);
@@ -91,7 +91,7 @@ module.exports = {
         {$set: fieldsToUpdate},
         {returnDocument: 'after', runValidators: true}
       );
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
       return callback(null,400,err);
@@ -106,7 +106,7 @@ module.exports = {
     
     try {
       const account = await Account.findOneAndDelete({accountId: id});
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
 
       await UserGoal.deleteOne({userId: id})
       await UserTransaction.deleteOne({userId: id});
@@ -136,7 +136,7 @@ module.exports = {
         {$push: pushItem},
         {returnDocument: 'after', runValidators: true},
       );
-      if (!account) return callback(null,404,'accountant not found');
+      if (!account) return callback(null,404,new NotFoundError('accountant not found'));
       return callback(null,200,account);
     } catch (err) {
       return callback(null,400,err);
@@ -162,7 +162,7 @@ module.exports = {
         {$set: fieldsToUpdate},
         {returnDocument: 'after', runValidators: true},
       );
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
       return callback(null,400,err);
@@ -187,7 +187,7 @@ module.exports = {
         {$set: fieldsToUpdate},
         {returnDocument: 'after', runValidators: true},
       );
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
       return callback(null,400,err);

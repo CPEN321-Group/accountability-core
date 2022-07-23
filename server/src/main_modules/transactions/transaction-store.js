@@ -1,4 +1,5 @@
 const { getDefinedFields } = require('../../utils/checks/get-defined-fields');
+const { NotFoundError } = require('../../utils/errors');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserTransaction, Transaction} = require('./models');
 
@@ -24,7 +25,7 @@ module.exports = {
     try {
       const usertransaction = await UserTransaction.findOne({userId: accountId});
       if (!usertransaction) {
-        return callback(null,404,'account not found');
+        return callback(null,404,new NotFoundError('account not found'));
       }
       return callback(null,200,usertransaction.transactions);
     } catch (err) {
@@ -49,7 +50,7 @@ module.exports = {
         {returnDocument: 'after', runValidators: true},
       );
       if (!usertransaction) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
       return callback(null,200, newTransaction);
     } catch (err) {
@@ -65,7 +66,7 @@ module.exports = {
         {returnDocument: 'after', runValidators: true}
       );
       if (!usertransaction) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
       return callback(null,200, 'transactions deleted');
     } catch (err) {
@@ -77,11 +78,11 @@ module.exports = {
     try {
       const usertransaction = await UserTransaction.findOne({userId:accountId});
       if (!usertransaction) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
       if (!transaction) {
-        return callback(null,404, 'transaction not found');
+        return callback(null,404, new NotFoundError('transaction not found'));
       }
       return callback(null,200,transaction);
     } catch (err) {
@@ -100,7 +101,7 @@ module.exports = {
         {returnDocument: 'after', runValidators: true},
       )
       if (!usertransaction) {
-        return callback(null,404,'account/transaction not found');
+        return callback(null,404,new NotFoundError('account/transaction not found'));
       }
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
       return callback(null,200,transaction);
@@ -118,11 +119,11 @@ module.exports = {
         {$pull: pullItem},
       )
       if (!usertransaction) {
-        return callback(null,404, 'account not found');
+        return callback(null,404, new NotFoundError('account not found'));
       }
       const transaction = getItemFromList(usertransaction.transactions,transactionId);
       if (!transaction) {
-        return callback(null,404, 'transaction not found');
+        return callback(null,404, new NotFoundError('transaction not found'));
       }
       return callback(null,200, 'transaction deleted');
     } catch (err) {
