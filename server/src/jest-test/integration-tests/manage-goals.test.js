@@ -1,5 +1,4 @@
 const request = require('supertest');
-const app = require('../../index');
 const mongoose = require('mongoose');
 const { server } = require('../../index');
 const { Goal } = require('../../main_modules/goals/goal-models');
