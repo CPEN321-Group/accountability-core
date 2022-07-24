@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
-const { createAccount, findAccount, findAccountants, updateProfile, deleteAccount, createReview, createSubscription, updateSubscription } = require("./account-store.mock")
+const { createAccount, findAccount, findAccountants, updateProfile, deleteAccount, createReview, createSubscription, updateSubscription } = require("../../main_modules/accounts/account-store")
 
+jest.mock("../../main_modules/accounts/account-store")
 
 const account = {
   accountId: '1234',

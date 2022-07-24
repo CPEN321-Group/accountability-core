@@ -1,5 +1,10 @@
+jest.mock("../../main_modules/reports/models");
+jest.mock("../../main_modules/goals/models");
+jest.mock("../../main_modules/transactions/models");
+
 const { default: mongoose } = require("mongoose");
 const { createAccount, findAccount, findAccountants, updateProfile, deleteAccount, createReview, createSubscription, updateSubscription } = require("../../main_modules/accounts/account-store");
+
 
 const existingId = '1234'
 const nonExistingId = 'ai93n';
@@ -237,6 +242,7 @@ describe('testing deleteAccount', () => {
     modifiedAccountFields.accountId = nonExistingId
     await createAccount(modifiedAccountFields,() => undefined);
     await deleteAccount(nonExistingId, (err,status,returnData) => {
+      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toEqual('account deleted');
@@ -339,7 +345,7 @@ describe('testing createSubscription', () => {
       expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
-  test('empty string used', async () => {
+  test('invalid date', async () => {
     const modifiedSubFields = { ...subscriptionFields};
     modifiedSubFields.subscriptionDate = '';
     await createSubscription(existingId, modifiedSubFields,(err,status,returnData) => {
@@ -383,7 +389,7 @@ describe('testing updateSubscription', () => {
       expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   })
-  test('empty string used', async () => {
+  test('invalid date', async () => {
 
     await updateSubscription(existingId, {expiryDate: ''},(err,status,returnData) => {
       expect(err).toBeNull()
