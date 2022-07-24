@@ -1,5 +1,5 @@
 const { default: mongoose } = require("mongoose");
-const { Transaction } = require("../../main_modules/transactions/transaction-models");
+const { Transaction, UserTransaction } = require("../../main_modules/transactions/transaction-models");
 const { createTransaction, deleteTransactions, findTransactions, findTransaction, updateTransaction, deleteTransaction } = require("../../main_modules/transactions/transaction-store.js");
 
 const existingId = '1234'
@@ -25,6 +25,13 @@ let id;
 
 
 beforeAll(done => {
+  UserTransaction.findOne({userId: existingId}, async (err,foundUT) => {
+    if (!foundUT) {
+      console.log('creating userTransaction');
+      const userTranscation = new UserTransaction({userId: existingId});
+      await userTranscation.save();
+    }
+  })
   done()
 })
 describe('testing findTransactions', () => {
