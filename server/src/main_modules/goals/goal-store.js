@@ -30,14 +30,11 @@ module.exports = {
     }
   },
   createGoal: async (accountId,data,callback) => {
-    
     try {
       const df = getDefinedFields(data);
       const {title,target,current,deadline} = df;
-      if (!fieldsAreNotNull({title,target,current,deadline})) {
-        throw new ValidationError('missing params');
-      }
-      const goal = new Goal({title,target,current: Math.abs(current),deadline});
+
+      const goal = new Goal({title,target,current: current,deadline});
       const pushItem = { goals: goal };
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId},
