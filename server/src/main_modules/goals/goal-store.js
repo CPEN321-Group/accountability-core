@@ -1,7 +1,7 @@
 const { fieldsAreNotNull, getDefinedFields } = require('../../utils/checks/get-defined-fields');
 const { NotFoundError, ValidationError } = require('../../utils/errors');
 const { getItemFromList } = require('../../utils/get-from-list');
-const {UserGoal, Goal} = require('./models');
+const {UserGoal, Goal} = require('./goal-models');
 
 function parseGoalData(fields) {
   const {title,target,current,deadline} = fields;

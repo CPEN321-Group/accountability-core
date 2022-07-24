@@ -1,7 +1,7 @@
 const { getDefinedFields } = require('../../utils/checks/get-defined-fields');
 const { NotFoundError } = require('../../utils/errors');
 const { getItemFromList } = require('../../utils/get-from-list');
-const {UserTransaction, Transaction} = require('./models');
+const {UserTransaction, Transaction} = require('./transaction-models');
 
 const parseTransactionData = (fields) => {
   const {title,category,date,amount,isIncome,receipt} = fields;

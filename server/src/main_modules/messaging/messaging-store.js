@@ -1,6 +1,6 @@
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
 const { NotFoundError, ValidationError } = require("../../utils/errors");
-const { Conversation, Message } = require("./models");
+const { Conversation, Message } = require("./messaging-models");
 
 module.exports = {
   findConversation: async (account1Id,account2Id,callback) => {

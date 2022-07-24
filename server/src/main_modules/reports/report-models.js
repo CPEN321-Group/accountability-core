@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {r_string,r_num,r_date} = require('../../utils/types/mongo-required');
-const { goalSchema } = require('../goals/models');
-const { transactionSchema } = require('../transactions/models');
+const { goalSchema } = require('../goals/goal-models');
+const { transactionSchema } = require('../transactions/transaction-models');
 const reportDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/reportDB')
 
 const reportSchema = new mongoose.Schema({

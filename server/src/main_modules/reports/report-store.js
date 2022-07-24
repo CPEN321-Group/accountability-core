@@ -1,6 +1,6 @@
-const { UserReport, Report } = require("./models");
-const { UserGoal } = require("../goals/models");
-const { UserTransaction } = require("../transactions/models");
+const { UserReport, Report } = require("./report-models");
+const { UserGoal } = require("../goals/goal-models");
+const { UserTransaction } = require("../transactions/transaction-models");
 const { fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
 const { getItemFromList } = require("../../utils/get-from-list");
 const { NotFoundError, ValidationError } = require("../../utils/errors");

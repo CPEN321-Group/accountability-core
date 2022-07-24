@@ -1,7 +1,7 @@
-const { UserGoal } = require("../goals/models");
-const { UserTransaction } = require("../transactions/models");
-const { UserReport } = require("../reports/models");
-const { Account, Review } = require("./models");
+const { UserGoal } = require("../goals/goal-models");
+const { UserTransaction } = require("../transactions/transaction-models");
+const { UserReport } = require("../reports/report-models");
+const { Account, Review } = require("./account-models");
 const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");

@@ -1,9 +1,9 @@
 
-const {PlaidUser} = require('./models');
+const {PlaidUser} = require('./plaid-models');
 const { createTransaction } = require('../../main_modules/transactions/transaction-store');
 const { fieldsAreNotNull } = require('../checks/get-defined-fields');
 const fx = require('money');
-const { UserTransaction } = require('../../main_modules/transactions/models');
+const { UserTransaction } = require('../../main_modules/transactions/transaction-models');
 fx.base = "USD";
 fx.rates = {//other rates need to be defined if we want to support other currencies
   "CAD": 1.29,

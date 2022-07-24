@@ -1,6 +1,6 @@
-jest.mock("../../main_modules/reports/models");
-jest.mock("../../main_modules/goals/models");
-jest.mock("../../main_modules/transactions/models");
+jest.mock("../../main_modules/reports/report-models");
+jest.mock("../../main_modules/goals/goal-models");
+jest.mock("../../main_modules/transactions/transaction-models");
 
 const { default: mongoose } = require("mongoose");
 const { createAccount, findAccount, findAccountants, updateProfile, deleteAccount, createReview, createSubscription, updateSubscription } = require("../../main_modules/accounts/account-store");
@@ -41,9 +41,6 @@ const subscriptionFields = {
 }
 
 beforeAll(done => {
-  jest.mock('../../main_modules/reports/models')
-  jest.mock('../../main_modules/transactions/models')
-  jest.mock('../../main_modules/goals/models')
   done()
 })
 

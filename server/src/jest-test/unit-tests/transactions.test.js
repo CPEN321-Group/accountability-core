@@ -1,5 +1,5 @@
 const { default: mongoose } = require("mongoose");
-const { Transaction } = require("../../main_modules/transactions/models");
+const { Transaction } = require("../../main_modules/transactions/transaction-models");
 const { createTransaction, deleteTransactions, findTransactions, findTransaction, updateTransaction, deleteTransaction } = require("../../main_modules/transactions/transaction-store.js");
 
 const existingId = '1234'
