@@ -1,5 +1,8 @@
 name: Test backend server
 on: [push]
+env:
+  GOOGLE_CLIENT_ID: 693940095948-hrfurnccublbbkkmgfu5v4sf5q2nli2a.apps.googleusercontent.com
+  STRIPE_SECRET: sk_test_51LFPP5GjSjq6aykF6WBqU4wAwFJv115hfbSKmMOyrTdnpULnkHcmsxw0kzPLT6DvQrgSJoOiLsaphYSU7yIKbzzB007av2eVlb
 jobs:
   run-jest-tests:
     runs-on: ubuntu-latest

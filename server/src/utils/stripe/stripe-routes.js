@@ -107,8 +107,7 @@ module.exports = function(app) {
             publishableKey: process.env.STRIPE_PUBLIC_KEY
           });
       } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
+        res.status(400).json(err);
       }
       
     })
