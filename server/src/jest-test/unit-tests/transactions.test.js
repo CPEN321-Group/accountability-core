@@ -23,19 +23,24 @@ const transactionFields = {
 
 let id;
 
-
-beforeAll(done => {
-  UserTransaction.findOne({userId: existingId}, async (err,foundUT) => {
+async function initUserTransaction () {
+  try {
+    const foundUT = await UserTransaction.findOne({userId: existingId});
     if (!foundUT) {
       console.log('creating userTransaction');
       const userTranscation = new UserTransaction({userId: existingId});
       await userTranscation.save();
     }
-  })
+  } catch (err) {
+    console.log(err)
+  }
+}
+beforeAll(done => {
   done()
 })
 describe('testing findTransactions', () => {
   test('transactions found', async () => {
+    await initUserTransaction();
     await findTransactions(existingId, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
