@@ -1,5 +1,8 @@
 // const { createSubscription: setAccountSubscription } = require('../../main_modules/accounts/account-store');
 
+const { Account } = require('../../main_modules/accounts/account-models');
+const { NotFoundError } = require('../errors');
+
 //setup based on https://www.youtube.com/watch?v=rPR2aJ6XnAc
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
@@ -76,6 +79,8 @@ module.exports = function(app) {
     app.post('/stripe/checkout/:userId', async (req,res) => {
       if(req);
       try {
+        const user = await Account.findOne({accountId: req.params.userId});
+        if (!user) { return res.status(404).json(new NotFoundError('account not found'))}
         // const {userId} = req.params;
         const newCustomer = await stripe.customers.create({
           email: 'test123@gmail.com',
@@ -95,7 +100,7 @@ module.exports = function(app) {
               enabled: true,
             },
           });
-          res.json({
+          res.status(200).json({
             paymentIntent: paymentIntent.client_secret,
             ephemeralKey: ephemeralKey.secret,
             customer: customerId,

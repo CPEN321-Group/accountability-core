@@ -34,7 +34,6 @@ module.exports = {
       await newAccount.save();
       
       if (!isAct) {
-        console.log('creating goals/transaction/reports document')
         const userTransaction = new UserTransaction({userId: newAccount.accountId});
         const userGoal = new UserGoal({userId: newAccount.accountId});
         const userReport = new UserReport({userId: newAccount.accountId});
@@ -44,7 +43,6 @@ module.exports = {
       }
       return callback(null,200,newAccount);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
 

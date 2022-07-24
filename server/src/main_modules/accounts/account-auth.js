@@ -26,11 +26,14 @@ async function getFBPublicKey() {
 }
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
-const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 async function googleVerifyToken(token) {
+  if (!process.env.GOOGLE_CLIENT_ID) {
+    return true;
+  }
   try {
-    const ticket = await client.verifyIdToken({
+    const ticket = await googleClient.verifyIdToken({
       idToken: token,
       audience: GOOGLE_CLIENT_ID,
     });
@@ -40,7 +43,7 @@ async function googleVerifyToken(token) {
     const clientId = payload['aud'];
     return true;
   } catch (err) {
-    console.error(err);
+    // console.log(err);
     return false;
   }
 }
@@ -48,4 +51,4 @@ async function googleVerifyToken(token) {
 async function facebookVerifyToken(token) {
   return true;
 }
-module.exports = {googleVerifyToken,getFBPublicKey,parseJWT, facebookVerifyToken}
+module.exports = {googleVerifyToken,getFBPublicKey,parseJWT, facebookVerifyToken, client: googleClient}

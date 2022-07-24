@@ -1,4 +1,5 @@
 const { googleVerifyToken, facebookVerifyToken } = require('./main_modules/accounts/account-auth');
+const { ForbiddenError } = require('./utils/errors');
 
 module.exports = function(app) {
   app.get('/',(req, res) => {
@@ -14,12 +15,11 @@ module.exports = function(app) {
 
     //authenticate user
     const googleVerified = await googleVerifyToken(token);
-    const facebookVerified = await facebookVerifyToken(token);
 
-    if (googleVerified || facebookVerified) {
+    if (googleVerified) {
       return next();
     } else {
-      return res.status(403).end('invalid token provided')
+      return res.status(403).json(new ForbiddenError('invalid token provided'))
     }
   });
   

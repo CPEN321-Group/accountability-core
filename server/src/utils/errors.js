@@ -1,17 +1,24 @@
 class ValidationError extends Error {
   constructor(message) {
-    super(message); // (1)
-    this.name = "ValidationError"; // (2)
+    super(message);
+    this.name = "ValidationError";
   }
 }
 
 class NotFoundError extends Error {
   constructor(message) {
-    super(message); // (1)
-    this.name = "NotFoundError"; // (2)
+    super(message); 
+    this.name = "NotFoundError"; 
+  }
+}
+
+class ForbiddenError extends Error {
+  constructor(message) {
+    super(message); 
+    this.name = "ForbiddenError"; 
   }
 }
 
 module.exports = {
-  ValidationError, NotFoundError
+  ValidationError, NotFoundError, ForbiddenError
 }
