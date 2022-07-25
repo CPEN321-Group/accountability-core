@@ -1,6 +1,7 @@
 class ValidationError extends Error {
   constructor(message) {
     super(message);
+    this.errorMessage = message;
     this.name = "ValidationError";
   }
 }
@@ -8,6 +9,7 @@ class ValidationError extends Error {
 class NotFoundError extends Error {
   constructor(message) {
     super(message); 
+    this.errorMessage = message;
     this.name = "NotFoundError"; 
   }
 }
@@ -15,6 +17,7 @@ class NotFoundError extends Error {
 class ForbiddenError extends Error {
   constructor(message) {
     super(message); 
+    this.errorMessage = message;
     this.name = "ForbiddenError"; 
   }
 }

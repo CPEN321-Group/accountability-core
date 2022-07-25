@@ -79,7 +79,6 @@ describe('update account profile', () => {
   })
   test('update profile of a non-existing account', async () => {
     const res = await request(server).put('/accounts/' + nonExistingId).query({firstname: 'John'});
-
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(404);
     expect(res.body).toHaveProperty('name', 'NotFoundError');
@@ -112,7 +111,6 @@ describe('delete an account', () => {
   })
   test('delete a non-existing account', async () => {
     const res = await request(server).delete('/accounts/' + nonExistingId);
-
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(404);
     expect(res.body).toHaveProperty('name', 'NotFoundError');
