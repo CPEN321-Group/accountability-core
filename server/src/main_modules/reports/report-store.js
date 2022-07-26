@@ -4,7 +4,7 @@ const { UserTransaction } = require("../transactions/transaction-models");
 const { fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
 const { getItemFromList } = require("../../utils/get-from-list");
 const { NotFoundError, ValidationError } = require("../../utils/errors");
-
+const {Account} = require('../../main_modules/accounts/account-models.js')
 const getOngoingGoals = (goals, startOfNextMonth) => {
   let ongoingGoals = goals.filter(goal => goal.deadline.getTime() > startOfNextMonth.getTime());
   return ongoingGoals;
@@ -107,8 +107,11 @@ module.exports = {
     }
   },
   updateAccountant: async (accountId,accountantId, callback) => {
-    
     try {
+      if(!await Account.findOne({accountId: accountantId, isAccountant: true})){
+        return callback(null,404,new NotFoundError('accountant not found.'));
+      }
+
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId}, 
         {accountantId},
@@ -197,8 +200,10 @@ module.exports = {
     }
   },
   findUserReports: async (accountantId,callback) => {
-    
     try {
+      if(!await Account.findOne({accountId: accountantId, isAccountant: true})){
+        return callback(null,404,new NotFoundError('accountant not found.'));
+      }
       const userReports = await UserReport.find({accountantId});
       return callback(null,200,userReports);
     } catch (err) {
