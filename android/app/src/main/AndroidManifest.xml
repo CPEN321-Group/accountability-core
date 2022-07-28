@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.thongn98.accountability">
+    package="com.cpen321group.accountability">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -9,9 +15,122 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.Accountability"
-        tools:targetApi="31" />
+        android:usesCleartextTraffic="true"
+        tools:targetApi="32">
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.TransactionCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.TransactionSetActivity"
+            android:parentActivityName=".HomeScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.chat.AddReviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.chat.ReviewActivity"
+            android:parentActivityName=".HomeScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.chat.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".welcome.RegisterSettingActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".mainscreen.chat.ChattingActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.GoalCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.GoalUpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.profile.SubscriptionOKActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.profile.SubscriptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.GoalSetActivity"
+            android:exported="false"
+            android:parentActivityName=".HomeScreenActivity" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.ReportGenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".welcome.RegisterActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="ocr" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ClientToken"
+            android:value="@string/facebook_client_token" />
+
+        <activity
+            android:name=".welcome.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".welcome.WelcomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".HomeScreenActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home_screen" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.AppSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:authorities="com.cpen321.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path">
+            </meta-data>
+        </provider>
+    </application>
 
 </manifest>

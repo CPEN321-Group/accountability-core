@@ -1,0 +1,1505 @@
+[{
+  "userId": "62bb5cad4f4814fe5703a117",
+  "transactions": [
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1623024000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "Mp1AD5bWQlSJJrMq9XKxtL8ApqVEZxtGdbn7p",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d424"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1624320000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "QEeKD5vbLzuQQx9oe6kyh1DlxPryAoiRqryal",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d42a"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1623196800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "ZvxNW5rlnbsyyQ9mkZgMU3p5zKPZkLu9dnQba",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d428"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1623196800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "azEMb54xqkUNNd31Kgkji7JVDNP3G5UVApdoq",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d426"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1625356800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "dxlp65j4zgS66la1k9MqfWwXogqkAMFrLoglW",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d42c"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1625443200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "edqoW57NB6U33PvzGDXKSPqb5Kkon3ceoy6Vm",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d42e"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1625529600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "76JBDEdznPHQQA9VvneWhM8AB74Gbrhr74v1p",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d432"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1625788800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "NoeGD5mkZqFBBzlXwJ3mIe5apynGNZhkPLe7q",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d434"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1625529600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "jjeAnl1Q4pTMM7pL9n6Jh6meAwNkgEulropGL",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d430"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1625616000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "P8yqD59n1rSEE39zbmA8T15apNKxmdiVpE3NZ",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d436"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1625788800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "xAdPn79b8xTqqzpNX7gAILWA6Xy5B3tLdmlkE",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d438"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1628121600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "xAdPn79b8xTqqzpNX7gAILWA6Xy5B3tLdmlAD",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d43e"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1627948800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "3yWqApzlEPTEE1JLNq9WTrQ7Vn6ax4u5dGoQD",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d43a"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1626912000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "493K5oBqW6tWWon45KgqIQWqvMK4rRc4j8D3Z",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d43c"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1628380800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "B4qQb61eBwHZZjxpLbR5FyLqEa9j3JtVDqeAm",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d444"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1628035200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "azEMb54xqkUNNd31Kgkji7JVDNP3G5UVApder",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d440"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1628208000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "3yWqApzlEPTEE1JLNq9WTrQ7Vn6ax4u5dGoMo",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d448"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1628380800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "B4qQb61eBwHZZjxpLbR5FyLqEa9j3JtVDqeXo",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d446"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1630540800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "zk47XQRyWJfDDypNM5A4hQlBjZVmx5c64DPMN",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d44a"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1628121600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "dxlp65j4zgS66la1k9MqfWwXogqkAMFrLog6v",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d442"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1629504000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "zk47XQRyWJfDDypNM5A4hQlBjZVmx5c64DPw4",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d44c"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1630713600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "qLmByxWgZlhbboaKW7GzIPp46vlMZzcB48bNX",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d44e"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1630800000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "leXlnKpMP7sqqDAJGVnNIgmXMzkdj5u6D19E6",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d452"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1630713600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "K1eED5G87RukkqQ3podGIp5Kklrz38fr4gwGW",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d450"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1630972800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "rpL3ndA8MqS99ZNrG65MUrJmzWwMneuN3LKp9",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d458"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1632096000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "JMG8D5AgjkS66lenDAwQflLdpq7JNjCwVp7on",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d45a"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1633219200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "5vwrmg3KA7sVVAbeRryKf6QRGWPDydujqzB3b",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d45e"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1633305600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "wWzNmjynk3uRRyELGkz4ck3jgyGJWbiKBAeqL",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d460"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1633392000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "DPrMD5pZkoUddbmZEM1RS4DNG1aPpeiGKmyEE",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d462"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1633564800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "XyNaW5qXAoTQQ74NbvwqhDJBZAVXlgu8wpBP1",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d464"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1634688000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "6RwzE8xrGXUJJAkLBz4vtVl8gzoRJ7tnVjwb8",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d46a"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1633564800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "qLmByxWgZlhbboaKW7GzIPp46vlMZzcB48bLy",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d468"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1633305600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "VbXxD5VREpSaaPdGykB9Tp8BlzwVAkfN3b7pn",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d466"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1630972800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "k7eGWqLZNwimmMQJ6o47UDABELrazGuAyrPza",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d456"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1630627200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "rpL3ndA8MqS99ZNrG65MUrJmzWwMneuN3LKar",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d454"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1633132800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "K1eED5G87RukkqQ3podGIp5Kklrz38fr4gwKo",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d45c"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1635724800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "leXlnKpMP7sqqDAJGVnNIgmXMzkdj5u6D19nR",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d46c"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1635897600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "9qvxEA43mkh88AyVNmDpIJNlnPBmgycMXzPVz",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d470"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1635897600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "vEr4nPmGoBullKpNEQqZUR3a74yNrMuV9a5no",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d472"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1635984000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "yGajnevmEdT66ByP9A5MfNrl7pBxAzCp7kNW1",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d474"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1635811200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "RWerD5kmpBuVVdz3QkDEf9mJRk8q1jC5m7dXR",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d46e"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1636156800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "mQeqnko1jJiLL6MdEw73Tpj9oKw1nDf8VRqMl",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d47a"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1638316800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "JMG8D5AgjkS66lenDAwQflLdpq7JNjCwVp71g",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d47c"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1637280000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "bBa1WJNdKpIooQenGJz6TE3n59m4AZIrMgDNe",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d478"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1638403200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "nZXKnzgL74U118DgG7EVTVJm67zoNjtgLPxKR",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d47e"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1638576000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "WmodD5l6WJtzz6aRkm73hRNEGwJbaAuqJoLwb",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d484"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1638489600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "AaleERM7z1TwwA36KMb8SMKBWaxZzwh3nRG6j",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d482"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1640908800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "wWzNmjynk3uRRyELGkz4ck3jgyGJWbiKBAe3x",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d486"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1638489600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "GeGpD58L4ws66MPZKpwjf9DgAynwjaCRzJEA9",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d480"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1638748800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "Ejz1D5oMd7TggGmykMvphX5JWg4PdBi3pZD9y",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d488"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1636156800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "k7eGWqLZNwimmMQJ6o47UDABELrazGuAyrPqp",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d476"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1641081600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "p1Jzn3EoQguJJkWqEmvNtjLpVK8nNZc8A9REZ",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d48c"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1638748800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "5vwrmg3KA7sVVAbeRryKf6QRGWPDydujqzBbM",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d48e"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1639872000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "8lx3EkaBb6TVVr84w5EafawrnKgyDJTekvdKA",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d490"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1641168000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "LLRWD5nEeMhggKmlb6AvhXgrKNZxz8idVgDln",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d494"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1641081600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "oMRrnB8pebS55k6lG7aMIKZX6BqynduGW4Lk3",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d492"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1641340800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "1beGE1KXgJSggoJp7NVnh8g3Wpvw7jiEAbWZj",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d496"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1643500800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "DPrMD5pZkoUddbmZEM1RS4DNG1aPpeiGKmy7b",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d49a"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1641340800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "VbXxD5VREpSaaPdGykB9Tp8BlzwVAkfN3b7ow",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d498"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1643673600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "edqoW57NB6U33PvzGDXKSPqb5Kkon3ceoy67m",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d49c"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1643932800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "jjeAnl1Q4pTMM7pL9n6Jh6meAwNkgEulropZL",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4a2"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1643760000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "76JBDEdznPHQQA9VvneWhM8AB74Gbrhr74vMp",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4a4"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1643673600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "QEeKD5vbLzuQQx9oe6kyh1DlxPryAoiRqry3l",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4a0"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1643932800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "XyNaW5qXAoTQQ74NbvwqhDJBZAVXlgu8wpB9V",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4a8"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1645056000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "P8yqD59n1rSEE39zbmA8T15apNKxmdiVpE3QZ",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4aa"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1643587200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "ZvxNW5rlnbsyyQ9mkZgMU3p5zKPZkLu9dnQra",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4a6"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1640995200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "g4r8W5QjxpHqqNPvE6mgIwRAnZMBkosdvj34m",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d48a"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1642464000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "Mp1AD5bWQlSJJrMq9XKxtL8ApqVEZxtGdbnep",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d49e"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1646265600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "azEMb54xqkUNNd31Kgkji7JVDNP3G5UVApd1r",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4b0"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1646352000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "dxlp65j4zgS66la1k9MqfWwXogqkAMFrLogDv",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4b8"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1646524800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "RWerD5kmpBuVVdz3QkDEf9mJRk8q1jC5m7dJd",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4b6"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1648771200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "B4qQb61eBwHZZjxpLbR5FyLqEa9j3JtVDqezm",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4bc"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1647648000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "3yWqApzlEPTEE1JLNq9WTrQ7Vn6ax4u5dGomo",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4ba"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1646179200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "NoeGD5mkZqFBBzlXwJ3mIe5apynGNZhkPLenq",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4ae"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1648684800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "vEr4nPmGoBullKpNEQqZUR3a74yNrMuV9a5ly",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4be"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1648944000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "K1eED5G87RukkqQ3podGIp5Kklrz38fr4gwEW",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4c2"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1649116800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "9qvxEA43mkh88AyVNmDpIJNlnPBmgycMXzPnX",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4c4"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1650240000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "leXlnKpMP7sqqDAJGVnNIgmXMzkdj5u6D19a6",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4ca"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1651276800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "yGajnevmEdT66ByP9A5MfNrl7pBxAzCp7kN5J",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4c6"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1649116800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "qLmByxWgZlhbboaKW7GzIPp46vlMZzcB48b6X",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4c8"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1648857600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "rpL3ndA8MqS99ZNrG65MUrJmzWwMneuN3LKdr",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4cc"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1646265600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "493K5oBqW6tWWon45KgqIQWqvMK4rRc4j8DnZ",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4b2"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1646524800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "xAdPn79b8xTqqzpNX7gAILWA6Xy5B3tLdmlJD",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4b4"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1646092800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "6RwzE8xrGXUJJAkLBz4vtVl8gzoRJ7tnVjwmd",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4ac"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1648857600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "zk47XQRyWJfDDypNM5A4hQlBjZVmx5c64DP34",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4c0"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1651449600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "5vwrmg3KA7sVVAbeRryKf6QRGWPDydujqzBGb",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4ce"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1651363200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "k7eGWqLZNwimmMQJ6o47UDABELrazGuAyrPJa",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4d0"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1651708800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "VbXxD5VREpSaaPdGykB9Tp8BlzwVAkfN3b7qn",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4d4"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1651708800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "mQeqnko1jJiLL6MdEw73Tpj9oKw1nDf8VRqPw",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4d8"
+      }
+    },
+    {
+      "title": "INTRST PYMNT",
+      "category": "Transfer",
+      "date": {
+        "$date": {
+          "$numberLong": "1653868800000"
+        }
+      },
+      "amount": 5.44,
+      "isIncome": true,
+      "plaidTransactionId": "9qvxEA43mkh88AyVNmDpIJNM11l8AjCERXZWB",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4dc"
+      }
+    },
+    {
+      "title": "McDonald's",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1654041600000"
+        }
+      },
+      "amount": 15.48,
+      "isIncome": false,
+      "plaidTransactionId": "nZXKnzgL74U118DgG7EVTVJL88mqGbcG6LzyG",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4e0"
+      }
+    },
+    {
+      "title": "SparkFun",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1653955200000"
+        }
+      },
+      "amount": 115.33,
+      "isIncome": false,
+      "plaidTransactionId": "mQeqnko1jJiLL6MdEw73Tpjgqq9Z6EiALV1v9",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4de"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1651536000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "wWzNmjynk3uRRyELGkz4ck3jgyGJWbiKBAeEL",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4d2"
+      }
+    },
+    {
+      "title": "CREDIT CARD 3333 PAYMENT *//",
+      "category": "Payment",
+      "date": {
+        "$date": {
+          "$numberLong": "1654300800000"
+        }
+      },
+      "amount": 32.25,
+      "isIncome": false,
+      "plaidTransactionId": "yGajnevmEdT66ByP9A5MfNrmnnlwPZCDy7Eqg",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4e4"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1654041600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "bBa1WJNdKpIooQenGJz6TE3kLLnbx7S3VMW4z",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4e2"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1655424000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "WmodD5l6WJtzz6aRkm73hRNr44E9BnC4lJpm6",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4e6"
+      }
+    },
+    {
+      "title": "United Airlines",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1654128000000"
+        }
+      },
+      "amount": 645,
+      "isIncome": true,
+      "plaidTransactionId": "GeGpD58L4ws66MPZKpwjf9D1zzgB87In1zbeA",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4e8"
+      }
+    },
+    {
+      "title": "Starbucks",
+      "category": "Food and Drink",
+      "date": {
+        "$date": {
+          "$numberLong": "1651449600000"
+        }
+      },
+      "amount": 5.59,
+      "isIncome": false,
+      "plaidTransactionId": "JMG8D5AgjkS66lenDAwQflLdpq7JNjCwVp7Qn",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4d6"
+      }
+    },
+    {
+      "title": "Uber 072515 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1652832000000"
+        }
+      },
+      "amount": 8.17,
+      "isIncome": false,
+      "plaidTransactionId": "DPrMD5pZkoUddbmZEM1RS4DNG1aPpeiGKmy4E",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4da"
+      }
+    },
+    {
+      "title": "Uber 063015 SF**POOL**",
+      "category": "Travel",
+      "date": {
+        "$date": {
+          "$numberLong": "1654300800000"
+        }
+      },
+      "amount": 6.97,
+      "isIncome": false,
+      "plaidTransactionId": "AaleERM7z1TwwA36KMb8SMKGRRBn8rco1ngX4",
+      "_id": {
+        "$oid": "62bb5e706678b0283329d4ea"
+      }
+    }
+  ]
+}]
