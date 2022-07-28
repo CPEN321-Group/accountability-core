@@ -18,11 +18,17 @@
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_transaction_create.xml" value="0.165" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_transaction_set.xml" value="0.1" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/card_layout.xml" value="0.14463019250253292" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/card_layout_transaction.xml" value="0.21422101449275363" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/card_view_transaction.xml" value="0.14463019250253292" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_chat.xml" value="0.14463019250253292" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_dashboard.xml" value="0.335" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_profile.xml" value="0.29739583333333336" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_time_picker.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/list_item.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/msg_setting.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/review_item.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/settings_activity.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/user_item.xml" value="0.21422101449275363" />
         <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/xml/root_preferences.xml" value="0.22644927536231885" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/drawable/login_button.xml" value="0.1385" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/drawable/ocr_view.xml" value="0.1785" />
