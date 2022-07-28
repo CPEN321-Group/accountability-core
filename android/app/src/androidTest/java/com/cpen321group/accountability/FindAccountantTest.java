@@ -1,5 +1,7 @@
 package com.cpen321group.accountability;
 
+import static androidx.test.InstrumentationRegistry.getTargetContext;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -9,6 +11,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import android.content.ComponentName;
 import android.view.View;
 
 import androidx.fragment.app.testing.FragmentScenario;
@@ -50,6 +53,10 @@ public class FindAccountantTest {
         onView(withId(R.id.textView_name)).check(matches(withText("Find An Accountant")));
     }
 
+    @Rule
+    public IntentsTestRule<HomeScreenActivity> mActivityRule = new IntentsTestRule<>(
+            HomeScreenActivity.class);
+
     @Test
     public void sendRequestTest(){
         onView(isRoot()).perform(waitFor(2000));
@@ -57,8 +64,9 @@ public class FindAccountantTest {
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.request_button_1)));
-        //intended(hasComponent(ChattingActivity.class.getName()));
-        //onView(withId(R.id.textView)).check(matches(withText("Chat")));
+        //onView().check(matches(withText("Hello!")));
+        intended(hasComponent(new ComponentName(getApplicationContext(),ChattingActivity.class)));
+
     }
 
     public static ViewAction waitFor(long delay) {
