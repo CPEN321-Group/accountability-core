@@ -49,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         }
         Intent settingsIntent = new Intent(LoginActivity.this, HomeScreenActivity.class);
 
+        if(FrontendConstants.is_test == 1){
+            startActivity(settingsIntent);
+        }
+
         callbackManager = CallbackManager.Factory.create();
 
         LoginManager.getInstance().registerCallback(callbackManager,

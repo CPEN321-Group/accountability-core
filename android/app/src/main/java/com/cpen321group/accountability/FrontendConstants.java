@@ -13,4 +13,5 @@ public class FrontendConstants {
     public static boolean isAccountant = false;
     public static boolean is_subscribed;
     public static String roomID;
+    public static int is_test = 0;
 }
