@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,7 +32,9 @@ import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -41,6 +44,13 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -202,6 +212,26 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Text>() {
                     @Override
                     public void onSuccess(Text visionText) {
+                        //StringBuilder text = new StringBuilder();
+                        JsonArray arr = new JsonArray();
+                        List<Text.TextBlock> textBlock = visionText.getTextBlocks();
+                        for(int i = 0;i<textBlock.size();i++){
+                            Text.TextBlock tb = textBlock.get(i);
+                            List<Text.Line> lines = tb.getLines();
+                            for(Text.Line l:lines){
+                                List<Text.Element> elements = l.getElements();
+                                for(Text.Element e:elements){
+                                    Point[] points = e.getCornerPoints();
+                                    assert points != null;
+                                    JsonObject json = new JsonObject();
+                                    json.addProperty("content",e.getText());
+                                    json.addProperty("p1",points[0].toString());
+                                    json.addProperty("p2",points[2].toString());
+                                    arr.add(json);
+                                }
+                            }
+                        }
+                        Log.d("ocr","Content: "+arr.toString());
                         ocr_view.setText(visionText.getText());
                     }
                 })
