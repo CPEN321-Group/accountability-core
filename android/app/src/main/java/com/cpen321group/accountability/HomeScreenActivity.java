@@ -66,9 +66,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
                     GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
                     FrontendConstants.userID = account.getId()+"go";
-                }else if(FrontendConstants.is_test == 1){
-
-                }else{
+                }else if(Profile.getCurrentProfile()!=null){
                     Profile profile = Profile.getCurrentProfile();
                     FrontendConstants.userID = profile.getId()+"fb";
                 }

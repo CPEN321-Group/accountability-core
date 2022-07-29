@@ -20,6 +20,7 @@ import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.JsonObject;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class AddReviewActivity extends AppCompatActivity {
         });
 
         //Title
-        reviewNameEditText = (TextInputEditText) findViewById(R.id.age_text);
+        reviewNameEditText = (TextInputEditText) findViewById(R.id.title_text);
 
 
         //Content
@@ -84,7 +85,7 @@ public class AddReviewActivity extends AppCompatActivity {
                             Intent settingsIntent = new Intent(AddReviewActivity.this, ReviewActivity.class);
                             startActivity(settingsIntent);
                         }
-                    },2000);
+                    },4000);
                 }else{
                     Toast.makeText(AddReviewActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
                 }
@@ -103,18 +104,19 @@ public class AddReviewActivity extends AppCompatActivity {
 
         Date date = Calendar.getInstance().getTime();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postReview(FrontendConstants.receiverID, FrontendConstants.userID,date,content,title,Integer.parseInt(rate));
+        Call<JsonObject> call = retrofitAPI.postReview(FrontendConstants.receiverID, FrontendConstants.userID,date,content,title,Integer.parseInt(rate));
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Toast.makeText(getApplicationContext(),"Success!",Toast.LENGTH_LONG).show();
                 Log.d("postReview",response.toString());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Failed to add, Check the Internet!",Toast.LENGTH_LONG).show();
-                Log.d("postReview","error");
+                Log.d("postReview",t.toString());
             }
         });
     }

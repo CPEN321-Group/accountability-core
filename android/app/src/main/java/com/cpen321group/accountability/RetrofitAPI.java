@@ -54,7 +54,7 @@ public interface RetrofitAPI {
                                 @Query("isFinished") boolean bool);
 
     @POST("{accountantId}")
-    Call<String> postReview(@Path("accountantId") String id,
+    Call<JsonObject> postReview(@Path("accountantId") String id,
                             @Query("authorId") String userid,
                             @Query("date") Date date,
                             @Query("content") String content,

@@ -87,7 +87,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
             image.setVisibility(View.VISIBLE);
         }
 
-        ageText = findViewById(R.id.age_text);
+        ageText = findViewById(R.id.title_text);
         professionText = findViewById(R.id.profession_text);
 
         //change avatar

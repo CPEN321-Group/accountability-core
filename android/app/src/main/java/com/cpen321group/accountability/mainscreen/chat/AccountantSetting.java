@@ -78,7 +78,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 @Override
                 public void onClick(View v) {
                     FrontendConstants.receiverID = accountant_id.getText().toString();
-                    postRoomId();
+                    FrontendConstants.roomID = null;
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override

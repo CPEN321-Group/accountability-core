@@ -89,8 +89,7 @@ public class ChatFragment extends Fragment {
         if(GoogleSignIn.getLastSignedInAccount(getActivity())!=null){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(getActivity());
             FrontendConstants.userID = account.getId()+"go";
-        }else if(FrontendConstants.is_test ==1){
-        }else{
+        }else if(Profile.getCurrentProfile()!=null){
             Profile profile = Profile.getCurrentProfile();
             FrontendConstants.userID = profile.getId()+"fb";
         }
