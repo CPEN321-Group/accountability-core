@@ -25,6 +25,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
+import android.widget.TimePicker;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
@@ -116,8 +118,9 @@ public class GoalTest {
         Thread.sleep(1000);
         onView(withId(R.id.datePickerButton)).perform(click());
         Thread.sleep(5000);
+        onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,8,1));
+        Thread.sleep(1000);
         onView(withText("OK")).inRoot(isDialog()).check(matches(isDisplayed()));
-        //onView(withText("30")).inRoot(isDialog()).perform(click());
     }
 
     private boolean isSoftKeyboardShown() {
