@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -89,7 +91,7 @@ public class ChatFragment extends Fragment {
         if(GoogleSignIn.getLastSignedInAccount(getActivity())!=null){
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(getActivity());
             FrontendConstants.userID = account.getId()+"go";
-        }else{
+        }else if(Profile.getCurrentProfile()!=null){
             Profile profile = Profile.getCurrentProfile();
             FrontendConstants.userID = profile.getId()+"fb";
         }
@@ -98,9 +100,51 @@ public class ChatFragment extends Fragment {
             getAccountant(aList);
         }else{
             getUser(userList);
+            binding.linearLayoutSearch.setVisibility(View.GONE);
         }
+
+        EditText search_text = binding.searchText;
+        Button search_button = binding.searchButton;
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!search_text.getText().toString().equals("")){
+                    aList.clear();
+                    searchforAccountant(search_text.getText().toString());
+                }
+            }
+        });
         handler.postDelayed(runnable, 1000 * 60);
         return root;
+    }
+
+    private void searchforAccountant(String text){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(FrontendConstants.baseURL + "/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findAccountant(text);
+
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
+            @Override
+            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                try {
+                    ArrayList<JsonObject> jsonArray = response.body();
+                    Log.d("Find", response.toString());
+                    Log.d("Find", jsonArray.get(0).getAsString());
+                }catch(Exception e){
+                    Log.d("Find", response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+                Log.d("Find", t.toString());
+            }
+        });
     }
 
     private void getAccountant(List<NameID> accountList) {

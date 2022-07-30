@@ -75,7 +75,7 @@
         app:startIconDrawable="@drawable/ic_goal_set_24">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/age_text"
+            android:id="@+id/title_text"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:inputType="number" />
