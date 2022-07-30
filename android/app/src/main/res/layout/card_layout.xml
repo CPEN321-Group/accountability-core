@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:clickable="true"
+    android:theme="@style/Theme.MaterialComponents"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp"
@@ -22,10 +22,13 @@
             android:id="@+id/goalImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
-            android:src="@drawable/accountability" />
+            android:src="@drawable/saving" />
 
         <!--Text View to display Course Name-->
         <TextView
@@ -47,12 +50,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/goalName"
+            android:textColor="@color/black"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:layout_toEndOf="@id/goalImage"
             android:drawablePadding="2dp"
-            android:text="goal details description"
-        />
+            android:text="goal details description" />
 
         <!-- Buttons -->
         <com.google.android.material.button.MaterialButton
@@ -62,17 +65,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="140dp"
             android:layout_marginTop="80dp"
-            android:text="Delete"
-            />
+            android:text="Delete" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/goalSave"
-            style="@style/Widget.Material3.Button.ElevatedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="240dp"
             android:layout_marginTop="80dp"
-            android:text="New Savings"
-            />
+            android:text="New Savings" />
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

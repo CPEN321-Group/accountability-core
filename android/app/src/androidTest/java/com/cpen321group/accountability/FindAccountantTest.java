@@ -1,4 +1,4 @@
-  package com.cpen321group.accountability;
+package com.cpen321group.accountability;
 
 import static androidx.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
