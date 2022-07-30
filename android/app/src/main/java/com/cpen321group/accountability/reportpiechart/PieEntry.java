@@ -6,11 +6,13 @@ public class PieEntry {
     private float degreeStart;
     private float degreeEnd;
     private boolean isSelected;
+    private String entryName;
 
-    public PieEntry(float value, int color, boolean isSelected) {
+    public PieEntry(float value, int color, boolean isSelected, String entryName) {
         this.value = value;
         this.color = color;
         this.isSelected = isSelected;
+        this.entryName = entryName;
     }
 
     public float getValue() {
@@ -33,9 +35,13 @@ public class PieEntry {
         return degreeEnd;
     }
 
-    public void setValue(float value) {
-        this.value = value;
+    public String getEntryName() {
+        return entryName;
     }
+
+    //    public void setValue(float value) {
+//        this.value = value;
+//    }
 
     public void setColor(int color) {
         this.color = color;

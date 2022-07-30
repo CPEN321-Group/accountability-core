@@ -8,7 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!--图表里面的颜色-->
     <color name="chart_orange">#FFA500</color>
     <color name="chart_green">#23BF70</color>
     <color name="chart_blue">#7155EC</color>

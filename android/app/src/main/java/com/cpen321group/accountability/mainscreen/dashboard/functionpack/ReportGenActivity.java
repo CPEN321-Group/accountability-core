@@ -35,14 +35,14 @@ public class ReportGenActivity extends AppCompatActivity implements PieClickList
 
         //Starting of this activity
         reportPieChart = (ReportPieChart) findViewById(R.id.piechart);
-        reportPieChart.setRadiusDefault(ReportPieChart.dp2px(this, 80));
+        reportPieChart.setRadiusDefault(ReportPieChart.dp2px(this, 110));
         reportPieChart.setPieClickListener(this);
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        pieEntries.add(new PieEntry(1, R.color.chart_orange, true));
-        pieEntries.add(new PieEntry(1, R.color.chart_green, false));
-        pieEntries.add(new PieEntry(1, R.color.chart_blue, false));
-        pieEntries.add(new PieEntry(1, R.color.chart_purple, false));
-        pieEntries.add(new PieEntry(1, R.color.chart_mblue, false));
+        pieEntries.add(new PieEntry(1, R.color.chart_orange, true, "text1"));
+        pieEntries.add(new PieEntry(1, R.color.chart_green, false, "text2"));
+        pieEntries.add(new PieEntry(1, R.color.chart_blue, false, "text3"));
+        pieEntries.add(new PieEntry(1, R.color.chart_purple, false, "text4"));
+        pieEntries.add(new PieEntry(1, R.color.chart_mblue, false, "text5"));
         reportPieChart.setPieEntries(pieEntries);
     }
     @Override

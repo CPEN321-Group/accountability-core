@@ -18,6 +18,7 @@ import java.util.List;
 
 public class ReportPieChart extends View {
     private final Paint paint;
+    private final Paint paintText;
     private float center_X;
     private float center_Y;
     private float radiusDefault;
@@ -33,24 +34,33 @@ public class ReportPieChart extends View {
     public ReportPieChart(Context context) {
         super(context);
         paint = new Paint();
-        paint.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 15 + 0.5f));
+        paintText = new Paint();
+        paint.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 20 + 0.5f));
         paint.setAntiAlias(true);
+        paintText.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 20 + 0.5f));
+        paintText.setAntiAlias(true);
         pieEntries = new ArrayList<>();
     }
 
     public ReportPieChart(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
-        paint.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 15 + 0.5f));
+        paintText = new Paint();
+        paint.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 20 + 0.5f));
         paint.setAntiAlias(true);
+        paintText.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 20 + 0.5f));
+        paintText.setAntiAlias(true);
         pieEntries = new ArrayList<>();
     }
 
     public ReportPieChart(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         paint = new Paint();
-        paint.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 15 + 0.5f));
+        paintText = new Paint();
+        paint.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 20 + 0.5f));
         paint.setAntiAlias(true);
+        paintText.setTextSize((int) (context.getResources().getDisplayMetrics().scaledDensity * 20 + 0.5f));
+        paintText.setAntiAlias(true);
         pieEntries = new ArrayList<>();
     }
 
@@ -127,21 +137,26 @@ public class ReportPieChart extends View {
             sum += pieEntries.get(i).getValue();
 
         }
+
         // initial the center coordinate position on canvas
         center_X = getPivotX();
-        center_Y = getPivotY();
+        center_Y = getPivotY() - 2 * radiusDefault;
+
+        // radius in selected status has radius larger than default status (5px)
+        radiusSelected = radiusDefault + dp2px(getContext(), 10);
+
         // radius is non-negative, if it's not positive, retrieve size from canvas
-        if (radiusSelected <= 0) {
+        if (radiusSelected == 0) {
             if ( getWidth() > getHeight()) {
                 radiusSelected = getHeight() / 2;
             } else {
                 radiusSelected = getWidth() / 2;
             }
         }
-        // radius in selected status has radius larger than default status (5px)
-        radiusDefault = radiusSelected - dp2px(getContext(), 5);
 
         float degreeStart = 0;
+        int lineSpace = dp2px(getContext(), 40);
+        int lineSpaceIndex = 0;
         // Traverse List<PieEntry> rendering pie chart on canvas
         for (int i = 0; i < pieEntries.size(); i++) {
             // Current entry degree
@@ -152,10 +167,14 @@ public class ReportPieChart extends View {
             float radiusCurrent = pieEntries.get(i).isSelected()? radiusSelected : radiusDefault;
             // Render portion on canvas
             canvas.drawArc(new RectF(center_X - radiusCurrent, center_Y - radiusCurrent, center_X + radiusCurrent, center_Y + radiusCurrent), degreeStart, degree, true, paint);
+            // Icon and text
+            canvas.drawCircle(getWidth()/2 - radiusDefault + 20, center_Y + radiusSelected + dp2px(getContext(), 20) + lineSpaceIndex, dp2px(getContext(), 12), paint);
+            canvas.drawText(pieEntries.get(i).getEntryName() +": " + new DecimalFormat("00.00").format(pieEntries.get(i).getValue()/sum*100) + "%",getWidth()/2 - radiusDefault + 20 + dp2px(getContext(),20),center_Y + radiusSelected + dp2px(getContext(),25) + lineSpaceIndex,paintText);
             // update degree value in the entry object
             pieEntries.get(i).setDegreeStart(degreeStart);
             pieEntries.get(i).setDegreeEnd(degreeStart + degree);
             degreeStart += degree;
+            lineSpaceIndex += lineSpace;
         }
     }
 }
