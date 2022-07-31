@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 
 import org.hamcrest.Matcher;
 
-public class waitfor {
+public class WaitforHelper {
     public static ViewAction waitFor(long delay) {
         return new ViewAction() {
             @Override public Matcher<View> getConstraints() {

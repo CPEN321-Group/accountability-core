@@ -1,8 +1,6 @@
 package com.cpen321group.accountability;
 
-import static androidx.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -15,9 +13,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
-import static com.google.android.material.internal.ContextUtils.getActivity;
 import static org.hamcrest.Matchers.not;
 
 import android.app.Activity;
@@ -27,18 +23,12 @@ import android.view.View;
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.espresso.NoMatchingViewException;
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewAssertion;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 
 import com.cpen321group.accountability.mainscreen.chat.AddReviewActivity;
 import com.cpen321group.accountability.mainscreen.chat.ChatFragment;
@@ -46,7 +36,6 @@ import com.cpen321group.accountability.mainscreen.chat.ChattingActivity;
 import com.cpen321group.accountability.mainscreen.chat.HistoryActivity;
 import com.cpen321group.accountability.mainscreen.chat.ReviewActivity;
 
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -76,7 +65,7 @@ public class FindAccountantTest {
 
     @Test
     public void sendRequestTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
@@ -89,7 +78,7 @@ public class FindAccountantTest {
 
     @Test
     public void historyTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
@@ -104,7 +93,7 @@ public class FindAccountantTest {
     @Test
     public void noHistoryTest() throws InterruptedException {
         FrontendConstants.userID ="Test";
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.chat_recycler)).perform(
@@ -119,7 +108,7 @@ public class FindAccountantTest {
 
     @Test
     public void reviewTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                           .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
@@ -133,7 +122,7 @@ public class FindAccountantTest {
     @Test
     public void noReviewTest() throws InterruptedException {
         FrontendConstants.roomID = null;
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.chat_recycler)).perform(
@@ -147,7 +136,7 @@ public class FindAccountantTest {
 
     @Test
     public void addReviewTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(2000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(2000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
@@ -159,7 +148,7 @@ public class FindAccountantTest {
 
     @Test
     public void addWithNoRateTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
@@ -176,7 +165,7 @@ public class FindAccountantTest {
 
     @Test
     public void addWithNoContentTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
@@ -195,7 +184,7 @@ public class FindAccountantTest {
 
     @Test
     public void addWithNoTitleTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
@@ -214,7 +203,7 @@ public class FindAccountantTest {
 
     @Test
     public void addSuccessTest() throws InterruptedException {
-        onView(isRoot()).perform(waitfor.waitFor(5000));
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
