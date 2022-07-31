@@ -22,15 +22,19 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -117,6 +121,7 @@ public class GoalTest {
         onView(withId(R.id.datePickerButton)).perform(click());
         Thread.sleep(5000);
         onView(withText("OK")).inRoot(isDialog()).check(matches(isDisplayed()));
+        onView(withClassName(Matchers.equalTo(Dialog.class.getName()))).inRoot(isDialog()).check(matches(isDisplayed()));
         //onView(withText("30")).inRoot(isDialog()).perform(click());
     }
 
