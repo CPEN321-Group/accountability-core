@@ -122,7 +122,8 @@ public class TransactionCreateActivity extends AppCompatActivity {
         month = 0;
         day = 0;
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+        // if in test mode, no permission guarantee dialog
+        if(FrontendConstants.is_test!=1 && ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{
                     Manifest.permission.CAMERA
             },REQUEST_CODE);
