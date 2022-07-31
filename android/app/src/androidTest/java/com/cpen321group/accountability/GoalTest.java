@@ -50,12 +50,15 @@ import com.cpen321group.accountability.mainscreen.dashboard.functionpack.DatePic
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GoalTest {
     FragmentScenario<DashboardFragment> mfragment;
     @Before
@@ -71,7 +74,7 @@ public class GoalTest {
     public IntentsTestRule<FragmentScenario.EmptyFragmentActivity> intentsTestRule =
             new IntentsTestRule(FragmentScenario.EmptyFragmentActivity.class);
     @Test
-    public void clickGoalButtonTest() throws InterruptedException {
+    public void _a_clickGoalButtonTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -80,7 +83,7 @@ public class GoalTest {
     }
 
     @Test
-    public void createButtonTest() throws InterruptedException {
+    public void _b_createButtonTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -93,7 +96,7 @@ public class GoalTest {
     }
 
     @Test
-    public void checkNameInputTest() throws InterruptedException {
+    public void _c_checkNameInputTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -105,7 +108,7 @@ public class GoalTest {
     }
 
     @Test
-    public void checkPriceInputTest() throws InterruptedException {
+    public void _d_checkPriceInputTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -117,7 +120,7 @@ public class GoalTest {
     }
 
     @Test
-    public void checkDatePickerTest() throws InterruptedException {
+    public void _e_checkDatePickerTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -129,7 +132,7 @@ public class GoalTest {
     }
 
     @Test
-    public void createWithNoDateTest() throws InterruptedException {
+    public void _f_createWithNoDateTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -144,7 +147,7 @@ public class GoalTest {
     }
 
     @Test
-    public void createWithNoNameInputTest() throws InterruptedException {
+    public void _g_createWithNoNameInputTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -162,7 +165,7 @@ public class GoalTest {
     }
 
     @Test
-    public void createSuccessTest() throws InterruptedException {
+    public void _h_createSuccessTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -181,7 +184,7 @@ public class GoalTest {
         onView(withText("You have successfully added your new goal")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
     }
     @Test
-    public void createWithNoPriceInputTest() throws InterruptedException {
+    public void _i_createWithNoPriceInputTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(3000);
@@ -199,7 +202,7 @@ public class GoalTest {
     }
 
     @Test
-    public void deleteTest() throws InterruptedException {
+    public void _j_deleteTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(4000);
@@ -212,7 +215,7 @@ public class GoalTest {
     }
 
     @Test
-    public void newSavingButtonTest() throws InterruptedException {
+    public void _k_newSavingButtonTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(4000);
@@ -226,7 +229,7 @@ public class GoalTest {
     }
 
     @Test
-    public void newSavingPriceInputTest() throws InterruptedException {
+    public void _l_newSavingPriceInputTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(4000);
@@ -240,7 +243,7 @@ public class GoalTest {
     }
 
     @Test
-    public void newSavingWithNoPriceInputTest() throws InterruptedException {
+    public void _m_newSavingWithNoPriceInputTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(4000);
@@ -254,7 +257,7 @@ public class GoalTest {
     }
 
     @Test
-    public void newSavingSuccessTest() throws InterruptedException {
+    public void _n_newSavingSuccessTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.goal_button)).perform(click());
         Thread.sleep(4000);
@@ -271,7 +274,7 @@ public class GoalTest {
     }
 
     @Test
-    public void clickGoalButtonWithNoGoalTest() throws InterruptedException {
+    public void _o_clickGoalButtonWithNoGoalTest() throws InterruptedException {
         FrontendConstants.userID = "12345678go";
         Thread.sleep(3000);
         onView(withId(R.id.goal_button)).perform(click());
