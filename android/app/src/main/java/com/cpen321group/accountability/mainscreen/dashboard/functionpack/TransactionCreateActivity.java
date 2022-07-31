@@ -21,6 +21,9 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +31,7 @@ import android.widget.Toast;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
+import com.cpen321group.accountability.welcome.RegisterSettingActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -49,8 +53,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TransactionCreateActivity extends AppCompatActivity {
-    private String transactionName;
-    private String transactionCategory;
+    private String transactionName = "";
+    private String transactionCategory = "";
     private int transactionAmount;
     public static int year = 0;
     public static int month = 0;
@@ -70,14 +74,23 @@ public class TransactionCreateActivity extends AppCompatActivity {
         Button capture_button = findViewById(R.id.recipeButton);
         ocr_view = findViewById(R.id.ocr_view);
         Button createTransaction = findViewById(R.id.transactionCreateButton);
+        AutoCompleteTextView autoText = findViewById(R.id.transactionCategoryText);
+
+        String[] items = {"daily necessities", "food/drinks", "transportation", "housing", "education", "bills", "others"};
+        ArrayAdapter<String> itemAdapter = new ArrayAdapter<>(TransactionCreateActivity.this, R.layout.list_item, items);
+        autoText.setAdapter(itemAdapter);
+        autoText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                transactionCategory = (String)adapterView.getItemAtPosition(i);
+            }
+        });
+
         createTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TextInputEditText transactionNameEditText = (TextInputEditText) findViewById(R.id.transactionNameInput);
                 transactionName = transactionNameEditText.getText().toString();
-
-                TextInputEditText transactionCategoryEditText = (TextInputEditText) findViewById(R.id.transactionCategoryInput);
-                transactionCategory = transactionCategoryEditText.getText().toString();
 
                 TextInputEditText transactionAmountEditText = (TextInputEditText) findViewById(R.id.transactionAmountPriceInput);
                 String TransactionAmountText = transactionAmountEditText.getText().toString();
@@ -85,7 +98,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 date = year + "/" + month + "/" + day;
                 Log.d("Date:", "" + date);
 
-                if(!date.equals("0/0/0") && !transactionName.equals("") && !TransactionAmountText.equals("")) {
+                if(!date.equals("0/0/0") && !transactionName.equals("") && !transactionCategory.equals("") && !TransactionAmountText.equals("")) {
                     transactionAmount = (int)Math.round((Double.parseDouble(TransactionAmountText)*100));
                     try {
                         createTransaction();

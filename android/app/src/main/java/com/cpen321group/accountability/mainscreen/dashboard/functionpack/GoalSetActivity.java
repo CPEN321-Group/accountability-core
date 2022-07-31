@@ -29,7 +29,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GoalSetActivity extends AppCompatActivity {
+public class  GoalSetActivity extends AppCompatActivity {
 
     public static Context context;
     private RecyclerView goalsRV;

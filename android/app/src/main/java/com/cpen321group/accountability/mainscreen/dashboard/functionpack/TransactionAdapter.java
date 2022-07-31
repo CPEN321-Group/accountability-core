@@ -43,7 +43,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void onBindViewHolder(@NonNull TransactionAdapter.Viewholder holder, int position) {
         TransactionModel model = transactionModelArrayList.get(position);
         holder.transactionName.setText(model.getTransaction_title().replace("\"", ""));
-        holder.transactionDetails.setText("Category: " + model.getTransaction_category() + " | Amount: " + model.getTransaction_cents());
+        holder.transactionDetails.setText("Category: " + model.getTransaction_category().replace("\"", "") + " | Amount: $" + model.getTransaction_cents());
         holder.deleteTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
