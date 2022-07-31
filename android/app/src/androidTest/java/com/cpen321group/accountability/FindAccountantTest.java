@@ -121,9 +121,9 @@ public class FindAccountantTest {
     public void reviewTest() throws InterruptedException {
         onView(isRoot()).perform(waitfor.waitFor(5000));
         onView(withId(R.id.chat_recycler))
-                  .perform(RecyclerViewActions.scrollToPosition(0));
+                          .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                  RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(3000);
         intended(hasComponent(new ComponentName(getApplicationContext(), ReviewActivity.class)));
         Thread.sleep(3000);
