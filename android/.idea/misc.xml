@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/accountant_item.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_add_review.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_app_settings.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_chatting.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_goal_create.xml" value="0.1322463768115942" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_goal_set.xml" value="0.1322463768115942" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_goal_update.xml" value="0.1322463768115942" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_register.xml" value="0.2671875" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_register_setting.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_review.xml" value="0.335" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_subscription.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_subscription_ok.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_transaction_create.xml" value="0.165" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/activity_transaction_set.xml" value="0.1" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/card_layout.xml" value="0.14463019250253292" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/card_layout_transaction.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/card_view_transaction.xml" value="0.14463019250253292" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_chat.xml" value="0.14463019250253292" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_dashboard.xml" value="0.335" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_profile.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/fragment_time_picker.xml" value="0.29739583333333336" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/list_item.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/msg_setting.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/review_item.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/settings_activity.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/layout/user_item.xml" value="0.21422101449275363" />
+        <entry key="..\:/Documents/GitHub/accountability-core/android/app/src/main/res/xml/root_preferences.xml" value="0.22644927536231885" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/drawable/login_button.xml" value="0.1385" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/drawable/ocr_view.xml" value="0.1785" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/drawable/register_button.xml" value="0.188" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/accountant_item.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_accountant_chat.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_add_review.xml" value="0.1" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_chatting.xml" value="0.22" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_goal_create.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_goal_set.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_goal_update.xml" value="0.1" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_history.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_home_screen.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_register.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_register_setting.xml" value="0.22" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_review.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_transaction_create.xml" value="0.1" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_welcome.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/card_layout.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/fragment_chat.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/fragment_dashboard.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/fragment_profile.xml" value="0.3481331987891019" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/list_item.xml" value="0.14130434782608695" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/msg_setting.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/review_item.xml" value="0.1796875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/user_item.xml" value="0.3333333333333333" />
+        <entry key="app/src/main/res/drawable-v24/chat-48px.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/face-48px.xml" value="0.243" />
+        <entry key="app/src/main/res/drawable/ic_album_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_arrow_24dp.xml" value="0.1965" />
+        <entry key="app/src/main/res/drawable/ic_camera_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_edit_profile_24dp.xml" value="0.254" />
+        <entry key="app/src/main/res/drawable/ic_goal_set_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2745" />
+        <entry key="app/src/main/res/drawable/ic_outline_account_circle_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_outline_chat_24.xml" value="0.11599578857421872" />
+        <entry key="app/src/main/res/drawable/ic_profilesample_24dp.xml" value="0.243" />
+        <entry key="app/src/main/res/drawable/ic_report_generator_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_settings_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_signout_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/drawable/ic_subscription_24.xml" value="0.1785" />
+        <entry key="app/src/main/res/layout/activity_app_settings.xml" value="0.23049977620442713" />
+        <entry key="app/src/main/res/layout/activity_home_screen.xml" value="0.19765019071274909" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19493408203124993" />
+        <entry key="app/src/main/res/layout/activity_main2.xml" value="0.17083333333333334" />
+        <entry key="app/src/main/res/layout/activity_subscription.xml" value="0.18489583333333334" />
+        <entry key="app/src/main/res/layout/activity_subscription_ok.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_subscription_okactivity.xml" value="0.17553191489361702" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.19244610821759253" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14175724637681159" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.24251861572265626" />
+        <entry key="app/src/main/res/layout/settings_activity.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.2898148148148148" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
