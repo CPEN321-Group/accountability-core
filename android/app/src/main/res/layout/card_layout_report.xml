@@ -38,8 +38,8 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/reportMonth"
-            android:layout_width="130dp"
+            android:id="@+id/reportDetail"
+            android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/reportName"
             android:layout_marginStart="10dp"
@@ -54,12 +54,12 @@
             style="@style/Widget.Material3.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="260dp"
+            android:layout_marginStart="238dp"
             android:layout_marginTop="35dp"
             android:text="Delete"
-            app:icon="@drawable/ic_delete_24dp"
+            app:backgroundTint="#CB2A15"
             app:cornerRadius="10dp"
-            app:backgroundTint="#CB2A15"/>
+            app:icon="@drawable/ic_delete_24dp" />
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

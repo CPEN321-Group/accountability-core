@@ -122,7 +122,24 @@ public interface RetrofitAPI {
     Call<ResponseBody> deleteSpecificTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId);
 
+    // Search API
     @POST("search/accountant")
     Call<ArrayList<JsonObject>> findAccountant(@Body String str);
+
+    // Reports APIs
+    @GET("{userId}")
+    Call<ArrayList<JsonObject>> getAllReports(@Path("userId") String id);
+
+    @POST("{userId}")
+    Call<JsonObject> postReport(@Path("userId") String id,
+                                @Query("monthYear") String date);
+
+    @PUT("{userId}")
+    Call<ArrayList<JsonObject>> updateReport(@Path("userId") String id,
+                                             @Query("accountantId") String accountantId);
+
+    @DELETE("{userId}")
+    Call<ArrayList<JsonObject>> deleteAllReports(@Path("userId") String id);
+
 
 }

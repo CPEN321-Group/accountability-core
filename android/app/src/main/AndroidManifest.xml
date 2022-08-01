@@ -67,6 +67,7 @@
             android:parentActivityName=".HomeScreenActivity" />
         <activity
             android:name=".mainscreen.dashboard.functionpack.ReportGenActivity"
+            android:parentActivityName=".HomeScreenActivity"
             android:exported="false" />
         <activity
             android:name=".welcome.RegisterActivity"
@@ -101,9 +102,6 @@
             android:name=".HomeScreenActivity"
             android:exported="false"
             android:label="@string/title_activity_home_screen" />
-        <activity
-            android:name=".mainscreen.dashboard.functionpack.AppSettingsActivity"
-            android:exported="false" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
