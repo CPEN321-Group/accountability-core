@@ -452,7 +452,6 @@ describe('testing findAccountants - connection error', () => {
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name','MongoNotConnectedError');
     })
-    await mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/accountDB')
   })
 })
 

@@ -44,6 +44,7 @@ describe('get conversation between 2 accounts', () => {
       account1Id: existingId,
       account2Id: accountantId
     });
+    console.log(res2.body);
 
     expect(res2.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res2.statusCode).toBe(200);
