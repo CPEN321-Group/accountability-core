@@ -74,6 +74,7 @@ public class FindAccountantTest {
         intended(hasComponent(new ComponentName(getApplicationContext(), ChattingActivity.class)));
         //onView(withId(R.id.textView)).check(matches(withText("Chat")));
         onView(withId(R.id.send_button)).check(matches(isDisplayed()));
+        onView(withId(R.id.text_view)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -83,11 +84,9 @@ public class FindAccountantTest {
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.history_button)));
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         intended(hasComponent(new ComponentName(getApplicationContext(), HistoryActivity.class)));
-        Thread.sleep(5000);
-        onView(withId(R.id.historyView))
-                .perform(RecyclerViewActions.scrollToPosition(0)).check(matches(isDisplayed()));
+        onView(withText("Show History Talk Successfully")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
     }
 
     @Test
@@ -143,7 +142,12 @@ public class FindAccountantTest {
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(2000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
+        Thread.sleep(2000);
         intended(hasComponent(new ComponentName(getApplicationContext(), AddReviewActivity.class)));
+        onView(withId(R.id.title_text)).check(matches(isDisplayed()));
+        onView(withId(R.id.reviewcontentInput)).check(matches(isDisplayed()));
+        onView(withId(R.id.rate_text)).check(matches(isDisplayed()));
+        onView(withId(R.id.create_button)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -211,7 +215,7 @@ public class FindAccountantTest {
         Thread.sleep(5000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
         Thread.sleep(1000);
-        onView(withId(R.id.title_text)).perform(typeText("Happy with Accountant"));
+        onView(withId(R.id.title_text)).perform(typeText("Test"));
         onView(withId(R.id.reviewcontentInput)).perform(typeText("Very nice accountant"));
         onView(ViewMatchers.withId(R.id.reviewcontentInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.rate_text)).perform(click());
@@ -219,7 +223,7 @@ public class FindAccountantTest {
         Thread.sleep(1000);
         onView(withId(R.id.create_button)).perform(click());
         Thread.sleep(2000);
-        onView(withText("Reviews")).check(matches(isDisplayed()));
+        onView(withText("Success!")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
     }
 
     private Activity getCurrentActivity() {

@@ -54,7 +54,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void getData(){
         if (FrontendConstants.roomID != null) {
-            Toast.makeText(this,"have history",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Show History Talk Successfully",Toast.LENGTH_LONG).show();
             getHistory();
         } else {
             msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));
