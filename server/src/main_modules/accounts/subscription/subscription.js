@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { getDefinedFields } = require('../../../utils/get-defined-fields');
+const { getDefinedFields } = require('../../../utils/checks/get-defined-fields');
 const {r_date} = require('../../../utils/types/mongo-required')
 
 const subscriptionSchema = new mongoose.Schema({

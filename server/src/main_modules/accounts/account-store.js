@@ -1,10 +1,11 @@
-const { UserGoal } = require("../goals/models");
-const { UserTransaction } = require("../transactions/models");
-const { UserReport } = require("../reports/models");
-const { Account, Review } = require("./models");
+const { UserGoal } = require("../goals/goal-models");
+const { UserTransaction } = require("../transactions/transaction-models");
+const { UserReport } = require("../reports/report-models");
+const { Account, Review } = require("./account-models");
 const { parseProfileData } = require("./profile/profile");
 const { parseSubscriptionData } = require("./subscription/subscription");
-const { getDefinedFields, fieldsAreNotNull } = require("../../utils/get-defined-fields");
+const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
+const { ValidationError, NotFoundError } = require("../../utils/errors");
 
 /**
  * Interface between endpoints and mongodb database. Each function defined will perform a CRUD operation on the accountDB
@@ -17,15 +18,12 @@ module.exports = {
   createAccount: async (fields,callback) => {
     const df = getDefinedFields(fields);
     const {accountId,avatar,firstname,lastname,email,age,profession,isAccountant} = df;
-    if (!fieldsAreNotNull({accountId,firstname,lastname,email,age,profession,isAccountant})) {
-      return callback(null,400,'missing params');
-    }
-    const isAct = (isAccountant === 'true');
+
+    const isAct = (isAccountant === true || isAccountant === 'true');
 
     try {
-      const foundAccount = await Account.findOne({accountId});
-      if (foundAccount) {
-        return callback(null,400,'account already exists');
+      if (await Account.findOne({accountId})) {
+        throw new ValidationError('account already exists');
       }
       
       const newAccount = new Account({
@@ -36,7 +34,6 @@ module.exports = {
       await newAccount.save();
       
       if (!isAct) {
-        console.log('creating goals/transaction/reports document')
         const userTransaction = new UserTransaction({userId: newAccount.accountId});
         const userGoal = new UserGoal({userId: newAccount.accountId});
         const userReport = new UserReport({userId: newAccount.accountId});
@@ -46,23 +43,20 @@ module.exports = {
       }
       return callback(null,200,newAccount);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
-    
+
   },
   /**
    * @param {string} accountId - account id string
    * @param {function} callback - is called with response status and data
    */
   findAccount: async (accountId,callback) => {
-    if(callback);
     try {
       const account = await Account.findOne({accountId});
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400, err);
     }
     
@@ -71,12 +65,10 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   findAccountants: async (callback) => {
-    if(callback);
     try {
       const foundAccounts = await Account.find({isAccountant: true});
       callback(null,200,foundAccounts)
     } catch (err){
-      console.log(err);
       callback(null,400,err);
     }
   },
@@ -87,7 +79,7 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   updateProfile: async (id,data,callback) => {    
-    if(callback);
+    
     try {
       const {avatar,firstname,lastname,email,age,profession} = data;
 
@@ -95,12 +87,11 @@ module.exports = {
       const account = await Account.findOneAndUpdate(
         {accountId: id},
         {$set: fieldsToUpdate},
-        {returnDocument: 'after'}
+        {returnDocument: 'after', runValidators: true}
       );
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
     
@@ -110,17 +101,16 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   deleteAccount: async (id,callback) => {
-    if(callback);
+    
     try {
       const account = await Account.findOneAndDelete({accountId: id});
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
 
       await UserGoal.deleteOne({userId: id})
       await UserTransaction.deleteOne({userId: id});
       await UserReport.deleteOne({userId:id});
       return callback(null,200,'account deleted');
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -130,13 +120,15 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   createReview: async (accountantId,fields,callback) => {
-    if(callback);
+    
     try {
       const df = getDefinedFields(fields);
       const {authorId,rating,date,title,content} = df;
-      if (!fieldsAreNotNull({authorId,date,rating,title})) { 
-        return callback(null,400,'missing params');
+
+      if (!await Account.findOne({accountId: authorId})) {
+        return callback(null,404,new NotFoundError('author account not found'));
       }
+
       const newReview = new Review({
         authorId,accountantId,date,rating,title,content
       });
@@ -144,12 +136,11 @@ module.exports = {
       const account = await Account.findOneAndUpdate(
         {$and:[{accountId: accountantId}, {isAccountant: true}]},
         {$push: pushItem},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       );
-      if (!account) return callback(null,404,'accountant not found');
+      if (!account) return callback(null,404,new NotFoundError('accountant not found'));
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -160,23 +151,22 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   createSubscription: async (id,fields,callback) => {
-    if(callback);
+    
     try {
       const {subscriptionDate,expiryDate} = fields;
       if (!fieldsAreNotNull({subscriptionDate,expiryDate})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const fieldsToUpdate = parseSubscriptionData({subscriptionDate,expiryDate});
   
       const account = await Account.findOneAndUpdate(
         {$and:[{accountId: id}, {isAccountant: false}]},
         {$set: fieldsToUpdate},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       );
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   },
@@ -187,22 +177,21 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   updateSubscription: async (id,fields,callback) => {
-    if(callback);
+    
     try {
       const {expiryDate} = fields;
       if (!fieldsAreNotNull({expiryDate})) {
-        return callback(null,400,'missing params');
+        throw new ValidationError('missing params');
       }
       const fieldsToUpdate = parseSubscriptionData({expiryDate})
       const account = await Account.findOneAndUpdate(
         {$and:[{accountId: id}, {isAccountant: false}]},
         {$set: fieldsToUpdate},
-        {returnDocument: 'after'},
+        {returnDocument: 'after', runValidators: true},
       );
-      if (!account) return callback(null,404,'account not found');
+      if (!account) return callback(null,404,new NotFoundError('account not found'));
       return callback(null,200,account);
     } catch (err) {
-      console.log(err);
       return callback(null,400,err);
     }
   }

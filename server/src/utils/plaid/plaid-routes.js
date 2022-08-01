@@ -1,9 +1,9 @@
 
-const {PlaidUser} = require('./models');
+const {PlaidUser} = require('./plaid-models');
 const { createTransaction } = require('../../main_modules/transactions/transaction-store');
-const { fieldsAreNotNull } = require('../get-defined-fields');
+const { fieldsAreNotNull } = require('../checks/get-defined-fields');
 const fx = require('money');
-const { UserTransaction } = require('../../main_modules/transactions/models');
+const { UserTransaction } = require('../../main_modules/transactions/transaction-models');
 fx.base = "USD";
 fx.rates = {//other rates need to be defined if we want to support other currencies
   "CAD": 1.29,
@@ -201,7 +201,7 @@ module.exports = function(app) {
           const fieldsToSet = {
             "data.paymentId": paymentId, 
           }
-          PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after'},(err,foundUser)=> {
+          PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after', runValidators: true},(err,foundUser)=> {
             if (err) {
               console.log(err)
             } 
@@ -253,7 +253,7 @@ module.exports = function(app) {
           "data.itemId": tokenResponse.data.item_id,
           "data.transferId": transferId
         }
-        PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after'},(err,foundUser)=> {
+        PlaidUser.findOneAndUpdate({userId: request.params.userId}, {$set: fieldsToSet}, {returnDocument: 'after', runValidators: true},(err,foundUser)=> {
           if (!err) {
             accessToken = foundUser.data.accessToken;
             itemId = foundUser.data.itemId;

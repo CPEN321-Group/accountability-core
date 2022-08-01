@@ -1,49 +1,54 @@
 require('dotenv').config();
-const { Account } = require("./models");
-const jwt = require('jsonwebtoken');
+const {OAuth2Client} = require('google-auth-library');
+const axios = require('axios').default
 
+const FB_JWKS_ENDPOINT = 'https://www.facebook.com/.well-known/oauth/openid/jwks/'
 
-/**
- * Authenticates the user if provided token is valid.
- * @param {string} token 
- * @param {string} accountId 
- * @returns the account if successfully authenticated, otherwise profile only
- */
-const authenticate = (token, accountId, callback) => {
-  Account.findById(accountId, (err,foundAccount) => {
-    if (err || !foundAccount) return callback(err,null);
-    if (!tokenIsValid(token,foundAccount.id)) {
-      // return callback(err,foundAccount);
-      return callback(new Error('invalid token'),{profile: foundAccount.profile});
-    } else {
-      return callback(err,foundAccount);
-    }
-  }) 
-}
-
-/**
- * Generate a JWT token with data as payload. Token expires in 1 hour for now.
- * @param {any} data 
- * @returns generated token string
- */
-const generateToken = (data) => {
-  const token = jwt.sign({ 
-    data,
-  },process.env.JWT_SECRET, { expiresIn: '30d' });
-  return token;
-}
-/**
- * @param {string} token 
- * @param {any} data 
- * @returns true if token is valid, else false
- */
-const tokenIsValid = (token,data) => {
-  // console.log(`token: ${token} \ndata: ${data}`)
+function parseJWT(token) {
+  const sections = token.split('.');
+  if (sections.length !== 3) {
+    return false;
+  }
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    return payload.data === data;
-  } catch(err) {
+    const payload = JSON.parse(Buffer.from(sections[1], 'base64').toString());
+  } catch (err) {
+    return false; //JSON parsing error
+  }
+}
+async function getFBPublicKey() {
+  try {
+    const {data} = await axios.get(FB_JWKS_ENDPOINT);
+    console.log(data)
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
+const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+
+async function googleVerifyToken(token) {
+  if (!process.env.GOOGLE_CLIENT_ID) {
+    return true;
+  }
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    console.log(payload);
+    const accountId = payload['sub'];
+    const clientId = payload['aud'];
+    return true;
+  } catch (err) {
+    // console.log(err);
     return false;
   }
 }
-module.exports = {authenticate,generateToken,tokenIsValid}
+
+async function facebookVerifyToken(token) {
+  return true;
+}
+module.exports = {googleVerifyToken,getFBPublicKey,parseJWT, facebookVerifyToken, client: googleClient}

@@ -16,5 +16,7 @@ require('./routes')(app);
 const io = require('socket.io')(server)
 require('./socket')(io);
 
+module.exports = {default: app, server};
+
 
 
