@@ -4,7 +4,15 @@ const {r_string,r_num, r_date} = require('../../../utils/types/mongo-required')
 const reviewSchema = new mongoose.Schema({
   authorId: r_string,
   accountantId: r_string,
-  date: r_date,
+  date: {
+    ...r_date,
+    validate: {
+      validator: function(v) {
+        return v.getTime() <= Date.now()
+      },
+      message: "Date cannot be in the future"
+    }
+  },
   rating: {
     type: Number,
     required: true,

@@ -1,7 +1,8 @@
 // const { createSubscription: setAccountSubscription } = require('../../main_modules/accounts/account-store');
 
 const { Account } = require('../../main_modules/accounts/account-models');
-const { NotFoundError } = require('../errors');
+const { isPastDate } = require('../checks/date-check');
+const { NotFoundError, ValidationError } = require('../errors');
 
 //setup based on https://www.youtube.com/watch?v=rPR2aJ6XnAc
 require('dotenv').config();
@@ -79,8 +80,11 @@ module.exports = function(app) {
     app.post('/stripe/checkout/:userId', async (req,res) => {
       if(req);
       try {
-        const user = await Account.findOne({accountId: req.params.userId});
+        const user = await Account.findOne({accountId: req.params.userId, isAccountant: false});
         if (!user) { return res.status(404).json(new NotFoundError('account not found'))}
+        if (!isPastDate(user.subscription.expiryDate)) {
+          return res.status(400).json(new ValidationError('account already subscribed'));
+        }
         // const {userId} = req.params;
         const newCustomer = await stripe.customers.create({
           email: 'test123@gmail.com',

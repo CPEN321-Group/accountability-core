@@ -49,6 +49,14 @@ describe('find all goals of a user', () => {
     expect(res.statusCode).toBe(403);
     expect(res.body).toHaveProperty('name', 'ForbiddenError');
   })
+  test('find goals for user with no goals', async () => {
+    await request(server).post('/accounts').query({...accountFields});
+    const res = await request(server).get('/goals/' + existingId);
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeInstanceOf(Array);
+    expect(res.body.length).toBe(0);
+  })
 })
 
 describe('create a goal', () => {
@@ -88,6 +96,14 @@ describe('delete all goals by the user', () => {
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(404);
     expect(res.body).toHaveProperty('name', 'NotFoundError')
+  })
+  test('delete goals with invalid authentication', async () => {
+    const res = await request(server).delete('/goals/' + existingId).query({
+      token: 'invalid-token'
+    })
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty('name','ForbiddenError');
   })
 })
 
@@ -156,6 +172,14 @@ describe('delete a goal', () => {
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(404);
     expect(res.body).toHaveProperty('name', 'NotFoundError');
+  })
+  test('delete goal with invalid authentication', async () => {
+    const res = await request(server).delete(`/goals/${existingId}/${goalId}`).query({
+      token: 'invalid-token'
+    });
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(403);
+    expect(res.body).toHaveProperty('name','ForbiddenError')
   })
 })
 

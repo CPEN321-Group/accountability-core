@@ -90,6 +90,15 @@ describe('update account profile', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('profile');
   })
+  test('update profile with invalid parameters', async () => {
+    const res = await request(server).put('/accounts/' + existingId).query({
+      age: -1
+    })
+
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty('name','ValidationError');
+  })
   test('update profile of an account that doesn\'t belong to the user', async () => {
     const res = await request(server).put('/accounts/' + existingId).query({
       firstname: 'John',

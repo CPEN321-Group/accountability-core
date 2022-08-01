@@ -125,6 +125,10 @@ module.exports = {
       const df = getDefinedFields(fields);
       const {authorId,rating,date,title,content} = df;
 
+      if (!await Account.findOne({accountId: authorId})) {
+        return callback(null,404,new NotFoundError('author account not found'));
+      }
+
       const newReview = new Review({
         authorId,accountantId,date,rating,title,content
       });

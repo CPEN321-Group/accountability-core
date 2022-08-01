@@ -23,12 +23,12 @@ const transactionFields = {
 
 let id;
 
-async function initUserTransaction () {
+async function initUserTransaction (id) {
   try {
-    const foundUT = await UserTransaction.findOne({userId: existingId});
+    const foundUT = await UserTransaction.findOne({userId: id});
     if (!foundUT) {
       console.log('creating userTransaction');
-      const userTranscation = new UserTransaction({userId: existingId});
+      const userTranscation = new UserTransaction({userId: id});
       await userTranscation.save();
     }
   } catch (err) {
@@ -40,12 +40,22 @@ beforeAll(done => {
 })
 describe('testing findTransactions', () => {
   test('transactions found', async () => {
-    await initUserTransaction();
+    await initUserTransaction(existingId);
     await findTransactions(existingId, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toBeInstanceOf(Array);
     })
+  })
+  test('no transactions found', async () => {
+    await initUserTransaction('ai93n');
+    await findTransactions(nonExistingId, (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(200);
+      expect(returnData).toBeInstanceOf(Array);
+      expect(returnData.length).toBe(0);
+    })
+    await UserTransaction.deleteOne({userId: nonExistingId});
   })
   test('account not found', async () => {
     await findTransactions(nonExistingId, (err,status,returnData) => {
@@ -239,7 +249,7 @@ describe('testing deleteTransaction', () => {
       expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
-  test('account not found', async () => {
+  test('transaction not found', async () => {
     await deleteTransaction(existingId, id, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);

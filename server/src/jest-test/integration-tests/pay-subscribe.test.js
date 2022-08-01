@@ -26,6 +26,7 @@ beforeAll(done => {
 describe('subscribe', () => {
   test('pay + subscribe for an existing user', async () => {
     await request(server).post('/accounts').query({...accountFields});
+    await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2022'});
     const res1 = await request(server).post('/stripe/checkout/' + existingId);
     expect(res1.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res1.statusCode).toBe(200);
@@ -65,6 +66,17 @@ describe('subscribe', () => {
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(403);
     expect(res.body).toHaveProperty('name', 'ForbiddenError');
+  })
+  test('pay + subscribe for a already subscribed user', async () => {
+    const res0 = await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2026'});
+    expect(res0.statusCode).toBe(200);
+    const res = await request(server).post('/stripe/checkout/' + existingId);
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty('name','ValidationError');
+    expect(res.body).toHaveProperty('errorMessage','account already subscribed');
+
+    await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2022'});
   })
 }) 
 

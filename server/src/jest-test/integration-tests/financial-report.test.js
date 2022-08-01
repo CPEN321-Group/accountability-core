@@ -241,6 +241,8 @@ describe('get all reports assigned to an accountant', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toBeInstanceOf(Array);
     expect(res.body.length).toEqual(0);
+
+    await request(server).delete(`/accounts/${newAccountantId}`);
   })
 })
 

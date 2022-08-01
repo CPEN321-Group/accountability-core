@@ -48,7 +48,7 @@ describe('write a review', () => {
     expect(res.statusCode).toBe(400);
     expect(res.body).toHaveProperty('name', 'ValidationError');
   })
-  test('write a reivew with invalid authentication', async () => {
+  test('write a review with invalid authentication', async () => {
     await request(server).post('/accounts').query({...accountantFields});
     const res = await request(server).post('/reviews/' + accountantId).query({
       ...reviewFields,

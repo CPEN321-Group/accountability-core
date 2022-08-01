@@ -155,7 +155,7 @@ describe('testing findAccount', () => {
       expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
-  test('accountId is wrong type', async () => {
+  test('accountId is invalid', async () => {
     await findAccount({test: 'test'}, (err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
@@ -171,6 +171,17 @@ describe('testing findAccountants', () => {
       expect(status).toStrictEqual(200);
       expect(returnData).toBeInstanceOf(Array);
     })
+  })
+  test('no accountants are found', async () => {
+    await deleteAccount(accountantId, () => undefined);
+
+    await findAccountants((err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(200);
+      expect(returnData).toBeInstanceOf(Array);
+      expect(returnData.length).toBe(0)
+    })
+    await createAccount({accountantFields}, () => undefined);
   })
 })
 
@@ -288,21 +299,46 @@ describe('testing createReview', () => {
       expect(returnData).toHaveProperty('name','NotFoundError');
     })
   })
+  test('author not found', async () => {
+    await createReview(nonExistingId,reviewFields, (err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(404);
+      expect(returnData).toHaveProperty('name','NotFoundError');
+    })
+  })
   test('missing fields', async () => {
-    await createReview('1456',{title: 'Hi'},(err,status,returnData) => {
+    await createReview('1456',{title: 'Hi', authorId: existingId},(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
     })
   }),
   test('invalid rating', async () => {
-    
     const modifiedReviewFields = { ...reviewFields};
     modifiedReviewFields.rating = 11;
     await createReview('1456',modifiedReviewFields,(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
+    })
+  })
+  test('date is in the future', async () => {
+    const modifiedReviewFields = { ...reviewFields};
+    modifiedReviewFields.date = "2025"
+    await createReview('1456',modifiedReviewFields,(err,status,returnData) => {
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(400);
+      expect(returnData).toHaveProperty('name', 'ValidationError');
+    })
+  })
+  test('invalid fields', async () => {
+    const modifiedReviewFields = { ...reviewFields};
+    modifiedReviewFields.authorId = {test: 'test'};
+    await createReview('1456',modifiedReviewFields,(err,status,returnData) => {
+      console.log(returnData)
+      expect(err).toBeNull()
+      expect(status).toStrictEqual(400);
+      expect(returnData).toHaveProperty('name', 'CastError');
     })
   })
   test('empty string', async () => {

@@ -1,8 +1,9 @@
 const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
 const { NotFoundError, ValidationError } = require("../../utils/errors");
+const { Account } = require("../accounts/account-models");
 const { findAccount } = require("../accounts/account-store");
 const { Conversation, Message } = require("./messaging-models");
-
+const {isPastDate } = require("../../utils/checks/date-check")
 
 async function conversationExists(conversationId) {
   const conversation = await Conversation.findOne({_id: conversationId});
@@ -39,15 +40,18 @@ module.exports = {
       if (foundConversation) {
         throw new ValidationError('conversation already exists');
       }
-      let account1,account2;
-      await findAccount(account1Id,(err,status,returnData) => {
-        account1 = returnData.accountId;
-      });
-      await findAccount(account2Id,(err,status,returnData) => {
-        account2 = returnData.accountId;
-      });
+      const account1 = await Account.findOne({accountId: account1Id});
+      const account2 = await Account.findOne({accountId: account2Id});
       if (!account1 || !account2) {
         return callback(null, 404, new NotFoundError('at least one of specified accounts do not exist.')) 
+      }
+      if ((account1.isAccountant && account2.isAccountant) || //needs to be bewteen user and accountant
+        (!account2.isAccountant && !account1.isAccountant)) {
+          throw new ValidationError('a user and an accountant are required')
+      }
+      if ((!account1.isAccountant && isPastDate(account1.subscription.expiryDate)) ||
+        (!account2.isAccountant && isPastDate(account2.subscription.expiryDate))) { //user needs to be subscribed
+          throw new ValidationError('user is not subscribed')
       }
       const newConversation = new Conversation({
         members: [account1Id,account2Id],

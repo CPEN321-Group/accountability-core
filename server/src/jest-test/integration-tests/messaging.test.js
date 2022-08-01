@@ -60,7 +60,33 @@ describe('get conversation between 2 accounts', () => {
   })
 })
 describe('create new conversation between two accounts', () => {
+  test('create conversation when user is not subscribed', async () => {
+    const res0 = await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2022'});
+    expect(res0.statusCode).toBe(200);
+    const res =  await request(server).post('/messaging/conversation').query({
+      account1Id: existingId,
+      account2Id: accountantId
+    });
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty('name', 'ValidationError');
+    expect(res.body).toHaveProperty('errorMessage', 'user is not subscribed');
+  })
+  test('create conversation that is not between a user and an accountant', async () => {
+    const newUser = await request(server).post('/accounts').query({...accountFields, accountId: 'abcd'});
+
+    const res =  await request(server).post('/messaging/conversation').query({
+      account1Id: existingId,
+      account2Id: 'abcd'
+    });
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toHaveProperty('name', 'ValidationError');
+    expect(res.body).toHaveProperty('errorMessage', 'a user and an accountant are required');
+  })
   test('create conversation between existing accounts', async () => {
+    const res0 = await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2026'});
+    expect(res0.statusCode).toBe(200);
     const res =  await request(server).post('/messaging/conversation').query({
       account1Id: existingId,
       account2Id: accountantId
