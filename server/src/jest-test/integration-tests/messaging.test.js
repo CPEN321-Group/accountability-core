@@ -38,6 +38,8 @@ describe('get conversation between 2 accounts', () => {
       account1Id: existingId,
       account2Id: accountantId
     });
+    const res0 = await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2026'});
+
     const res2 = await request(server).get('/messaging/conversation').query({
       account1Id: existingId,
       account2Id: accountantId
@@ -71,6 +73,7 @@ describe('create new conversation between two accounts', () => {
     expect(res.statusCode).toBe(400);
     expect(res.body).toHaveProperty('name', 'ValidationError');
     expect(res.body).toHaveProperty('errorMessage', 'user is not subscribed');
+    await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2026'});
   })
   test('create conversation that is not between a user and an accountant', async () => {
     const newUser = await request(server).post('/accounts').query({...accountFields, accountId: 'abcd'});

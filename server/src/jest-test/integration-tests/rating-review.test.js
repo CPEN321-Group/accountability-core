@@ -4,6 +4,15 @@ const { server } = require('../../index');
 
 const existingId = '1234';
 // const nonExistingId = 'ai93n';
+const accountFields = {
+  accountId: existingId,
+  firstname: 'Bob',
+  lastname: 'Jones',
+  email: 'test123@gmail.com',
+  age: 25,
+  profession: 'Student',
+  isAccountant: false
+}
 const accountantId = '1456'
 const accountantFields = {
   accountId: accountantId,
@@ -29,6 +38,7 @@ beforeAll(done => {
 describe('write a review', () => {
   test('write a review for an existing accountant', async () => {
     await request(server).post('/accounts').query({...accountantFields});
+    await request(server).post('/accounts').query({...accountFields});
     const res = await request(server).post('/reviews/' + accountantId).query({...reviewFields});
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(200);
@@ -43,7 +53,8 @@ describe('write a review', () => {
   })
   test('write a review with invalid parameters', async () => {
     await request(server).post('/accounts').query({...accountantFields});
-    const res = await request(server).post('/reviews/' + accountantId).query({title: '#()&%'});
+    const res = await request(server).post('/reviews/' + accountantId).query({title: '#()&%', authorId: existingId});
+    console.log(res.body)
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(400);
     expect(res.body).toHaveProperty('name', 'ValidationError');
