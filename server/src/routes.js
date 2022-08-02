@@ -30,4 +30,5 @@ module.exports = function(app) {
   require('./main_modules/reports/report-routes')(app);
   require('./utils/plaid/plaid-routes')(app);
   require('./utils/stripe/stripe-routes')(app);
+  require('./main_modules/search/search-routes')(app);
 }
