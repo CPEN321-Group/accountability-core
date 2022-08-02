@@ -102,9 +102,6 @@
             android:exported="false"
             android:label="@string/title_activity_home_screen" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.AppSettingsActivity"
-            android:exported="false" />
-        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />

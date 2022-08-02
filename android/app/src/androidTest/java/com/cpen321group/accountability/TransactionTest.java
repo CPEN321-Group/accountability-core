@@ -241,7 +241,7 @@ public class TransactionTest {
 
         onView(withId(R.id.datePickerButton)).perform(click());
         Thread.sleep(2000);
-        onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,8,30));
+        onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,7,30));
         onView(withText("OK")).inRoot(isDialog()).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.transactionCreateButton)).perform(click());

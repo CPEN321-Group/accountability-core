@@ -110,6 +110,8 @@ public class ChatFragment extends Fragment {
             public void onClick(View v) {
                 if(!search_text.getText().toString().equals("")){
                     aList.clear();
+                    adapter_user = new AccountantSetting(aList);
+                    userRecyclerView.setAdapter(adapter_user);
                     searchforAccountant(search_text.getText().toString());
                 }
             }
