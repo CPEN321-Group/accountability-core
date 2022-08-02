@@ -1,5 +1,7 @@
 package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +50,10 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
         holder.reportDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "Card touched.", Toast.LENGTH_LONG).show();
+                String reportId = model.getReport_id();
+                Intent reportDisplayIntent = new Intent(view.getContext(), ReportDisplayActivity.class);
+                reportDisplayIntent.putExtra("reportId", reportId);
+                view.getContext().startActivity(reportDisplayIntent);
             }
         });
         holder.reportDelete.setOnClickListener(new View.OnClickListener() {
