@@ -36,7 +36,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ReportGenActivity extends AppCompatActivity implements PieClickListener {
+public class ReportGenActivity extends AppCompatActivity {
 
     public static Context context;
     private RecyclerView reportRV;
@@ -179,10 +179,5 @@ public class ReportGenActivity extends AppCompatActivity implements PieClickList
                 Log.d("history",t.toString());
             }
         });
-    }
-
-    @Override
-    public void onItemClick(int position) {
-        Toast.makeText(this, "Touched" + position, Toast.LENGTH_SHORT).show();
     }
 }

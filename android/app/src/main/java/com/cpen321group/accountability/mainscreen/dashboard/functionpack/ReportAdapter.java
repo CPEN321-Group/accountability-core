@@ -47,7 +47,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
         ReportModel model = reportModelArrayList.get(position);
         holder.reportName.setText(model.getReport_name());
         holder.reportDetail.setText(model.getReport_detail());
-        holder.reportDetail.setOnClickListener(new View.OnClickListener() {
+        holder.reportClickableCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String reportId = model.getReport_id();
