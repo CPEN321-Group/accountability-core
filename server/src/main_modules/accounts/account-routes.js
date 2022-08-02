@@ -4,7 +4,7 @@ const { createAccount, updateProfile, createReview, deleteAccount, createSubscri
 module.exports = function(app) {
   app.route('/accounts')
     .post(async (req,res,next) => {
-      await createAccount(req.query, (err,status,returnData) => {
+      await createAccount({...req.query, avatar: req.body.avatar}, (err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
       })
@@ -25,7 +25,7 @@ module.exports = function(app) {
       })
     })
     .put(async (req,res) => {
-      await updateProfile(req.params.accountId, req.query, (err,status,returnData) => {
+      await updateProfile(req.params.accountId, {...req.query, avatar: req.body.avatar}, (err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
       })
