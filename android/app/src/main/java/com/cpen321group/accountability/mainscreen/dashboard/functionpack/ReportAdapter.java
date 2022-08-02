@@ -1,5 +1,6 @@
 package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,19 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.R;
+import com.cpen321group.accountability.RetrofitAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder> {
     private ArrayList<ReportModel> reportModelArrayList;
@@ -43,7 +54,49 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
         holder.reportDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"delete button toched",Toast.LENGTH_LONG).show();
+                String userId = FrontendConstants.userID;
+                String reportId = model.getReport_id().replace("\"", "");
+                Log.d("{userId, reportId} to be deleted: ", userId + ", " + reportId);
+                deleteSpecificReport(userId, reportId, view, holder);
+            }
+        });
+    }
+
+    private void deleteSpecificReport(String userId, String reportId, View view, Viewholder holder) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(FrontendConstants.baseURL + "/reports/users/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<ResponseBody> call = retrofitAPI.deleteSpecificReport(userId, reportId);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.code() == 200) {
+                    Toast.makeText(view.getContext(), "You have successfully deleted your selected report", Toast.LENGTH_LONG).show();
+                    Log.d("Delete", "success");
+                    reportModelArrayList.remove(holder.getAdapterPosition());  // remove the item from list
+                    notifyItemRemoved(holder.getAdapterPosition());
+                } else if (response.code() == 400) {
+                    String err = null;
+                    try {
+                        err = response.errorBody().string().replace("\"", "");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.v("Error code 400",err);
+                    Toast.makeText(view.getContext(),err,Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(view.getContext(),"Failed to delete your selected report, you may try again",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(view.getContext(),"Failed to delete your selected report, you may try again",Toast.LENGTH_LONG).show();
+                Log.d("err", t.toString());
             }
         });
     }
@@ -52,6 +105,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
     public int getItemCount() {
         return reportModelArrayList.size();
     }
+
 
     public class Viewholder extends RecyclerView.ViewHolder{
         private TextView reportName;

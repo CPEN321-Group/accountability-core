@@ -139,7 +139,19 @@ public interface RetrofitAPI {
                                              @Query("accountantId") String accountantId);
 
     @DELETE("{userId}")
-    Call<ArrayList<JsonObject>> deleteAllReports(@Path("userId") String id);
+    Call<ResponseBody> deleteAllReports(@Path("userId") String id);
 
+    @GET("{userId}/{reportId}")
+    Call<JsonObject> getSpecificReport(@Path("userId") String id,
+                                       @Path("reportId") String reportId);
+
+    @PUT("{userId}/{reportId}")
+    Call<JsonObject> updateSpecificReport(@Path("userId") String id,
+                                          @Path("reportId") String reportId,
+                                          @Query("recommendations") String recommendations);
+
+    @DELETE("{userId}/{reportId}")
+    Call<ResponseBody> deleteSpecificReport(@Path("userId") String id,
+                                          @Path("reportId") String reportId);
 
 }
