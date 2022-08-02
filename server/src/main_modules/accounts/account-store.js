@@ -120,7 +120,6 @@ module.exports = {
    * @param {function} callback - is called with response status and data
    */
   createReview: async (accountantId,fields,callback) => {
-    
     try {
       const df = getDefinedFields(fields);
       const {authorId,rating,date,title,content} = df;

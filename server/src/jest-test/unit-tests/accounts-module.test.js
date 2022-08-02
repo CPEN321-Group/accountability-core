@@ -284,7 +284,7 @@ describe('testing deleteAccount', () => {
 describe('testing createReview', () => {
   test('review created', async () => {
     await createAccount(accountantFields,() => undefined);
-    await createReview('1456',reviewFields,(err,status,returnData) => {
+    await createReview(accountantId,reviewFields,(err,status,returnData) => {
       expect(err).toBeNull()
       expect(status).toStrictEqual(200);
       expect(returnData).toHaveProperty('reviews');
@@ -300,10 +300,12 @@ describe('testing createReview', () => {
     })
   })
   test('author not found', async () => {
-    await createReview(nonExistingId,reviewFields, (err,status,returnData) => {
+    await createReview(accountantId,{...reviewFields, authorId: nonExistingId}, (err,status,returnData) => {
+      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toHaveProperty('name','NotFoundError');
+      expect(returnData).toHaveProperty('errorMessage','author account not found')
     })
   })
   test('missing fields', async () => {
@@ -335,7 +337,6 @@ describe('testing createReview', () => {
     const modifiedReviewFields = { ...reviewFields};
     modifiedReviewFields.authorId = {test: 'test'};
     await createReview('1456',modifiedReviewFields,(err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'CastError');
