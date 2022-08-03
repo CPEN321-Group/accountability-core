@@ -124,6 +124,6 @@ public interface RetrofitAPI {
                                                @Path("transactionId") String transactionId);
 
     @POST("search/accountant")
-    Call<ArrayList<JsonObject>> findAccountant(@Body String str);
+    Call<ArrayList<JsonObject>> findAccountant(@Query("firstname") String str);
 
 }
