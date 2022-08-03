@@ -165,4 +165,8 @@ public interface RetrofitAPI {
     @PUT("accounts/{accountId}")
     Call<String> updateAvatar(@Path("accountId") String id,
                               @Body JsonObject json);
+
+    @GET("search/transactions/{accountId}")
+    Call<ArrayList<JsonObject>> findTransaction(@Path("accountId") String id,
+                                                @Query("title") String str);
 }
