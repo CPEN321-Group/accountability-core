@@ -230,7 +230,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
         if(bitmap != null){
-            av = bitmapToString(bitmap);
+            av = bitmapToString(Bitmap.createScaledBitmap(bitmap, 100, 100, false));
         }else{
             av = " ";
         }

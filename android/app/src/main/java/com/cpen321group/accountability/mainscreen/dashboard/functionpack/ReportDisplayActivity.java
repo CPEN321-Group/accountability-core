@@ -34,6 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ReportDisplayActivity extends AppCompatActivity implements PieClickListener {
     private ReportPieChart reportPieChart;
     private String reportId;
+    private String usertxt;
 
     double amount_daily_necessities = 0.0;
     double amount_food_drinks = 0.0;
@@ -63,11 +64,17 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
         //Starting of this activity
         Bundle extras = getIntent().getExtras();
         reportId = extras.getString("reportId").replace("\"", "");
+        usertxt = extras.getString("userID");
+        Log.d("id",usertxt);
         reportPieChart = (ReportPieChart) findViewById(R.id.piechart);
         reportPieChart.setRadiusDefault(ReportPieChart.dp2px(this, 80));
         reportPieChart.setPieClickListener(this);
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         getReport(pieEntries);
+
+        if(FrontendConstants.isAccountant){
+            myChildToolbar.setTitle("User Report");
+        }
     }
 
     @Override
@@ -83,7 +90,7 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getSpecificReport(FrontendConstants.userID, reportId);
+        Call<JsonObject> call = retrofitAPI.getSpecificReport(usertxt, reportId);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

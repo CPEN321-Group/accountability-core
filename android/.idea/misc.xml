@@ -47,12 +47,13 @@
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_receipt.xml" value="0.1046875" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_register.xml" value="0.1796875" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_register_setting.xml" value="0.22" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_report_gen.xml" value="0.1" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_review.xml" value="0.1796875" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_transaction_create.xml" value="0.1" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_transaction_set.xml" value="0.11875" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/activity_welcome.xml" value="0.1796875" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/card_layout.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/card_layout_report.xml" value="0.11875" />
+        <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/card_layout_report.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/card_layout_transaction.xml" value="0.3161094224924012" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/fragment_chat.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Vicky/accountability-core/android/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />

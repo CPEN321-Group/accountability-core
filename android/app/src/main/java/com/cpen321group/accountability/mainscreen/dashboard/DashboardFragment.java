@@ -59,6 +59,8 @@ public class DashboardFragment extends Fragment {
         } else {
             dashName.setText("Good afternoon, "+ FrontendConstants.userName+"!");
         }
+
+
         Button settings = binding.homeSettings;
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +111,13 @@ public class DashboardFragment extends Fragment {
                 startActivity(goalIntent);
             }
         });
+
+        if(FrontendConstants.isAccountant){
+            goals.setEnabled(false);
+            transactionButton.setEnabled(false);
+            MoreButton.setEnabled(false);
+            second_transaction.setEnabled(false);
+        }
 
         notification_text = binding.notificationText;
         spending = binding.spendingText;
