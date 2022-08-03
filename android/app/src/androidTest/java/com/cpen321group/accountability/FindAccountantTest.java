@@ -50,6 +50,7 @@ public class FindAccountantTest {
         FrontendConstants.userID = "100141214588378665776go";
         FrontendConstants.isAccountant = false;
         FrontendConstants.is_test = 1;
+        FrontendConstants.is_subscribed = true;
         mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
         mfragment.moveToState(Lifecycle.State.STARTED);
     }
@@ -61,6 +62,16 @@ public class FindAccountantTest {
     @Test
     public void chatViewTest(){
         onView(withId(R.id.textView_name)).check(matches(withText("Find An Accountant")));
+    }
+
+    @Test
+    public void chatViewNotSubTest() throws InterruptedException {
+        Thread.sleep(1000);
+        FrontendConstants.is_subscribed = false;
+        mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
+        mfragment.moveToState(Lifecycle.State.STARTED);
+        Thread.sleep(2000);
+        onView(withText("You should subscribed first!")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
     }
 
     @Test
@@ -79,6 +90,7 @@ public class FindAccountantTest {
 
     @Test
     public void historyTest() throws InterruptedException {
+        FrontendConstants.userID = "100141214588378665776go";
         onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -81,10 +82,15 @@ public class ChatFragment extends Fragment {
             functionName.setText("User Request");
             adapter = new RequestSetting(userList);
             userRecyclerView.setAdapter(adapter);
-        }else{
+        }else if(FrontendConstants.is_subscribed){
             functionName.setText("Find An Accountant");
             adapter_user = new AccountantSetting(aList);
             userRecyclerView.setAdapter(adapter_user);
+        }else{
+            aList.clear();
+            adapter_user = new AccountantSetting(aList);
+            userRecyclerView.setAdapter(adapter_user);
+            Toast.makeText(getContext(),"You should subscribed first!",Toast.LENGTH_LONG).show();
         }
 
 
@@ -96,11 +102,11 @@ public class ChatFragment extends Fragment {
             FrontendConstants.userID = profile.getId()+"fb";
         }
 
-        if(!FrontendConstants.isAccountant){
-            getAccountant(aList);
-        }else{
+        if(FrontendConstants.isAccountant){
             getUser(userList);
             binding.linearLayoutSearch.setVisibility(View.GONE);
+        }else if(FrontendConstants.is_subscribed){
+            getAccountant(aList);
         }
 
         EditText search_text = binding.searchText;
