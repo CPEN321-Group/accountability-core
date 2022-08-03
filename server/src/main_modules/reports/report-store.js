@@ -10,7 +10,6 @@ const getOngoingGoals = (goals, startOfNextMonth) => {
   return ongoingGoals;
 }
 const getMonthTransactions = (transactions, startOfNextMonth) => {
-  clg
   const thisMonth = new Date(startOfNextMonth);
   thisMonth.setMonth(thisMonth.getMonth()-1,1);
   let monthTransactions = transactions.filter(transaction => 
