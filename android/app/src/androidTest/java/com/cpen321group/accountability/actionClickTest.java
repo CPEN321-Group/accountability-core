@@ -270,7 +270,7 @@ public class actionClickTest {
     }
 
     @Test
-    public void _k_updateReportTest() throws InterruptedException {
+    public void _k_displayReportTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
@@ -293,7 +293,7 @@ public class actionClickTest {
         onView(withId(R.id.reportRV))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.reportRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.reportDelete)));
+                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportDelete)));
         count ++;
         Thread.sleep(2000);
         assert (count<5);
