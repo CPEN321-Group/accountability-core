@@ -11,7 +11,7 @@ module.exports = function(app) {
   .post(async (req,res) => {
     await createTransaction(
       req.params.userId,
-      req.query,
+      {...req.query, receipt: req.body.receipt},
       (err,status,returnData) => {
         if (err) console.log(err);
         res.status(status).json(returnData);
@@ -32,10 +32,14 @@ module.exports = function(app) {
     })
   })
   .put(async (req,res) => {
-    await updateTransaction(req.params.userId,req.params.transactionId,req.query,(err,status,returnData) => {
-      if (err) console.log(err);
-      res.status(status).json(returnData);
-    })
+    await updateTransaction(
+      req.params.userId,
+      req.params.transactionId,
+      {...req.query, receipt: req.body.receipt},
+      (err,status,returnData) => {
+        if (err) console.log(err);
+        res.status(status).json(returnData);
+      })
   })
   .delete(async (req,res) => {
     await deleteTransaction(req.params.userId,req.params.transactionId,(err,status,returnData) => {
