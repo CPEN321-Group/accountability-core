@@ -154,4 +154,10 @@ public interface RetrofitAPI {
     Call<ResponseBody> deleteSpecificReport(@Path("userId") String id,
                                           @Path("reportId") String reportId);
 
+    // stripe subscription
+    @POST("/subscription/{accountId}")
+    Call<JsonObject> startSubscription(@Path("accountId") String id,
+                                       @Query("subscriptionDate") String subscriptionDate,
+                                       @Query("expiryDate") String expiryDate);
+
 }
