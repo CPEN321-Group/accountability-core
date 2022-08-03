@@ -102,6 +102,7 @@ public class ChatFragment extends Fragment {
             FrontendConstants.userID = profile.getId()+"fb";
         }
 
+
         if(FrontendConstants.isAccountant){
             getUser(userList);
             binding.linearLayoutSearch.setVisibility(View.GONE);

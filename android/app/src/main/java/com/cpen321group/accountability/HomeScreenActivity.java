@@ -88,6 +88,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         try {
                             if (response.body() != null) {
+                                Log.d("Account",response.body().toString());
                                 FrontendConstants.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
                                 Log.d("Message", response.body().get("isAccountant").toString());
                                 JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
@@ -97,19 +98,22 @@ public class HomeScreenActivity extends AppCompatActivity {
                                         FrontendConstants.userName = name.substring(1, name.length() - 1);
                                     }
                                 }
-
-                                String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                Date subDate = formatter.parse(date);
-                                Date a = new Date();
-                                int num = (int) ((subDate.getTime() - a.getTime()) / (1000 * 3600 * 24));
-                                if(num >= 0){
-                                    FrontendConstants.is_subscribed = true;
+                                try {
+                                    String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                                    Date subDate = formatter.parse(date);
+                                    Date a = new Date();
+                                    int num = (int) ((subDate.getTime() - a.getTime()) / (1000 * 3600 * 24));
+                                    if (num >= 0) {
+                                        FrontendConstants.is_subscribed = true;
+                                    }
+                                }catch(Exception e){
+                                    Log.d("Home",e.toString());
+                                    FrontendConstants.is_subscribed = false;
                                 }
                             }
                         }catch(Exception e){
                             Log.d("Home",e.toString());
-                            FrontendConstants.is_subscribed = false;
                         }
                     }
 

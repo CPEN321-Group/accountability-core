@@ -66,6 +66,8 @@ public class actionClickTest {
         FrontendConstants.is_test = 1;
         FrontendConstants.is_subscribed = true;
         count = 0;
+        //FrontendConstants.userID = "455937552go";
+        //FrontendConstants.isAccountant = true;
         //FragmentScenario<DashboardFragment> mfragment = FragmentScenario.launchInContainer(DashboardFragment.class);
         //mfragment.moveToState(Lifecycle.State.STARTED);
     }
@@ -257,7 +259,7 @@ public class actionClickTest {
 
 
     @Test
-    public void _j_addReprotTest() throws InterruptedException {
+    public void _j_addReportTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
@@ -272,7 +274,7 @@ public class actionClickTest {
     }
 
     @Test
-    public void _k_updateGoalTest() throws InterruptedException {
+    public void _k_updateReportTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
@@ -287,7 +289,7 @@ public class actionClickTest {
     }
 
     @Test
-    public void _l_deleteGoalTest() throws InterruptedException {
+    public void _l_deleteReportTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
