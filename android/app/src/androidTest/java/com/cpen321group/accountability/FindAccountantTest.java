@@ -213,7 +213,7 @@ public class FindAccountantTest {
         onView(withId(R.id.floating_action_button_review)).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.reviewcontentInput)).perform(typeText("Happy with Accountant"));
-        onView(ViewMatchers.withId(R.id.reviewcontentInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.reviewcontentInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.rate_text)).perform(click());
         onView(withText("4")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))).check(matches(isDisplayed())).perform(click());
         Thread.sleep(2000);

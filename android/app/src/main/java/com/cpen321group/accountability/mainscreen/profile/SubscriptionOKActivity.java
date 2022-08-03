@@ -60,7 +60,7 @@ public class SubscriptionOKActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        String subscriptionDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+        //String subscriptionDate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
         Calendar c= Calendar.getInstance();
         c.add(Calendar.DATE, -30);
         Date d=c.getTime();

@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
-import com.cpen321group.accountability.mainscreen.chat.ChattingActivity;
 
 import java.util.ArrayList;
 

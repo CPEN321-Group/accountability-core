@@ -6,7 +6,6 @@ import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -231,7 +230,7 @@ public class ActionClickTest {
         Thread.sleep(1000);
         onView(withId(R.id.title_text)).perform(typeText("Test"));
         onView(withId(R.id.reviewcontentInput)).perform(typeText("Very nice accountant"));
-        onView(ViewMatchers.withId(R.id.reviewcontentInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.reviewcontentInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.rate_text)).perform(click());
         onView(withText("5")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))).check(matches(isDisplayed())).perform(click());
         Thread.sleep(1000);

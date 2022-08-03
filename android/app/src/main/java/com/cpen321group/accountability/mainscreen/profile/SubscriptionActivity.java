@@ -34,14 +34,12 @@ import com.stripe.android.PaymentConfiguration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Query;
 
 public class SubscriptionActivity extends AppCompatActivity {
     PaymentSheet paymentSheet;

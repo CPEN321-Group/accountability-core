@@ -18,13 +18,10 @@ import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
-import com.cpen321group.accountability.mainscreen.chat.AccountantSetting;
-import com.cpen321group.accountability.mainscreen.chat.NameID;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,7 +74,7 @@ public class TransactionSetActivity extends AppCompatActivity {
         });
 
         EditText search_text = findViewById(R.id.searchTransaction_text);
-        Button search_button = findViewById(R.id.searchTransaction_button);;
+        Button search_button = findViewById(R.id.searchTransaction_button);
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

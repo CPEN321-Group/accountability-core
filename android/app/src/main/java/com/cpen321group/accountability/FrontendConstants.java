@@ -1,7 +1,5 @@
 package com.cpen321group.accountability;
 
-import android.graphics.Bitmap;
-
 public class FrontendConstants {
 
     public static String baseURL = "http://20.104.57.27:8000";
