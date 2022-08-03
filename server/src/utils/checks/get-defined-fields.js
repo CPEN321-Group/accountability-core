@@ -5,6 +5,10 @@
  */
 function getDefinedFields(fields) {
   let definedFields = {};
+  if (!fields) {
+    return definedFields;
+  }
+  
   Object.keys(fields).forEach((key) => {
     if(fields && isValid(fields[key])){
       definedFields[key] = fields[key];
@@ -29,7 +33,8 @@ function isValid(field) {
 function fieldsAreNotNull(fields) {
   let notNull = true;
   for (let key in fields) {
-    if (!fields[key] || fields[key] === undefined || fields[key] === '') {
+    if (fields[key] === null || fields[key] === undefined || 
+      ((typeof fields[key] === 'string' || fields[key] instanceof String) && fields[key].trim().length === 0)) {
       console.log(`missing ${key}`);
       notNull = false;
     }

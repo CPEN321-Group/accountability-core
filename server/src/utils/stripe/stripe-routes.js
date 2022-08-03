@@ -1,5 +1,9 @@
 // const { createSubscription: setAccountSubscription } = require('../../main_modules/accounts/account-store');
 
+const { Account } = require('../../main_modules/accounts/account-models');
+const { isPastDate } = require('../checks/date-check');
+const { NotFoundError, ValidationError } = require('../errors');
+
 //setup based on https://www.youtube.com/watch?v=rPR2aJ6XnAc
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
@@ -71,11 +75,16 @@ module.exports = function(app) {
     //stripe success redirect page
 
     app.get('/stripe/public-keys', (req,res) => {
-      res.send({key: process.env.STRIPE_PUBLIC_KEY })
+      res.json({key: process.env.STRIPE_PUBLIC_KEY })
     })
     app.post('/stripe/checkout/:userId', async (req,res) => {
       if(req);
       try {
+        const user = await Account.findOne({accountId: req.params.userId, isAccountant: false});
+        if (!user) { return res.status(404).json(new NotFoundError('account not found'))}
+        if (!isPastDate(user.subscription.expiryDate)) {
+          return res.status(400).json(new ValidationError('account already subscribed'));
+        }
         // const {userId} = req.params;
         const newCustomer = await stripe.customers.create({
           email: 'test123@gmail.com',
@@ -95,15 +104,14 @@ module.exports = function(app) {
               enabled: true,
             },
           });
-          res.json({
+          res.status(200).json({
             paymentIntent: paymentIntent.client_secret,
             ephemeralKey: ephemeralKey.secret,
             customer: customerId,
             publishableKey: process.env.STRIPE_PUBLIC_KEY
           });
       } catch (err) {
-        console.log(err);
-        res.status(500).json(err);
+        res.status(400).json(err);
       }
       
     })
@@ -116,7 +124,7 @@ module.exports = function(app) {
     //         console.log('initializing new customer...')
     //         const newCustomer = await createCustomerForUser(foundUser);
     //         const newSubscription = await createSubscriptionForCustomer(newCustomer);
-    //         Account.findOneAndUpdate({accountId: userId}, { stripeCustomerId: newCustomer.id,stripeSubscriptionId: newSubscription.id }, {returnDocument: 'after'}, async (err,updatedUser) => {
+    //         Account.findOneAndUpdate({accountId: userId}, { stripeCustomerId: newCustomer.id,stripeSubscriptionId: newSubscription.id }, {returnDocument: 'after', runValidators: true}, async (err,updatedUser) => {
     //           if (err) { return next(err)}
                 
     //           session = await createSession(userId,updatedUser.stripeCustomerId);

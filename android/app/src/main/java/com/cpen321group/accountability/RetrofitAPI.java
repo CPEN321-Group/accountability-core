@@ -100,7 +100,7 @@ public interface RetrofitAPI {
                                      @Query("date") String date,
                                      @Query("amount") int cents,
                                      @Query("isIncome") boolean isIncome,
-                                     @Query("receipt") String receiptURL);
+                                     @Body JsonObject json);
 
     @DELETE("{userId}")
     Call<ArrayList<JsonObject>> deleteAllTransactions(@Path("userId") String id);
@@ -123,9 +123,46 @@ public interface RetrofitAPI {
     Call<ResponseBody> deleteSpecificTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId);
 
+
+    // Search API
     @GET("search/accountants")
     Call<ArrayList<JsonObject>> findAccountant(@Query("firstname") String str);
 
-    @PUT("/accounts/{accountid}")
-    Call<String> updateAvatar(@Body JsonObject json);
+    // Reports APIs
+    @GET("{userId}")
+    Call<ArrayList<JsonObject>> getAllReports(@Path("userId") String id);
+
+    @POST("{userId}")
+    Call<JsonObject> postReport(@Path("userId") String id,
+                                @Query("monthYear") String date);
+
+    @PUT("{userId}")
+    Call<ArrayList<JsonObject>> updateReport(@Path("userId") String id,
+                                             @Query("accountantId") String accountantId);
+
+    @DELETE("{userId}")
+    Call<ResponseBody> deleteAllReports(@Path("userId") String id);
+
+    @GET("{userId}/{reportId}")
+    Call<JsonObject> getSpecificReport(@Path("userId") String id,
+                                       @Path("reportId") String reportId);
+
+    @PUT("{userId}/{reportId}")
+    Call<JsonObject> updateSpecificReport(@Path("userId") String id,
+                                          @Path("reportId") String reportId,
+                                          @Query("recommendations") String recommendations);
+
+    @DELETE("{userId}/{reportId}")
+    Call<ResponseBody> deleteSpecificReport(@Path("userId") String id,
+                                          @Path("reportId") String reportId);
+
+    // stripe subscription
+    @POST("/subscription/{accountId}")
+    Call<JsonObject> startSubscription(@Path("accountId") String id,
+                                       @Query("subscriptionDate") String subscriptionDate,
+                                       @Query("expiryDate") String expiryDate);
+
+    @PUT("accounts/{accountid}")
+    Call<String> updateAvatar(@Path("accountid") String id,
+                              @Body JsonObject json);
 }

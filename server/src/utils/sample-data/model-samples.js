@@ -1,6 +1,6 @@
-const { UserTransaction } = require.main.require("./main_modules/transactions/models");
-const {Account} = require.main.require('./main_modules/accounts/models');
-const {UserGoal} = require.main.require('./main_modules/goals/models');
+const { Account } = require("../../main_modules/accounts/account-models");
+const { UserGoal } = require("../../main_modules/goals/goal-models");
+const { UserTransaction } = require("../../main_modules/transactions/transaction-models");
 
 module.exports = {
 //-----------------ACCOUNTS---------------//

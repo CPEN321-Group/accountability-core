@@ -101,8 +101,15 @@ public class TransactionSetActivity extends AppCompatActivity {
                         String category = jsonObject.get("category").toString();
                         int amount_cents = Integer.valueOf(jsonObject.get("amount").toString());
                         double price_dollar = amount_cents / 100.0;
-                        String date = jsonObject.get("date").toString();
-                        transactionModelArrayList.add(new TransactionModel(FrontendConstants.userID, id, title, category, date, price_dollar, false, "null"));
+                        String date = jsonObject.get("date").getAsString();
+                        String str = "null";
+                        if(jsonObject.get("receipt")!=null){
+                            str =jsonObject.get("receipt").getAsString();
+                            if(str.equals("null") || str.equals(" ")){
+                                str = "null";
+                            }
+                        }
+                        transactionModelArrayList.add(new TransactionModel(FrontendConstants.userID, id, title, category, date.substring(0, 10), price_dollar, false, str));
                         TransactionAdapter transactionAdapter = new TransactionAdapter(transactionModelArrayList);
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
                         transactionsRV.setLayoutManager(linearLayoutManager);

@@ -12,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.runner.RunWith;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
@@ -51,9 +52,11 @@ import com.cpen321group.accountability.welcome.WelcomeActivity;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class actionClickTest {
     int count = 0;
     @Before
@@ -63,8 +66,6 @@ public class actionClickTest {
         FrontendConstants.is_test = 1;
         FrontendConstants.is_subscribed = true;
         count = 0;
-        //FragmentScenario<DashboardFragment> mfragment = FragmentScenario.launchInContainer(DashboardFragment.class);
-        //mfragment.moveToState(Lifecycle.State.STARTED);
     }
 
     @Rule
@@ -176,7 +177,7 @@ public class actionClickTest {
     }
 
     @Test
-    public void f_settingTest() throws InterruptedException {
+    public void _f_settingTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.home_settings)).perform(click());
         Thread.sleep(2000);
@@ -252,8 +253,53 @@ public class actionClickTest {
         assert(count < 5);
     }
 
+
     @Test
-    public void _j_userRequestSendMessageTest() throws InterruptedException {
+    public void _j_addReportTest() throws InterruptedException {
+        Thread.sleep(3000);
+        onView(withId(R.id.report_gen_button)).perform(click());
+        count ++;
+        Thread.sleep(3000);
+        onView(withId(R.id.floating_action_button_report)).perform(click());
+        count ++;
+        Thread.sleep(2000);
+        onView(withText("OK")).inRoot(isDialog()).perform(click());
+        count ++;
+        Thread.sleep(3000);
+        assert (count<5);
+    }
+
+    @Test
+    public void _k_updateReportTest() throws InterruptedException {
+        Thread.sleep(3000);
+        onView(withId(R.id.report_gen_button)).perform(click());
+        count ++;
+        Thread.sleep(4000);
+        onView(withId(R.id.reportRV))
+                .perform(RecyclerViewActions.scrollToPosition(0));
+        onView(withId(R.id.reportRV)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportCard)));
+        Thread.sleep(2000);
+        count ++;
+        assert (count<5);
+    }
+
+    @Test
+    public void _l_deleteReportTest() throws InterruptedException {
+        Thread.sleep(3000);
+        onView(withId(R.id.report_gen_button)).perform(click());
+        count ++;
+        Thread.sleep(4000);
+        onView(withId(R.id.reportRV))
+                .perform(RecyclerViewActions.scrollToPosition(2));
+        onView(withId(R.id.reportRV)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.reportDelete)));
+        count ++;
+        Thread.sleep(2000);
+        assert (count<5);
+    }
+    @Test
+    public void _m_userRequestSendMessageTest() throws InterruptedException {
         FrontendConstants.userID = "455937552go";
         FrontendConstants.isAccountant = true;
         Thread.sleep(2000);
@@ -277,7 +323,7 @@ public class actionClickTest {
     }
 
     @Test
-    public void _k_userRequestFinishTest() throws InterruptedException {
+    public void _n_userRequestFinishTest() throws InterruptedException {
         FrontendConstants.userID = "455937552go";
         FrontendConstants.isAccountant = true;
         Thread.sleep(2000);
@@ -294,7 +340,6 @@ public class actionClickTest {
         Thread.sleep(5000);
         assert(count < 5);
     }
-
 
 
     private Activity getCurrentActivity() {

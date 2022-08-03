@@ -1,20 +1,18 @@
 const mongoose = require('mongoose');
+const { r_date, r_bool, r_string,r_num } = require('../../../utils/types/mongo-required');
 const transactionDB = mongoose.createConnection((process.env.MONGO_BASE_URL || 'mongodb://localhost') + '/transactionDB')
-const {r_string,r_num} = require.main.require('./utils/types/mongo-required')
 
 const transactionSchema = new mongoose.Schema({
   title: r_string,
   category: r_string,
-  date: {type: Date, required: true, default: new Date()},
+  date: r_date,
   amount: r_num,
-  isIncome: {type: Boolean, required: true,default: false},
-  receipt: String,
-  plaidTransactionId: String
+  isIncome: r_bool
 })
 
 const userTransactionSchema = new mongoose.Schema({
   userId: r_string,
-  transactions: {type: [transactionSchema], default: []}
+  transactions: [transactionSchema]
 })
 
 const Transaction = transactionDB.model('Transaction',transactionSchema);

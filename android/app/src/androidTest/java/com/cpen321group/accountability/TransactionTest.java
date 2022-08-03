@@ -241,12 +241,13 @@ public class TransactionTest {
 
         onView(withId(R.id.datePickerButton)).perform(click());
         Thread.sleep(2000);
-        onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,7,30));
+        onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,8,1));
         onView(withText("OK")).inRoot(isDialog()).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.transactionCreateButton)).perform(click());
         Thread.sleep(2000);
         onView(withText("You have successfully added your new transaction")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
+        Thread.sleep(2000);
     }
 
 
@@ -264,7 +265,7 @@ public class TransactionTest {
     }
 
     @Test
-    public void _m_clickGoalButtonWithNoGoalTest() throws InterruptedException {
+    public void _m_clickTransactionButtonWithNoTransactionTest() throws InterruptedException {
         FrontendConstants.userID = "12345678go";
         Thread.sleep(3000);
         onView(withId(R.id.transaction_secondary_button)).perform(click());

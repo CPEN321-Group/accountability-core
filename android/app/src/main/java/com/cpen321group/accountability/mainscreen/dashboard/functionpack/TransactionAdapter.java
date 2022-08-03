@@ -1,5 +1,7 @@
 package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
+import com.cpen321group.accountability.mainscreen.chat.ChattingActivity;
 
 import java.util.ArrayList;
 
@@ -42,6 +45,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     @Override
     public void onBindViewHolder(@NonNull TransactionAdapter.Viewholder holder, int position) {
         TransactionModel model = transactionModelArrayList.get(position);
+        if(!model.getReceiptURL().equals("null")){
+            holder.viewR.setVisibility(View.VISIBLE);
+            holder.viewR.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(holder.context, ReceiptActivity.class);
+                    intent.putExtra("ocr",model.getReceiptURL());
+                    holder.context.startActivity(intent);
+                }
+            });
+        }else{
+            holder.viewR.setVisibility(View.GONE);
+        }
+        holder.dateTxt.setText(model.getTransaction_date());
         holder.transactionName.setText(model.getTransaction_title().replace("\"", ""));
         holder.transactionDetails.setText("Category: " + model.getTransaction_category().replace("\"", "") + " | Amount: $" + model.getTransaction_cents());
         holder.deleteTransaction.setOnClickListener(new View.OnClickListener() {
@@ -92,11 +109,17 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         private TextView transactionName;
         private TextView transactionDetails;
         private Button deleteTransaction;
+        private TextView dateTxt;
+        private Button viewR;
+        private Context context;
         public Viewholder(@NonNull View itemView) {
             super(itemView);
+            context = itemView.getContext();
             transactionName = itemView.findViewById(R.id.transactionName);
             transactionDetails = itemView.findViewById(R.id.transactionDetail);
             deleteTransaction = itemView.findViewById(R.id.transactionDelete);
+            dateTxt = itemView.findViewById(R.id.dateTxt);
+            viewR = itemView.findViewById(R.id.textView5);
         }
     }
 }
