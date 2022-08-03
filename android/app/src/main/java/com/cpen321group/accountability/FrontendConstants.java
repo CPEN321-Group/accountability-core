@@ -11,6 +11,7 @@ public class FrontendConstants {
     public static String receiverID;
     public static String userName = "User";
     public static boolean isAccountant = false;
-    public static boolean is_subscribed;
+    public static boolean is_subscribed = false;
     public static String roomID;
+    public static int is_test = 0;
 }

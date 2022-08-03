@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.MaterialComponents"
     tools:context=".mainscreen.dashboard.DashboardFragment"
     android:paddingBottom="85dp"
     android:paddingTop="18dp">
@@ -15,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="Good morning, John!"
+        android:textColor="@color/black"
         android:textAppearance="?attr/textAppearanceTitleLarge"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:textColor="@color/black"
                     android:text="No Expiring Goal"
                     android:textAppearance="?attr/textAppearanceTitleLarge"
                     android:typeface="sans" />
@@ -100,7 +103,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/goalbutton"
-                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="more"
@@ -160,6 +163,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="$"
+                    android:textColor="@color/black"
                     android:textAppearance="?attr/textAppearanceDisplayMedium"
                     android:textSize="36sp"
                     android:typeface="serif" />
@@ -188,7 +192,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/transaction_button"
-                    style="@style/Widget.Material3.Button.ElevatedButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="more"
@@ -203,11 +207,12 @@
         style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#D9C0ED"
         android:text="Reports"
         app:icon="@drawable/ic_report_generator_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.227"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.78" />
@@ -217,11 +222,12 @@
         style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#D9C0ED"
         android:text="Goals     "
         app:icon="@drawable/ic_goal_set_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.219"
+        app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9" />
@@ -231,6 +237,7 @@
         style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#D9C0ED"
         android:text="Settings"
         app:icon="@drawable/ic_settings_24"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -245,11 +252,12 @@
         style="@style/Widget.Material3.Button.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#D9C0ED"
         android:text="Spending"
         app:icon="@drawable/ic_subscription_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintHorizontal_bias="0.828"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.901" />

@@ -7,6 +7,7 @@ import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PUT;
@@ -54,7 +55,7 @@ public interface RetrofitAPI {
                                 @Query("isFinished") boolean bool);
 
     @POST("{accountantId}")
-    Call<String> postReview(@Path("accountantId") String id,
+    Call<JsonObject> postReview(@Path("accountantId") String id,
                             @Query("authorId") String userid,
                             @Query("date") Date date,
                             @Query("content") String content,
@@ -120,5 +121,37 @@ public interface RetrofitAPI {
     @DELETE("{userId}/{transactionId}")
     Call<ResponseBody> deleteSpecificTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId);
+
+    // Search API
+    @POST("search/accountant")
+    Call<ArrayList<JsonObject>> findAccountant(@Body String str);
+
+    // Reports APIs
+    @GET("{userId}")
+    Call<ArrayList<JsonObject>> getAllReports(@Path("userId") String id);
+
+    @POST("{userId}")
+    Call<JsonObject> postReport(@Path("userId") String id,
+                                @Query("monthYear") String date);
+
+    @PUT("{userId}")
+    Call<ArrayList<JsonObject>> updateReport(@Path("userId") String id,
+                                             @Query("accountantId") String accountantId);
+
+    @DELETE("{userId}")
+    Call<ResponseBody> deleteAllReports(@Path("userId") String id);
+
+    @GET("{userId}/{reportId}")
+    Call<JsonObject> getSpecificReport(@Path("userId") String id,
+                                       @Path("reportId") String reportId);
+
+    @PUT("{userId}/{reportId}")
+    Call<JsonObject> updateSpecificReport(@Path("userId") String id,
+                                          @Path("reportId") String reportId,
+                                          @Query("recommendations") String recommendations);
+
+    @DELETE("{userId}/{reportId}")
+    Call<ResponseBody> deleteSpecificReport(@Path("userId") String id,
+                                          @Path("reportId") String reportId);
 
 }

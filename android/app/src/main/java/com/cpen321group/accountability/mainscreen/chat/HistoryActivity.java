@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
@@ -43,16 +44,17 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
         //Starting of this activity
-        getData();
         msgRecyclerView = findViewById(R.id.historyView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         adapter = new MsgSetting(msgList);
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);
+        getData();
     }
 
     private void getData(){
         if (FrontendConstants.roomID != null) {
+            Toast.makeText(this,"Show History Talk Successfully",Toast.LENGTH_LONG).show();
             getHistory();
         } else {
             msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));

@@ -50,25 +50,26 @@
             android:digits="1234567890." />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/transactionCategory"
+        android:id="@+id/transactionCategoryMenu"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Your transaction Category"
+        android:hint="Your transaction category"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35"
-        app:startIconContentDescription="content_description_start_icon"
-        app:startIconDrawable="@drawable/ic_subscription_24">
+        app:layout_constraintVertical_bias="0.35">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/transactionCategoryInput"
+        <AutoCompleteTextView
+            android:id="@+id/transactionCategoryText"
             android:layout_width="match_parent"
-            android:layout_height="61dp" />
+            android:layout_height="wrap_content"
+            android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
@@ -80,35 +81,29 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/datePickerButton"
-            style="@style/Widget.Material3.Button.OutlinedButton.Icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:onClick="showDatePickerDialog"
-            android:text="Pick your transaction date"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
-            app:layout_constraintVertical_bias="0.3"
-            tools:context=".mainScreen.dashboard.functionpack.transactionCreateActivity" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/recipeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Capture Recipe"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
-            app:layout_constraintVertical_bias="0.3" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/recipeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Capture Recipe"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
+        app:layout_constraintVertical_bias="0.75" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/transactionCreateButton"
@@ -117,14 +112,14 @@
         android:text="Create transaction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
-        app:layout_constraintVertical_bias="0.868" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <ScrollView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="150dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
@@ -132,8 +127,10 @@
         android:background="@drawable/ocr_view"
         app:layout_constraintBottom_toTopOf="@+id/transactionCreateButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.45">
 
         <TextView
             android:id="@+id/ocr_view"
@@ -145,5 +142,20 @@
             android:text="Use OCR to Get Recipe Content!"
             android:textSize="16sp" />
     </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/datePickerButton"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:text="Pick your transaction date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
+        app:layout_constraintVertical_bias="0.25"
+        tools:context=".mainScreen.dashboard.functionpack.transactionCreateActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

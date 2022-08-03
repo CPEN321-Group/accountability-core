@@ -25,6 +25,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -33,11 +34,12 @@
                 android:id="@+id/topAppBar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Your goals"
                 app:menu="@menu/top_app_bar"
-                app:navigationIcon="@drawable/ic_arrow_back_24" />
+                app:navigationIcon="@drawable/ic_arrow_back_24"
+                app:title="Your goals" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button_goal"
             android:layout_width="wrap_content"

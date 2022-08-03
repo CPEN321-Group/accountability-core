@@ -7,4 +7,11 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="chart_orange">#FFA500</color>
+    <color name="chart_green">#23BF70</color>
+    <color name="chart_blue">#7155EC</color>
+    <color name="chart_purple">#B09EFF</color>
+    <color name="chart_mblue">#00A2D0</color>
+    <color name="chart_turquoise">#41DBCB</color>
 </resources>

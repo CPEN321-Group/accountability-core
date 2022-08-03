@@ -50,6 +50,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                 @Override
                 public void onClick(View v) {
                     FrontendConstants.receiverID = user_id.getText().toString();
+                    request_button.setEnabled(false);
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -61,6 +62,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                     handler2.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            request_button.setEnabled(true);
                             Intent settingsIntent = new Intent(context, ChattingActivity.class);
                             context.startActivity(settingsIntent);
                         }

@@ -54,6 +54,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 @Override
                 public void onClick(View v) {
                     FrontendConstants.receiverID = accountant_id.getText().toString();
+                    send_button.setEnabled(false);
                     postRoomId();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -67,6 +68,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                         @Override
                         public void run() {
                             updateFinish();
+                            send_button.setEnabled(true);
                             Intent settingsIntent = new Intent(context, ChattingActivity.class);
                             context.startActivity(settingsIntent);
                         }
@@ -78,7 +80,8 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 @Override
                 public void onClick(View v) {
                     FrontendConstants.receiverID = accountant_id.getText().toString();
-                    postRoomId();
+                    FrontendConstants.roomID = null;
+                    history_button.setEnabled(false);
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -90,6 +93,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                     handler2.postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            history_button.setEnabled(true);
                             Intent settingsIntent = new Intent(context, HistoryActivity.class);
                             context.startActivity(settingsIntent);
                         }
