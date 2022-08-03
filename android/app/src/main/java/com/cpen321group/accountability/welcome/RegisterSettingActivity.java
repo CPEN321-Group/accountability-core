@@ -317,4 +317,5 @@ public class RegisterSettingActivity extends AppCompatActivity {
         string= Base64.encodeToString(bytes,Base64.DEFAULT);
         return string;
     }
+
 }

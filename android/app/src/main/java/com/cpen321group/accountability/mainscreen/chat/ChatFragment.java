@@ -112,7 +112,7 @@ public class ChatFragment extends Fragment {
                     aList.clear();
                     adapter_user = new AccountantSetting(aList);
                     userRecyclerView.setAdapter(adapter_user);
-                    searchforAccountant(search_text.getText().toString());
+                    searchforAccountant(search_text.getText().toString(),aList);
                 }
             }
         });
@@ -120,7 +120,7 @@ public class ChatFragment extends Fragment {
         return root;
     }
 
-    private void searchforAccountant(String text){
+    private void searchforAccountant(String text,List<NameID> accountList){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -136,7 +136,24 @@ public class ChatFragment extends Fragment {
                 try {
                     ArrayList<JsonObject> jsonArray = response.body();
                     Log.d("Find", response.toString());
-                    Log.d("Find", jsonArray.get(0).getAsString());
+                    if (response.body() != null) {
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject jsonObject = jsonArray.get(i);
+                            Log.d("getAccountant", jsonObject.get("accountId").toString());
+                            Log.d("getAccountant", jsonObject.get("profile").getAsJsonObject().get("firstname").toString());
+                            String string = jsonObject.get("accountId").toString();
+                            String string_name = jsonObject.get("profile").getAsJsonObject().get("firstname").toString();
+                            NameID nameid = new NameID("", "Accountant");
+                            nameid.setId(string.substring(1, string.length() - 1));
+                            if (!string_name.equals("")) {
+                                nameid.setName(string_name.substring(1, string_name.length() - 1));
+                            }
+                            accountList.add(nameid);
+                            adapter_user.notifyItemInserted(accountList.size() - 1);
+                            userRecyclerView.scrollToPosition(accountList.size() - 1);
+                        }
+                        userRecyclerView.scrollToPosition(0);
+                    }
                 }catch(Exception e){
                     Log.d("Find", response.toString());
                 }
