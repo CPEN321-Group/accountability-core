@@ -3,7 +3,6 @@ package com.cpen321group.accountability.mainscreen.dashboard.functionpack;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -16,14 +15,9 @@ import com.cpen321group.accountability.reportpiechart.PieClickListener;
 import com.cpen321group.accountability.reportpiechart.PieEntry;
 import com.cpen321group.accountability.reportpiechart.ReportPieChart;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -162,7 +156,7 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(),"Try Again!",Toast.LENGTH_LONG).show();
             }
         });
     }

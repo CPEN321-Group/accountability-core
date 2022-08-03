@@ -21,7 +21,6 @@ import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

@@ -28,7 +28,6 @@ import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
@@ -46,6 +45,10 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TransactionTest {
     FragmentScenario<DashboardFragment> mfragment;
+    @Rule
+    public IntentsTestRule<FragmentScenario.EmptyFragmentActivity> intentsTestRule =
+            new IntentsTestRule(FragmentScenario.EmptyFragmentActivity.class);
+
     @Before
     public void setup(){
         FrontendConstants.userID = "113718834621290930015go";
@@ -55,9 +58,6 @@ public class TransactionTest {
         mfragment.moveToState(Lifecycle.State.STARTED);
     }
 
-    @Rule
-    public IntentsTestRule<FragmentScenario.EmptyFragmentActivity> intentsTestRule =
-            new IntentsTestRule(FragmentScenario.EmptyFragmentActivity.class);
     @Test
     public void _a_clickTransactionButtonTest() throws InterruptedException {
         Thread.sleep(3000);

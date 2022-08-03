@@ -15,15 +15,12 @@ import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.runner.RunWith;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.PickerActions.setDate;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
@@ -35,30 +32,24 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
 import android.app.Activity;
-import android.content.ComponentName;
+
 import android.view.View;
 import android.widget.DatePicker;
 
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.LargeTest;
-
 import com.cpen321group.accountability.mainscreen.chat.ChatFragment;
-import com.cpen321group.accountability.mainscreen.chat.ChattingActivity;
-import com.cpen321group.accountability.mainscreen.dashboard.DashboardFragment;
-import com.cpen321group.accountability.welcome.RegisterActivity;
-import com.cpen321group.accountability.welcome.WelcomeActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class actionClickTest {
+public class ActionClickTest {
     int count = 0;
+    @Rule
+    public ActivityScenarioRule<HomeScreenActivity> scenarioRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
+
     @Before
     public void setup(){
         FrontendConstants.userID = "100141214588378665776go";
@@ -67,9 +58,6 @@ public class actionClickTest {
         FrontendConstants.is_subscribed = true;
         count = 0;
     }
-
-    @Rule
-    public ActivityScenarioRule<HomeScreenActivity> scenarioRule = new ActivityScenarioRule<>(HomeScreenActivity.class);
 
     @Test
     public void _a_addGoalTest() throws InterruptedException {
@@ -82,7 +70,7 @@ public class actionClickTest {
         Thread.sleep(1000);
         onView(withId(R.id.goalNameInput)).perform(typeText("addGoalTest"));
         onView(withId(R.id.goalTargetPriceInput)).perform(typeText("1000"));
-        onView(ViewMatchers.withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.datePickerButton)).perform(click());
         count ++;
         Thread.sleep(2000);
@@ -107,7 +95,7 @@ public class actionClickTest {
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).perform(typeText("2000"));
-        onView(ViewMatchers.withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.goalUpdateButton)).perform(click());
         Thread.sleep(2000);
         onView(withText("You have successfully updated your selected goal")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
@@ -270,7 +258,7 @@ public class actionClickTest {
     }
 
     @Test
-    public void _k_updateReportTest() throws InterruptedException {
+    public void _k_displayReportTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
@@ -293,7 +281,7 @@ public class actionClickTest {
         onView(withId(R.id.reportRV))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.reportRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.reportDelete)));
+                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportDelete)));
         count ++;
         Thread.sleep(2000);
         assert (count<5);

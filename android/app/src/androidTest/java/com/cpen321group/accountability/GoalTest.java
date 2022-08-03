@@ -1,54 +1,38 @@
 package com.cpen321group.accountability;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.PickerActions.setDate;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.not;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
 
 import androidx.fragment.app.testing.FragmentScenario;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.ViewAssertion;
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.cpen321group.accountability.mainscreen.chat.ChatFragment;
-import com.cpen321group.accountability.mainscreen.chat.ReviewActivity;
 import com.cpen321group.accountability.mainscreen.dashboard.DashboardFragment;
-import com.cpen321group.accountability.mainscreen.dashboard.functionpack.DatePickerFragment;
 
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -61,6 +45,11 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GoalTest {
     FragmentScenario<DashboardFragment> mfragment;
+
+    @Rule
+    public IntentsTestRule<FragmentScenario.EmptyFragmentActivity> intentsTestRule =
+            new IntentsTestRule(FragmentScenario.EmptyFragmentActivity.class);
+
     @Before
     public void setup(){
         FrontendConstants.userID = "100141214588378665776go";
@@ -70,9 +59,6 @@ public class GoalTest {
         mfragment.moveToState(Lifecycle.State.STARTED);
     }
 
-    @Rule
-    public IntentsTestRule<FragmentScenario.EmptyFragmentActivity> intentsTestRule =
-            new IntentsTestRule(FragmentScenario.EmptyFragmentActivity.class);
     @Test
     public void _a_clickGoalButtonTest() throws InterruptedException {
         Thread.sleep(3000);
@@ -140,7 +126,7 @@ public class GoalTest {
         Thread.sleep(1000);
         onView(withId(R.id.goalNameInput)).perform(typeText("Study"));
         onView(withId(R.id.goalTargetPriceInput)).perform(typeText("20000"));
-        onView(ViewMatchers.withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
         Thread.sleep(1000);
         onView(withId(R.id.goalCreateButton)).perform(click());
         onView(withText("Some necessary information missing!")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
@@ -154,7 +140,7 @@ public class GoalTest {
         onView(withId(R.id.floating_action_button_goal)).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.goalTargetPriceInput)).perform(typeText("20000"));
-        onView(ViewMatchers.withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.datePickerButton)).perform(click());
         Thread.sleep(2000);
         onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,8,30));
@@ -173,7 +159,7 @@ public class GoalTest {
         Thread.sleep(1000);
         onView(withId(R.id.goalNameInput)).perform(typeText("Study"));
         onView(withId(R.id.goalTargetPriceInput)).perform(typeText("20000"));
-        onView(ViewMatchers.withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.goalTargetPriceInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.datePickerButton)).perform(click());
         Thread.sleep(2000);
         onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,8,30));
@@ -191,7 +177,7 @@ public class GoalTest {
         onView(withId(R.id.floating_action_button_goal)).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.goalNameInput)).perform(typeText("20000"));
-        onView(ViewMatchers.withId(R.id.goalNameInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.goalNameInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.datePickerButton)).perform(click());
         Thread.sleep(2000);
         onView(isAssignableFrom(DatePicker.class)).perform(setDate(2022,8,30));
@@ -267,7 +253,7 @@ public class GoalTest {
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).perform(typeText("2000"));
-        onView(ViewMatchers.withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());
         onView(withId(R.id.goalUpdateButton)).perform(click());
         Thread.sleep(2000);
         onView(withText("You have successfully updated your selected goal")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));

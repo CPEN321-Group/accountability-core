@@ -2,7 +2,6 @@ package com.cpen321group.accountability.reportpiechart;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -14,7 +13,6 @@ import androidx.annotation.Nullable;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ReportPieChart extends View {
     private final Paint paint;
@@ -22,7 +20,6 @@ public class ReportPieChart extends View {
     private float center_X;
     private float center_Y;
     private float radiusDefault;
-    private float radiusSelected;
     private ArrayList<PieEntry> pieEntries;
     private PieClickListener listener;
 
@@ -143,7 +140,7 @@ public class ReportPieChart extends View {
         center_Y = getPivotY() - 2 * radiusDefault;
 
         // radius in selected status has radius larger than default status (5px)
-        radiusSelected = radiusDefault + dp2px(getContext(), 10);
+        float radiusSelected = radiusDefault + dp2px(getContext(), 10);
 
         // radius is non-negative, if it's not positive, retrieve size from canvas
         if (radiusSelected == 0) {
