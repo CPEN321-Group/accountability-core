@@ -162,7 +162,7 @@ public interface RetrofitAPI {
                                        @Query("subscriptionDate") String subscriptionDate,
                                        @Query("expiryDate") String expiryDate);
 
-    @PUT("accounts/{accountid}")
-    Call<String> updateAvatar(@Path("accountid") String id,
+    @PUT("accounts/{accountId}")
+    Call<String> updateAvatar(@Path("accountId") String id,
                               @Body JsonObject json);
 }
