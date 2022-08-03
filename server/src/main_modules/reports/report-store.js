@@ -10,7 +10,12 @@ const getOngoingGoals = (goals, startOfNextMonth) => {
   return ongoingGoals;
 }
 const getMonthTransactions = (transactions, startOfNextMonth) => {
-  let monthTransactions = transactions.filter(transaction => transaction.date.getTime() < startOfNextMonth.getTime());
+  const thisMonth = new Date(startOfNextMonth);
+  thisMonth.setMonth(thisMonth.getMonth()-1,1);
+  let monthTransactions = transactions.filter(transaction => 
+    transaction.date.getTime() < startOfNextMonth.getTime() &&
+    transaction.date.getTime() >= thisMonth.getTime()
+  );
   return monthTransactions;
 }
 const getIncome = (transactions) => {
@@ -55,9 +60,9 @@ async function compileReport(accountId,mY) {
   const ongoingGoals = getOngoingGoals(userGoal.goals, startOfNextMonth);
 
   const userTransaction = await UserTransaction.findOne({ userId: accountId });
-  const lastMonthTransactions = getMonthTransactions(userTransaction.transactions, startOfNextMonth);
-  const income = getIncome(lastMonthTransactions);
-  const spendings = getSpendings(lastMonthTransactions);
+  const thisMonthTransactions = getMonthTransactions(userTransaction.transactions, startOfNextMonth);
+  const income = getIncome(thisMonthTransactions);
+  const spendings = getSpendings(thisMonthTransactions);
   const savings = getSavings(income, spendings);
 
   const newReport = new Report({
@@ -103,6 +108,7 @@ module.exports = {
       return callback(null,200, newReport);
       
     } catch (err) {
+      console.log(err)
       return callback(null,400,err)
     }
   },
