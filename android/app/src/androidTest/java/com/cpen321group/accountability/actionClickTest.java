@@ -66,10 +66,6 @@ public class actionClickTest {
         FrontendConstants.is_test = 1;
         FrontendConstants.is_subscribed = true;
         count = 0;
-        //FrontendConstants.userID = "455937552go";
-        //FrontendConstants.isAccountant = true;
-        //FragmentScenario<DashboardFragment> mfragment = FragmentScenario.launchInContainer(DashboardFragment.class);
-        //mfragment.moveToState(Lifecycle.State.STARTED);
     }
 
     @Rule
