@@ -66,6 +66,18 @@ public class ChattingActivity extends AppCompatActivity {
         msgRecyclerView.setLayoutManager(layoutManager);
         msgRecyclerView.setAdapter(adapter);
 
+        Button share = findViewById(R.id.share_button);
+        if(FrontendConstants.isAccountant){
+            share.setVisibility(View.GONE);
+        }else{
+            share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    postShare();
+                }
+            });
+        }
+
         try {
             //This address is the way you can connect to localhost with AVD(Android Virtual Device)
             mSocket = IO.socket(FrontendConstants.baseURL + "/");
@@ -203,6 +215,29 @@ public class ChattingActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 Log.d("history",t.toString());
+            }
+        });
+    }
+
+    private void postShare(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(FrontendConstants.baseURL + "/reports/users/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.updateReport(FrontendConstants.userID, FrontendConstants.receiverID);
+
+        call.enqueue(new Callback<ArrayList<JsonObject>>() {
+            @Override
+            public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
+                Log.d("share",response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
+                Log.d("share",t.toString());
             }
         });
     }

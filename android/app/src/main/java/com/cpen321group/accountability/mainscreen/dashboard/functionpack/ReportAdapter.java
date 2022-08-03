@@ -45,6 +45,12 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
     @Override
     public void onBindViewHolder(@NonNull ReportAdapter.Viewholder holder, int position) {
         ReportModel model = reportModelArrayList.get(position);
+        if(FrontendConstants.isAccountant){
+            holder.userId.setText("User Id: "+model.getUser_id());
+            holder.reportDelete.setVisibility(View.GONE);
+        }else{
+            holder.userId.setVisibility(View.GONE);
+        }
         holder.reportName.setText(model.getReport_name());
         holder.reportDetail.setText(model.getReport_detail());
         holder.reportClickableCard.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +59,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
                 String reportId = model.getReport_id();
                 Intent reportDisplayIntent = new Intent(view.getContext(), ReportDisplayActivity.class);
                 reportDisplayIntent.putExtra("reportId", reportId);
+                reportDisplayIntent.putExtra("userID",model.getUser_id());
                 view.getContext().startActivity(reportDisplayIntent);
             }
         });
@@ -117,6 +124,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
         private TextView reportDetail;
         private Button reportDelete;
         private CardView reportClickableCard;
+        private TextView userId;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -124,6 +132,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
             reportDetail = itemView.findViewById(R.id.reportDetail);
             reportDelete = itemView.findViewById(R.id.reportDelete);
             reportClickableCard = itemView.findViewById(R.id.reportCard);
+            userId = itemView.findViewById(R.id.id_text);
         }
     }
 }

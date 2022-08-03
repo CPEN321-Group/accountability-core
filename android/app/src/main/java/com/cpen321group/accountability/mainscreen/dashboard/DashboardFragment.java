@@ -22,6 +22,7 @@ import com.cpen321group.accountability.databinding.FragmentDashboardBinding;
 import com.cpen321group.accountability.mainscreen.dashboard.functionpack.TransactionSetActivity;
 import com.google.gson.JsonObject;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,6 +60,8 @@ public class DashboardFragment extends Fragment {
         } else {
             dashName.setText("Good afternoon, "+ FrontendConstants.userName+"!");
         }
+
+
         Button settings = binding.homeSettings;
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +113,13 @@ public class DashboardFragment extends Fragment {
             }
         });
 
+        if(FrontendConstants.isAccountant){
+            goals.setEnabled(false);
+            transactionButton.setEnabled(false);
+            MoreButton.setEnabled(false);
+            second_transaction.setEnabled(false);
+        }
+
         notification_text = binding.notificationText;
         spending = binding.spendingText;
 
@@ -152,7 +162,7 @@ public class DashboardFragment extends Fragment {
                             }
                         }
                     } else {
-                        notification_text.setText("No Expiring Goal!");
+                        notification_text.setText("No Expiring Goal");
                     }
                 }catch(Exception e){
                     
@@ -188,7 +198,9 @@ public class DashboardFragment extends Fragment {
                             double price_dollar = amount_cents / 100.0;
                             total = total + price_dollar;
                         }
-                        spending.setText("$ " + String.valueOf(total));
+                        DecimalFormat format = new DecimalFormat("#.00");
+                        String str = format.format(total);
+                        spending.setText("$ " + str);
                     } else {
                         spending.setText("$");
                     }

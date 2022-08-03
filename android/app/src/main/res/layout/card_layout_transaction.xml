@@ -22,7 +22,10 @@
             android:id="@+id/transactionImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:contentDescription="@string/app_name"
             android:padding="5dp"
             android:src="@drawable/receipt" />
@@ -48,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/transactionName"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/transactionImage"
             android:drawablePadding="2dp"
             android:text="Transaction Category | Transaction Price" />
@@ -62,6 +65,28 @@
             android:layout_marginStart="260dp"
             android:layout_marginTop="80dp"
             android:text="Delete" />
+
+        <TextView
+            android:id="@+id/dateTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/transactionDetail"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/transactionImage"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/textView5"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/transactionImage"
+            android:layout_marginStart="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/transactionDetail"
+            android:text="View"
+            android:textColor="@color/com_facebook_blue" />
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

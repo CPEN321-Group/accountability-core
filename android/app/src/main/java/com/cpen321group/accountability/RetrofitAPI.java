@@ -23,7 +23,8 @@ public interface RetrofitAPI {
                                @Query("age") int age,
                                @Query("profession") String prfn,
                                @Query("isAccountant") boolean iA,
-                               @Query("accountId") String id);
+                               @Query("accountId") String id,
+                               @Body JsonObject json);
 
     @GET("{id}")
     Call<JsonObject> getAccount(@Path("id") String id);
@@ -99,7 +100,7 @@ public interface RetrofitAPI {
                                      @Query("date") String date,
                                      @Query("amount") int cents,
                                      @Query("isIncome") boolean isIncome,
-                                     @Query("receipt") String receiptURL);
+                                     @Body JsonObject json);
 
     @DELETE("{userId}")
     Call<ArrayList<JsonObject>> deleteAllTransactions(@Path("userId") String id);
@@ -122,9 +123,10 @@ public interface RetrofitAPI {
     Call<ResponseBody> deleteSpecificTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId);
 
+
     // Search API
-    @POST("search/accountant")
-    Call<ArrayList<JsonObject>> findAccountant(@Body String str);
+    @GET("search/accountants")
+    Call<ArrayList<JsonObject>> findAccountant(@Query("firstname") String str);
 
     // Reports APIs
     @GET("{userId}")
@@ -160,4 +162,15 @@ public interface RetrofitAPI {
                                        @Query("subscriptionDate") String subscriptionDate,
                                        @Query("expiryDate") String expiryDate);
 
+    @PUT("/subscription/{accountId}")
+    Call<JsonObject> updateSubscription(@Path("accountId") String id,
+                                        @Query("expiryDate") String expiryDate);
+
+    @PUT("accounts/{accountId}")
+    Call<String> updateAvatar(@Path("accountId") String id,
+                              @Body JsonObject json);
+
+    @GET("search/transactions/{accountId}")
+    Call<ArrayList<JsonObject>> findTransaction(@Path("accountId") String id,
+                                                @Query("title") String str);
 }

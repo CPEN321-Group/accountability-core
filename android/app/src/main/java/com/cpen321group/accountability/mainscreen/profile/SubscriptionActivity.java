@@ -144,7 +144,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         }
         // Payment success
         else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-            startSubsription();
+            startSubscription();
             Log.d("Stripe","Completed");
             new MaterialAlertDialogBuilder(this)
                     .setIcon(R.drawable.ic_subscription_24)
@@ -162,7 +162,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         }
     }
 
-    private void startSubsription() {
+    private void startSubscription() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/subscription/")
                 .addConverterFactory(GsonConverterFactory.create())

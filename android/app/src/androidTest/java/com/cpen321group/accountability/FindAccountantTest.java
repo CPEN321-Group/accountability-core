@@ -48,6 +48,11 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class FindAccountantTest {
     FragmentScenario<ChatFragment> mfragment;
+
+    @Rule
+    public IntentsTestRule<FragmentScenario.EmptyFragmentActivity> intentsTestRule =
+            new IntentsTestRule(FragmentScenario.EmptyFragmentActivity.class);
+
     @Before
     public void setup(){
         FrontendConstants.userID = "100141214588378665776go";
@@ -57,10 +62,6 @@ public class FindAccountantTest {
         mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
         mfragment.moveToState(Lifecycle.State.STARTED);
     }
-
-    @Rule
-    public IntentsTestRule<FragmentScenario.EmptyFragmentActivity> intentsTestRule =
-            new IntentsTestRule(FragmentScenario.EmptyFragmentActivity.class);
 
     @Test
     public void _a_chatViewTest(){
@@ -176,7 +177,7 @@ public class FindAccountantTest {
         onView(withId(R.id.floating_action_button_review)).perform(click());
         onView(withId(R.id.title_text)).perform(typeText("Happy with Accountant"));
         onView(withId(R.id.reviewcontentInput)).perform(typeText("Great!"));
-        onView(ViewMatchers.withId(R.id.reviewcontentInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.reviewcontentInput)).perform(closeSoftKeyboard());
         Thread.sleep(3000);
         onView(withId(R.id.create_button)).perform(click());
         onView(withText("Some necessary information missing!")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
@@ -193,7 +194,7 @@ public class FindAccountantTest {
         onView(withId(R.id.floating_action_button_review)).perform(click());
         Thread.sleep(1000);
         onView(withId(R.id.title_text)).perform(typeText("Happy with Accountant"));
-        onView(ViewMatchers.withId(R.id.title_text)).perform(closeSoftKeyboard());
+        onView(withId(R.id.title_text)).perform(closeSoftKeyboard());
         onView(withId(R.id.rate_text)).perform(click());
         onView(withText("4")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))).check(matches(isDisplayed())).perform(click());
         Thread.sleep(2000);

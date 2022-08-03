@@ -21,7 +21,6 @@ import com.google.android.material.color.DynamicColors;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -91,12 +90,21 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 Log.d("Account",response.body().toString());
                                 FrontendConstants.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
                                 Log.d("Message", response.body().get("isAccountant").toString());
-                                JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
-                                if (jsonname != null) {
-                                    String name = jsonname.toString();
-                                    if (!name.equals("")) {
-                                        FrontendConstants.userName = name.substring(1, name.length() - 1);
+                                try {
+                                    JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
+                                    if (jsonname != null) {
+                                        String name = jsonname.toString();
+                                        if (!name.equals("")) {
+                                            FrontendConstants.userName = name.substring(1, name.length() - 1);
+                                        }
                                     }
+                                    String avatar = response.body().get("profile").getAsJsonObject().get("avatar").getAsString();
+                                    Log.d("avatar", avatar);
+                                    if (!avatar.equals(" ")) {
+                                        FrontendConstants.avatar = avatar;
+                                    }
+                                }catch(Exception e){
+                                    Log.d("avatar or name",e.toString());
                                 }
                                 try {
                                     String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();

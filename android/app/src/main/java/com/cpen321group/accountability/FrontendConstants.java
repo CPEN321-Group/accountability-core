@@ -1,5 +1,7 @@
 package com.cpen321group.accountability;
 
+import android.graphics.Bitmap;
+
 public class FrontendConstants {
 
     public static String baseURL = "http://20.104.57.27:8000";
@@ -14,4 +16,5 @@ public class FrontendConstants {
     public static boolean is_subscribed = false;
     public static String roomID;
     public static int is_test = 0;
+    public static String avatar;
 }

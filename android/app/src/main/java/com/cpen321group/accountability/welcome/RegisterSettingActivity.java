@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,7 +37,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.JsonObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -56,6 +59,8 @@ public class RegisterSettingActivity extends AppCompatActivity {
     private EditText professionText;
     private int GoogleOn = 0;
     private GoogleSignInAccount account;
+    private Bitmap bitmap = null;
+    private String av;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +102,16 @@ public class RegisterSettingActivity extends AppCompatActivity {
             GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(this);
             if (account != null && account.getPhotoUrl() != null) {
                 avatar.setImageURI(account.getPhotoUrl());
+                Uri uri = account.getPhotoUrl();
+                ContentResolver cr = this.getContentResolver();
+                try {
+                    bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                } catch (FileNotFoundException e) {
+                    Log.e("Exception", e.getMessage(),e);
+                }
             }
         }
-        changeButton.setVisibility(View.INVISIBLE);
+        //changeButton.setVisibility(View.INVISIBLE);
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,10 +210,10 @@ public class RegisterSettingActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            Uri uri = data.getData();
+            Uri uri2 = data.getData();
             ContentResolver cr = this.getContentResolver();
             try {
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri2));
                 avatar.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
                 Log.e("Exception", e.getMessage(),e);
@@ -217,12 +229,22 @@ public class RegisterSettingActivity extends AppCompatActivity {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        if(bitmap != null){
+            av = bitmapToString(Bitmap.createScaledBitmap(bitmap, 100, 100, false));
+        }else{
+            av = " ";
+        }
+
+        JsonObject json = new JsonObject();
+        json.addProperty("avatar",av);
+
         Call<String> call = retrofitAPI.createAccount(myProfile_1.getFirstname(),
                 myProfile_1.getLastname(),
                 myProfile_1.getEmail(),
                 myProfile_1.getAge(),
                 myProfile_1.getProfession(), myProfile_1.getAccountant(),
-                myProfile_1.getAccountId());
+                myProfile_1.getAccountId(),
+                json);
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -286,4 +308,14 @@ public class RegisterSettingActivity extends AppCompatActivity {
             Log.d("userId",userId);
         }
     }
+
+    public String bitmapToString(Bitmap bitmap){
+        String string=null;
+        ByteArrayOutputStream bStream=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,bStream);
+        byte[]bytes=bStream.toByteArray();
+        string= Base64.encodeToString(bytes,Base64.DEFAULT);
+        return string;
+    }
+
 }

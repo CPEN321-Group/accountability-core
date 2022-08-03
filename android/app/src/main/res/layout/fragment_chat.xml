@@ -62,8 +62,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_text"
                 android:layout_width="260dp"
-                android:layout_height="50dp"
-                android:background="@drawable/register_button"
+                android:layout_height="60dp"
+                android:background="@drawable/search_style"
                 android:textColor="#000000" />
 
         </com.google.android.material.textfield.TextInputLayout>

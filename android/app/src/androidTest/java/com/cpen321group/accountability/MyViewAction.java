@@ -1,7 +1,5 @@
 package com.cpen321group.accountability;
 
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-
 import android.view.View;
 
 import androidx.test.espresso.UiController;

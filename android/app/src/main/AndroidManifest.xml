@@ -21,9 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".mainscreen.dashboard.functionpack.ReceiptActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainscreen.dashboard.functionpack.ReportDisplayActivity"
             android:exported="false"
-            android:parentActivityName=".mainscreen.dashboard.functionpack.ReportGenActivity"/>
+            android:parentActivityName=".mainscreen.dashboard.functionpack.ReportGenActivity" />
         <activity
             android:name=".mainscreen.dashboard.functionpack.TransactionCreateActivity"
             android:exported="false" />

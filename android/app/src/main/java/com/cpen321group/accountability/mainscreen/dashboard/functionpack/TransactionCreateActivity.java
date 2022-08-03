@@ -32,13 +32,11 @@ import android.widget.Toast;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
-import com.cpen321group.accountability.welcome.RegisterSettingActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -74,6 +72,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
     protected static final int CHOOSE_PICTURE = 0;
     protected static final int TAKE_PICTURE = 1;
     protected static Uri tempUri;
+    private String text = null;
     private TextView ocr_view;
     Bitmap bitmap;
 
@@ -247,6 +246,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
                         }
                         Log.d("ocr","Content: "+arr.toString());
                         ocr_view.setText(visionText.getText());
+                        text = visionText.getText();
                     }
                 })
                 .addOnFailureListener(
@@ -269,8 +269,15 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        if(text==null){
+            text = " ";
+        }
+
+        JsonObject json = new JsonObject();
+        json.addProperty("receipt",text);
+
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postTransaction(FrontendConstants.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, "null");
+        Call<JsonObject> call = retrofitAPI.postTransaction(FrontendConstants.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, json);
 
         Log.d("API url:", FrontendConstants.baseURL + "/transactions/"+ FrontendConstants.userID+"/");
         call.enqueue(new Callback<JsonObject>() {
