@@ -179,7 +179,7 @@ public class actionClickTest {
     }
 
     @Test
-    public void f_settingTest() throws InterruptedException {
+    public void _f_settingTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.home_settings)).perform(click());
         Thread.sleep(2000);
@@ -298,7 +298,50 @@ public class actionClickTest {
         assert(count < 5);
     }
 
+    @Test
+    public void _l_addReprotTest() throws InterruptedException {
+        Thread.sleep(3000);
+        onView(withId(R.id.report_gen_button)).perform(click());
+        count ++;
+        Thread.sleep(3000);
+        onView(withId(R.id.floating_action_button_report)).perform(click());
+        count ++;
+        Thread.sleep(2000);
+        onView(withText("OK")).inRoot(isDialog()).perform(click());
+        count ++;
+        Thread.sleep(3000);
+        assert (count<5);
+    }
 
+    @Test
+    public void _m_updateGoalTest() throws InterruptedException {
+        Thread.sleep(3000);
+        onView(withId(R.id.report_gen_button)).perform(click());
+        count ++;
+        Thread.sleep(4000);
+        onView(withId(R.id.reportRV))
+                .perform(RecyclerViewActions.scrollToPosition(0));
+        onView(withId(R.id.reportRV)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportCard)));
+        Thread.sleep(2000);
+        count ++;
+        assert (count<5);
+    }
+
+    @Test
+    public void _n_deleteGoalTest() throws InterruptedException {
+        Thread.sleep(3000);
+        onView(withId(R.id.report_gen_button)).perform(click());
+        count ++;
+        Thread.sleep(4000);
+        onView(withId(R.id.reportRV))
+                .perform(RecyclerViewActions.scrollToPosition(2));
+        onView(withId(R.id.reportRV)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.reportDelete)));
+        count ++;
+        Thread.sleep(2000);
+        assert (count<5);
+    }
 
     private Activity getCurrentActivity() {
         final Activity[] activity = new Activity[1];
