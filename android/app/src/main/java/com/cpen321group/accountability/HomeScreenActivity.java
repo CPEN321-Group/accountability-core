@@ -98,10 +98,10 @@ public class HomeScreenActivity extends AppCompatActivity {
                                         FrontendConstants.userName = name.substring(1, name.length() - 1);
                                     }
                                 }
-                                String avatar = response.body().get("profile").getAsJsonObject().get("avatar").getAsString();
-                                if(!avatar.equals(" ")) {
-                                    FrontendConstants.avatar = avatar;
-                                }
+//                                String avatar = response.body().get("profile").getAsJsonObject().get("avatar").getAsString();
+//                                if(!avatar.equals(" ")) {
+//                                    FrontendConstants.avatar = avatar;
+//                                }
                                 try {
                                     String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();
                                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
