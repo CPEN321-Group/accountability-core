@@ -93,6 +93,10 @@ public class HomeScreenActivity extends AppCompatActivity {
                                         FrontendConstants.userName = name.substring(1, name.length() - 1);
                                     }
                                 }
+                                String avatar = response.body().get("profile").getAsJsonObject().get("avatar").getAsString();
+                                if(!avatar.equals(" ")){
+                                    FrontendConstants.avatar = avatar;
+                                }
                             }
                         }catch(Exception e){
                             Log.d("Home",e.toString());

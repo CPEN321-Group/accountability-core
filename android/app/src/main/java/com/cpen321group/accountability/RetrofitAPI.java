@@ -23,7 +23,8 @@ public interface RetrofitAPI {
                                @Query("age") int age,
                                @Query("profession") String prfn,
                                @Query("isAccountant") boolean iA,
-                               @Query("accountId") String id);
+                               @Query("accountId") String id,
+                               @Body JsonObject json);
 
     @GET("{id}")
     Call<JsonObject> getAccount(@Path("id") String id);

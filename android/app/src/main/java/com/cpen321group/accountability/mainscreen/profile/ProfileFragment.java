@@ -3,12 +3,16 @@ package com.cpen321group.accountability.mainscreen.profile;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,6 +61,11 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        ImageView avatar = binding.avatar;
+        if(FrontendConstants.avatar != null){
+            avatar.setImageBitmap(stringToBitmap(FrontendConstants.avatar));
+        }
+
         Button subscription_info = binding.yourSubscriptionButton;
         subscription_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,5 +98,18 @@ public class ProfileFragment extends Fragment {
                         // ...
                     }
                 });
+    }
+
+    public Bitmap stringToBitmap(String string) {
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray;
+            bitmapArray = Base64.decode(string, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+                    bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 }
