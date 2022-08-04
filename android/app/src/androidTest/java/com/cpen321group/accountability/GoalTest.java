@@ -211,7 +211,7 @@ public class GoalTest {
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).check(matches(isDisplayed()));
-        onView(withId(R.id.commentUpdateButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.goalUpdateButton)).check(matches(isDisplayed()));
     }
 
     @Test
