@@ -314,7 +314,7 @@ describe('testing createReview', () => {
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name', 'ValidationError');
     })
-  }),
+  })
   test('invalid rating', async () => {
     const modifiedReviewFields = { ...reviewFields};
     modifiedReviewFields.rating = 11;

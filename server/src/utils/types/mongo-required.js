@@ -12,7 +12,7 @@ module.exports = {
   email_string: {
     type: String,
     match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      /^\S+@\S+\.\S+$/,
       "Please fill a valid email address",
     ]
   }

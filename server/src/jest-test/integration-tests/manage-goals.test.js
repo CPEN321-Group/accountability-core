@@ -16,7 +16,7 @@ const accountFields = {
 }
 const goalFields = {
   title: 'Buy a House',
-  target: 10000000,
+  target: 10000,
   current: 1000,
   deadline: '2026'
 }

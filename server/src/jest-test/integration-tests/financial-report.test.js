@@ -1,7 +1,6 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 const { server } = require('../../index');
-const { Conversation } = require('../../main_modules/messaging/messaging-models');
 const { Report } = require('../../main_modules/reports/report-models');
 const { Account } = require('../../main_modules/accounts/account-models');
 
@@ -235,7 +234,7 @@ describe('get all reports assigned to an accountant', () => {
   })
   test('get all reports for an accountant with no users assigned', async () => {
     const newAccountantId = '1567'
-    const res0 = await request(server).post(`/accounts`).query({...accountantFields, accountId: newAccountantId})
+    await request(server).post(`/accounts`).query({...accountantFields, accountId: newAccountantId})
     const res =  await request(server).get(`/reports/accountants/${newAccountantId}`);
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(200);

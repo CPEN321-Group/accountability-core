@@ -39,8 +39,8 @@ async function googleVerifyToken(token) {
     });
     const payload = ticket.getPayload();
     console.log(payload);
-    const accountId = payload['sub'];
-    const clientId = payload['aud'];
+    // const accountId = payload['sub'];
+    // const clientId = payload['aud'];
     return true;
   } catch (err) {
     // console.log(err);

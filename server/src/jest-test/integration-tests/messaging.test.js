@@ -34,9 +34,9 @@ describe('get conversation between 2 accounts', () => {
   test('get existing conversation', async () => {
     await request(server).post('/accounts').query({...accountFields});
     await request(server).post('/accounts').query({...accountantFields});
-    const res0 = await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2026'});
+    await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2026'});
 
-    const res1 = await request(server).post('/messaging/conversation').query({
+    await request(server).post('/messaging/conversation').query({
       account1Id: existingId,
       account2Id: accountantId
     });
@@ -77,7 +77,7 @@ describe('create new conversation between two accounts', () => {
     await request(server).put(`/subscription/${existingId}`).query({ expiryDate: 'May 2026'});
   })
   test('create conversation that is not between a user and an accountant', async () => {
-    const newUser = await request(server).post('/accounts').query({...accountFields, accountId: 'abcd'});
+    await request(server).post('/accounts').query({...accountFields, accountId: 'abcd'});
 
     const res =  await request(server).post('/messaging/conversation').query({
       account1Id: existingId,
