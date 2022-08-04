@@ -259,7 +259,7 @@ public class TransactionTest {
         onView(withId(R.id.transactionRV))
                 .perform(RecyclerViewActions.scrollToPosition(3));
         onView(withId(R.id.transactionRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(3, MyViewAction.clickChildViewWithId(R.id.transactionDelete)));
+                RecyclerViewActions.actionOnItemAtPosition(3, ViewActionHelper.clickChildViewWithId(R.id.transactionDelete)));
         Thread.sleep(2000);
         onView(withText("You have successfully deleted your selected transaction")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
     }

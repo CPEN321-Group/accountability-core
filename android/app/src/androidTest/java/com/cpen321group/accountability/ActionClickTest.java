@@ -91,7 +91,7 @@ public class ActionClickTest {
         onView(withId(R.id.goalRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.goalRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).perform(typeText("2000"));
         onView(withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());
@@ -110,7 +110,7 @@ public class ActionClickTest {
         onView(withId(R.id.goalRV))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.goalRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.goalDelete)));
+                RecyclerViewActions.actionOnItemAtPosition(2, ViewActionHelper.clickChildViewWithId(R.id.goalDelete)));
         count ++;
         Thread.sleep(2000);
         onView(withText("You have successfully deleted your selected goal")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
@@ -170,7 +170,7 @@ public class ActionClickTest {
         onView(withId(R.id.transactionRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.transactionRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.transactionDelete)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.transactionDelete)));
         count ++;
         Thread.sleep(2000);
         onView(withText("You have successfully deleted your selected transaction")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
@@ -212,7 +212,7 @@ public class ActionClickTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.request_button_1)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.request_button_1)));
         count ++;
         Thread.sleep(5000);
         onView(withId(R.id.text_view)).perform(typeText("Hi!"));
@@ -234,7 +234,7 @@ public class ActionClickTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.request_button_1)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.request_button_1)));
         count ++;
         Thread.sleep(5000);
         onView(withId(R.id.share_button)).perform(click());
@@ -254,7 +254,7 @@ public class ActionClickTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.history_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.history_button)));
         Thread.sleep(2000);
         count ++;
         assert(count < 5);
@@ -271,7 +271,7 @@ public class ActionClickTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         count ++;
         Thread.sleep(5000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
@@ -314,7 +314,7 @@ public class ActionClickTest {
         onView(withId(R.id.reportRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.reportRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportCard)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.reportCard)));
         Thread.sleep(2000);
         count ++;
         onView(withId(R.id.comment_button)).perform(click());
@@ -334,7 +334,7 @@ public class ActionClickTest {
         onView(withId(R.id.reportRV))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.reportRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportDelete)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.reportDelete)));
         count ++;
         Thread.sleep(2000);
         assert (count<5);
@@ -352,7 +352,7 @@ public class ActionClickTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_accept)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.button_accept)));
         count ++;
         Thread.sleep(5000);
         onView(withId(R.id.text_view)).perform(typeText("Hi!"));
@@ -376,7 +376,7 @@ public class ActionClickTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_finish)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.button_finish)));
         count++;
         Thread.sleep(5000);
         assert(count < 5);
@@ -393,7 +393,7 @@ public class ActionClickTest {
         onView(withId(R.id.reportRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.reportRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportCard)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.reportCard)));
         Thread.sleep(2000);
         count ++;
         onView(withId(R.id.addCommentButton))

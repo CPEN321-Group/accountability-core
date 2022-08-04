@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,15 +59,6 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                             getRoomID(request_button,context,0,0);
                         }
                     },1000);
-                    /*Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            request_button.setEnabled(true);
-                            Intent settingsIntent = new Intent(context, ChattingActivity.class);
-                            context.startActivity(settingsIntent);
-                        }
-                    },3000);*/
                 }
             });
         }

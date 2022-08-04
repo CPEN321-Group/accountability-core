@@ -195,7 +195,7 @@ public class GoalTest {
         onView(withId(R.id.goalRV))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.goalRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.goalDelete)));
+                RecyclerViewActions.actionOnItemAtPosition(2, ViewActionHelper.clickChildViewWithId(R.id.goalDelete)));
         Thread.sleep(2000);
         onView(withText("You have successfully deleted your selected goal")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
     }
@@ -208,7 +208,7 @@ public class GoalTest {
         onView(withId(R.id.goalRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.goalRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).check(matches(isDisplayed()));
         onView(withId(R.id.goalUpdateButton)).check(matches(isDisplayed()));
@@ -222,7 +222,7 @@ public class GoalTest {
         onView(withId(R.id.goalRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.goalRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).perform(click());
         assert (isSoftKeyboardShown());
@@ -236,7 +236,7 @@ public class GoalTest {
         onView(withId(R.id.goalRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.goalRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalUpdateButton)).perform(click());
         onView(withText("Some necessary information missing!")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
@@ -250,7 +250,7 @@ public class GoalTest {
         onView(withId(R.id.goalRV))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.goalRV)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.goalSave)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.goalSave)));
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).perform(typeText("2000"));
         onView(withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());

@@ -8,7 +8,7 @@ import androidx.test.espresso.ViewAction;
 import org.hamcrest.Matcher;
 
 
-public class MyViewAction {
+public class ViewActionHelper {
 
     public static ViewAction clickChildViewWithId(final int id) {
         return new ViewAction() {
@@ -31,3 +31,4 @@ public class MyViewAction {
     }
 
 }
+

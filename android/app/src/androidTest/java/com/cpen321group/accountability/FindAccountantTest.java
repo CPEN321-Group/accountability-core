@@ -83,7 +83,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.request_button_1)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.request_button_1)));
         Thread.sleep(5000);
         intended(hasComponent(new ComponentName(getApplicationContext(), ChattingActivity.class)));
         //onView(withId(R.id.textView)).check(matches(withText("Chat")));
@@ -98,7 +98,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.history_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.history_button)));
         Thread.sleep(3000);
         intended(hasComponent(new ComponentName(getApplicationContext(), HistoryActivity.class)));
         onView(withText("Show History Talk Successfully")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
@@ -111,7 +111,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.history_button)));
+                RecyclerViewActions.actionOnItemAtPosition(2, ViewActionHelper.clickChildViewWithId(R.id.history_button)));
         Thread.sleep(5000);
         intended(hasComponent(new ComponentName(getApplicationContext(), HistoryActivity.class)));
         Thread.sleep(5000);
@@ -126,7 +126,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                           .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(3000);
         intended(hasComponent(new ComponentName(getApplicationContext(), ReviewActivity.class)));
         Thread.sleep(3000);
@@ -140,7 +140,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(2));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(2, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(2, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(3000);
         intended(hasComponent(new ComponentName(getApplicationContext(), ReviewActivity.class)));
         Thread.sleep(3000);
@@ -154,7 +154,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(3000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
         Thread.sleep(3000);
@@ -171,7 +171,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(5000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
         onView(withId(R.id.title_text)).perform(typeText("Happy with Accountant"));
@@ -188,7 +188,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(5000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
         Thread.sleep(1000);
@@ -207,7 +207,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(5000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
         Thread.sleep(1000);
@@ -226,7 +226,7 @@ public class FindAccountantTest {
         onView(withId(R.id.chat_recycler))
                 .perform(RecyclerViewActions.scrollToPosition(0));
         onView(withId(R.id.chat_recycler)).perform(
-                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.review_button)));
+                RecyclerViewActions.actionOnItemAtPosition(0, ViewActionHelper.clickChildViewWithId(R.id.review_button)));
         Thread.sleep(5000);
         onView(withId(R.id.floating_action_button_review)).perform(click());
         Thread.sleep(1000);

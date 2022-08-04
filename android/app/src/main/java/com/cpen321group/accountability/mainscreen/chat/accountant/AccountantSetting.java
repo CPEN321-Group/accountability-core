@@ -1,6 +1,5 @@
 package com.cpen321group.accountability.mainscreen.chat.accountant;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
@@ -62,23 +60,6 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                     FrontendConstants.receiverID = accountant_id.getText().toString();
                     send_button.setEnabled(false);
                     postRoomId(send_button,context);
-                    /*Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            getRoomID(send_button,context);
-                        }
-                    },1000);*/
-                    /*Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateFinish();
-                            send_button.setEnabled(true);
-                            Intent settingsIntent = new Intent(context, ChattingActivity.class);
-                            context.startActivity(settingsIntent);
-                        }
-                    },3000);*/
                 }
             });
 
@@ -95,15 +76,6 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                             getHistoryRoomID(history_button,context);
                         }
                     },1000);
-                    /*Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            history_button.setEnabled(true);
-                            Intent settingsIntent = new Intent(context, HistoryActivity.class);
-                            context.startActivity(settingsIntent);
-                        }
-                    },3000);*/
                 }
             });
 
