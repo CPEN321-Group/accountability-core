@@ -3,6 +3,7 @@ package com.cpen321group.accountability.mainscreen.dashboard;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,78 +54,85 @@ public class DashboardFragment extends Fragment {
 //        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         dashName= binding.dashName;
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if ((hour>=19 && hour<=24) || (hour >=0 && hour <= 5)) {
-            dashName.setText("Good night, "+ FrontendConstants.userName+"!");
-        } else if (hour>5 && hour<=12) {
-            dashName.setText("Good morning, "+ FrontendConstants.userName+"!");
-        } else {
-            dashName.setText("Good afternoon, "+ FrontendConstants.userName+"!");
-        }
-
-
-        Button settings = binding.homeSettings;
-        settings.setOnClickListener(new View.OnClickListener() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
-                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(settingsIntent);
-            }
-        });
-        Button reports = binding.reportGenButton;
-        reports.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent reportsIntent = new Intent(getActivity(), ReportGenActivity.class);
-                startActivity(reportsIntent);
-            }
-        });
-        Button goals = binding.goalButton;
-        goals.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
-                startActivity(goalIntent);
-            }
-        });
-        Button second_transaction = binding.transactionSecondaryButton;
-        second_transaction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
-                startActivity(transactionIntent);
-            }
-        });
+            public void run() {
+                if ((hour>=19 && hour<=24) || (hour >=0 && hour <= 5)) {
+                    dashName.setText("Good night, "+ FrontendConstants.userName+"!");
+                } else if (hour>5 && hour<=12) {
+                    dashName.setText("Good morning, "+ FrontendConstants.userName+"!");
+                } else {
+                    dashName.setText("Good afternoon, "+ FrontendConstants.userName+"!");
+                }
 
-        Button transactionButton = binding.transactionButton;
-        transactionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
-                startActivity(transactionIntent);
+
+                Button settings = binding.homeSettings;
+                settings.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                        startActivity(settingsIntent);
+                    }
+                });
+                Button reports = binding.reportGenButton;
+                reports.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent reportsIntent = new Intent(getActivity(), ReportGenActivity.class);
+                        startActivity(reportsIntent);
+                    }
+                });
+                Button goals = binding.goalButton;
+                goals.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
+                        startActivity(goalIntent);
+                    }
+                });
+                Button second_transaction = binding.transactionSecondaryButton;
+                second_transaction.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
+                        startActivity(transactionIntent);
+                    }
+                });
+
+                Button transactionButton = binding.transactionButton;
+                transactionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
+                        startActivity(transactionIntent);
+                    }
+                });
+
+                Button MoreButton = binding.goalbutton;
+                MoreButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
+                        startActivity(goalIntent);
+                    }
+                });
+
+                if(FrontendConstants.isAccountant){
+                    goals.setEnabled(false);
+                    transactionButton.setEnabled(false);
+                    MoreButton.setEnabled(false);
+                    second_transaction.setEnabled(false);
+                }
+
+                notification_text = binding.notificationText;
+                spending = binding.spendingText;
+
+                getAllGoals();
+                getAllTransactions();
             }
-        });
+        }, 2000);
 
-        Button MoreButton = binding.goalbutton;
-        MoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
-                startActivity(goalIntent);
-            }
-        });
-
-        if(FrontendConstants.isAccountant){
-            goals.setEnabled(false);
-            transactionButton.setEnabled(false);
-            MoreButton.setEnabled(false);
-            second_transaction.setEnabled(false);
-        }
-
-        notification_text = binding.notificationText;
-        spending = binding.spendingText;
-
-        getAllGoals();
-        getAllTransactions();
 
         return root;
     }
@@ -190,7 +198,6 @@ public class DashboardFragment extends Fragment {
                 try {
                     ArrayList<JsonObject> jsonArray = response.body();
                     double total = 0.0;
-                    Log.d("User's all goals:", response.toString());
                     if (jsonArray != null) {
                         for (int i = 0; i < jsonArray.size(); i++) {
                             JsonObject jsonObject = jsonArray.get(i);
@@ -198,11 +205,11 @@ public class DashboardFragment extends Fragment {
                             double price_dollar = amount_cents / 100.0;
                             total = total + price_dollar;
                         }
-                        DecimalFormat format = new DecimalFormat("#.00");
+                        DecimalFormat format = new DecimalFormat("0.00");
                         String str = format.format(total);
                         spending.setText("$ " + str);
                     } else {
-                        spending.setText("$");
+                        spending.setText("$ NaN");
                     }
                 }catch(Exception e){
 
