@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
@@ -162,32 +163,21 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 Log.d("address",myProfile_1.getEmail());
                 Toast.makeText(getApplicationContext(),"Email address is not valid",Toast.LENGTH_LONG).show();
             }else {
-                if(myProfile_1.getAge()>0) {
+                if(myProfile_1.getAge()>0 && myProfile_1.getProfession().length()<20) {
                     try {
                         postAccount();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Intent settingsIntent = new Intent(RegisterSettingActivity.this, WelcomeActivity.class);
-                    startActivity(settingsIntent);
-                }else{
+                }else if(myProfile_1.getAge()<=0){
                     Toast.makeText(getApplicationContext(),"Age is not valid",Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Profession is not valid",Toast.LENGTH_LONG).show();
                 }
             }
         }else{
             Toast.makeText(RegisterSettingActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
         }
-    }
-
-    //Google sign out
-    private void signOut(GoogleSignInClient mGoogleSignInClient) {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(RegisterSettingActivity.this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                    }
-                });
     }
 
     //choose picture
@@ -239,7 +229,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
         JsonObject json = new JsonObject();
         json.addProperty("avatar",av);
 
-        Call<String> call = retrofitAPI.createAccount(myProfile_1.getFirstname(),
+        Call<JsonObject> call = retrofitAPI.createAccount(myProfile_1.getFirstname(),
                 myProfile_1.getLastname(),
                 myProfile_1.getEmail(),
                 myProfile_1.getAge(),
@@ -247,10 +237,21 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 myProfile_1.getAccountId(),
                 json);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback< JsonObject>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("Message",response.toString());
+                if(response.body().get("profile")!=null) {
+                    Intent settingsIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                    startActivity(settingsIntent);
+                }else{
+                    Toast.makeText(getApplicationContext(),"Check the information and try again",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Failed to register, Check the Internet",Toast.LENGTH_LONG).show();
                 if (GoogleOn == 1) {
                     GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
                     signOut(account);
@@ -260,16 +261,22 @@ public class RegisterSettingActivity extends AppCompatActivity {
                     LoginManager.getInstance().logOut();
                     Log.d("Profile", "Facebook sign out successfully!");
                 }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Failed to register, Check the Internet",Toast.LENGTH_LONG).show();
-                Intent Intent = new Intent(RegisterSettingActivity.this, RegisterSettingActivity.class);
+                Intent Intent = new Intent(getApplicationContext(), WelcomeActivity.class);
                 startActivity(Intent);
                 Log.d("Message",t.toString());
             }
         });
+    }
+
+    //Google sign out
+    private void signOut(GoogleSignInClient mGoogleSignInClient) {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(RegisterSettingActivity.this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        // ...
+                    }
+                });
     }
 
     private void createProfile(){

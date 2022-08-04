@@ -147,16 +147,16 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
 
 
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<String> call = retrofitAPI.updateFinished(FrontendConstants.roomID,true);
+            Call<JsonObject> call = retrofitAPI.updateFinished(FrontendConstants.roomID,true);
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<JsonObject>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     Log.d("Message", "success");
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<JsonObject> call, Throwable t) {
                     Log.d("Message", t.toString());
                 }
             });

@@ -17,7 +17,7 @@ import retrofit2.http.POST;
 
 public interface RetrofitAPI {
     @POST("/accounts")
-    Call<String> createAccount(@Query("firstname") String fn,
+    Call<JsonObject> createAccount(@Query("firstname") String fn,
                                @Query("lastname") String ln,
                                @Query("email") String email,
                                @Query("age") int age,
@@ -45,14 +45,14 @@ public interface RetrofitAPI {
                                @Query("account2Id") String id2);
 
     @POST("conversation")
-    Call<String> postRoomId(@Query("account1Id") String id1,
+    Call<JsonObject> postRoomId(@Query("account1Id") String id1,
                                @Query("account2Id") String id2);
 
     @GET("{accountId}")
     Call<ArrayList<JsonObject>> getAllUsers(@Path("accountId") String id);
 
     @PUT("{conversationId}")
-    Call<String> updateFinished(@Path("conversationId") String id,
+    Call<JsonObject> updateFinished(@Path("conversationId") String id,
                                 @Query("isFinished") boolean bool);
 
     @POST("{accountantId}")
