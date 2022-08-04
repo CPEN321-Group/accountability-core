@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.FrontendConstants;
+import com.cpen321group.accountability.welcome.register.RegisterActivity;
 import com.google.android.material.color.DynamicColors;
 
 public class WelcomeActivity extends AppCompatActivity {

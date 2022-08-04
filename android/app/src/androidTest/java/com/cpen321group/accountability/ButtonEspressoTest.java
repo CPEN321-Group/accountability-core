@@ -12,7 +12,7 @@ import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.cpen321group.accountability.welcome.RegisterActivity;
+import com.cpen321group.accountability.welcome.register.RegisterActivity;
 import com.cpen321group.accountability.welcome.WelcomeActivity;
 
 import org.junit.Rule;

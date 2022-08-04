@@ -29,11 +29,11 @@ import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.cpen321group.accountability.mainscreen.chat.AddReviewActivity;
+import com.cpen321group.accountability.mainscreen.chat.accountant.review.AddReviewActivity;
 import com.cpen321group.accountability.mainscreen.chat.ChatFragment;
-import com.cpen321group.accountability.mainscreen.chat.ChattingActivity;
-import com.cpen321group.accountability.mainscreen.chat.HistoryActivity;
-import com.cpen321group.accountability.mainscreen.chat.ReviewActivity;
+import com.cpen321group.accountability.mainscreen.chat.chatroom.ChattingActivity;
+import com.cpen321group.accountability.mainscreen.chat.accountant.history.HistoryActivity;
+import com.cpen321group.accountability.mainscreen.chat.accountant.review.ReviewActivity;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;

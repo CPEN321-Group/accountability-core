@@ -21,42 +21,42 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
-            android:name=".mainscreen.dashboard.functionpack.ReceiptActivity"
+            android:name=".mainscreen.dashboard.functionpack.transaction.ReceiptActivity"
             android:exported="false" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.ReportDisplayActivity"
+            android:name=".mainscreen.dashboard.functionpack.report.ReportDisplayActivity"
             android:exported="false"
-            android:parentActivityName=".mainscreen.dashboard.functionpack.ReportGenActivity" />
+            android:parentActivityName=".mainscreen.dashboard.functionpack.report.ReportGenActivity" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.TransactionCreateActivity"
+            android:name=".mainscreen.dashboard.functionpack.transaction.TransactionCreateActivity"
             android:exported="false" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.TransactionSetActivity"
-            android:exported="false"
-            android:parentActivityName=".HomeScreenActivity" />
-        <activity
-            android:name=".mainscreen.chat.AddReviewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".mainscreen.chat.ReviewActivity"
+            android:name=".mainscreen.dashboard.functionpack.transaction.TransactionSetActivity"
             android:exported="false"
             android:parentActivityName=".HomeScreenActivity" />
         <activity
-            android:name=".mainscreen.chat.HistoryActivity"
+            android:name=".mainscreen.chat.accountant.review.AddReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".welcome.RegisterSettingActivity"
+            android:name=".mainscreen.chat.accountant.review.ReviewActivity"
+            android:exported="false"
+            android:parentActivityName=".HomeScreenActivity" />
+        <activity
+            android:name=".mainscreen.chat.accountant.history.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".welcome.register.RegisterSettingActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".mainscreen.chat.ChattingActivity"
+            android:name=".mainscreen.chat.chatroom.ChattingActivity"
             android:exported="false"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.GoalCreateActivity"
+            android:name=".mainscreen.dashboard.functionpack.goal.GoalCreateActivity"
             android:exported="false" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.GoalUpdateActivity"
+            android:name=".mainscreen.dashboard.functionpack.goal.GoalUpdateActivity"
             android:exported="false" />
         <activity
             android:name=".mainscreen.profile.SubscriptionOKActivity"
@@ -65,19 +65,19 @@
             android:name=".mainscreen.profile.SubscriptionActivity"
             android:exported="false" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.SettingsActivity"
+            android:name=".mainscreen.dashboard.functionpack.setting.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.GoalSetActivity"
+            android:name=".mainscreen.dashboard.functionpack.goal.GoalSetActivity"
             android:exported="false"
             android:parentActivityName=".HomeScreenActivity" />
         <activity
-            android:name=".mainscreen.dashboard.functionpack.ReportGenActivity"
+            android:name=".mainscreen.dashboard.functionpack.report.ReportGenActivity"
             android:exported="false"
             android:parentActivityName=".HomeScreenActivity" />
         <activity
-            android:name=".welcome.RegisterActivity"
+            android:name=".welcome.register.RegisterActivity"
             android:exported="false" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

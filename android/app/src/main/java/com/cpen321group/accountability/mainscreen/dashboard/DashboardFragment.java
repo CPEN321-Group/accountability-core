@@ -15,11 +15,11 @@ import androidx.fragment.app.Fragment;
 
 import com.cpen321group.accountability.RetrofitAPI;
 import com.cpen321group.accountability.FrontendConstants;
-import com.cpen321group.accountability.mainscreen.dashboard.functionpack.GoalSetActivity;
-import com.cpen321group.accountability.mainscreen.dashboard.functionpack.ReportGenActivity;
-import com.cpen321group.accountability.mainscreen.dashboard.functionpack.SettingsActivity;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.goal.GoalSetActivity;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.ReportGenActivity;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.setting.SettingsActivity;
 import com.cpen321group.accountability.databinding.FragmentDashboardBinding;
-import com.cpen321group.accountability.mainscreen.dashboard.functionpack.TransactionSetActivity;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.transaction.TransactionSetActivity;
 import com.google.gson.JsonObject;
 
 import java.text.DecimalFormat;
