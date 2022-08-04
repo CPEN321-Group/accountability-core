@@ -40,6 +40,12 @@ const getStartOfNextMonth = (date) => {
   nextMonth.setMonth(nextMonth.getMonth()+1,1);
   return nextMonth;
 }
+const getStartOfThisMonth = (date) => {
+  let thisMonth = new Date(date);
+  thisMonth.setHours(0, 0, 0, 0);
+  thisMonth.setDate(1);
+  return thisMonth;
+}
 
 const reportExists = async (accountId, monthYear) => {
   const userReport = await UserReport.findOne({userId: accountId});
@@ -66,7 +72,7 @@ async function compileReport(accountId,mY) {
   const savings = getSavings(income, spendings);
 
   const newReport = new Report({
-    monthYear: mY,
+    monthYear: getStartOfThisMonth(mY),
     income, spendings, savings,
     goalsInProgress: ongoingGoals
   });
@@ -87,7 +93,6 @@ module.exports = {
     }
   },
   createReport: async (accountId, monthYear, callback) => {
-    
     try {
       if (!fieldsAreNotNull({monthYear})) {
         throw new ValidationError('missing params');
@@ -132,7 +137,6 @@ module.exports = {
     }
   },
   deleteReports: async (accountId, callback) => {
-    
     try {
       const userReport = await UserReport.findOneAndUpdate(
         {userId: accountId}, 
@@ -148,7 +152,6 @@ module.exports = {
     }
   },
   findReport: async (accountId,reportId,callback) => {
-    
     try {
       const userReport = await UserReport.findOne({userId: accountId});
       if (!userReport) {
@@ -164,7 +167,6 @@ module.exports = {
     }
   },
   updateRecommendations: async (accountId,reportId, recommendations,callback) => {
-    
     try {
       if (!fieldsAreNotNull({accountId,reportId,recommendations})) {
         throw new ValidationError('missing params');
@@ -184,8 +186,7 @@ module.exports = {
       return callback(null,400,err);
     }
   },
-  deleteReport: async (accountId, reportId, callback) => {
-    
+  deleteReport: async (accountId, reportId, callback) => {    
     try {
       const reportsMatch = {_id: reportId};
       const pullItem = {reports: reportsMatch};
@@ -213,6 +214,31 @@ module.exports = {
       const userReports = await UserReport.find({accountantId});
       return callback(null,200,userReports);
     } catch (err) {
+      return callback(null,400,err);
+    }
+  },
+  deleteReportByMonthYear: async (accountId, monthYear, callback) => {    
+    try {
+      if (!fieldsAreNotNull({monthYear})) {
+        throw new ValidationError('invalid monthYear provided');
+      }
+      const startOfThisMonth = getStartOfThisMonth(monthYear);
+      const reportsMatch = {monthYear: startOfThisMonth};
+      const pullItem = {reports: reportsMatch};
+      const userReport = await UserReport.findOneAndUpdate(
+        {userId: accountId},
+        {$pull: pullItem},
+      )
+      if (!userReport) {
+        return callback(null,404,new NotFoundError('account not found'));
+      }
+      const report = userReport.reports.some(r => new Date (r.monthYear).getTime() === startOfThisMonth.getTime());
+      if (!report) {
+        return callback(null,404, new NotFoundError('report not found'));
+      }
+      return callback(null,200,'report deleted');
+    } catch (err) {
+      console.log(err)
       return callback(null,400,err);
     }
   }

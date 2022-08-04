@@ -1,4 +1,4 @@
-const { findReports, createReport, updateAccountant, deleteReports, findReport, updateRecommendations, deleteReport, findUserReports } = require("./report-store");
+const { findReports, createReport, updateAccountant, deleteReports, findReport, updateRecommendations, deleteReport, findUserReports, deleteReportByMonthYear } = require("./report-store");
 
 module.exports = function(app) {
   app.route('/reports/users/:accountId')
@@ -68,5 +68,15 @@ module.exports = function(app) {
       if (err) console.log(err);
       res.status(status).json(returnData);
     })
+  })
+  app.delete('/reports/date/:accountId', async (req,res) => {
+    await deleteReportByMonthYear(
+      req.params.accountId,
+      req.query.monthYear,
+      (err,status,returnData) => {
+        if (err) console.log(err);
+        res.status(status).json(returnData);
+      }
+    )
   })
 }
