@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +79,8 @@ public class TransactionCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction_create);
         Button capture_button = findViewById(R.id.recipeButton);
         ocr_view = findViewById(R.id.ocr_view);
+        ScrollView sv= findViewById(R.id.ocrSV);
+        sv.setVisibility(View.GONE);
         Button createTransaction = findViewById(R.id.transactionCreateButton);
         AutoCompleteTextView autoText = findViewById(R.id.transactionCategoryText);
 
@@ -90,6 +93,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 transactionCategory = (String)adapterView.getItemAtPosition(i);
             }
         });
+
 
         createTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +142,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(TransactionCreateActivity.this);
+                sv.setVisibility(View.VISIBLE);
                 showChoosePicDialog();
             }
         });

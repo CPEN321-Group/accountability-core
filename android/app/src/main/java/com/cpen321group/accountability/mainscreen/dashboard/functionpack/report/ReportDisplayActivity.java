@@ -11,9 +11,9 @@ import android.widget.Toast;
 import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.reportpiechart.PieClickListener;
-import com.cpen321group.accountability.reportpiechart.PieEntry;
-import com.cpen321group.accountability.reportpiechart.ReportPieChart;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.reportpiechart.PieClickListener;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.reportpiechart.PieEntry;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.reportpiechart.ReportPieChart;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 

@@ -143,6 +143,10 @@ public interface RetrofitAPI {
     @DELETE("{userId}")
     Call<ResponseBody> deleteAllReports(@Path("userId") String id);
 
+    @DELETE("{userId}")
+    Call<ResponseBody> deleteReport(@Path("userId") String id,
+                                    @Query("monthYear") String date);
+
     @GET("{userId}/{reportId}")
     Call<JsonObject> getSpecificReport(@Path("userId") String id,
                                        @Path("reportId") String reportId);

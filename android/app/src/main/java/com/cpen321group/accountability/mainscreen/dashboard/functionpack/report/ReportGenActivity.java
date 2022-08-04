@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -79,7 +80,7 @@ public class ReportGenActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(int selectedMonth, int selectedYear) {
                         String monthYear = "" + new DateFormatSymbols().getMonths()[selectedMonth] + " " + selectedYear;
-                        createNewReport(monthYear);
+                        deleteOneReport(FrontendConstants.userID,monthYear);
                     }
                 }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH));
                 builder.build().show();
@@ -247,6 +248,29 @@ public class ReportGenActivity extends AppCompatActivity {
             public void onFailure(Call<ArrayList<JsonObject>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Internet connection failure, failed to fetch your reports, try again",Toast.LENGTH_LONG).show();
                 Log.d("history",t.toString());
+            }
+        });
+    }
+
+    private void deleteOneReport(String userId, String monthYear) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(FrontendConstants.baseURL + "/reports/date/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<ResponseBody> call = retrofitAPI.deleteReport(userId, monthYear);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("delete",response.toString());
+                createNewReport(monthYear);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("delete",t.toString());
             }
         });
     }

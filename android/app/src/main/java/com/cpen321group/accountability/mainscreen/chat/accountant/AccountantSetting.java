@@ -252,8 +252,10 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     Log.d("updateFinish", "success");
                     send_button.setEnabled(true);
-                    Intent settingsIntent = new Intent(context, ChattingActivity.class);
-                    context.startActivity(settingsIntent);
+                    if(response.code()==200) {
+                        Intent settingsIntent = new Intent(context, ChattingActivity.class);
+                        context.startActivity(settingsIntent);
+                    }
                 }
 
                 @Override
