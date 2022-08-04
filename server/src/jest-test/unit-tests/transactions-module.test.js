@@ -4,15 +4,6 @@ const { createTransaction, deleteTransactions, findTransactions, findTransaction
 
 const existingId = '1234'
 const nonExistingId = 'ai93n';
-const accountFields = {
-  accountId: existingId,
-  firstname: 'Bob',
-  lastname: 'Jones',
-  email: 'test123@gmail.com',
-  age: 25,
-  profession: 'Student',
-  isAccountant: false
-}
 
 const transactionFields = {
   title: 'Netflix',
@@ -76,12 +67,14 @@ describe('testing findTransactions', () => {
 describe('testing findTransaction', () => {
   test('transaction found', async () => {
     await createTransaction(existingId,transactionFields, (err,status,returnData) => {
+      expect(err).toBeNull();
+      expect(status).toBe(200);
       expect(returnData).toHaveProperty('_id');
       id = returnData.id;
     })
     await findTransaction(existingId, id, (err,status,returnData) => {
       expect(err).toBeNull()
-      // expect(status).toStrictEqual(200);
+      expect(status).toBe(200);
       expect(returnData).toHaveProperty('_id');
     })
   })
@@ -233,6 +226,7 @@ describe('testing deleteTransactions', () => {
 describe('testing deleteTransaction', () => {
   test('transaction deleted', async () => {
     await createTransaction(existingId,transactionFields, (err,status,returnData) => {
+      if (err) console.log(err);
       expect(returnData).toHaveProperty('_id');
       id = returnData.id;
     })

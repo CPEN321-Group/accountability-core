@@ -1,4 +1,4 @@
-const { getDefinedFields, fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
+const { fieldsAreNotNull } = require("../../utils/checks/get-defined-fields");
 const { NotFoundError, ValidationError } = require("../../utils/errors");
 const { Account } = require("../accounts/account-models");
 const { findAccount } = require("../accounts/account-store");
@@ -66,6 +66,7 @@ module.exports = {
     try {
       let foundAccount;
       await findAccount(accountId, (err,status,returnData) => {
+        if (err) console.log(err);
         if (status !== 200) {
           foundAccount = false;
         } else foundAccount = true;

@@ -39,8 +39,7 @@ module.exports = {
       const {title,category,date,amount,isIncome,receipt,plaidTransactionId} = df;
   
       const newTransaction = new Transaction({
-        title,category,date,
-        amount: amount,
+        title,category,date,amount,
         isIncome,receipt,plaidTransactionId
       });
       const pushItem = { transactions: newTransaction };

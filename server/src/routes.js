@@ -1,4 +1,4 @@
-const { googleVerifyToken, facebookVerifyToken } = require('./main_modules/accounts/account-auth');
+const { googleVerifyToken } = require('./main_modules/accounts/account-auth');
 const { ForbiddenError } = require('./utils/errors');
 
 module.exports = function(app) {

@@ -26,7 +26,7 @@ describe('find accountants', () => {
     expect(res.body).toBeInstanceOf(Array);
   }) 
   test('find no accountants', async () => {
-    const res0 = await request(server).delete(`/accounts/${accountantId}`);
+    await request(server).delete(`/accounts/${accountantId}`);
     const res = await request(server).get('/accounts/accountants');
 
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');

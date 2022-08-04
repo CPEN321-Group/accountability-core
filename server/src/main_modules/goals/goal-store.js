@@ -1,5 +1,5 @@
-const { fieldsAreNotNull, getDefinedFields } = require('../../utils/checks/get-defined-fields');
-const { NotFoundError, ValidationError } = require('../../utils/errors');
+const { getDefinedFields } = require('../../utils/checks/get-defined-fields');
+const { NotFoundError } = require('../../utils/errors');
 const { getItemFromList } = require('../../utils/get-from-list');
 const {UserGoal, Goal} = require('./goal-models');
 
@@ -34,7 +34,7 @@ module.exports = {
       const df = getDefinedFields(data);
       const {title,target,current,deadline} = df;
 
-      const goal = new Goal({title,target,current: current,deadline});
+      const goal = new Goal({title,target,current,deadline});
       const pushItem = { goals: goal };
       const usergoal = await UserGoal.findOneAndUpdate(
         {userId: accountId},
