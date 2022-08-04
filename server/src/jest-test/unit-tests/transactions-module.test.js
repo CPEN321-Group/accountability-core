@@ -226,6 +226,7 @@ describe('testing deleteTransactions', () => {
 describe('testing deleteTransaction', () => {
   test('transaction deleted', async () => {
     await createTransaction(existingId,transactionFields, (err,status,returnData) => {
+      if (err) console.log(err);
       expect(returnData).toHaveProperty('_id');
       id = returnData.id;
     })
