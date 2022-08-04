@@ -21,6 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="32">
         <activity
+            android:name=".mainscreen.dashboard.functionpack.report.CommentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainscreen.dashboard.functionpack.report.AddCommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".mainscreen.dashboard.functionpack.transaction.ReceiptActivity"
             android:exported="false" />
         <activity

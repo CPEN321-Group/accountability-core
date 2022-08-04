@@ -95,7 +95,7 @@ public class ActionClickTest {
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).perform(typeText("2000"));
         onView(withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());
-        onView(withId(R.id.goalUpdateButton)).perform(click());
+        onView(withId(R.id.commentUpdateButton)).perform(click());
         Thread.sleep(2000);
         onView(withText("You have successfully updated your selected goal")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
         assert (count<5);
