@@ -7,7 +7,7 @@ module.exports = {
   r_date: {type: Date, require: true},
   letter_string: {
     type: String,
-    match: /^[a-zA-Z]+$/
+    match: /^[a-zA-Z ]+$/
   },
   email_string: {
     type: String,
