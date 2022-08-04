@@ -54,6 +54,79 @@ public class DashboardFragment extends Fragment {
 //        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         dashName= binding.dashName;
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        Button settings = binding.homeSettings;
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(settingsIntent);
+            }
+        });
+        Button reports = binding.reportGenButton;
+        reports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent reportsIntent = new Intent(getActivity(), ReportGenActivity.class);
+                startActivity(reportsIntent);
+            }
+        });
+        Button goals = binding.goalButton;
+        goals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
+                startActivity(goalIntent);
+            }
+        });
+        Button second_transaction = binding.transactionSecondaryButton;
+        second_transaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
+                startActivity(transactionIntent);
+            }
+        });
+
+        Button transactionButton = binding.transactionButton;
+        transactionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
+                startActivity(transactionIntent);
+            }
+        });
+
+        Button MoreButton = binding.goalbutton;
+        MoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
+                startActivity(goalIntent);
+            }
+        });
+
+        if(FrontendConstants.isAccountant){
+            goals.setEnabled(false);
+            transactionButton.setEnabled(false);
+            MoreButton.setEnabled(false);
+            second_transaction.setEnabled(false);
+        }
+
+        notification_text = binding.notificationText;
+        spending = binding.spendingText;
+
+        getAllGoals();
+        getAllTransactions();
+
+        if ((hour>=19 && hour<=24) || (hour >=0 && hour <= 5)) {
+            dashName.setText("Good night, "+ FrontendConstants.userName+"!");
+        } else if (hour>5 && hour<=12) {
+            dashName.setText("Good morning, "+ FrontendConstants.userName+"!");
+        } else {
+            dashName.setText("Good afternoon, "+ FrontendConstants.userName+"!");
+        }
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -66,72 +139,22 @@ public class DashboardFragment extends Fragment {
                     dashName.setText("Good afternoon, "+ FrontendConstants.userName+"!");
                 }
 
-
-                Button settings = binding.homeSettings;
-                settings.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent settingsIntent = new Intent(getActivity(), SettingsActivity.class);
-                        startActivity(settingsIntent);
-                    }
-                });
-                Button reports = binding.reportGenButton;
-                reports.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent reportsIntent = new Intent(getActivity(), ReportGenActivity.class);
-                        startActivity(reportsIntent);
-                    }
-                });
-                Button goals = binding.goalButton;
-                goals.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
-                        startActivity(goalIntent);
-                    }
-                });
-                Button second_transaction = binding.transactionSecondaryButton;
-                second_transaction.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
-                        startActivity(transactionIntent);
-                    }
-                });
-
-                Button transactionButton = binding.transactionButton;
-                transactionButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent transactionIntent = new Intent(getActivity(), TransactionSetActivity.class);
-                        startActivity(transactionIntent);
-                    }
-                });
-
-                Button MoreButton = binding.goalbutton;
-                MoreButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent goalIntent = new Intent(getActivity(), GoalSetActivity.class);
-                        startActivity(goalIntent);
-                    }
-                });
-
                 if(FrontendConstants.isAccountant){
                     goals.setEnabled(false);
                     transactionButton.setEnabled(false);
                     MoreButton.setEnabled(false);
                     second_transaction.setEnabled(false);
+                }else{
+                    goals.setEnabled(true);
+                    transactionButton.setEnabled(true);
+                    MoreButton.setEnabled(true);
+                    second_transaction.setEnabled(true);
                 }
-
-                notification_text = binding.notificationText;
-                spending = binding.spendingText;
 
                 getAllGoals();
                 getAllTransactions();
             }
-        }, 2000);
+        }, 3000);
 
 
         return root;

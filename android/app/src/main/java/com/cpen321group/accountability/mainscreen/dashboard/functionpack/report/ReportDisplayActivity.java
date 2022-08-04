@@ -4,16 +4,20 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.reportpiechart.PieClickListener;
-import com.cpen321group.accountability.reportpiechart.PieEntry;
-import com.cpen321group.accountability.reportpiechart.ReportPieChart;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.reportpiechart.PieClickListener;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.reportpiechart.PieEntry;
+import com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.reportpiechart.ReportPieChart;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -29,6 +33,7 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
     private ReportPieChart reportPieChart;
     private String reportId;
     private String usertxt;
+    private String recommendation = " ";
 
     double amount_daily_necessities = 0.0;
     double amount_food_drinks = 0.0;
@@ -57,7 +62,7 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
 
         //Starting of this activity
         Bundle extras = getIntent().getExtras();
-        reportId = extras.getString("reportId").replace("\"", "");
+        reportId = extras.getString("reportId");
         usertxt = extras.getString("userID");
         Log.d("id",usertxt);
         reportPieChart = (ReportPieChart) findViewById(R.id.piechart);
@@ -66,9 +71,32 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         getReport(pieEntries);
 
+        FloatingActionButton add_button = findViewById(R.id.addCommentButton);
+
         if(FrontendConstants.isAccountant){
             myChildToolbar.setTitle("User Report");
+            add_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent reportDisplayIntent = new Intent(getApplicationContext(), AddCommentActivity.class);
+                    reportDisplayIntent.putExtra("reportId", reportId);
+                    reportDisplayIntent.putExtra("userID",usertxt);
+                    startActivity(reportDisplayIntent);
+                }
+            });
+        }else{
+            add_button.setVisibility(View.GONE);
         }
+
+        Button comment = findViewById(R.id.comment_button);
+        comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent reportDisplayIntent = new Intent(getApplicationContext(), CommentActivity.class);
+                reportDisplayIntent.putExtra("recommendation", recommendation);
+                startActivity(reportDisplayIntent);
+            }
+        });
     }
 
     @Override
@@ -90,6 +118,9 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject JsonArray = response.body();
+                if(JsonArray.get("recommendations")!=null){
+                    recommendation = JsonArray.get("recommendations").getAsString();
+                }
                 JsonArray spendingArray = JsonArray.getAsJsonArray("spendings");
                 int sizeOfSpendingArray = spendingArray.size();
                 amount_daily_necessities = 0.0;

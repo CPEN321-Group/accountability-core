@@ -51,7 +51,7 @@ public class ChatFragment extends Fragment {
     private Runnable runnable = new Runnable() {
         public void run() {
             this.update();
-            handler.postDelayed(this, 1000 * 120);// 间隔120秒
+            handler.postDelayed(this, 1000 * 120);
         }
         void update() {
             if(FrontendConstants.isAccountant){

@@ -59,6 +59,7 @@ public class HistoryActivity extends AppCompatActivity {
             Toast.makeText(this,"Show History Talk Successfully",Toast.LENGTH_LONG).show();
             getHistory();
         } else {
+            Toast.makeText(this,"No History Before",Toast.LENGTH_LONG).show();
             msgList.add(new Msg("Hello", Msg.TYPE_RECEIVED));
         }
     }

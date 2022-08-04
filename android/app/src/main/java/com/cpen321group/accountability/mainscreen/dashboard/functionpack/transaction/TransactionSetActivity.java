@@ -86,6 +86,11 @@ public class TransactionSetActivity extends AppCompatActivity {
                     transactionsRV.setAdapter(transactionAdapter);
                     searchForTransaction(search_text.getText().toString());
                 }else{
+                    transactionModelArrayList.clear();
+                    TransactionAdapter transactionAdapter = new TransactionAdapter(transactionModelArrayList);
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                    transactionsRV.setLayoutManager(linearLayoutManager);
+                    transactionsRV.setAdapter(transactionAdapter);
                     getAllTransactions();
                 }
             }

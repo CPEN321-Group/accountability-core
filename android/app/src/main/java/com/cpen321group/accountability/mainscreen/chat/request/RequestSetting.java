@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,10 +57,10 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getRoomID();
+                            getRoomID(request_button,context,0,0);
                         }
                     },1000);
-                    Handler handler2 = new Handler();
+                    /*Handler handler2 = new Handler();
                     handler2.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -67,7 +68,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                             Intent settingsIntent = new Intent(context, ChattingActivity.class);
                             context.startActivity(settingsIntent);
                         }
-                    },3000);
+                    },3000);*/
                 }
             });
         }
@@ -88,16 +89,14 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
             @Override
             public void onClick(View v) {
                 FrontendConstants.receiverID = holder.user_id.getText().toString();
-                getRoomID();
-                list.remove(holder.getAdapterPosition());  // remove the item from list
-                notifyItemRemoved(holder.getAdapterPosition());
-                Handler handler3 = new Handler();
+                getRoomID(holder.finish_button, v.getContext(),1,holder.getAdapterPosition());
+                /*Handler handler3 = new Handler();
                 handler3.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         updateFinish();
                     }
-                },1500);
+                },1500);*/
             }
         });
     }
@@ -107,7 +106,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
         return list.size();
     }
 
-    private void getRoomID(){
+    private void getRoomID(Button send_button, Context context, int code,int pos){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -125,6 +124,13 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                         String id = response.body().get("_id").toString();
                         FrontendConstants.roomID = id.substring(1, id.length() - 1);
                         Log.d("getRoomId", id);
+                        if(code==1){
+                            updateFinish(pos);
+                        }else if(code==0){
+                            send_button.setEnabled(true);
+                            Intent settingsIntent = new Intent(context, ChattingActivity.class);
+                            context.startActivity(settingsIntent);
+                        }
                     }
                 }catch(Exception e){
                     Log.d("getRoomId",e.toString());
@@ -138,7 +144,9 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
         });
     }
 
-    private void updateFinish(){
+
+
+    private void updateFinish(int pos){
         if(FrontendConstants.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/finished/")
@@ -147,17 +155,21 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
 
 
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<String> call = retrofitAPI.updateFinished(FrontendConstants.roomID,true);
+            Call<JsonObject> call = retrofitAPI.updateFinished(FrontendConstants.roomID,false);
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<JsonObject>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
-                    Log.d("Message", "success");
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    Log.d("updateFinish", "success");
+                    if(response.code()==200) {
+                        list.remove(pos);  // remove the item from list
+                        notifyItemRemoved(pos);
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
-                    Log.d("Message", t.toString());
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    Log.d("updateFinish", t.toString());
                 }
             });
         }

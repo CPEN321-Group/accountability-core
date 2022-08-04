@@ -1,4 +1,4 @@
-package com.cpen321group.accountability.reportpiechart;
+package com.cpen321group.accountability.mainscreen.dashboard.functionpack.report.reportpiechart;
 
 public class PieEntry {
     private float value;

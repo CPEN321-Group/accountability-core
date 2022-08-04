@@ -58,7 +58,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
             public void onClick(View view) {
                 String reportId = model.getReport_id();
                 Intent reportDisplayIntent = new Intent(view.getContext(), ReportDisplayActivity.class);
-                reportDisplayIntent.putExtra("reportId", reportId);
+                reportDisplayIntent.putExtra("reportId", reportId.replace("\"", ""));
                 reportDisplayIntent.putExtra("userID",model.getUser_id());
                 view.getContext().startActivity(reportDisplayIntent);
             }

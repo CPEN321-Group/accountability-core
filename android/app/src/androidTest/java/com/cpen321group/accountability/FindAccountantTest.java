@@ -69,7 +69,7 @@ public class FindAccountantTest {
 
     @Test
     public void _b_chatViewNotSubTest() throws InterruptedException {
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         FrontendConstants.is_subscribed = false;
         mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
         mfragment.moveToState(Lifecycle.State.STARTED);

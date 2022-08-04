@@ -1,5 +1,6 @@
 package com.cpen321group.accountability.mainscreen.chat.accountant;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -10,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cpen321group.accountability.R;
@@ -58,15 +61,15 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 public void onClick(View v) {
                     FrontendConstants.receiverID = accountant_id.getText().toString();
                     send_button.setEnabled(false);
-                    postRoomId();
-                    Handler handler = new Handler();
+                    postRoomId(send_button,context);
+                    /*Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getRoomID();
+                            getRoomID(send_button,context);
                         }
-                    },1000);
-                    Handler handler2 = new Handler();
+                    },1000);*/
+                    /*Handler handler2 = new Handler();
                     handler2.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -75,7 +78,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                             Intent settingsIntent = new Intent(context, ChattingActivity.class);
                             context.startActivity(settingsIntent);
                         }
-                    },3000);
+                    },3000);*/
                 }
             });
 
@@ -89,10 +92,10 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getRoomID();
+                            getHistoryRoomID(history_button,context);
                         }
                     },1000);
-                    Handler handler2 = new Handler();
+                    /*Handler handler2 = new Handler();
                     handler2.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -100,7 +103,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                             Intent settingsIntent = new Intent(context, HistoryActivity.class);
                             context.startActivity(settingsIntent);
                         }
-                    },3000);
+                    },3000);*/
                 }
             });
 
@@ -133,7 +136,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
         return list.size();
     }
 
-    private void postRoomId(){
+    private void postRoomId(Button send_button, Context context){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -141,22 +144,24 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
+        Call<JsonObject> call = retrofitAPI.postRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d(TAG,response.toString());
+                getRoomID(send_button,context);
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d(TAG,t.toString());
+                Toast.makeText(context,"Fail to set the room",Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void getRoomID(){
+    private void getRoomID(Button send_button, Context context){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -174,9 +179,53 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                         String id = response.body().get("_id").toString();
                         FrontendConstants.roomID = id.substring(1, id.length() - 1);
                         Log.d("getRoomId", id);
+                        updateFinish(send_button,context);
                     }
                 }catch(Exception e){
                         Log.d("getRoomId",e.toString());
+                        send_button.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Toast.makeText(context,"Fail to enter the room",Toast.LENGTH_LONG).show();
+                Log.d("getRoomId",t.toString());
+                send_button.setEnabled(true);
+            }
+        });
+    }
+
+    private void getHistoryRoomID(Button send_button, Context context){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(FrontendConstants.baseURL + "/messaging/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<JsonObject> call = retrofitAPI.getRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
+
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d("getRoomId", response.toString());
+                try {
+                    if(response.code()==404){
+                        Intent settingsIntent = new Intent(context, HistoryActivity.class);
+                        context.startActivity(settingsIntent);
+                    }
+                    if (response.body() != null) {
+                        String id = response.body().get("_id").toString();
+                        FrontendConstants.roomID = id.substring(1, id.length() - 1);
+                        Log.d("getRoomId", id);
+                        send_button.setEnabled(true);
+                        Intent settingsIntent = new Intent(context, HistoryActivity.class);
+                        context.startActivity(settingsIntent);
+                    }
+                }catch(Exception e){
+                    send_button.setEnabled(true);
+                    Log.d("getRoomId",e.toString());
                 }
             }
 
@@ -187,7 +236,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
         });
     }
 
-    private void updateFinish(){
+    private void updateFinish(Button send_button, Context context){
         if(FrontendConstants.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/finished/")
@@ -196,17 +245,24 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
 
 
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<String> call = retrofitAPI.updateFinished(FrontendConstants.roomID,false);
+            Call<JsonObject> call = retrofitAPI.updateFinished(FrontendConstants.roomID,false);
 
-            call.enqueue(new Callback<String>() {
+            call.enqueue(new Callback<JsonObject>() {
                 @Override
-                public void onResponse(Call<String> call, Response<String> response) {
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     Log.d("updateFinish", "success");
+                    send_button.setEnabled(true);
+                    if(response.code()==200) {
+                        Intent settingsIntent = new Intent(context, ChattingActivity.class);
+                        context.startActivity(settingsIntent);
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<String> call, Throwable t) {
+                public void onFailure(Call<JsonObject> call, Throwable t) {
                     Log.d("updateFinish", t.toString());
+                    Toast.makeText(context,"Fail to enter the room",Toast.LENGTH_LONG).show();
+                    send_button.setEnabled(true);
                 }
             });
         }

@@ -102,8 +102,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
-        app:layout_constraintVertical_bias="0.75" />
+        app:layout_constraintTop_toBottomOf="@+id/ocrSV"
+        app:layout_constraintVertical_bias="0.15" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/transactionCreateButton"
@@ -114,10 +114,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintTop_toBottomOf="@id/recipeButton"
+        app:layout_constraintVertical_bias="0.2" />
 
     <ScrollView
+        android:id="@+id/ocrSV"
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_marginStart="20dp"
@@ -129,8 +130,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:layout_constraintVertical_bias="0.45">
+        app:layout_constraintTop_toBottomOf="@id/datePickerButton"
+        app:layout_constraintVertical_bias="0.1">
 
         <TextView
             android:id="@+id/ocr_view"
@@ -154,8 +155,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/transactionAmountPrice"
-        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintTop_toBottomOf="@id/transactionCategoryMenu"
+        app:layout_constraintVertical_bias="0.05"
         tools:context=".mainScreen.dashboard.functionpack.transactionCreateActivity" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
