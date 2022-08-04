@@ -32,7 +32,7 @@ public class GoalUpdateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_update);
 
-        Button updateGoal = findViewById(R.id.commentUpdateButton);
+        Button updateGoal = findViewById(R.id.goalUpdateButton);
         updateGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

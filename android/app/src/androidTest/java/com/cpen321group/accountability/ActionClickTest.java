@@ -95,7 +95,7 @@ public class ActionClickTest {
         Thread.sleep(2000);
         onView(withId(R.id.goalCurrentPriceInput)).perform(typeText("2000"));
         onView(withId(R.id.goalCurrentPriceInput)).perform(closeSoftKeyboard());
-        onView(withId(R.id.commentUpdateButton)).perform(click());
+        onView(withId(R.id.goalUpdateButton)).perform(click());
         Thread.sleep(2000);
         onView(withText("You have successfully updated your selected goal")).inRoot(withDecorView(not(getCurrentActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
         assert (count<5);
@@ -148,7 +148,21 @@ public class ActionClickTest {
     }
 
     @Test
-    public void _e_deleteTransactionTest() throws InterruptedException {
+    public void _e_searchTransactionTest() throws InterruptedException {
+        Thread.sleep(2000);
+        onView(withId(R.id.transaction_secondary_button)).perform(click());
+        count ++;
+        Thread.sleep(4000);
+        onView(withId(R.id.searchTransaction_text)).perform(typeText("TEST Transaction"));
+        onView(withId(R.id.searchTransaction_text)).perform(closeSoftKeyboard());
+        onView(withId(R.id.searchTransaction_button)).perform(click());
+        count ++;
+        Thread.sleep(2000);
+        assert (count<5);
+    }
+
+    @Test
+    public void _f_deleteTransactionTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.transaction_secondary_button)).perform(click());
         count ++;
@@ -164,7 +178,7 @@ public class ActionClickTest {
     }
 
     @Test
-    public void _f_settingTest() throws InterruptedException {
+    public void _g_settingTest() throws InterruptedException {
         Thread.sleep(2000);
         onView(withId(R.id.home_settings)).perform(click());
         Thread.sleep(2000);
@@ -173,7 +187,22 @@ public class ActionClickTest {
     }
 
     @Test
-    public void _g_sendMessageTest() throws InterruptedException {
+    public void _h_searchAccountantTest() throws InterruptedException {
+        Thread.sleep(2000);
+        FragmentScenario<ChatFragment> mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
+        mfragment.moveToState(Lifecycle.State.STARTED);
+        FrontendConstants.userID = "100141214588378665776go";
+        count ++;
+        onView(withId(R.id.search_text)).perform(typeText("David"));
+        onView(withId(R.id.search_text)).perform(closeSoftKeyboard());
+        onView(withId(R.id.search_button)).perform(click());
+        count ++;
+        Thread.sleep(2000);
+        assert(count < 5);
+    }
+
+    @Test
+    public void _i_sendMessageTest() throws InterruptedException {
         Thread.sleep(2000);
         FragmentScenario<ChatFragment> mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
         mfragment.moveToState(Lifecycle.State.STARTED);
@@ -195,7 +224,27 @@ public class ActionClickTest {
     }
 
     @Test
-    public void _h_viewHistoryTest() throws InterruptedException {
+    public void _j_shareReportTest() throws InterruptedException {
+        Thread.sleep(2000);
+        FragmentScenario<ChatFragment> mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
+        mfragment.moveToState(Lifecycle.State.STARTED);
+        FrontendConstants.userID = "100141214588378665776go";
+        count ++;
+        onView(isRoot()).perform(WaitforHelper.waitFor(5000));
+        onView(withId(R.id.chat_recycler))
+                .perform(RecyclerViewActions.scrollToPosition(0));
+        onView(withId(R.id.chat_recycler)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.request_button_1)));
+        count ++;
+        Thread.sleep(5000);
+        onView(withId(R.id.share_button)).perform(click());
+        Thread.sleep(2000);
+        count ++;
+        assert(count < 5);
+    }
+
+    @Test
+    public void _k_viewHistoryTest() throws InterruptedException {
         Thread.sleep(2000);
         FragmentScenario<ChatFragment> mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
         mfragment.moveToState(Lifecycle.State.STARTED);
@@ -212,7 +261,7 @@ public class ActionClickTest {
     }
 
     @Test
-    public void _i_addReviewTest() throws InterruptedException {
+    public void _l_addReviewTest() throws InterruptedException {
         Thread.sleep(2000);
         FragmentScenario<ChatFragment> mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
         mfragment.moveToState(Lifecycle.State.STARTED);
@@ -242,7 +291,7 @@ public class ActionClickTest {
 
 
     @Test
-    public void _j_addReportTest() throws InterruptedException {
+    public void _m_addReportTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
@@ -257,7 +306,7 @@ public class ActionClickTest {
     }
 
     @Test
-    public void _k_displayReportTest() throws InterruptedException {
+    public void _n_displayReportAndViewCommentTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
@@ -268,11 +317,16 @@ public class ActionClickTest {
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportCard)));
         Thread.sleep(2000);
         count ++;
+        onView(withId(R.id.comment_button)).perform(click());
+        count ++;
+        Thread.sleep(2000);
+        onView(withText("Comment")).check(matches(isDisplayed()));
         assert (count<5);
     }
 
+
     @Test
-    public void _l_deleteReportTest() throws InterruptedException {
+    public void _o_deleteReportTest() throws InterruptedException {
         Thread.sleep(3000);
         onView(withId(R.id.report_gen_button)).perform(click());
         count ++;
@@ -286,7 +340,7 @@ public class ActionClickTest {
         assert (count<5);
     }
     @Test
-    public void _m_userRequestSendMessageTest() throws InterruptedException {
+    public void _p_userRequestSendMessageTest() throws InterruptedException {
         FrontendConstants.userID = "455937552go";
         FrontendConstants.isAccountant = true;
         Thread.sleep(2000);
@@ -310,7 +364,7 @@ public class ActionClickTest {
     }
 
     @Test
-    public void _n_userRequestFinishTest() throws InterruptedException {
+    public void _q_userRequestFinishTest() throws InterruptedException {
         FrontendConstants.userID = "455937552go";
         FrontendConstants.isAccountant = true;
         Thread.sleep(2000);
@@ -325,6 +379,31 @@ public class ActionClickTest {
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.button_finish)));
         count++;
         Thread.sleep(5000);
+        assert(count < 5);
+    }
+
+    @Test
+    public void _r_addCommentTest() throws InterruptedException {
+        FrontendConstants.userID = "455937552go";
+        FrontendConstants.isAccountant = true;
+        Thread.sleep(5000);
+        onView(withId(R.id.report_gen_button)).perform(click());
+        count ++;
+        Thread.sleep(4000);
+        onView(withId(R.id.reportRV))
+                .perform(RecyclerViewActions.scrollToPosition(0));
+        onView(withId(R.id.reportRV)).perform(
+                RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.reportCard)));
+        Thread.sleep(2000);
+        count ++;
+        onView(withId(R.id.addCommentButton))
+                .perform(click());
+        count ++;
+        onView(withId(R.id.commentInput)).perform(typeText("You spend too much!"));
+        onView(withId(R.id.commentInput)).perform(closeSoftKeyboard());
+        onView(withId(R.id.commentUpdateButton)).perform(click());
+        count ++;
+        Thread.sleep(2000);
         assert(count < 5);
     }
 

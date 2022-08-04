@@ -71,7 +71,7 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         getReport(pieEntries);
 
-        FloatingActionButton add_button = findViewById(R.id.AddCommentButton);
+        FloatingActionButton add_button = findViewById(R.id.addCommentButton);
 
         if(FrontendConstants.isAccountant){
             myChildToolbar.setTitle("User Report");
