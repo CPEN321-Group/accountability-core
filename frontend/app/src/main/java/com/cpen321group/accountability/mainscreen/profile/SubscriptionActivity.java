@@ -61,32 +61,38 @@ public class SubscriptionActivity extends AppCompatActivity {
         }
         // Following Stripe API Doc, but using StringRequest to request POST request instead of using Fuel
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(FrontendConstants.baseURL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.stripeCheckout(FrontendConstants.userID);
 
         // Trigger start request button
         Button start_subscription = findViewById(R.id.start_subscription_button);
         start_subscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-                    call.enqueue(new Callback<JsonObject>() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(FrontendConstants.baseURL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+                Call<JsonObject> call = retrofitAPI.stripeCheckout(FrontendConstants.userID);
+
+                call.enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
-                            Log.d("paymentIntent:", "success");
-                            JsonObject jsonResponse = response.body();
-                            customerConfig = new PaymentSheet.CustomerConfiguration(
-                                    jsonResponse.get("customer").toString().replace("\"",""),
-                                    jsonResponse.get("ephemeralKey").toString().replace("\"","")
-                            );
-                            paymentIntentClientSecret = jsonResponse.get("paymentIntent").toString().replace("\"","");
-                            Log.d("paymentIntent:", paymentIntentClientSecret);
-                            PaymentConfiguration.init(getApplicationContext(), jsonResponse.get("publishableKey").toString().replace("\"",""));
+                            if (response.code() == 200) {
+                                Log.d("paymentIntent:", "success");
+                                JsonObject jsonResponse = response.body();
+                                customerConfig = new PaymentSheet.CustomerConfiguration(
+                                        jsonResponse.get("customer").toString().replace("\"",""),
+                                        jsonResponse.get("ephemeralKey").toString().replace("\"","")
+                                );
+                                paymentIntentClientSecret = jsonResponse.get("paymentIntent").toString().replace("\"","");
+                                Log.d("paymentIntent:", paymentIntentClientSecret);
+                                PaymentConfiguration.init(getApplicationContext(), jsonResponse.get("publishableKey").toString().replace("\"",""));
+                                presentPaymentSheet();
+                            } else {
+                                Toast.makeText(getApplicationContext(),"Something went wrong, try again.",Toast.LENGTH_LONG).show();
+                            }
+
                         }
 
                         @Override
@@ -94,12 +100,7 @@ public class SubscriptionActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(),"Check your internet connection",Toast.LENGTH_LONG).show();
                         }
                     });
-                    presentPaymentSheet();
-                } catch (Exception e) {
-                    // Server connection may timeout due to delay, which will cause null pointer error in presentPaymentSheet().
-                    // Should be caught here
-                    Toast.makeText(getApplicationContext(),"Server connection timeout, try again",Toast.LENGTH_LONG).show();
-                }
+
             }
         });
     }
