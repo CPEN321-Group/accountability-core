@@ -170,11 +170,18 @@ public interface RetrofitAPI {
     Call<JsonObject> updateSubscription(@Path("accountId") String id,
                                         @Query("expiryDate") String expiryDate);
 
+    // Update avatar
     @PUT("accounts/{accountId}")
     Call<String> updateAvatar(@Path("accountId") String id,
                               @Body JsonObject json);
 
+    // Search transaction
     @GET("search/transactions/{accountId}")
     Call<ArrayList<JsonObject>> findTransaction(@Path("accountId") String id,
                                                 @Query("title") String str);
+
+    // Stripe end point
+    @POST("/stripe/checkout/{userId}")
+    Call<JsonObject> stripeCheckout(@Path("userId") String id);
+
 }
