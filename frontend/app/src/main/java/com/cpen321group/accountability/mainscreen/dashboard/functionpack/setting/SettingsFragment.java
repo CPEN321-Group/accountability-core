@@ -30,23 +30,25 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         switch (biometricManager.canAuthenticate(BIOMETRIC_STRONG | DEVICE_CREDENTIAL)) {
             case BiometricManager.BIOMETRIC_SUCCESS:
                 Log.d("MY_APP_TAG", "App can authenticate using biometrics.");
-                Toast.makeText(getContext(), "App can authenticate using biometrics.", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "App can authenticate using biometrics.", Toast.LENGTH_LONG);
                 biometric_pref.setEnabled(true);
                 break;
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 Log.e("MY_APP_TAG", "No biometric features available on this device.");
-                Toast.makeText(getContext(), "No biometric features available on this device.", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "No biometric features available on this device.", Toast.LENGTH_LONG);
                 biometric_pref.setEnabled(false);
                 break;
             case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
                 Log.e("MY_APP_TAG", "Biometric features are currently unavailable.");
-                Toast.makeText(getContext(), "Biometric features are currently unavailable.", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), "Biometric features are currently unavailable.", Toast.LENGTH_LONG);
                 biometric_pref.setEnabled(false);
                 break;
-            default:
-                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.");
-                Toast.makeText(getContext(), "Biometric features are currently unavailable.", Toast.LENGTH_LONG);
-                biometric_pref.setEnabled(false);
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                // Prompts the user to create credentials that your app accepts.
+                final Intent enrollIntent = new Intent(Settings.ACTION_BIOMETRIC_ENROLL);
+                enrollIntent.putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                        BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
+                startActivityForResult(enrollIntent, 1);
                 break;
         }
 
