@@ -19,6 +19,6 @@ jobs:
         gradlew_file: frontend/gradlew
         gradlew_dir: frontend/
         keystore_file: frontend/key/accountability_key.jks
-        keystore_password: ${{ secrets.keystore_password }}
-        key_alias: ${{ secrets.key_alias }}
-        key_password: ${{ secrets.key_password }}
+        keystore_password: Dd123456
+        key_alias: key0
+        key_password: Dd123456
