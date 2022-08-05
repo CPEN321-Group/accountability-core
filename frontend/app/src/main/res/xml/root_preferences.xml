@@ -17,13 +17,8 @@
     <PreferenceCategory app:title="Security">
 
         <SwitchPreferenceCompat
-            app:key="pin"
-            app:title="Use pin to login to the app" />
-
-        <SwitchPreferenceCompat
-            app:dependency="pin"
             app:key="biometric"
-            app:summaryOff="Using biometric to login to the app requires pin setting"
+            app:summaryOff="Using biometric to login to the app"
             app:summaryOn="You have enabled the biometric login"
             app:title="Enable biometric way to login" />
 
