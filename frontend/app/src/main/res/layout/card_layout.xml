@@ -50,12 +50,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/goalName"
-            android:textColor="@color/black"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/goalImage"
             android:drawablePadding="2dp"
-            android:text="goal details description" />
+            android:text="goal details description"
+            android:textColor="@color/black" />
 
         <!-- Buttons -->
         <com.google.android.material.button.MaterialButton
@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="140dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:text="Delete" />
 
         <com.google.android.material.button.MaterialButton
@@ -73,8 +73,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="240dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="100dp"
             android:text="New Savings" />
+
+        <TextView
+            android:id="@+id/goalDateTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/goalPrice"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_toEndOf="@id/goalImage"
+            android:text="TextView" />
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

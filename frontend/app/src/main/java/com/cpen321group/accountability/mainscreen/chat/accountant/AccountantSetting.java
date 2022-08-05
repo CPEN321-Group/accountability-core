@@ -59,7 +59,9 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 public void onClick(View v) {
                     FrontendConstants.receiverID = accountant_id.getText().toString();
                     send_button.setEnabled(false);
-                    postRoomId(send_button,context);
+                    history_button.setEnabled(false);
+                    reviews_button.setEnabled(false);
+                    postRoomId(send_button,history_button,reviews_button,context);
                 }
             });
 
@@ -68,12 +70,14 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 public void onClick(View v) {
                     FrontendConstants.receiverID = accountant_id.getText().toString();
                     FrontendConstants.roomID = null;
+                    send_button.setEnabled(false);
                     history_button.setEnabled(false);
+                    reviews_button.setEnabled(false);
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getHistoryRoomID(history_button,context);
+                            getHistoryRoomID(send_button,history_button,reviews_button,context);
                         }
                     },1000);
                 }
@@ -108,7 +112,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
         return list.size();
     }
 
-    private void postRoomId(Button send_button, Context context){
+    private void postRoomId(Button send_button, Button history_button, Button reviews_button,Context context){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -122,18 +126,21 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d(TAG,response.toString());
-                getRoomID(send_button,context);
+                getRoomID(send_button,history_button,reviews_button,context);
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d(TAG,t.toString());
+                send_button.setEnabled(true);
+                history_button.setEnabled(true);
+                reviews_button.setEnabled(true);
                 Toast.makeText(context,"Fail to set the room",Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void getRoomID(Button send_button, Context context){
+    private void getRoomID(Button send_button, Button history_button, Button reviews_button, Context context){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -147,15 +154,21 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 try {
-                    if (response.body() != null) {
+                    if (response.code()==200&&response.body() != null) {
                         String id = response.body().get("_id").toString();
                         FrontendConstants.roomID = id.substring(1, id.length() - 1);
                         Log.d("getRoomId", id);
-                        updateFinish(send_button,context);
+                        updateFinish(send_button,history_button,reviews_button,context);
+                    }else{
+                        send_button.setEnabled(true);
+                        history_button.setEnabled(true);
+                        reviews_button.setEnabled(true);
                     }
                 }catch(Exception e){
                         Log.d("getRoomId",e.toString());
                         send_button.setEnabled(true);
+                        history_button.setEnabled(true);
+                        reviews_button.setEnabled(true);
                 }
             }
 
@@ -164,11 +177,13 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 Toast.makeText(context,"Fail to enter the room",Toast.LENGTH_LONG).show();
                 Log.d("getRoomId",t.toString());
                 send_button.setEnabled(true);
+                history_button.setEnabled(true);
+                reviews_button.setEnabled(true);
             }
         });
     }
 
-    private void getHistoryRoomID(Button send_button, Context context){
+    private void getHistoryRoomID(Button send_button, Button history_button, Button reviews_button,Context context){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -183,6 +198,9 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("getRoomId", response.toString());
                 try {
+                    send_button.setEnabled(true);
+                    history_button.setEnabled(true);
+                    reviews_button.setEnabled(true);
                     if(response.code()==404){
                         Intent settingsIntent = new Intent(context, HistoryActivity.class);
                         context.startActivity(settingsIntent);
@@ -191,24 +209,28 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                         String id = response.body().get("_id").toString();
                         FrontendConstants.roomID = id.substring(1, id.length() - 1);
                         Log.d("getRoomId", id);
-                        send_button.setEnabled(true);
                         Intent settingsIntent = new Intent(context, HistoryActivity.class);
                         context.startActivity(settingsIntent);
                     }
                 }catch(Exception e){
                     send_button.setEnabled(true);
+                    history_button.setEnabled(true);
+                    reviews_button.setEnabled(true);
                     Log.d("getRoomId",e.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                send_button.setEnabled(true);
+                history_button.setEnabled(true);
+                reviews_button.setEnabled(true);
                 Log.d("getRoomId",t.toString());
             }
         });
     }
 
-    private void updateFinish(Button send_button, Context context){
+    private void updateFinish(Button send_button, Button history_button, Button reviews_button,Context context){
         if(FrontendConstants.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/finished/")
@@ -224,6 +246,8 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     Log.d("updateFinish", "success");
                     send_button.setEnabled(true);
+                    history_button.setEnabled(true);
+                    reviews_button.setEnabled(true);
                     if(response.code()==200) {
                         Intent settingsIntent = new Intent(context, ChattingActivity.class);
                         context.startActivity(settingsIntent);
@@ -235,6 +259,8 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
                     Log.d("updateFinish", t.toString());
                     Toast.makeText(context,"Fail to enter the room",Toast.LENGTH_LONG).show();
                     send_button.setEnabled(true);
+                    history_button.setEnabled(true);
+                    reviews_button.setEnabled(true);
                 }
             });
         }

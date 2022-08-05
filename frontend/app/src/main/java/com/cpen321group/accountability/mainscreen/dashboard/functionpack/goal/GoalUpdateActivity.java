@@ -78,7 +78,9 @@ public class GoalUpdateActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Toast.makeText(getApplicationContext(),"You have successfully updated your selected goal",Toast.LENGTH_LONG).show();
+                if(response.code()==200) {
+                    Toast.makeText(getApplicationContext(), "You have successfully updated your selected goal", Toast.LENGTH_LONG).show();
+                }
                 Log.d("Message",response.toString());
             }
 

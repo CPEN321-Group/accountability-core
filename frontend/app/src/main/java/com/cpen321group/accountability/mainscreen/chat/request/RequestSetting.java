@@ -52,11 +52,12 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                 public void onClick(View v) {
                     FrontendConstants.receiverID = user_id.getText().toString();
                     request_button.setEnabled(false);
+                    finish_button.setEnabled(false);
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getRoomID(request_button,context,0,0);
+                            getRoomID(request_button,finish_button,context,0,0);
                         }
                     },1000);
                 }
@@ -78,15 +79,10 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
         holder.finish_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.request_button.setEnabled(false);
+                holder.finish_button.setEnabled(false);
                 FrontendConstants.receiverID = holder.user_id.getText().toString();
-                getRoomID(holder.finish_button, v.getContext(),1,holder.getAdapterPosition());
-                /*Handler handler3 = new Handler();
-                handler3.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateFinish();
-                    }
-                },1500);*/
+                getRoomID(holder.request_button,holder.finish_button, v.getContext(),1,holder.getAdapterPosition());
             }
         });
     }
@@ -96,7 +92,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
         return list.size();
     }
 
-    private void getRoomID(Button send_button, Context context, int code,int pos){
+    private void getRoomID(Button request_button, Button finish_button,Context context, int code,int pos){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(FrontendConstants.baseURL + "/messaging/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -115,20 +111,31 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                         FrontendConstants.roomID = id.substring(1, id.length() - 1);
                         Log.d("getRoomId", id);
                         if(code==1){
-                            updateFinish(pos);
+                            updateFinish(request_button,finish_button,pos);
                         }else if(code==0){
-                            send_button.setEnabled(true);
+                            request_button.setEnabled(true);
+                            finish_button.setEnabled(true);
                             Intent settingsIntent = new Intent(context, ChattingActivity.class);
                             context.startActivity(settingsIntent);
+                        }else{
+                            request_button.setEnabled(true);
+                            finish_button.setEnabled(true);
                         }
+                    }else{
+                        request_button.setEnabled(true);
+                        finish_button.setEnabled(true);
                     }
                 }catch(Exception e){
+                    request_button.setEnabled(true);
+                    finish_button.setEnabled(true);
                     Log.d("getRoomId",e.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                request_button.setEnabled(true);
+                finish_button.setEnabled(true);
                 Log.d("getRoomId",t.toString());
             }
         });
@@ -136,7 +143,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
 
 
 
-    private void updateFinish(int pos){
+    private void updateFinish(Button request_button,Button finish_button,int pos){
         if(FrontendConstants.roomID!=null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(FrontendConstants.baseURL + "/messaging/conversation/finished/")
@@ -151,6 +158,8 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     Log.d("updateFinish", "success");
+                    request_button.setEnabled(true);
+                    finish_button.setEnabled(true);
                     if(response.code()==200) {
                         list.remove(pos);  // remove the item from list
                         notifyItemRemoved(pos);
@@ -159,6 +168,8 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
 
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {
+                    request_button.setEnabled(true);
+                    finish_button.setEnabled(true);
                     Log.d("updateFinish", t.toString());
                 }
             });

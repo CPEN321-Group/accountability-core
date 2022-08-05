@@ -110,7 +110,7 @@ public class ReportGenActivity extends AppCompatActivity {
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 JsonObject jsonArray = response.body();
                 Log.d("Message",response.toString());
-                if(jsonArray!=null) {
+                if(jsonArray!=null && response.code()==200) {
                     Toast.makeText(getApplicationContext(),"You have successfully created your new report",Toast.LENGTH_LONG).show();
                     Log.d("Message",response.toString());
                     Intent refresh = new Intent(getApplicationContext(), ReportGenActivity.class);

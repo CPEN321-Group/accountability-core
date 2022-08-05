@@ -45,6 +45,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
     public void onBindViewHolder(@NonNull GoalsAdapter.Viewholder holder, int position) {
         // to set data to textview and imageview of each card layout
         GoalsModel model = goalsModelArrayList.get(position);
+        holder.dateTxt.setText("Deadline: "+model.getDate());
         holder.goalName.setText(model.getGoal_name().replace("\"", ""));
         holder.goalPrice.setText("Save: $" + model.getCurrent_saving() + " | Target: $" + model.getGoal_price());
         holder.goalDelete.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +108,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
         private TextView goalPrice;
         private Button goalDelete;
         private Button goalSave;
+        private TextView dateTxt;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -114,6 +116,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
             goalPrice = itemView.findViewById(R.id.goalPrice);
             goalDelete = itemView.findViewById(R.id.goalDelete);
             goalSave = itemView.findViewById(R.id.goalSave);
+            dateTxt = itemView.findViewById(R.id.goalDateTxt);
         }
     }
 

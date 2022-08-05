@@ -341,12 +341,13 @@ public class ActionClickTest {
     }
     @Test
     public void _p_userRequestSendMessageTest() throws InterruptedException {
+        Thread.sleep(5000);
         FrontendConstants.userID = "455937552go";
         FrontendConstants.isAccountant = true;
-        Thread.sleep(2000);
         FragmentScenario<ChatFragment> mfragment = FragmentScenario.launchInContainer(ChatFragment.class);
         mfragment.moveToState(Lifecycle.State.STARTED);
         FrontendConstants.userID = "455937552go";
+        FrontendConstants.isAccountant = true;
         count ++;
         onView(isRoot()).perform(WaitforHelper.waitFor(5000));
         onView(withId(R.id.chat_recycler))

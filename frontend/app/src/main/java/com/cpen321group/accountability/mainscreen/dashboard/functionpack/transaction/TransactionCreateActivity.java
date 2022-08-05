@@ -48,6 +48,9 @@ import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -108,20 +111,16 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 Log.d("Date:", "" + date);
 
                 if(!date.equals("0/0/0") && !transactionName.equals("") && !transactionCategory.equals("") && !TransactionAmountText.equals("")) {
-                    transactionAmount = (int)Math.round((Double.parseDouble(TransactionAmountText)*100));
-                    try {
-                        createTransaction();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent TransactionSetIntent = new Intent(TransactionCreateActivity.this, TransactionSetActivity.class);
-                            startActivity(TransactionSetIntent);
+                    if(checkDate(date)) {
+                        transactionAmount = (int) Math.round((Double.parseDouble(TransactionAmountText) * 100));
+                        try {
+                            createTransaction();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    },2000);
+                    }else{
+                        Toast.makeText(TransactionCreateActivity.this,"Date can not be future date",Toast.LENGTH_LONG).show();
+                    }
                 }else{
                     Toast.makeText(TransactionCreateActivity.this,"Some necessary information missing!",Toast.LENGTH_LONG).show();
                 }
@@ -284,7 +283,11 @@ public class TransactionCreateActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Toast.makeText(getApplicationContext(),"You have successfully added your new transaction",Toast.LENGTH_LONG).show();
+                if(response.code()==200) {
+                    Toast.makeText(getApplicationContext(), "You have successfully added your new transaction", Toast.LENGTH_LONG).show();
+                    Intent TransactionSetIntent = new Intent(TransactionCreateActivity.this, TransactionSetActivity.class);
+                    startActivity(TransactionSetIntent);
+                }
                 Log.d("Message",response.toString());
             }
 
@@ -294,5 +297,21 @@ public class TransactionCreateActivity extends AppCompatActivity {
                 Log.d("Message","error");
             }
         });
+    }
+
+    private boolean checkDate(String date) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            Date subDate = formatter.parse(date);
+            Date a = new Date();
+            if(subDate.getTime() <= a.getTime()){
+                return true;
+            }
+        }catch(Exception e){
+            Log.d("Date",e.toString());
+            return false;
+        }
+
+        return false;
     }
 }

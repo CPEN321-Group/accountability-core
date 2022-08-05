@@ -7,6 +7,7 @@ public class GoalsModel {
     private String user_id;
     private double goal_price;
     private double current_saving;
+    private String date;
 
     /**
      *
@@ -15,12 +16,13 @@ public class GoalsModel {
      * @param user_id: Price of saving of a single goal set by user
      * @author <Yisheng Liu><liuyishengalan@hotmail.com/>
      */
-    public GoalsModel(String goal_name, String goal_id, String user_id, double goal_price, double current_saving) {
+    public GoalsModel(String goal_name, String goal_id, String user_id, double goal_price, double current_saving, String date) {
         this.goal_name = goal_name;
         this.goal_id = goal_id;
         this.goal_price = goal_price;
         this.user_id = user_id;
         this.current_saving = current_saving;
+        this.date = date;
     }
 
     public String getGoal_name() {
@@ -61,6 +63,14 @@ public class GoalsModel {
 
     public void setCurrent_saving(double current_saving) {
         this.current_saving = current_saving;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
 

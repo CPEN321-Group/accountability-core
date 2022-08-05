@@ -94,26 +94,29 @@ public class  GoalSetActivity extends AppCompatActivity {
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                ArrayList<JsonObject> jsonArray = response.body();
-                Log.d("User's all goals:",response.toString());
-                if(jsonArray!=null) {
-                    goalsModelArrayList = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        JsonObject jsonObject = jsonArray.get(i);
-                        String title = jsonObject.get("title").toString();
-                        String id = jsonObject.get("_id").toString();
-                        int goal_cents = Integer.valueOf(jsonObject.get("target").toString());
-                        int current_saving_cents = Integer.valueOf(jsonObject.get("current").toString());
-                        double price_dollar = goal_cents / 100.0;
-                        double current_saving = current_saving_cents / 100.0;
-                        goalsModelArrayList.add(new GoalsModel(title, id, FrontendConstants.userID, price_dollar, current_saving));
-                        GoalsAdapter goalsAdapter = new GoalsAdapter(goalsModelArrayList);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                        goalsRV.setLayoutManager(linearLayoutManager);
-                        goalsRV.setAdapter(goalsAdapter);
+                if(response.code()==200) {
+                    ArrayList<JsonObject> jsonArray = response.body();
+                    Log.d("User's all goals:", response.toString());
+                    if (jsonArray != null) {
+                        goalsModelArrayList = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject jsonObject = jsonArray.get(i);
+                            String title = jsonObject.get("title").toString();
+                            String id = jsonObject.get("_id").toString();
+                            String date = jsonObject.get("deadline").getAsString().substring(0,10);
+                            int goal_cents = Integer.valueOf(jsonObject.get("target").toString());
+                            int current_saving_cents = Integer.valueOf(jsonObject.get("current").toString());
+                            double price_dollar = goal_cents / 100.0;
+                            double current_saving = current_saving_cents / 100.0;
+                            goalsModelArrayList.add(new GoalsModel(title, id, FrontendConstants.userID, price_dollar, current_saving,date));
+                            GoalsAdapter goalsAdapter = new GoalsAdapter(goalsModelArrayList);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                            goalsRV.setLayoutManager(linearLayoutManager);
+                            goalsRV.setAdapter(goalsAdapter);
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You don't have any goal set.", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(),"You don't have any goal set.",Toast.LENGTH_LONG).show();
                 }
             }
 

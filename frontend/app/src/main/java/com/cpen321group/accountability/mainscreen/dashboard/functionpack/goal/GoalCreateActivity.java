@@ -19,6 +19,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,20 +54,16 @@ public class GoalCreateActivity extends AppCompatActivity {
                 Log.d("Goal Target", "" + goalTarget);
                 Log.d("Date:", "" + date);
                 if (!goalName.equals("") && !goalTargetText.equals("") && !date.equals("0/0/0")) {
-                    goalTarget = (int) Math.round((Double.parseDouble(goalTargetText) * 100));
-                    try {
-                        createGoal();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent GoalSetIntent = new Intent(GoalCreateActivity.this, GoalSetActivity.class);
-                            startActivity(GoalSetIntent);
+                    if(checkDate(date)) {
+                        goalTarget = (int) Math.round((Double.parseDouble(goalTargetText) * 100));
+                        try {
+                            createGoal();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    }, 2000);
+                    }else{
+                        Toast.makeText(GoalCreateActivity.this, "Date should be future date", Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     Toast.makeText(GoalCreateActivity.this, "Some necessary information missing!", Toast.LENGTH_LONG).show();
                 }
@@ -94,7 +92,11 @@ public class GoalCreateActivity extends AppCompatActivity {
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Toast.makeText(getApplicationContext(),"You have successfully added your new goal",Toast.LENGTH_LONG).show();
+                if(response.code()==200) {
+                    Toast.makeText(getApplicationContext(), "You have successfully added your new goal", Toast.LENGTH_LONG).show();
+                    Intent GoalSetIntent = new Intent(GoalCreateActivity.this, GoalSetActivity.class);
+                    startActivity(GoalSetIntent);
+                }
                 Log.d("Message",response.toString());
             }
 
@@ -104,5 +106,20 @@ public class GoalCreateActivity extends AppCompatActivity {
                 Log.d("Message","error");
             }
         });
+    }
+
+    private boolean checkDate(String date) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            Date subDate = formatter.parse(date);
+            Date a = new Date();
+            if(subDate.getTime() > a.getTime()){
+                return true;
+            }
+        }catch(Exception e){
+            Log.d("Date",e.toString());
+            return false;
+        }
+        return false;
     }
 }

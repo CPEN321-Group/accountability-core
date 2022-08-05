@@ -116,32 +116,34 @@ public class TransactionSetActivity extends AppCompatActivity {
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
             public void onResponse(Call<ArrayList<JsonObject>> call, Response<ArrayList<JsonObject>> response) {
-                ArrayList<JsonObject> jsonArray = response.body();
-                Log.d("User's all goals:",response.toString());
-                if(jsonArray!=null) {
-                    for (int i = 0; i < jsonArray.size(); i++) {
-                        JsonObject jsonObject = jsonArray.get(i);
-                        String title = jsonObject.get("title").toString();
-                        String id = jsonObject.get("_id").toString();
-                        String category = jsonObject.get("category").toString();
-                        int amount_cents = Integer.valueOf(jsonObject.get("amount").toString());
-                        double price_dollar = amount_cents / 100.0;
-                        String date = jsonObject.get("date").getAsString();
-                        String str = "null";
-                        if(jsonObject.get("receipt")!=null){
-                            str =jsonObject.get("receipt").getAsString();
-                            if(str.equals("null") || str.equals(" ")){
-                                str = "null";
+                if(response.code()==200) {
+                    ArrayList<JsonObject> jsonArray = response.body();
+                    Log.d("User's all goals:", response.toString());
+                    if (jsonArray != null) {
+                        for (int i = 0; i < jsonArray.size(); i++) {
+                            JsonObject jsonObject = jsonArray.get(i);
+                            String title = jsonObject.get("title").toString();
+                            String id = jsonObject.get("_id").toString();
+                            String category = jsonObject.get("category").toString();
+                            int amount_cents = Integer.valueOf(jsonObject.get("amount").toString());
+                            double price_dollar = amount_cents / 100.0;
+                            String date = jsonObject.get("date").getAsString();
+                            String str = "null";
+                            if (jsonObject.get("receipt") != null) {
+                                str = jsonObject.get("receipt").getAsString();
+                                if (str.equals("null") || str.equals(" ")) {
+                                    str = "null";
+                                }
                             }
+                            transactionModelArrayList.add(new TransactionModel(FrontendConstants.userID, id, title, category, date.substring(0, 10), price_dollar, false, str));
+                            TransactionAdapter transactionAdapter = new TransactionAdapter(transactionModelArrayList);
+                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                            transactionsRV.setLayoutManager(linearLayoutManager);
+                            transactionsRV.setAdapter(transactionAdapter);
                         }
-                        transactionModelArrayList.add(new TransactionModel(FrontendConstants.userID, id, title, category, date.substring(0, 10), price_dollar, false, str));
-                        TransactionAdapter transactionAdapter = new TransactionAdapter(transactionModelArrayList);
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-                        transactionsRV.setLayoutManager(linearLayoutManager);
-                        transactionsRV.setAdapter(transactionAdapter);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "You don't have any transaction records.", Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(),"You don't have any transaction records.",Toast.LENGTH_LONG).show();
                 }
             }
 
