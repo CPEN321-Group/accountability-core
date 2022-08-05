@@ -13,7 +13,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: $GITHUB_WORKSPACE/frontend
+        working-directory: frontend
         
     steps:
     - uses: actions/checkout@v3
@@ -25,9 +25,10 @@ jobs:
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x $GITHUB_WORKSPACE/frontend/gradlew
+      run: chmod +x gradlew
     - name: Build with Gradle
-      run: $GITHUB_WORKSPACE/frontend/gradlew build  && $GITHUB_WORKSPACE/frontend/gradlew assembleRelease \
+      run: gradlew build  
+      run: gradlew assembleRelease \
           -Pandroid.injected.signing.store.file=$GITHUB_WORKSPACE/frontend/key/accountability_key.jks \
           -Pandroid.injected.signing.store.password=Dd123456 \
           -Pandroid.injected.signing.key.alias=key0 \
