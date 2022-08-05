@@ -53,7 +53,6 @@ public class WelcomeActivity extends AppCompatActivity {
         boolean is_subscribed = sharedPreferences.getBoolean("is_subscribed", false);
         String userId = sharedPreferences.getString("userId", "");
 
-
         executor = ContextCompat.getMainExecutor(this);
         biometricPrompt = new BiometricPrompt(WelcomeActivity.this,
                 executor, new BiometricPrompt.AuthenticationCallback() {
@@ -113,8 +112,17 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Boolean is_biometricAllowed = sharedPref.getBoolean("biometric", false);
 
+        Button biometric_button = findViewById(R.id.finger_button);
         if(is_signed == 1 && is_biometricAllowed) {
-            biometricPrompt.authenticate(promptInfo);
+            biometric_button.setVisibility(View.VISIBLE);
+            biometric_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    biometricPrompt.authenticate(promptInfo);
+                }
+            });
+        } else {
+            biometric_button.setVisibility(View.INVISIBLE);
         }
         Button loginbutton = findViewById(R.id.welcome_login);
         loginbutton.setOnClickListener(new View.OnClickListener() {

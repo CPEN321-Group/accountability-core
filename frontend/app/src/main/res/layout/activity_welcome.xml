@@ -54,4 +54,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <Button
+        android:id="@+id/finger_button"
+        style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use biometric to login"
+        app:icon="@drawable/ic_fingerprint_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.94" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
