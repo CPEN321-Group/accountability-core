@@ -29,9 +29,6 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 async function googleVerifyToken(token) {
-  if (!process.env.GOOGLE_CLIENT_ID) {
-    return true;
-  }
   try {
     const ticket = await googleClient.verifyIdToken({
       idToken: token,

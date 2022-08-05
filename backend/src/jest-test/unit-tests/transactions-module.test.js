@@ -1,4 +1,7 @@
+jest.mock('../../main_modules/accounts/account-store')
+
 const { default: mongoose } = require("mongoose");
+const { findAccount } = require("../../main_modules/accounts/account-store");
 const { Transaction, UserTransaction } = require("../../main_modules/transactions/transaction-models");
 const { createTransaction, deleteTransactions, findTransactions, findTransaction, updateTransaction, deleteTransaction } = require("../../main_modules/transactions/transaction-store.js");
 
@@ -16,8 +19,9 @@ let id;
 
 async function initUserTransaction (id) {
   try {
+    const account = await findAccount(existingId,() => undefined);
     const foundUT = await UserTransaction.findOne({userId: id});
-    if (!foundUT) {
+    if (!foundUT || !account) {
       console.log('creating userTransaction');
       const userTranscation = new UserTransaction({userId: id});
       await userTranscation.save();
@@ -226,7 +230,7 @@ describe('testing deleteTransactions', () => {
 describe('testing deleteTransaction', () => {
   test('transaction deleted', async () => {
     await createTransaction(existingId,transactionFields, (err,status,returnData) => {
-      if (err) console.log(err);
+      console.log(err || '');
       expect(returnData).toHaveProperty('_id');
       id = returnData.id;
     })

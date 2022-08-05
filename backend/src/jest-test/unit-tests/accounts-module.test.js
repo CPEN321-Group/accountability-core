@@ -4,6 +4,9 @@ jest.mock("../../main_modules/transactions/transaction-models");
 
 const { default: mongoose } = require("mongoose");
 const { createAccount, findAccount, findAccountants, updateProfile, deleteAccount, createReview, createSubscription, updateSubscription } = require("../../main_modules/accounts/account-store");
+// const request = require('supertest');
+// const { server } = require('../../index');
+const { googleVerifyToken } = require("../../main_modules/accounts/account-auth");
 
 
 const existingId = '1234'
@@ -448,6 +451,24 @@ describe('testing findAccountants - connection error', () => {
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name','MongoNotConnectedError');
     })
+  })
+})
+
+// describe('testing account-routes.js', () => {
+//   test('test all endpoints -> should not crash', async () => {
+//     await request(server).post('/accounts');
+//     await request(server).get('/accounts/accountants')
+//     await request(server).get('/accounts/test')
+//     await request(server).put('/accounts/test')
+//     await request(server).delete('/accounts/test')
+//     await request(server).post('/reviews/test')
+//     await request(server).post('/subscription/test')
+//     await request(server).put('/subscription/test')
+//   })
+// })
+describe('testing account-auth.js', () => {
+  test('test google auth does not crash', async () => {
+    googleVerifyToken('test');
   })
 })
 
