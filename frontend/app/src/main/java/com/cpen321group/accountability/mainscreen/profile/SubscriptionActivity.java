@@ -92,7 +92,6 @@ public class SubscriptionActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(),"Something went wrong, try again.",Toast.LENGTH_LONG).show();
                             }
-
                         }
 
                         @Override

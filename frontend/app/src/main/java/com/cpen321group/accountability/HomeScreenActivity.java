@@ -110,6 +110,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                     String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();
                                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                     Date subDate = formatter.parse(date);
+                                    FrontendConstants.expiryDate = subDate.toString();
                                     Date a = new Date();
                                     int num = (int) ((subDate.getTime() - a.getTime()) / (1000 * 3600 * 24));
                                     if (num >= 0) {
