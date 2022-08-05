@@ -75,7 +75,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("APP", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("is_logged_in", 1);
-        editor.putString("ID", FrontendConstants.userID);
+        editor.putString("userID", FrontendConstants.userID);
+        editor.putBoolean("is_subscribed", FrontendConstants.is_subscribed);
+        editor.putBoolean("isAccountant",FrontendConstants.isAccountant);
         editor.commit();
 
         Retrofit retrofit = new Retrofit.Builder()
