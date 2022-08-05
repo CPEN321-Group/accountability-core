@@ -16,9 +16,17 @@ jobs:
     - name: Build Signed APK
       uses: victorbnl/build-signed-apk@main
       with:
-        gradlew_file: frontend/gradlew
         gradlew_dir: frontend/
         keystore_file: frontend/key/accountability_key.jks
         keystore_password: Dd123456
         key_alias: key0
         key_password: Dd123456
+    
+    - uses: actions/checkout@v2
+    - run: mkdir -p path/to/artifact
+
+    - name: Upload to Artifacts
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Artifact
+        path: app/build/outputs/apk/release/app-release.apk
