@@ -61,31 +61,13 @@ public class SubscriptionActivity extends AppCompatActivity {
         }
         // Following Stripe API Doc, but using StringRequest to request POST request instead of using Fuel
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, stripe_url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    Log.d("paymentIntent:", "success");
-                    final JSONObject jsonResponse = new JSONObject(response);
-                    customerConfig = new PaymentSheet.CustomerConfiguration(
-                            jsonResponse.getString("customer"),
-                            jsonResponse.getString("ephemeralKey")
-                    );
-                    paymentIntentClientSecret = jsonResponse.getString("paymentIntent");
-                    Log.d("paymentIntent:", paymentIntentClientSecret);
-                    PaymentConfiguration.init(getApplicationContext(), jsonResponse.getString("publishableKey"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),"Check your internet connection",Toast.LENGTH_LONG).show();
-            }
-        });
-        // Stack StringRequest into Request Queue
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(FrontendConstants.baseURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<JsonObject> call = retrofitAPI.stripeCheckout(FrontendConstants.userID);
 
         // Trigger start request button
         Button start_subscription = findViewById(R.id.start_subscription_button);
@@ -93,7 +75,25 @@ public class SubscriptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try{
-                    requestQueue.add(stringRequest);
+                    call.enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, retrofit2.Response<JsonObject> response) {
+                            Log.d("paymentIntent:", "success");
+                            JsonObject jsonResponse = response.body();
+                            customerConfig = new PaymentSheet.CustomerConfiguration(
+                                    jsonResponse.get("customer").toString().replace("\"",""),
+                                    jsonResponse.get("ephemeralKey").toString().replace("\"","")
+                            );
+                            paymentIntentClientSecret = jsonResponse.get("paymentIntent").toString().replace("\"","");
+                            Log.d("paymentIntent:", paymentIntentClientSecret);
+                            PaymentConfiguration.init(getApplicationContext(), jsonResponse.get("publishableKey").toString().replace("\"",""));
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(),"Check your internet connection",Toast.LENGTH_LONG).show();
+                        }
+                    });
                     presentPaymentSheet();
                 } catch (Exception e) {
                     // Server connection may timeout due to delay, which will cause null pointer error in presentPaymentSheet().
