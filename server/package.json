@@ -8,7 +8,8 @@
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
       "!**/node_modules/**",
-      "!**/vendor/**"
+      "!**/vendor/**",
+      "!**/coverage/**"
     ]
   },
   "description": "Main backend server for accountability application",
