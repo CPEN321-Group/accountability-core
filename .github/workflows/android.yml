@@ -22,6 +22,7 @@ jobs:
         key_alias: key0
         key_password: Dd123456
 
+    - uses: actions/checkout@v3
     - name: Upload to Artifacts
     - uses: actions/upload-artifact@v3
       with:
