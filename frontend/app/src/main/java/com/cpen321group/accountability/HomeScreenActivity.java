@@ -1,5 +1,6 @@
 package com.cpen321group.accountability;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -66,6 +67,20 @@ public class HomeScreenActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
+                if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
+                    GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
+                    FrontendConstants.userID = account.getId()+"go";
+                }else if(Profile.getCurrentProfile()!=null){
+                    Profile profile = Profile.getCurrentProfile();
+                    FrontendConstants.userID = profile.getId()+"fb";
+                }
+
+                SharedPreferences sharedPreferences = getSharedPreferences("APP", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("is_logged_in", 1);
+                editor.putString("ID", FrontendConstants.userID);
+                editor.commit();
+
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(FrontendConstants.baseURL + "/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
@@ -102,6 +117,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                     String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();
                                     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                     Date subDate = formatter.parse(date);
+                                    FrontendConstants.expiryDate = subDate.toString();
                                     Date a = new Date();
                                     int num = (int) ((subDate.getTime() - a.getTime()) / (1000 * 3600 * 24));
                                     Log.d("Home",String.valueOf(num));

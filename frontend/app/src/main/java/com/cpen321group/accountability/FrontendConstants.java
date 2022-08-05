@@ -15,4 +15,5 @@ public class FrontendConstants {
     public static String roomID;
     public static int is_test = 0;
     public static String avatar;
+    public static String expiryDate;
 }
