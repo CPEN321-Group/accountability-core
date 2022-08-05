@@ -1,5 +1,6 @@
 package com.cpen321group.accountability;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -73,6 +74,13 @@ public class HomeScreenActivity extends AppCompatActivity {
                     Profile profile = Profile.getCurrentProfile();
                     FrontendConstants.userID = profile.getId()+"fb";
                 }
+
+                SharedPreferences sharedPreferences = getSharedPreferences("APP", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("is_logged_in", 1);
+                editor.putString("ID", FrontendConstants.userID);
+                editor.commit();
+
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(FrontendConstants.baseURL + "/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
