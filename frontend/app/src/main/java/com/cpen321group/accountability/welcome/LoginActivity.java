@@ -216,6 +216,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("Message","error");
+                Toast.makeText(getApplicationContext(),"Try again",Toast.LENGTH_LONG).show();
+                signOut(mGoogleSignInClient);
             }
         });
     }
@@ -255,6 +257,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 Log.d("Message","error");
+                Toast.makeText(getApplicationContext(),"Try again",Toast.LENGTH_LONG).show();
+                LoginManager.getInstance().logOut();
             }
         });
     }
