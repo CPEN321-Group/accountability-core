@@ -11,9 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
     
-    defaults:
-      run:
-        working-directory: frontend
     steps:
     - uses: actions/checkout@v3
     - name: set up JDK 11
@@ -27,7 +24,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build && ./gradlew assembleRelease \
-          -Pandroid.injected.signing.store.file=./key/accountability_key.jks \
+          -Pandroid.injected.signing.store.file=frontend/key/accountability_key.jks \
           -Pandroid.injected.signing.store.password=Dd123456 \
           -Pandroid.injected.signing.key.alias=key0 \
           -Pandroid.injected.signing.key.password=Dd123456
