@@ -241,11 +241,22 @@ public class RegisterSettingActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("Message",response.toString());
-                if(response.body().get("profile")!=null) {
+                if(response.code()==200) {
                     Intent settingsIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
                     startActivity(settingsIntent);
                 }else{
-                    Toast.makeText(getApplicationContext(),"Check the information and try again",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Have you registered before? Check the information and try again",Toast.LENGTH_LONG).show();
+                    if (GoogleOn == 1) {
+                        GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
+                        signOut(account);
+                        Log.d("Profile", "Google sign out successfully!");
+                    }
+                    if (Profile.getCurrentProfile() != null) {
+                        LoginManager.getInstance().logOut();
+                        Log.d("Profile", "Facebook sign out successfully!");
+                    }
+                    Intent Intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                    startActivity(Intent);
                 }
             }
 
