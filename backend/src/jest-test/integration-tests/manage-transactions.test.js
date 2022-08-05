@@ -183,7 +183,7 @@ describe('delete a particular transaction', () => {
 
 describe('find transactions by search query', () => {
   test('find transactions with existing title', async () => {
-    const res0 = await request(server).post('/transactions/' + existingId).query({...transactionFields});
+    await request(server).post('/transactions/' + existingId).query({...transactionFields});
 
     const res = await request(server).get('/search/transactions/' + existingId).query({title: transactionFields.title});
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
