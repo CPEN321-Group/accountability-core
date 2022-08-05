@@ -14,12 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.FrontendConstants;
@@ -30,9 +24,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.JsonObject;
 import com.stripe.android.paymentsheet.*;
 import com.stripe.android.PaymentConfiguration;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Date;
 
@@ -46,7 +37,7 @@ public class SubscriptionActivity extends AppCompatActivity {
     String paymentIntentClientSecret;
     PaymentSheet.CustomerConfiguration customerConfig;
     // temporary server for testing only
-    private String stripe_url = FrontendConstants.baseURL + "/stripe/checkout/"+ FrontendConstants.userID;
+    //private String stripe_url = FrontendConstants.baseURL + "/stripe/checkout/"+ FrontendConstants.userID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Enable dark mode

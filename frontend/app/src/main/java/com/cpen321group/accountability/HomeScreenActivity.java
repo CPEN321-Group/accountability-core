@@ -2,7 +2,6 @@ package com.cpen321group.accountability;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 

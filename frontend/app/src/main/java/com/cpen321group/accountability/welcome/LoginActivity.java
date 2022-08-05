@@ -16,7 +16,6 @@ import com.cpen321group.accountability.HomeScreenActivity;
 import com.cpen321group.accountability.R;
 import com.cpen321group.accountability.FrontendConstants;
 import com.cpen321group.accountability.RetrofitAPI;
-import com.cpen321group.accountability.welcome.register.RegisterSettingActivity;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -32,12 +31,9 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.color.DynamicColors;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -198,7 +194,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.code()==200) {
                     FrontendConstants.is_subscribed = false;
                     FrontendConstants.userID = id;
-                    FrontendConstants.avatar = " ";
+                    FrontendConstants.avatar = null;
                     FrontendConstants.isAccountant = response.body().get("isAccountant").getAsBoolean();
                     Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
                     startActivity(intent);
@@ -239,7 +235,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.code()==200) {
                     FrontendConstants.is_subscribed = false;
                     FrontendConstants.userID = id;
-                    FrontendConstants.avatar = " ";
+                    FrontendConstants.avatar = null;
                     FrontendConstants.isAccountant = response.body().get("isAccountant").getAsBoolean();
                     Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
                     startActivity(intent);

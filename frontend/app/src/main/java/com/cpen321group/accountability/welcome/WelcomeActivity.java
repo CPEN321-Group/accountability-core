@@ -25,7 +25,6 @@ import com.google.android.material.color.DynamicColors;
 import java.util.concurrent.Executor;
 
 public class WelcomeActivity extends AppCompatActivity {
-    private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
 
@@ -53,7 +52,7 @@ public class WelcomeActivity extends AppCompatActivity {
         boolean is_subscribed = sharedPreferences.getBoolean("is_subscribed", false);
         String userId = sharedPreferences.getString("userId", "");
 
-        executor = ContextCompat.getMainExecutor(this);
+        Executor executor = ContextCompat.getMainExecutor(this);
         biometricPrompt = new BiometricPrompt(WelcomeActivity.this,
                 executor, new BiometricPrompt.AuthenticationCallback() {
             @Override

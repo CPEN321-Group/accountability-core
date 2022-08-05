@@ -50,6 +50,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                         BIOMETRIC_STRONG | DEVICE_CREDENTIAL);
                 startActivityForResult(enrollIntent, 1);
                 break;
+
+            default:break;
         }
 
         Preference dark_mode_pref = findPreference("dark_mode");

@@ -50,9 +50,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public class RegisterSettingActivity extends AppCompatActivity {
     private ImageView avatar;
@@ -254,7 +251,7 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 Log.d("Message",response.toString());
                 if(response.code()==200) {
                     FrontendConstants.is_subscribed = false;
-                    FrontendConstants.avatar = " ";
+                    FrontendConstants.avatar = null;
                     FrontendConstants.userID = myProfile_1.getAccountId();
                     FrontendConstants.isAccountant = myProfile_1.getAccountant();
                     Intent settingsIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);

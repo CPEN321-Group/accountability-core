@@ -91,9 +91,7 @@ public class ProfileFragment extends Fragment {
 
         avatar = binding.avatar;
         if(FrontendConstants.avatar != null) {
-            if (!FrontendConstants.avatar.equals(" ")) {
-                avatar.setImageBitmap(stringToBitmap(FrontendConstants.avatar));
-            }
+            avatar.setImageBitmap(stringToBitmap(FrontendConstants.avatar));
         }
 
         Button subscription_info = binding.yourSubscriptionButton;
