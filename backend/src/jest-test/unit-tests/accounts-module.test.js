@@ -441,7 +441,7 @@ describe('testing updateSubscription', () => {
 
 describe('testing findAccountants - connection error', () => {
   test('wrong type', async () => {
-    mongoose.connections.forEach(async c => {
+    await mongoose.connections.forEach(async c => {
       if (c.name === 'accountDB') {
         console.log('closing connection');
         await c.close();
