@@ -64,82 +64,79 @@ public class HomeScreenActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
-                    GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-                    FrontendConstants.userID = account.getId()+"go";
-                }else if(Profile.getCurrentProfile()!=null){
-                    Profile profile = Profile.getCurrentProfile();
-                    FrontendConstants.userID = profile.getId()+"fb";
-                }
+        if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
+            GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
+            FrontendConstants.userID = account.getId()+"go";
+        }else if(Profile.getCurrentProfile()!=null){
+            Profile profile = Profile.getCurrentProfile();
+            FrontendConstants.userID = profile.getId()+"fb";
+        }
 
-                SharedPreferences sharedPreferences = getSharedPreferences("APP", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("is_logged_in", 1);
-                editor.putString("ID", FrontendConstants.userID);
-                editor.commit();
+        SharedPreferences sharedPreferences = getSharedPreferences("APP", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("is_logged_in", 1);
+        editor.putString("userID", FrontendConstants.userID);
+        editor.putBoolean("is_subscribed", FrontendConstants.is_subscribed);
+        editor.putBoolean("isAccountant",FrontendConstants.isAccountant);
+        editor.commit();
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(FrontendConstants.baseURL + "/accounts/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(FrontendConstants.baseURL + "/accounts/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
 
-                RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-                Call<JsonObject> call = retrofitAPI.findAccount(FrontendConstants.userID);
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<JsonObject> call = retrofitAPI.findAccount(FrontendConstants.userID);
 
-                call.enqueue(new Callback<JsonObject>() {
-                    @Override
-                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    if (response.body() != null) {
+                        Log.d("Account",response.body().toString());
+                        FrontendConstants.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
+                        Log.d("Message", response.body().get("isAccountant").toString());
                         try {
-                            if (response.body() != null) {
-                                Log.d("Account",response.body().toString());
-                                FrontendConstants.isAccountant = (response.body().get("isAccountant").toString().equals("true"));
-                                Log.d("Message", response.body().get("isAccountant").toString());
-                                try {
-                                    JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
-                                    if (jsonname != null) {
-                                        String name = jsonname.toString();
-                                        if (!name.equals("")) {
-                                            FrontendConstants.userName = name.substring(1, name.length() - 1);
-                                        }
-                                    }
-                                    String avatar = response.body().get("profile").getAsJsonObject().get("avatar").getAsString();
-                                    if (!avatar.equals(" ")) {
-                                        FrontendConstants.avatar = avatar;
-                                    }
-                                }catch(Exception e){
-                                    Log.d("avatar or name",e.toString());
+                            JsonElement jsonname = response.body().get("profile").getAsJsonObject().get("firstname");
+                            if (jsonname != null) {
+                                String name = jsonname.toString();
+                                if (!name.equals("")) {
+                                    FrontendConstants.userName = name.substring(1, name.length() - 1);
                                 }
-                                try {
-                                    String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();
-                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                    Date subDate = formatter.parse(date);
-                                    FrontendConstants.expiryDate = subDate.toString();
-                                    Date a = new Date();
-                                    int num = (int) ((subDate.getTime() - a.getTime()) / (1000 * 3600 * 24));
-                                    Log.d("Home",String.valueOf(num));
-                                    if (num >= 0) {
-                                        FrontendConstants.is_subscribed = true;
-                                    }
-                                }catch(Exception e){
-                                    Log.d("Home",e.toString());
-                                    FrontendConstants.is_subscribed = false;
-                                }
+                            }
+                            String avatar = response.body().get("profile").getAsJsonObject().get("avatar").getAsString();
+                            if (!avatar.equals(" ")) {
+                                FrontendConstants.avatar = avatar;
+                            }
+                        }catch(Exception e){
+                            Log.d("avatar or name",e.toString());
+                        }
+                        try {
+                            String date = response.body().get("subscription").getAsJsonObject().get("expiryDate").getAsString();
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                            Date subDate = formatter.parse(date);
+                            FrontendConstants.expiryDate = subDate.toString();
+                            Date a = new Date();
+                            int num = (int) ((subDate.getTime() - a.getTime()) / (1000 * 3600 * 24));
+                            Log.d("Home",String.valueOf(num));
+                            if (num >= 0) {
+                                FrontendConstants.is_subscribed = true;
                             }
                         }catch(Exception e){
                             Log.d("Home",e.toString());
+                            FrontendConstants.is_subscribed = false;
                         }
                     }
-
-                    @Override
-                    public void onFailure(Call<JsonObject> call, Throwable t) {
-                        Log.d("Message","error");
-                    }
-                });
+                }catch(Exception e){
+                    Log.d("Home",e.toString());
+                }
             }
-        }, 500);
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("Message","error");
+            }
+        });
     }
 }
