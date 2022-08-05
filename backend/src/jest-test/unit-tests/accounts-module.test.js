@@ -441,12 +441,7 @@ describe('testing updateSubscription', () => {
 
 describe('testing findAccountants - connection error', () => {
   test('wrong type', async () => {
-    await mongoose.connections.forEach(async c => {
-      if (c.name === 'accountDB') {
-        console.log('closing connection');
-        await c.close();
-      }
-    })
+    await mongoose.disconnect();
     await findAccountants((err,status,returnData) => {
       console.log(returnData)
       expect(err).toBeNull()
