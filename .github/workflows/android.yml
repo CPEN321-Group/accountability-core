@@ -28,6 +28,7 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: gradlew build  
+    - name: build with signed key
       run: gradlew assembleRelease \
           -Pandroid.injected.signing.store.file=$GITHUB_WORKSPACE/frontend/key/accountability_key.jks \
           -Pandroid.injected.signing.store.password=Dd123456 \
