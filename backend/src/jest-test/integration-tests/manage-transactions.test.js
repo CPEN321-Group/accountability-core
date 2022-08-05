@@ -181,6 +181,26 @@ describe('delete a particular transaction', () => {
   })
 })
 
+describe('find transactions by search query', () => {
+  test('find transactions with existing title', async () => {
+    const res0 = await request(server).post('/transactions/' + existingId).query({...transactionFields});
+
+    const res = await request(server).get('/search/transactions/' + existingId).query({title: transactionFields.title});
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeInstanceOf(Array);
+    expect(res.body.length).toBeGreaterThan(0);
+  })
+  test('find transactions with non-existing title', async () => {
+
+    const res = await request(server).get('/search/transactions/' + existingId).query({title: 'adagjasdgaj'});
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeInstanceOf(Array);
+    expect(res.body.length).toBe(0);
+  })
+})
+
 afterAll((done) => {
   mongoose.disconnect();
   server.close();
