@@ -301,7 +301,6 @@ describe('testing createReview', () => {
   })
   test('author not found', async () => {
     await createReview(accountantId,{...reviewFields, authorId: nonExistingId}, (err,status,returnData) => {
-      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(404);
       expect(returnData).toHaveProperty('name','NotFoundError');
@@ -449,6 +448,7 @@ describe('testing findAccountants - connection error', () => {
       }
     })
     await findAccountants((err,status,returnData) => {
+      console.log(returnData)
       expect(err).toBeNull()
       expect(status).toStrictEqual(400);
       expect(returnData).toHaveProperty('name','MongoNotConnectedError');
