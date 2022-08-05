@@ -21,10 +21,10 @@ jobs:
         cache: gradle
 
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: chmod +x $GITHUB_WORKSPACE/frontend/gradlew
     - name: Build with Gradle
-      run: ./gradlew build && ./gradlew assembleRelease \
-          -Pandroid.injected.signing.store.file=frontend/key/accountability_key.jks \
+      run: $GITHUB_WORKSPACE/frontend/gradlew build && $GITHUB_WORKSPACE/frontend/gradlew assembleRelease \
+          -Pandroid.injected.signing.store.file=$GITHUB_WORKSPACE/frontend/key/accountability_key.jks \
           -Pandroid.injected.signing.store.password=Dd123456 \
           -Pandroid.injected.signing.key.alias=key0 \
           -Pandroid.injected.signing.key.password=Dd123456
