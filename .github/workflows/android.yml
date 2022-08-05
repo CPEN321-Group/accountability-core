@@ -11,6 +11,10 @@ jobs:
 
     runs-on: ubuntu-latest
     
+    defaults:
+      run:
+        working-directory: $GITHUB_WORKSPACE/frontend
+        
     steps:
     - uses: actions/checkout@v3
     - name: set up JDK 11
@@ -23,10 +27,9 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x $GITHUB_WORKSPACE/frontend/gradlew
     - name: Build with Gradle
-      run: $GITHUB_WORKSPACE/frontend/gradlew build 
-#       && $GITHUB_WORKSPACE/frontend/gradlew assembleRelease \
-#           -Pandroid.injected.signing.store.file=$GITHUB_WORKSPACE/frontend/key/accountability_key.jks \
-#           -Pandroid.injected.signing.store.password=Dd123456 \
-#           -Pandroid.injected.signing.key.alias=key0 \
-#           -Pandroid.injected.signing.key.password=Dd123456
+      run: $GITHUB_WORKSPACE/frontend/gradlew build  && $GITHUB_WORKSPACE/frontend/gradlew assembleRelease \
+          -Pandroid.injected.signing.store.file=$GITHUB_WORKSPACE/frontend/key/accountability_key.jks \
+          -Pandroid.injected.signing.store.password=Dd123456 \
+          -Pandroid.injected.signing.key.alias=key0 \
+          -Pandroid.injected.signing.key.password=Dd123456
 
