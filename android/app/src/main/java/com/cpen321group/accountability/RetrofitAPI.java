@@ -49,7 +49,7 @@ public interface RetrofitAPI {
                                @Query("account2Id") String id2);
 
     @GET("{accountId}")
-    Call<ArrayList<JsonObject>> getAllUsers(@Path("accountId") String id);
+    Call<ArrayList<JsonObject>> findConversationsInAccount(@Path("accountId") String id);
 
     @PUT("{conversationId}")
     Call<JsonObject> updateFinished(@Path("conversationId") String id,

@@ -247,7 +247,7 @@ public class ChatFragment extends Fragment {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllUsers(FrontendConstants.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findConversationsInAccount(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
