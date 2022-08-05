@@ -187,7 +187,7 @@ public interface RetrofitAPI {
 
     // Update avatar
     @PUT("accounts/{accountId}")
-    Call<String> updateProfile(@Path("accountId") String id,
+    Call<JsonObject> updateProfile(@Path("accountId") String id,
                               @Body JsonObject json);
 
     // Search transaction

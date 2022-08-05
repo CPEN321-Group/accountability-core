@@ -167,8 +167,6 @@ public class ProfileFragment extends Fragment {
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
         if(bitmap != null){
             av = bitmapToString(Bitmap.createScaledBitmap(bitmap, 100, 100, false));
-            avatar.setImageBitmap(bitmap);
-            FrontendConstants.avatar = av;
         }else{
             av = " ";
         }
@@ -176,16 +174,26 @@ public class ProfileFragment extends Fragment {
         JsonObject json = new JsonObject();
         json.addProperty("avatar",av);
 
-        Call<String> call = retrofitAPI.updateProfile(FrontendConstants.userID,json);
+        Call<JsonObject> call = retrofitAPI.updateProfile(FrontendConstants.userID,json);
 
-        call.enqueue(new Callback<String>() {
+        call.enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if(response.code()==200){
+                    Toast.makeText(getApplicationContext(),"Change Successfully",Toast.LENGTH_LONG).show();
+                    if(bitmap != null){
+                        av = bitmapToString(Bitmap.createScaledBitmap(bitmap, 100, 100, false));
+                        avatar.setImageBitmap(bitmap);
+                        FrontendConstants.avatar = av;
+                    }
+                }else{
+                    Toast.makeText(getApplicationContext(),"Try again, and the size of picture may too large!",Toast.LENGTH_LONG).show();
+                }
                 Log.d("Message",response.toString());
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Change Failed",Toast.LENGTH_LONG).show();
                 Log.d("Message",t.toString());
             }
