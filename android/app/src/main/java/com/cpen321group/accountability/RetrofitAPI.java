@@ -26,8 +26,23 @@ public interface RetrofitAPI {
                                @Query("accountId") String id,
                                @Body JsonObject json);
 
+    @POST("/accounts")
+    Call<JsonObject> createGoogleAccount(@Query("firstname") String fn,
+                                   @Query("lastname") String ln,
+                                   @Query("email") String email,
+                                   @Query("age") int age,
+                                   @Query("profession") String prfn,
+                                   @Query("isAccountant") boolean iA,
+                                   @Query("accountId") String id,
+                                   @Query("token") String token,
+                                   @Body JsonObject json);
+
     @GET("{id}")
     Call<JsonObject> findAccount(@Path("id") String id);
+
+    @GET("{id}")
+    Call<JsonObject> checkAuth(@Path("id") String id,
+                               @Query("token") String token);
 
     @GET("accountants")
     Call<ArrayList<JsonObject>> findAccountants();

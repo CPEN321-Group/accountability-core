@@ -50,6 +50,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public class RegisterSettingActivity extends AppCompatActivity {
     private ImageView avatar;
@@ -236,16 +239,32 @@ public class RegisterSettingActivity extends AppCompatActivity {
                 myProfile_1.getProfession(), myProfile_1.getAccountant(),
                 myProfile_1.getAccountId(),
                 json);
-
+        if (GoogleOn == 1){
+            call = retrofitAPI.createGoogleAccount(myProfile_1.getFirstname(),
+                    myProfile_1.getLastname(),
+                    myProfile_1.getEmail(),
+                    myProfile_1.getAge(),
+                    myProfile_1.getProfession(), myProfile_1.getAccountant(),
+                    myProfile_1.getAccountId(),
+                    account.getIdToken(),json);
+        }
         call.enqueue(new Callback< JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 Log.d("Message",response.toString());
                 if(response.code()==200) {
+                    FrontendConstants.is_subscribed = false;
+                    FrontendConstants.avatar = " ";
+                    FrontendConstants.userID = myProfile_1.getAccountId();
+                    FrontendConstants.isAccountant = myProfile_1.getAccountant();
                     Intent settingsIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
                     startActivity(settingsIntent);
                 }else{
-                    Toast.makeText(getApplicationContext(),"Have you registered before? Check the information and try again",Toast.LENGTH_LONG).show();
+                    if(response.code()==403){
+                        Toast.makeText(getApplicationContext(),"Have problem with account",Toast.LENGTH_LONG).show();
+                    }else {
+                        Toast.makeText(getApplicationContext(), "Have you registered before? Check the information and try again", Toast.LENGTH_LONG).show();
+                    }
                     if (GoogleOn == 1) {
                         GoogleSignInClient account = GoogleSignIn.getClient(getApplicationContext(), GoogleSignInOptions.DEFAULT_SIGN_IN);
                         signOut(account);

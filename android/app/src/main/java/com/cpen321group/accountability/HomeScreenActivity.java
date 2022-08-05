@@ -66,13 +66,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {
-                if(GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this)!=null){
-                    GoogleSignInAccount account= GoogleSignIn.getLastSignedInAccount(HomeScreenActivity.this);
-                    FrontendConstants.userID = account.getId()+"go";
-                }else if(Profile.getCurrentProfile()!=null){
-                    Profile profile = Profile.getCurrentProfile();
-                    FrontendConstants.userID = profile.getId()+"fb";
-                }
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(FrontendConstants.baseURL + "/accounts/")
                         .addConverterFactory(GsonConverterFactory.create())
@@ -99,7 +92,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                                         }
                                     }
                                     String avatar = response.body().get("profile").getAsJsonObject().get("avatar").getAsString();
-                                    Log.d("avatar", avatar);
                                     if (!avatar.equals(" ")) {
                                         FrontendConstants.avatar = avatar;
                                     }
@@ -112,6 +104,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                     Date subDate = formatter.parse(date);
                                     Date a = new Date();
                                     int num = (int) ((subDate.getTime() - a.getTime()) / (1000 * 3600 * 24));
+                                    Log.d("Home",String.valueOf(num));
                                     if (num >= 0) {
                                         FrontendConstants.is_subscribed = true;
                                     }
@@ -131,6 +124,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 1000);
+        }, 500);
     }
 }
