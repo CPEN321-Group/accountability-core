@@ -172,7 +172,7 @@ public class SubscriptionActivity extends AppCompatActivity {
         c.add(Calendar.DATE, 30);
         Date d=c.getTime();
         String expiryDate = new SimpleDateFormat("yyyy-MM-dd").format(d);
-        Call<JsonObject> call = retrofitAPI.startSubscription(FrontendConstants.userID, subscriptionDate, expiryDate);
+        Call<JsonObject> call = retrofitAPI.createSubscription(FrontendConstants.userID, subscriptionDate, expiryDate);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

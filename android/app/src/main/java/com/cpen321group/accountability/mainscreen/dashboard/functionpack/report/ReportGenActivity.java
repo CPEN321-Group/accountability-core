@@ -103,7 +103,7 @@ public class ReportGenActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postReport(FrontendConstants.userID, monthYear);
+        Call<JsonObject> call = retrofitAPI.createReport(FrontendConstants.userID, monthYear);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -140,7 +140,7 @@ public class ReportGenActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllReports(FrontendConstants.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findReports(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -197,7 +197,7 @@ public class ReportGenActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllReports(FrontendConstants.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findReports(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -259,7 +259,7 @@ public class ReportGenActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ResponseBody> call = retrofitAPI.deleteReport(userId, monthYear);
+        Call<ResponseBody> call = retrofitAPI.deleteReportByDate(userId, monthYear);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

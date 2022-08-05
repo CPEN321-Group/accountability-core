@@ -111,7 +111,7 @@ public class TransactionSetActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(FrontendConstants.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findTransactions(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -161,7 +161,7 @@ public class TransactionSetActivity extends AppCompatActivity {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.findTransaction(FrontendConstants.userID,text);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.searchTransactions(FrontendConstants.userID,text);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

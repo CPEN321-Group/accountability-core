@@ -84,7 +84,7 @@ public class ReviewActivity extends AppCompatActivity {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getAccount(FrontendConstants.receiverID);
+        Call<JsonObject> call = retrofitAPI.findAccount(FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

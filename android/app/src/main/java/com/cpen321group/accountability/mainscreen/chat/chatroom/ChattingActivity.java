@@ -158,7 +158,7 @@ public class ChattingActivity extends AppCompatActivity {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<String> call = retrofitAPI.postMessage(FrontendConstants.roomID, FrontendConstants.userID,text);
+        Call<String> call = retrofitAPI.createMessage(FrontendConstants.roomID, FrontendConstants.userID,text);
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -181,7 +181,7 @@ public class ChattingActivity extends AppCompatActivity {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(FrontendConstants.roomID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findMessages(FrontendConstants.roomID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -227,7 +227,7 @@ public class ChattingActivity extends AppCompatActivity {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.updateReport(FrontendConstants.userID, FrontendConstants.receiverID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.updateAccountant(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

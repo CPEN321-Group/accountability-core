@@ -88,7 +88,7 @@ public class GoalCreateActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postGoal(FrontendConstants.userID, this.goalName, this.goalTarget, 0, this.date);
+        Call<JsonObject> call = retrofitAPI.createGoal(FrontendConstants.userID, this.goalName, this.goalTarget, 0, this.date);
 
         Log.d("API url:", FrontendConstants.baseURL + "/goals/"+ FrontendConstants.userID+"/");
         call.enqueue(new Callback<JsonObject>() {

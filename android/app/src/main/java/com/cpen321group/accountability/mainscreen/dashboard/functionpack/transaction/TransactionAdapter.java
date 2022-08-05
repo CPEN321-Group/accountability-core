@@ -79,7 +79,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ResponseBody> call = retrofitAPI.deleteSpecificTransaction(userId, transactionId);
+        Call<ResponseBody> call = retrofitAPI.deleteTransaction(userId, transactionId);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

@@ -167,7 +167,7 @@ public class DashboardFragment extends Fragment {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(FrontendConstants.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findGoals(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -213,7 +213,7 @@ public class DashboardFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllTransactions(FrontendConstants.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findTransactions(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

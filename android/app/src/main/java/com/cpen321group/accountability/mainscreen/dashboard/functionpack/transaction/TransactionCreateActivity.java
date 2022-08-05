@@ -278,7 +278,7 @@ public class TransactionCreateActivity extends AppCompatActivity {
         json.addProperty("receipt",text);
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postTransaction(FrontendConstants.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, json);
+        Call<JsonObject> call = retrofitAPI.createTransaction(FrontendConstants.userID, this.transactionName, this.transactionCategory, this.date, this.transactionAmount, false, json);
 
         Log.d("API url:", FrontendConstants.baseURL + "/transactions/"+ FrontendConstants.userID+"/");
         call.enqueue(new Callback<JsonObject>() {

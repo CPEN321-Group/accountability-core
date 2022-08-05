@@ -89,7 +89,7 @@ public class  GoalSetActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllGoals(FrontendConstants.userID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findGoals(FrontendConstants.userID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

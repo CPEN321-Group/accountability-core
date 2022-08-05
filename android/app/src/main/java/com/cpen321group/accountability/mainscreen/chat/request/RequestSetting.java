@@ -104,7 +104,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
+        Call<JsonObject> call = retrofitAPI.findConversation(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -145,7 +145,7 @@ public class RequestSetting extends RecyclerView.Adapter<RequestSetting.ViewHold
 
 
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<JsonObject> call = retrofitAPI.updateFinished(FrontendConstants.roomID,false);
+            Call<JsonObject> call = retrofitAPI.updateFinished(FrontendConstants.roomID,true);
 
             call.enqueue(new Callback<JsonObject>() {
                 @Override

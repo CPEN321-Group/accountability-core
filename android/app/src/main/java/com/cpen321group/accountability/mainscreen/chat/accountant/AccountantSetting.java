@@ -116,7 +116,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
+        Call<JsonObject> call = retrofitAPI.createConversation(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -141,7 +141,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
+        Call<JsonObject> call = retrofitAPI.findConversation(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -176,7 +176,7 @@ public class AccountantSetting extends RecyclerView.Adapter<AccountantSetting.Vi
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getRoomId(FrontendConstants.userID, FrontendConstants.receiverID);
+        Call<JsonObject> call = retrofitAPI.findConversation(FrontendConstants.userID, FrontendConstants.receiverID);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

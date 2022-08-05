@@ -104,7 +104,7 @@ public class AddReviewActivity extends AppCompatActivity {
 
         Date date = Calendar.getInstance().getTime();
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.postReview(FrontendConstants.receiverID, FrontendConstants.userID,date,content,title,Integer.parseInt(rate));
+        Call<JsonObject> call = retrofitAPI.createReview(FrontendConstants.receiverID, FrontendConstants.userID,date,content,title,Integer.parseInt(rate));
 
         call.enqueue(new Callback<JsonObject>() {
             @Override

@@ -27,25 +27,25 @@ public interface RetrofitAPI {
                                @Body JsonObject json);
 
     @GET("{id}")
-    Call<JsonObject> getAccount(@Path("id") String id);
+    Call<JsonObject> findAccount(@Path("id") String id);
 
     @GET("accountants")
-    Call<ArrayList<JsonObject>> getAccountant();
+    Call<ArrayList<JsonObject>> findAccountants();
 
     @POST("{conversationId}")
-    Call<String> postMessage(@Path("conversationId") String id,
+    Call<String> createMessage(@Path("conversationId") String id,
                              @Query("sender") String sender,
                              @Query("text") String content);
 
     @GET("{conversationId}")
-    Call<ArrayList<JsonObject>> getAllMessage(@Path("conversationId") String id);
+    Call<ArrayList<JsonObject>> findMessages(@Path("conversationId") String id);
 
     @GET("conversation")
-    Call<JsonObject> getRoomId(@Query("account1Id") String id1,
+    Call<JsonObject> findConversation(@Query("account1Id") String id1,
                                @Query("account2Id") String id2);
 
     @POST("conversation")
-    Call<JsonObject> postRoomId(@Query("account1Id") String id1,
+    Call<JsonObject> createConversation(@Query("account1Id") String id1,
                                @Query("account2Id") String id2);
 
     @GET("{accountId}")
@@ -56,7 +56,7 @@ public interface RetrofitAPI {
                                 @Query("isFinished") boolean bool);
 
     @POST("{accountantId}")
-    Call<JsonObject> postReview(@Path("accountantId") String id,
+    Call<JsonObject> createReview(@Path("accountantId") String id,
                             @Query("authorId") String userid,
                             @Query("date") Date date,
                             @Query("content") String content,
@@ -64,10 +64,10 @@ public interface RetrofitAPI {
                             @Query("rating") int rate);
     // Goals APIs
     @GET("{userId}")
-    Call<ArrayList<JsonObject>> getAllGoals(@Path("userId") String id);
+    Call<ArrayList<JsonObject>> findGoals(@Path("userId") String id);
 
     @POST("{userId}")
-    Call<JsonObject> postGoal(@Path("userId") String id,
+    Call<JsonObject> createGoal(@Path("userId") String id,
                               @Query("title") String title,
                               @Query("target") int targetCents,
                               @Query("current") int currentCents,
@@ -77,24 +77,24 @@ public interface RetrofitAPI {
     Call<JsonObject> deleteGoals(@Path("userId") String id);
 
     @GET("{userId}/{goalId}")
-    Call<ArrayList<JsonObject>> getSpecificGoal(@Path("userId") String id,
+    Call<ArrayList<JsonObject>> findGoal(@Path("userId") String id,
                                                 @Path("goalId") String goalId);
 
     @PUT("{userId}/{goalId}")
-    Call<JsonObject> updateSpecificGoal(@Path("userId") String id,
+    Call<JsonObject> updateGoal(@Path("userId") String id,
                                         @Path("goalId") String goalId,
                                         @Query("current") int currentCents);
 
     @DELETE("{userId}/{goalId}")
-    Call<ResponseBody> deleteSpecificGoals(@Path("userId") String id,
+    Call<ResponseBody> deleteGoal(@Path("userId") String id,
                                            @Path("goalId") String goalId);
 
     // Transaction APIs
     @GET("{userId}")
-    Call<ArrayList<JsonObject>> getAllTransactions(@Path("userId") String id);
+    Call<ArrayList<JsonObject>> findTransactions(@Path("userId") String id);
 
     @POST("{userId}")
-    Call<JsonObject> postTransaction(@Path("userId") String id,
+    Call<JsonObject> createTransaction(@Path("userId") String id,
                                      @Query("title") String title,
                                      @Query("category") String category,
                                      @Query("date") String date,
@@ -103,14 +103,14 @@ public interface RetrofitAPI {
                                      @Body JsonObject json);
 
     @DELETE("{userId}")
-    Call<ArrayList<JsonObject>> deleteAllTransactions(@Path("userId") String id);
+    Call<ArrayList<JsonObject>> deleteTransactions(@Path("userId") String id);
 
     @GET("{userId}/{transactionId}")
-    Call<JsonObject> getSpecificTransaction(@Path("userId") String id,
-                                            @Path("transactionId") String transactionId);
+    Call<JsonObject> findTransaction(@Path("userId") String id,
+                                     @Path("transactionId") String transactionId);
 
     @PUT("{userId}/{transactionId}")
-    Call<JsonObject> updateSpecificTransaction(@Path("userId") String id,
+    Call<JsonObject> updateTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId,
                                                @Query("title") String title,
                                                @Query("category") String category,
@@ -120,49 +120,49 @@ public interface RetrofitAPI {
                                                @Query("receipt") String receiptURL);
 
     @DELETE("{userId}/{transactionId}")
-    Call<ResponseBody> deleteSpecificTransaction(@Path("userId") String id,
+    Call<ResponseBody> deleteTransaction(@Path("userId") String id,
                                                @Path("transactionId") String transactionId);
 
 
     // Search API
     @GET("search/accountants")
-    Call<ArrayList<JsonObject>> findAccountant(@Query("firstname") String str);
+    Call<ArrayList<JsonObject>> searchAccountants(@Query("firstname") String str);
 
     // Reports APIs
     @GET("{userId}")
-    Call<ArrayList<JsonObject>> getAllReports(@Path("userId") String id);
+    Call<ArrayList<JsonObject>> findReports(@Path("userId") String id);
 
     @POST("{userId}")
-    Call<JsonObject> postReport(@Path("userId") String id,
+    Call<JsonObject> createReport(@Path("userId") String id,
                                 @Query("monthYear") String date);
 
     @PUT("{userId}")
-    Call<ArrayList<JsonObject>> updateReport(@Path("userId") String id,
+    Call<ArrayList<JsonObject>> updateAccountant(@Path("userId") String id,
                                              @Query("accountantId") String accountantId);
 
     @DELETE("{userId}")
-    Call<ResponseBody> deleteAllReports(@Path("userId") String id);
+    Call<ResponseBody> deleteReports(@Path("userId") String id);
 
     @DELETE("{userId}")
-    Call<ResponseBody> deleteReport(@Path("userId") String id,
+    Call<ResponseBody> deleteReportByDate(@Path("userId") String id,
                                     @Query("monthYear") String date);
 
     @GET("{userId}/{reportId}")
-    Call<JsonObject> getSpecificReport(@Path("userId") String id,
+    Call<JsonObject> findReport(@Path("userId") String id,
                                        @Path("reportId") String reportId);
 
     @PUT("{userId}/{reportId}")
-    Call<JsonObject> updateSpecificReport(@Path("userId") String id,
+    Call<JsonObject> updateRecommendations(@Path("userId") String id,
                                           @Path("reportId") String reportId,
                                           @Query("recommendations") String recommendations);
 
     @DELETE("{userId}/{reportId}")
-    Call<ResponseBody> deleteSpecificReport(@Path("userId") String id,
+    Call<ResponseBody> deleteReport(@Path("userId") String id,
                                           @Path("reportId") String reportId);
 
     // stripe subscription
     @POST("/subscription/{accountId}")
-    Call<JsonObject> startSubscription(@Path("accountId") String id,
+    Call<JsonObject> createSubscription(@Path("accountId") String id,
                                        @Query("subscriptionDate") String subscriptionDate,
                                        @Query("expiryDate") String expiryDate);
 
@@ -171,10 +171,10 @@ public interface RetrofitAPI {
                                         @Query("expiryDate") String expiryDate);
 
     @PUT("accounts/{accountId}")
-    Call<String> updateAvatar(@Path("accountId") String id,
+    Call<String> updateProfile(@Path("accountId") String id,
                               @Body JsonObject json);
 
     @GET("search/transactions/{accountId}")
-    Call<ArrayList<JsonObject>> findTransaction(@Path("accountId") String id,
+    Call<ArrayList<JsonObject>> searchTransactions(@Path("accountId") String id,
                                                 @Query("title") String str);
 }

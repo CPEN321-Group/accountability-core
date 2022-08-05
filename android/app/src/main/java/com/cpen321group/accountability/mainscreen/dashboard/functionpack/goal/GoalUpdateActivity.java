@@ -74,7 +74,7 @@ public class GoalUpdateActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.updateSpecificGoal(FrontendConstants.userID, goalId, this.goalCurrent);
+        Call<JsonObject> call = retrofitAPI.updateGoal(FrontendConstants.userID, goalId, this.goalCurrent);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

@@ -76,7 +76,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.Viewholder> 
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ResponseBody> call = retrofitAPI.deleteSpecificGoals(userId, GoalId);
+        Call<ResponseBody> call = retrofitAPI.deleteGoal(userId, GoalId);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

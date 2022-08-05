@@ -168,7 +168,7 @@ public class ProfileFragment extends Fragment {
         JsonObject json = new JsonObject();
         json.addProperty("avatar",av);
 
-        Call<String> call = retrofitAPI.updateAvatar(FrontendConstants.userID,json);
+        Call<String> call = retrofitAPI.updateProfile(FrontendConstants.userID,json);
 
         call.enqueue(new Callback<String>() {
             @Override

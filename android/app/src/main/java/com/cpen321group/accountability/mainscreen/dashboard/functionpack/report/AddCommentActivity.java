@@ -55,7 +55,7 @@ public class AddCommentActivity extends AppCompatActivity {
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.updateSpecificReport(userId,reportId,str);
+        Call<JsonObject> call = retrofitAPI.updateRecommendations(userId,reportId,str);
         call.enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {

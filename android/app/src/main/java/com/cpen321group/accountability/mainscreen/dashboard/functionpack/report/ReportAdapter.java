@@ -81,7 +81,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.Viewholder
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ResponseBody> call = retrofitAPI.deleteSpecificReport(userId, reportId);
+        Call<ResponseBody> call = retrofitAPI.deleteReport(userId, reportId);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

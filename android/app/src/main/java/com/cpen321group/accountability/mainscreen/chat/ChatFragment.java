@@ -138,7 +138,7 @@ public class ChatFragment extends Fragment {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.findAccountant(text);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.searchAccountants(text);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override
@@ -184,7 +184,7 @@ public class ChatFragment extends Fragment {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAccountant();
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findAccountants();
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

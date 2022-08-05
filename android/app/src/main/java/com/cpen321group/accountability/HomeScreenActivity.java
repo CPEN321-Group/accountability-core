@@ -80,7 +80,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
 
                 RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-                Call<JsonObject> call = retrofitAPI.getAccount(FrontendConstants.userID);
+                Call<JsonObject> call = retrofitAPI.findAccount(FrontendConstants.userID);
 
                 call.enqueue(new Callback<JsonObject>() {
                     @Override

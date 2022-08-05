@@ -72,7 +72,7 @@ public class HistoryActivity extends AppCompatActivity {
 
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<ArrayList<JsonObject>> call = retrofitAPI.getAllMessage(FrontendConstants.roomID);
+        Call<ArrayList<JsonObject>> call = retrofitAPI.findMessages(FrontendConstants.roomID);
 
         call.enqueue(new Callback<ArrayList<JsonObject>>() {
             @Override

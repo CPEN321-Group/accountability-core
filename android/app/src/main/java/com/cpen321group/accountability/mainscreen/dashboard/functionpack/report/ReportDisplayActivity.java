@@ -112,7 +112,7 @@ public class ReportDisplayActivity extends AppCompatActivity implements PieClick
                 .build();
 
         RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<JsonObject> call = retrofitAPI.getSpecificReport(usertxt, reportId);
+        Call<JsonObject> call = retrofitAPI.findReport(usertxt, reportId);
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
