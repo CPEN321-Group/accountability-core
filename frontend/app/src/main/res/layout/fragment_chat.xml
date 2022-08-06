@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:hint="Search"
+            android:hint="search name"
             android:padding="15dp"
             android:textColorHint="@color/black"
             app:startIconContentDescription="content_description_start_icon">
