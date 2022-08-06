@@ -5,10 +5,10 @@
 ### A typical top-level directory layout
 
     .
-    ├── frontend                 # Frontend android application
+    ├── frontend                # Frontend android application
     ├── aws                     # AWS-related files, such as python script for a lambda function
     ├── docs                    # Documentation files
-    ├── backend                  # Backend express server
+    ├── backend                 # Backend express server
     ├── tf                      # terraform files
     ├── build.sh                # Jenkins build script
     ├── Jenkinsfile             # Jenkins config file
