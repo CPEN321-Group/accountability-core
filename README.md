@@ -13,3 +13,7 @@
     ├── build.sh                # Jenkins build script
     ├── Jenkinsfile             # Jenkins config file
     └── README.md               
+
+
+Project Documentation: 
+[Google Docs](https://docs.google.com/document/d/1hNF_n2_d4T2g7KNSC4UHYQZQQYv3us2sQcpXCu_1EjM/edit?usp=sharing)
